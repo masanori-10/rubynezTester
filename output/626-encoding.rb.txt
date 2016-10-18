@@ -1,0 +1,435 @@
+#Source[
+   #Module[
+      $name: #NestedName[
+         $path: #NameExpr['RDoc']
+         $name: #NameExpr['Encoding']
+      ]
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #SFuncDecl[
+               $path: #Self['self']
+               $name: #NameExpr['read_file']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['filename']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['encoding']
+                  ]
+                  $param: #OptionalParam[
+                     $name: #NameExpr['force_transcode']
+                     $default: #FalseExpr['false']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['content']
+                        $right: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['filename']
+                              $expression: #StringExpr['rb']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['f']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['f']
+                                 $recv: #NameExpr['read']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #ApplyExpr[
+                           $recv: #NameExpr['content']
+                           $recv: #NameExpr['gsub!']
+                           $param: #List[
+                              $expression: #StringExpr['\\r\\n']
+                              $expression: #StringExpr['\\n']
+                           ]
+                        ]
+                        $cond: #AssignExpr[
+                           $left: #NameExpr['RUBY_PLATFORM']
+                           $right: #ComplExpr[
+                              $expr: #Regex['/mswin|mingw/']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['utf8']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['content']
+                           $recv: #NameExpr['sub!']
+                           $param: #List[
+                              $expression: #Regex['/\\A\\xef\\xbb\\xbf/']
+                              $expression: #StringExpr['']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $base: #Field[
+                           $recv: #NameExpr['RDoc']
+                           $name: #NameExpr['Encoding']
+                        ]
+                        $recv: #NameExpr['set_encoding']
+                        $param: #List[
+                           $expression: #NameExpr['content']
+                        ]
+                     ]
+                     $statement: #ExceptionBlock[
+                        $main: #List[
+                           $statement: #LOrAssign[
+                              $left: #NameExpr['encoding']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['Encoding']
+                                 $recv: #NameExpr['default_external']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['orig_encoding']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['content']
+                                 $recv: #NameExpr['encoding']
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $cond: #[
+                                 $base: #ApplyExpr[
+                                    $recv: #NameExpr['orig_encoding']
+                                    $recv: #NameExpr['ascii_compatible?']
+                                 ]
+                              ]
+                              $then: #ApplyExpr[
+                                 $base: #NameExpr['content']
+                                 $recv: #NameExpr['encode!']
+                                 $param: #List[
+                                    $expression: #NameExpr['encoding']
+                                 ]
+                              ]
+                              $else: #IfExpr[
+                                 $cond: #NameExpr['utf8']
+                                 $then: #List[
+                                    $statement: #ApplyExpr[
+                                       $base: #NameExpr['content']
+                                       $recv: #NameExpr['force_encoding']
+                                       $param: #List[
+                                          $expression: #Field[
+                                             $recv: #NameExpr['Encoding']
+                                             $name: #NameExpr['UTF_8']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $base: #NameExpr['content']
+                                       $recv: #NameExpr['encode!']
+                                       $param: #List[
+                                          $expression: #NameExpr['encoding']
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #ApplyExpr[
+                                    $base: #NameExpr['content']
+                                    $recv: #NameExpr['force_encoding']
+                                    $param: #List[
+                                       $expression: #NameExpr['encoding']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #Unless[
+                              $cond: #ApplyExpr[
+                                 $recv: #NameExpr['content']
+                                 $recv: #NameExpr['valid_encoding?']
+                              ]
+                              $then: #List[
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['content']
+                                    $recv: #NameExpr['force_encoding']
+                                    $param: #List[
+                                       $expression: #NameExpr['orig_encoding']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['content']
+                                    $recv: #NameExpr['encode!']
+                                    $param: #List[
+                                       $expression: #NameExpr['encoding']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #Unless[
+                              $cond: #ApplyExpr[
+                                 $recv: #NameExpr['content']
+                                 $recv: #NameExpr['valid_encoding?']
+                              ]
+                              $then: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['warn']
+                                    $param: #List[
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['filename']
+                                          $inner: #NameExpr['encoding']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['content']
+                                    $right: #Nil['nil']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $rescue: #List[
+                           $rescue: #Rescue[
+                              $class: #MultipleRightHandSideExpression[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Encoding']
+                                    $name: #NameExpr['InvalidByteSequenceError']
+                                 ]
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Encoding']
+                                    $name: #NameExpr['UndefinedConversionError']
+                                 ]
+                              ]
+                              $target: #NameExpr['e']
+                              $then: #IfExpr[
+                                 $cond: #NameExpr['force_transcode']
+                                 $then: #List[
+                                    $statement: #ApplyExpr[
+                                       $base: #NameExpr['content']
+                                       $recv: #NameExpr['force_encoding']
+                                       $param: #List[
+                                          $expression: #NameExpr['orig_encoding']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['content']
+                                       $recv: #NameExpr['encode!']
+                                       $param: #List[
+                                          $expression: #NameExpr['encoding']
+                                          $hash: #Hash[
+                                             $key: #NameExpr['invalid']
+                                             $value: #NameExpr['replace']
+                                          ]
+                                          $hash: #Hash[
+                                             $key: #NameExpr['undef']
+                                             $value: #NameExpr['replace']
+                                          ]
+                                          $hash: #Hash[
+                                             $key: #NameExpr['replace']
+                                             $value: #StringExpr['?']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['content']
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #List[
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['warn']
+                                       $param: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #ApplyExpr[
+                                                $recv: #NameExpr['e']
+                                                $recv: #NameExpr['message']
+                                             ]
+                                             $inner: #NameExpr['filename']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #Nil['nil']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #NameExpr['content']
+                  ]
+                  $rescue: #List[
+                     $rescue: #Rescue[
+                        $class: #NameExpr['ArgumentError']
+                        $target: #NameExpr['e']
+                        $then: #List[
+                           $statement: #Unless[
+                              $then: #NameExpr['raise']
+                              $cond: #AssignExpr[
+                                 $left: #Field[
+                                    $base: #NameExpr['e']
+                                    $name: #NameExpr['message']
+                                 ]
+                                 $right: #ComplExpr[
+                                    $expr: #Regex['/unknown encoding name - (.*)/']
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['warn']
+                              $param: #List[
+                                 $expression: #StringExpr[
+                                    $inner: #MatchedRegex['$1']
+                                    $inner: #NameExpr['filename']
+                                 ]
+                              ]
+                           ]
+                           $statement: #Nil['nil']
+                        ]
+                     ]
+                     $rescue: #Rescue[
+                        $class: #MultipleRightHandSideExpression[
+                           $expression: #Field[
+                              $recv: #NameExpr['Errno']
+                              $name: #NameExpr['EISDIR']
+                           ]
+                           $expression: #Field[
+                              $recv: #NameExpr['Errno']
+                              $name: #NameExpr['ENOENT']
+                           ]
+                        ]
+                        $then: #Nil['nil']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #SFuncDecl[
+               $path: #Self['self']
+               $name: #NameExpr['remove_frozen_string_literal']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['string']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['string']
+                        $right: #ComplExpr[
+                           $expr: #Regex['/\\A(?:#!.*\\n)?(.*\\n)/']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['first_line']
+                        $right: #MatchedRegex['$1']
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #AssignExpr[
+                           $left: #NameExpr['first_line']
+                           $right: #ComplExpr[
+                              $expr: #Regex['/\\A# +frozen[-_]string[-_]literal[=:].+$/i']
+                           ]
+                        ]
+                        $then: #ApplyExpr[
+                           $base: #NameExpr['string']
+                           $recv: #NameExpr['sub!']
+                           $param: #List[
+                              $expression: #NameExpr['first_line']
+                              $expression: #StringExpr['']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #SFuncDecl[
+               $path: #Self['self']
+               $name: #NameExpr['set_encoding']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['string']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['remove_frozen_string_literal']
+                        $param: #List[
+                           $expression: #NameExpr['string']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['string']
+                        $right: #ComplExpr[
+                           $expr: #Regex['/\\A(?:#!.*\\n)?(.*\\n)/']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['first_line']
+                        $right: #MatchedRegex['$1']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['name']
+                        $right: #Case[
+                           $cond: #NameExpr['first_line']
+                           $body: #List[
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #Regex['/^<\\?xml[^?]*encoding=(["\'])(.*?)\\1/']
+                                 ]
+                                 $then: #MatchedRegex['$2']
+                              ]
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #Regex['/\\b(?:en)?coding[=:]\\s*([^\\s;]+)/i']
+                                 ]
+                                 $then: #MatchedRegex['$1']
+                              ]
+                           ]
+                           $else: #RReturnStmt['return']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $base: #NameExpr['string']
+                        $recv: #NameExpr['sub!']
+                        $param: #List[
+                           $expression: #NameExpr['first_line']
+                           $expression: #StringExpr['']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['remove_frozen_string_literal']
+                        $param: #List[
+                           $expression: #NameExpr['string']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['enc']
+                        $right: #ApplyExpr[
+                           $base: #NameExpr['Encoding']
+                           $recv: #NameExpr['find']
+                           $param: #List[
+                              $expression: #NameExpr['name']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #ApplyExpr[
+                           $base: #NameExpr['string']
+                           $recv: #NameExpr['force_encoding']
+                           $param: #List[
+                              $expression: #NameExpr['enc']
+                           ]
+                        ]
+                        $cond: #NameExpr['enc']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

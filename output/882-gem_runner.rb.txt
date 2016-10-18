@@ -1,0 +1,320 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/command_manager']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/config_file']
+         ]
+      ]
+      $statement: #Rescue[
+         $body: #ApplyExpr[
+            $recv: #NameExpr['Gem']
+            $recv: #NameExpr['load_env_plugins']
+         ]
+         $rescue: #Nil['nil']
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #NameExpr['Gem']
+            $name: #NameExpr['GemRunner']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #OptionalParam[
+                        $name: #NameExpr['options']
+                        $default: #List['{}']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@command_manager_class']
+                           $right: #LOr[
+                              $left: #Indexer[
+                                 $recv: #NameExpr['options']
+                                 $index: #List[
+                                    $expression: #NameExpr['command_manager']
+                                 ]
+                              ]
+                              $right: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['CommandManager']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@config_file_class']
+                           $right: #LOr[
+                              $left: #Indexer[
+                                 $recv: #NameExpr['options']
+                                 $index: #List[
+                                    $expression: #NameExpr['config_file']
+                                 ]
+                              ]
+                              $right: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['ConfigFile']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['run']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['args']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['build_args']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['extract_build_args']
+                              $param: #List[
+                                 $expression: #NameExpr['args']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['do_configuration']
+                           $param: #List[
+                              $expression: #NameExpr['args']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cmd']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['@command_manager_class']
+                              $recv: #NameExpr['instance']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['cmd']
+                              $recv: #NameExpr['command_names']
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['command_name']
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['config_args']
+                                    $right: #Indexer[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['Gem']
+                                          $recv: #NameExpr['configuration']
+                                       ]
+                                       $index: #List[
+                                          $expression: #NameExpr['command_name']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['config_args']
+                                    $right: #Case[
+                                       $cond: #NameExpr['config_args']
+                                       $body: #List[
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #NameExpr['String']
+                                             ]
+                                             $then: #ApplyExpr[
+                                                $base: #NameExpr['config_args']
+                                                $recv: #NameExpr['split']
+                                                $param: #List[
+                                                   $expression: #StringExpr[' ']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $else: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['Array']
+                                          $param: #List[
+                                             $expression: #NameExpr['config_args']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['Command']
+                                    ]
+                                    $recv: #NameExpr['add_specific_extra_args']
+                                    $param: #List[
+                                       $expression: #NameExpr['command_name']
+                                       $expression: #NameExpr['config_args']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['cmd']
+                           $recv: #NameExpr['run']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['Gem']
+                                    $recv: #NameExpr['configuration']
+                                 ]
+                                 $recv: #NameExpr['args']
+                              ]
+                              $expression: #NameExpr['build_args']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['extract_build_args']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['args']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Unless[
+                           $then: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #Array['[]']
+                              ]
+                           ]
+                           $cond: #AssignExpr[
+                              $left: #NameExpr['offset']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['args']
+                                 $recv: #NameExpr['index']
+                                 $param: #List[
+                                    $expression: #StringExpr['--']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['build_args']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['args']
+                              $recv: #NameExpr['slice!']
+                              $param: #List[
+                                 $expression: #OpenRange[
+                                    #NameExpr['offset']
+                                    #ApplyExpr[
+                                       $recv: #NameExpr['args']
+                                       $recv: #NameExpr['length']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['build_args']
+                           $recv: #NameExpr['shift']
+                        ]
+                        $statement: #NameExpr['build_args']
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['private']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['do_configuration']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['args']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #Field[
+                              $base: #NameExpr['Gem']
+                              $name: #NameExpr['configuration']
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['@config_file_class']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #NameExpr['args']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['Gem']
+                           $recv: #NameExpr['use_paths']
+                           $param: #List[
+                              $expression: #Indexer[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['Gem']
+                                    $recv: #NameExpr['configuration']
+                                 ]
+                                 $index: #List[
+                                    $expression: #NameExpr['gemhome']
+                                 ]
+                              ]
+                              $expression: #Indexer[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['Gem']
+                                    $recv: #NameExpr['configuration']
+                                 ]
+                                 $index: #List[
+                                    $expression: #NameExpr['gempath']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Field[
+                              $base: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['Command']
+                              ]
+                              $name: #NameExpr['extra_args']
+                           ]
+                           $right: #Indexer[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['configuration']
+                              ]
+                              $index: #List[
+                                 $expression: #NameExpr['gem']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['Gem']
+         $recv: #NameExpr['load_plugins']
+      ]
+   ]
+   #Comsumed['comsumed']
+]

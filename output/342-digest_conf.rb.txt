@@ -1,0 +1,239 @@
+#Source[
+   #FuncDecl[
+      $name: #NameExpr['digest_conf']
+      $param: #List[
+         $param: #Param[
+            $param: #NameExpr['name']
+         ]
+         $param: #OptionalParam[
+            $name: #NameExpr['hdr']
+            $default: #NameExpr['name']
+         ]
+         $param: #OptionalParam[
+            $name: #NameExpr['funcs']
+            $default: #Nil['nil']
+         ]
+         $param: #OptionalParam[
+            $name: #NameExpr['types']
+            $default: #Nil['nil']
+         ]
+      ]
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #Unless[
+               $cond: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['with_config']
+                  $param: #List[
+                     $expression: #StringExpr[
+                        $inner: #NameExpr['name']
+                     ]
+                  ]
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['cc']
+                     $right: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['with_config']
+                        $param: #List[
+                           $expression: #StringExpr['common-digest']
+                        ]
+                     ]
+                  ]
+                  $statement: #IfExpr[
+                     $cond: #OrExpr[
+                        $left: #EqExpr[
+                           $left: #NameExpr['cc']
+                           $right: #TrueExpr['true']
+                        ]
+                        $right: #Match[
+                           $left: #Regex['/\\b#{name}\\b/']
+                           $right: #NameExpr['cc']
+                        ]
+                     ]
+                     $then: #IfExpr[
+                        $cond: #AndExpr[
+                           $left: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['exist?']
+                              $param: #List[
+                                 $expression: #StringExpr[
+                                    $inner: #NameExpr['srcdir']
+                                    $inner: #NameExpr['name']
+                                 ]
+                              ]
+                           ]
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['have_header']
+                              $param: #List[
+                                 $expression: #StringExpr['CommonCrypto/CommonDigest.h']
+                              ]
+                           ]
+                        ]
+                        $then: #List[
+                           $statement: #LShiftExpr[
+                              $left: #NameExpr['$defs']
+                              $right: #StringExpr[
+                                 $inner: #ApplyExpr[
+                                    $recv: #NameExpr['name']
+                                    $recv: #NameExpr['upcase']
+                                 ]
+                              ]
+                           ]
+                           $statement: #LShiftExpr[
+                              $left: #NameExpr['$headers']
+                              $right: #StringExpr[
+                                 $inner: #NameExpr['name']
+                              ]
+                           ]
+                           $statement: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #NameExpr['commondigest']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['dir_config']
+                     $param: #List[
+                        $expression: #StringExpr['openssl']
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['pkg_config']
+                     $param: #List[
+                        $expression: #StringExpr['openssl']
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['require']
+                     $param: #List[
+                        $expression: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['expand_path']
+                           $param: #List[
+                              $expression: #StringExpr['../../openssl/deprecation']
+                              $expression: #File['__FILE__']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #IfExpr[
+                     $cond: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['have_library']
+                        $param: #List[
+                           $expression: #StringExpr['crypto']
+                        ]
+                     ]
+                     $then: #List[
+                        $statement: #LOrAssign[
+                           $left: #NameExpr['funcs']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['name']
+                              $recv: #NameExpr['upcase']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['funcs']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['Array']
+                              $param: #List[
+                                 $expression: #NameExpr['funcs']
+                              ]
+                           ]
+                        ]
+                        $statement: #LOrAssign[
+                           $left: #NameExpr['types']
+                           $right: #NameExpr['funcs']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['hdr']
+                           $right: #StringExpr[
+                              $inner: #NameExpr['hdr']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #LAnd[
+                              $left: #ApplyExpr[
+                                 $recv: #NameExpr['funcs']
+                                 $recv: #NameExpr['all?']
+                                 $body: #Block[
+                                    $param: #NameExpr['func']
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['OpenSSL']
+                                       $recv: #NameExpr['check_func']
+                                       $param: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #NameExpr['func']
+                                          ]
+                                          $expression: #NameExpr['hdr']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['types']
+                                 $recv: #NameExpr['all?']
+                                 $body: #Block[
+                                    $param: #NameExpr['type']
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['have_type']
+                                       $param: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #NameExpr['type']
+                                          ]
+                                          $expression: #NameExpr['hdr']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $then: #List[
+                              $statement: #LShiftExpr[
+                                 $left: #NameExpr['$defs']
+                                 $right: #StringExpr[
+                                    $inner: #ApplyExpr[
+                                       $recv: #NameExpr['name']
+                                       $recv: #NameExpr['upcase']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #LShiftExpr[
+                                 $left: #NameExpr['$headers']
+                                 $right: #StringExpr[
+                                    $inner: #NameExpr['name']
+                                 ]
+                              ]
+                              $statement: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #NameExpr['ossl']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #LShiftExpr[
+               $left: #NameExpr['$objs']
+               $right: #StringExpr[
+                  $inner: #NameExpr['name']
+                  $inner: #NameExpr['$OBJEXT']
+               ]
+            ]
+            $statement: #RReturnStmt['return']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

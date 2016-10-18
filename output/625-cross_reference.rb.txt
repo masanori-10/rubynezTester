@@ -1,0 +1,321 @@
+#Source[
+   #Class[
+      $name: #NestedName[
+         $path: #NameExpr['RDoc']
+         $name: #NameExpr['CrossReference']
+      ]
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['CLASS_REGEXP_STR']
+               $right: #StringExpr['\\\\\\\\?((?:\\:{2})?[A-Z]\\w*(?:\\:\\:\\w+)*)']
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['METHOD_REGEXP_STR']
+               $right: #StringExpr['([a-z]\\w*[!?=]?|%|===|\\[\\]=?|<<|>>)(?:\\([\\w.+*/=<>-]*\\))?']
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['CROSSREF_REGEXP']
+               $right: #Regex['/(?:^|\\s)\n                     (\n                      (?:\n                       # A::B::C.meth\n                       #{CLASS_REGEXP_STR}(?:[.#]|::)#{METHOD_REGEXP_STR}\n\n                       # Stand-alone method (preceded by a #)\n                       | \\\\?\\##{METHOD_REGEXP_STR}\n\n                       # Stand-alone method (preceded by ::)\n                       | ::#{METHOD_REGEXP_STR}\n\n                       # A::B::C\n                       # The stuff after CLASS_REGEXP_STR is a\n                       # nasty hack.  CLASS_REGEXP_STR unfortunately matches\n                       # words like dog and cat (these are legal "class"\n                       # names in Fortran 95).  When a word is flagged as a\n                       # potential cross-reference, limitations in the markup\n                       # engine suppress other processing, such as typesetting.\n                       # This is particularly noticeable for contractions.\n                       # In order that words like "can\'t" not\n                       # be flagged as potential cross-references, only\n                       # flag potential class cross-references if the character\n                       # after the cross-reference is a space, sentence\n                       # punctuation, tag start character, or attribute\n                       # marker.\n                       | #{CLASS_REGEXP_STR}(?=[@\\s).?!,;<\\000]|\\z)\n\n                       # Things that look like filenames\n                       # The key thing is that there must be at least\n                       # one special character (period, slash, or\n                       # underscore).\n                       | (?:\\.\\.\\/)*[-\\/\\w]+[_\\/.][-\\w\\/.]+\n\n                       # Things that have markup suppressed\n                       # Don\'t process things like \'\\<\' in \\<tt>, though.\n                       # TODO: including < is a hack, not very satisfying.\n                       | \\\\[^\\s<]\n                      )\n\n                      # labels for headings\n                      (?:@[\\w+%-]+(?:\\.[\\w|%-]+)?)?\n                     )/x']
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['ALL_CROSSREF_REGEXP']
+               $right: #Regex['/\n                     (?:^|\\s)\n                     (\n                      (?:\n                       # A::B::C.meth\n                       #{CLASS_REGEXP_STR}(?:[.#]|::)#{METHOD_REGEXP_STR}\n\n                       # Stand-alone method\n                       | \\\\?#{METHOD_REGEXP_STR}\n\n                       # A::B::C\n                       | #{CLASS_REGEXP_STR}(?=[@\\s).?!,;<\\000]|\\z)\n\n                       # Things that look like filenames\n                       | (?:\\.\\.\\/)*[-\\/\\w]+[_\\/.][-\\w\\/.]+\n\n                       # Things that have markup suppressed\n                       | \\\\[^\\s<]\n                      )\n\n                      # labels for headings\n                      (?:@[\\w+%-]+)?\n                     )/x']
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['attr_accessor']
+               $param: #List[
+                  $expression: #NameExpr['seen']
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['initialize']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['context']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@context']
+                        $right: #NameExpr['context']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@store']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['context']
+                           $recv: #NameExpr['store']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@seen']
+                        $right: #List['{}']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['resolve']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['name']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['text']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #IfExpr[
+                        $then: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['@seen']
+                                 $index: #List[
+                                    $expression: #NameExpr['name']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $cond: #ApplyExpr[
+                           $base: #NameExpr['@seen']
+                           $recv: #NameExpr['include?']
+                           $param: #List[
+                              $expression: #NameExpr['name']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #Match[
+                           $left: #Regex['/#{CLASS_REGEXP_STR}([.#]|::)#{METHOD_REGEXP_STR}/o']
+                           $right: #NameExpr['name']
+                        ]
+                        $then: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['type']
+                              $right: #MatchedRegex['$2']
+                           ]
+                           $statement: #IfExpr[
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['type']
+                                 $right: #StringExpr['']
+                              ]
+                              $cond: #EqExpr[
+                                 $left: #NameExpr['type']
+                                 $right: #StringExpr['.']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['method']
+                              $right: #StringExpr[
+                                 $inner: #NameExpr['type']
+                                 $inner: #MatchedRegex['$3']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['container']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['@context']
+                                 $recv: #NameExpr['find_symbol_module']
+                                 $param: #List[
+                                    $expression: #MatchedRegex['$1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #IfExpr[
+                           $cond: #Match[
+                              $left: #Regex['/^([.#]|::)#{METHOD_REGEXP_STR}/o']
+                              $right: #NameExpr['name']
+                           ]
+                           $then: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['type']
+                                 $right: #MatchedRegex['$1']
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #AssignExpr[
+                                    $left: #NameExpr['type']
+                                    $right: #StringExpr['']
+                                 ]
+                                 $cond: #EqExpr[
+                                    $left: #NameExpr['type']
+                                    $right: #StringExpr['.']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['method']
+                                 $right: #StringExpr[
+                                    $inner: #NameExpr['type']
+                                    $inner: #MatchedRegex['$2']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['container']
+                                 $right: #NameExpr['@context']
+                              ]
+                           ]
+                           $else: #AssignExpr[
+                              $left: #NameExpr['container']
+                              $right: #Nil['nil']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #NameExpr['container']
+                        $then: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['ref']
+                              $right: #ApplyExpr[
+                                 $base: #NameExpr['container']
+                                 $recv: #NameExpr['find_local_symbol']
+                                 $param: #List[
+                                    $expression: #NameExpr['method']
+                                 ]
+                              ]
+                           ]
+                           $statement: #Unless[
+                              $cond: #LOr[
+                                 $left: #NameExpr['ref']
+                                 $right: #StrictEquals[
+                                    $left: #Field[
+                                       $recv: #NameExpr['RDoc']
+                                       $name: #NameExpr['TopLevel']
+                                    ]
+                                    $right: #NameExpr['container']
+                                 ]
+                              ]
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['ref']
+                                 $right: #ApplyExpr[
+                                    $base: #NameExpr['container']
+                                    $recv: #NameExpr['find_ancestor_local_symbol']
+                                    $param: #List[
+                                       $expression: #NameExpr['method']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #Unless[
+                        $then: #AssignExpr[
+                           $left: #NameExpr['ref']
+                           $right: #Case[
+                              $cond: #NameExpr['name']
+                              $body: #List[
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^\\\\(#{CLASS_REGEXP_STR})$/o']
+                                    ]
+                                    $then: #ApplyExpr[
+                                       $base: #NameExpr['@context']
+                                       $recv: #NameExpr['find_symbol']
+                                       $param: #List[
+                                          $expression: #MatchedRegex['$1']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $else: #ApplyExpr[
+                                 $base: #NameExpr['@context']
+                                 $recv: #NameExpr['find_symbol']
+                                 $param: #List[
+                                    $expression: #NameExpr['name']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $cond: #NameExpr['ref']
+                     ]
+                     $statement: #IfExpr[
+                        $then: #AssignExpr[
+                           $left: #NameExpr['ref']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['@store']
+                              $recv: #NameExpr['page']
+                              $param: #List[
+                                 $expression: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                        $cond: #AndExpr[
+                           $left: #[
+                              $base: #NameExpr['ref']
+                           ]
+                           $right: #AssignExpr[
+                              $left: #NameExpr['name']
+                              $right: #ComplExpr[
+                                 $expr: #Regex['/^\\w+$/']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #AssignExpr[
+                           $left: #NameExpr['ref']
+                           $right: #Nil['nil']
+                        ]
+                        $cond: #StrictEquals[
+                           $left: #Field[
+                              $recv: #NameExpr['RDoc']
+                              $name: #NameExpr['Alias']
+                           ]
+                           $right: #NameExpr['ref']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['out']
+                        $right: #IfExpr[
+                           $cond: #EqExpr[
+                              $left: #NameExpr['name']
+                              $right: #StringExpr['\\\\']
+                           ]
+                           $then: #NameExpr['name']
+                           $else: #IfExpr[
+                              $cond: #AssignExpr[
+                                 $left: #NameExpr['name']
+                                 $right: #ComplExpr[
+                                    $expr: #Regex['/^\\\\/']
+                                 ]
+                              ]
+                              $then: #Conditional[
+                                 $cond: #NameExpr['ref']
+                                 $then: #BuiltInVariable['$\'']
+                                 $else: #NameExpr['name']
+                              ]
+                              $else: #IfExpr[
+                                 $cond: #NameExpr['ref']
+                                 $then: #IfExpr[
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['ref']
+                                       $recv: #NameExpr['display?']
+                                    ]
+                                    $then: #NameExpr['ref']
+                                    $else: #NameExpr['text']
+                                 ]
+                                 $else: #NameExpr['text']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #Indexer[
+                           $base: #NameExpr['@seen']
+                           $index: #List[
+                              $expression: #NameExpr['name']
+                           ]
+                        ]
+                        $right: #NameExpr['out']
+                     ]
+                     $statement: #NameExpr['out']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,475 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require_relative']
+         $param: #List[
+            $expression: #StringExpr['helper']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['yaml/store']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['tmpdir']
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #Module[
+            $name: #NameExpr['Psych']
+            $body: #BlockExpr[
+               $main: #List[
+                  $statement: #Unless[
+                     $then: #AssignExpr[
+                        $left: #Field[
+                           $base: #NameExpr['Psych']
+                           $name: #NameExpr['Store']
+                        ]
+                        $right: #Field[
+                           $recv: #NameExpr['YAML']
+                           $name: #NameExpr['Store']
+                        ]
+                     ]
+                     $cond: #Defined[
+                        $base: #Field[
+                           $recv: #NameExpr['Psych']
+                           $name: #NameExpr['Store']
+                        ]
+                     ]
+                  ]
+                  $statement: #Class[
+                     $name: #NameExpr['YAMLStoreTest']
+                     $super: #NameExpr['TestCase']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['setup']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@dir']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['Dir']
+                                          $recv: #NameExpr['mktmpdir']
+                                          $param: #List[
+                                             $expression: #StringExpr['rubytest-file']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['chown']
+                                       $param: #List[
+                                          $expression: #MinusExpr[
+                                             $expr: #IntExpr['1']
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['Process']
+                                             $recv: #NameExpr['gid']
+                                          ]
+                                          $expression: #NameExpr['@dir']
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@yamlstore_file']
+                                       $right: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['make_tmp_filename']
+                                          $param: #List[
+                                             $expression: #StringExpr['yamlstore']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@yamlstore']
+                                       $right: #ApplyExpr[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['YAML']
+                                             $name: #NameExpr['Store']
+                                          ]
+                                          $recv: #NameExpr['new']
+                                          $param: #List[
+                                             $expression: #NameExpr['@yamlstore_file']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['teardown']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #ApplyExpr[
+                                    $base: #NameExpr['FileUtils']
+                                    $recv: #NameExpr['remove_entry_secure']
+                                    $param: #List[
+                                       $expression: #NameExpr['@dir']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['make_tmp_filename']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['prefix']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #AddExpr[
+                                    $left: #AddExpr[
+                                       $left: #AddExpr[
+                                          $left: #AddExpr[
+                                             $left: #NameExpr['@dir']
+                                             $right: #StringExpr['/']
+                                          ]
+                                          $right: #NameExpr['prefix']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['File']
+                                          $recv: #NameExpr['basename']
+                                          $param: #List[
+                                             $expression: #File['__FILE__']
+                                          ]
+                                       ]
+                                    ]
+                                    $right: #StringExpr[
+                                       $inner: #BuiltInVariable['$$']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_opening_new_file_in_readonly_mode_should_result_in_empty_values']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #ApplyExpr[
+                                    $recv: #NameExpr['@yamlstore']
+                                    $recv: #NameExpr['transaction']
+                                    $param: #List[
+                                       $expression: #TrueExpr['true']
+                                    ]
+                                    $body: #Block[
+                                       $body: #List[
+                                          $statement: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_nil']
+                                             $param: #List[
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['@yamlstore']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['foo']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_nil']
+                                             $param: #List[
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['@yamlstore']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['bar']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_opening_new_file_in_readwrite_mode_should_result_in_empty_values']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #ApplyExpr[
+                                    $recv: #NameExpr['@yamlstore']
+                                    $recv: #NameExpr['transaction']
+                                    $body: #Block[
+                                       $body: #List[
+                                          $statement: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_nil']
+                                             $param: #List[
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['@yamlstore']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['foo']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_nil']
+                                             $param: #List[
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['@yamlstore']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['bar']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_data_should_be_loaded_correctly_when_in_readonly_mode']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamlstore']
+                                       $recv: #NameExpr['transaction']
+                                       $body: #Block[
+                                          $body: #AssignExpr[
+                                             $left: #Indexer[
+                                                $base: #NameExpr['@yamlstore']
+                                                $index: #List[
+                                                   $expression: #NameExpr['foo']
+                                                ]
+                                             ]
+                                             $right: #StringExpr['bar']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamlstore']
+                                       $recv: #NameExpr['transaction']
+                                       $param: #List[
+                                          $expression: #TrueExpr['true']
+                                       ]
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_equal']
+                                             $param: #List[
+                                                $expression: #StringExpr['bar']
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['@yamlstore']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['foo']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_data_should_be_loaded_correctly_when_in_readwrite_mode']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamlstore']
+                                       $recv: #NameExpr['transaction']
+                                       $body: #Block[
+                                          $body: #AssignExpr[
+                                             $left: #Indexer[
+                                                $base: #NameExpr['@yamlstore']
+                                                $index: #List[
+                                                   $expression: #NameExpr['foo']
+                                                ]
+                                             ]
+                                             $right: #StringExpr['bar']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamlstore']
+                                       $recv: #NameExpr['transaction']
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_equal']
+                                             $param: #List[
+                                                $expression: #StringExpr['bar']
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['@yamlstore']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['foo']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_changes_after_commit_are_discarded']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamlstore']
+                                       $recv: #NameExpr['transaction']
+                                       $body: #Block[
+                                          $body: #List[
+                                             $statement: #AssignExpr[
+                                                $left: #Indexer[
+                                                   $base: #NameExpr['@yamlstore']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['foo']
+                                                   ]
+                                                ]
+                                                $right: #StringExpr['bar']
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                $recv: #NameExpr['@yamlstore']
+                                                $recv: #NameExpr['commit']
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #Indexer[
+                                                   $base: #NameExpr['@yamlstore']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['foo']
+                                                   ]
+                                                ]
+                                                $right: #StringExpr['baz']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamlstore']
+                                       $recv: #NameExpr['transaction']
+                                       $param: #List[
+                                          $expression: #TrueExpr['true']
+                                       ]
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_equal']
+                                             $param: #List[
+                                                $expression: #StringExpr['bar']
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['@yamlstore']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['foo']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_changes_are_not_written_on_abort']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamlstore']
+                                       $recv: #NameExpr['transaction']
+                                       $body: #Block[
+                                          $body: #List[
+                                             $statement: #AssignExpr[
+                                                $left: #Indexer[
+                                                   $base: #NameExpr['@yamlstore']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['foo']
+                                                   ]
+                                                ]
+                                                $right: #StringExpr['bar']
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                $recv: #NameExpr['@yamlstore']
+                                                $recv: #NameExpr['abort']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamlstore']
+                                       $recv: #NameExpr['transaction']
+                                       $param: #List[
+                                          $expression: #TrueExpr['true']
+                                       ]
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_nil']
+                                             $param: #List[
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['@yamlstore']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['foo']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_writing_inside_readonly_transaction_raises_error']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_raises']
+                                    $param: #List[
+                                       $expression: #Field[
+                                          $recv: #NameExpr['PStore']
+                                          $name: #NameExpr['Error']
+                                       ]
+                                    ]
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['@yamlstore']
+                                          $recv: #NameExpr['transaction']
+                                          $param: #List[
+                                             $expression: #TrueExpr['true']
+                                          ]
+                                          $body: #Block[
+                                             $body: #AssignExpr[
+                                                $left: #Indexer[
+                                                   $base: #NameExpr['@yamlstore']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['foo']
+                                                   ]
+                                                ]
+                                                $right: #StringExpr['bar']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+         $cond: #Defined[
+            $base: #NameExpr['Psych']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

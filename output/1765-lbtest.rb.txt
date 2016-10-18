@@ -1,0 +1,228 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['thread']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['LocalBarrier']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['n']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@wait']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Thread']
+                                 $name: #NameExpr['Queue']
+                              ]
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@done']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Thread']
+                                 $name: #NameExpr['Queue']
+                              ]
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@keeper']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['begin_keeper']
+                              $param: #List[
+                                 $expression: #NameExpr['n']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['sync']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@done']
+                           $recv: #NameExpr['push']
+                           $param: #List[
+                              $expression: #TrueExpr['true']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@wait']
+                           $recv: #NameExpr['pop']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['join']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['@keeper']
+                        $recv: #NameExpr['join']
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['private']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['begin_keeper']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['n']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['Thread']
+                        $recv: #NameExpr['start']
+                        $body: #Block[
+                           $body: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['n']
+                                 $recv: #NameExpr['times']
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['@done']
+                                       $recv: #NameExpr['pop']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['n']
+                                 $recv: #NameExpr['times']
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['@wait']
+                                       $recv: #NameExpr['push']
+                                       $param: #List[
+                                          $expression: #TrueExpr['true']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['n']
+         $right: #IntExpr['10']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['lb']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['LocalBarrier']
+            $recv: #NameExpr['new']
+            $param: #List[
+               $expression: #NameExpr['n']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #SubExpr[
+            $left: #NameExpr['n']
+            $right: #IntExpr['1']
+         ]
+         $recv: #NameExpr['times']
+         $body: #Block[
+            $param: #NameExpr['i']
+            $body: #ApplyExpr[
+               $recv: #NameExpr['Thread']
+               $recv: #NameExpr['start']
+               $body: #Block[
+                  $body: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['sleep']
+                        $param: #List[
+                           $expression: #DivExpr[
+                              $left: #AddExpr[
+                                 $left: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['rand']
+                                    $param: #List[
+                                       $expression: #NameExpr['n']
+                                    ]
+                                 ]
+                                 $right: #IntExpr['1']
+                              ]
+                              $right: #FloatExpr['100.0']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['print']
+                        $param: #List[
+                           $expression: #StringExpr[
+                              $inner: #NameExpr['i']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['lb']
+                        $recv: #NameExpr['sync']
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['print']
+                        $param: #List[
+                           $expression: #StringExpr[
+                              $inner: #NameExpr['i']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['lb']
+         $recv: #NameExpr['sync']
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #StringExpr[
+               $inner: #SubExpr[
+                  $left: #NameExpr['n']
+                  $right: #IntExpr['1']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #StringExpr['exit.\\n']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

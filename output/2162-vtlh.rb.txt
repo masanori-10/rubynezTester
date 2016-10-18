@@ -1,0 +1,111 @@
+#Source[
+   #List[
+      $statement: #AssignExpr[
+         $left: #NameExpr['cd']
+         $right: #AddExpr[
+            $left: #ApplyExpr[
+               $recv: #Command['pwd']
+               $recv: #NameExpr['chomp']
+            ]
+            $right: #StringExpr['/']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['ARGF']
+         $recv: #NameExpr['each']
+         $body: #Block[
+            $param: #NameExpr['line']
+            $body: #IfExpr[
+               $cond: #Match[
+                  $left: #Regex['/^0x([a-z0-9]+),/']
+                  $right: #NameExpr['line']
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['stat']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['line']
+                        $recv: #NameExpr['split']
+                        $param: #List[
+                           $expression: #StringExpr[',']
+                        ]
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['addr']
+                     $right: #AddExpr[
+                        $left: #ApplyExpr[
+                           $recv: #Indexer[
+                              $recv: #NameExpr['stat']
+                              $index: #List[
+                                 $expression: #IntExpr['0']
+                              ]
+                           ]
+                           $recv: #NameExpr['hex']
+                        ]
+                        $right: #HexInteger['0x00400000']
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['retired']
+                     $right: #ApplyExpr[
+                        $recv: #Indexer[
+                           $recv: #NameExpr['stat']
+                           $index: #List[
+                              $expression: #IntExpr['2']
+                           ]
+                        ]
+                        $recv: #NameExpr['to_i']
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['ticks']
+                     $right: #ApplyExpr[
+                        $recv: #Indexer[
+                           $recv: #NameExpr['stat']
+                           $index: #List[
+                              $expression: #IntExpr['3']
+                           ]
+                        ]
+                        $recv: #NameExpr['to_i']
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['src']
+                     $right: #ApplyExpr[
+                        $recv: #Command['addr2line -e miniruby.exe #{addr.to_s(16)}']
+                        $recv: #NameExpr['chomp']
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #NameExpr['src']
+                     $recv: #NameExpr['sub!']
+                     $param: #List[
+                        $expression: #NameExpr['cd']
+                        $expression: #StringExpr['']
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['puts']
+                     $param: #List[
+                        $expression: #ModExpr[
+                           $left: #StringExpr['%-40s 0x%08x %8d %8d']
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #NameExpr['src']
+                                 $expression: #NameExpr['addr']
+                                 $expression: #NameExpr['retired']
+                                 $expression: #NameExpr['ticks']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

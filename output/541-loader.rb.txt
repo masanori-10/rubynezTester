@@ -1,0 +1,469 @@
+#Source[
+   #Module[
+      $name: #NameExpr['IRB']
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #Class[
+               $name: #NameExpr['LoadAbort']
+               $super: #NameExpr['Exception']
+               $body: #BlockExpr[
+                  $main: #Empty['']
+               ]
+            ]
+            $statement: #Module[
+               $name: #NameExpr['IrbLoader']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #Alias[
+                        $newname: #NameExpr['ruby_load']
+                        $target: #NameExpr['load']
+                     ]
+                     $statement: #Alias[
+                        $newname: #NameExpr['ruby_require']
+                        $target: #NameExpr['require']
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['irb_load']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['fn']
+                           ]
+                           $param: #OptionalParam[
+                              $name: #NameExpr['priv']
+                              $default: #Nil['nil']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['path']
+                                 $right: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['search_file_from_ruby_path']
+                                    $param: #List[
+                                       $expression: #NameExpr['fn']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $then: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['raise']
+                                    $param: #List[
+                                       $expression: #NameExpr['LoadError']
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['fn']
+                                       ]
+                                    ]
+                                 ]
+                                 $cond: #NameExpr['path']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['load_file']
+                                 $param: #List[
+                                    $expression: #NameExpr['path']
+                                    $expression: #NameExpr['priv']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['search_file_from_ruby_path']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['fn']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #IfExpr[
+                                 $cond: #Match[
+                                    $left: #Regex['/^#{Regexp.quote(File::Separator)}/']
+                                    $right: #NameExpr['fn']
+                                 ]
+                                 $then: #List[
+                                    $statement: #IfExpr[
+                                       $then: #RReturnStmt[
+                                          $expr: #List[
+                                             $expression: #NameExpr['fn']
+                                          ]
+                                       ]
+                                       $cond: #ApplyExpr[
+                                          $recv: #NameExpr['File']
+                                          $recv: #NameExpr['exist?']
+                                          $param: #List[
+                                             $expression: #NameExpr['fn']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #Nil['nil']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #For[
+                                 $iter: #NameExpr['path']
+                                 $range: #BuiltInVariable['$:']
+                                 $body: #IfExpr[
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['exist?']
+                                       $param: #List[
+                                          $expression: #AssignExpr[
+                                             $left: #NameExpr['f']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['File']
+                                                $recv: #NameExpr['join']
+                                                $param: #List[
+                                                   $expression: #NameExpr['path']
+                                                   $expression: #NameExpr['fn']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['f']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #Nil['nil']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['source_file']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['path']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['irb']
+                              $recv: #NameExpr['suspend_name']
+                              $param: #List[
+                                 $expression: #NameExpr['path']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['basename']
+                                    $param: #List[
+                                       $expression: #NameExpr['path']
+                                    ]
+                                 ]
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['irb']
+                                    $recv: #NameExpr['suspend_input_method']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['FileInputMethod']
+                                          $recv: #NameExpr['new']
+                                          $param: #List[
+                                             $expression: #NameExpr['path']
+                                          ]
+                                       ]
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['back_io']
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['irb']
+                                          $recv: #NameExpr['signal_status']
+                                          $param: #List[
+                                             $expression: #NameExpr['IN_LOAD']
+                                          ]
+                                          $body: #Block[
+                                             $body: #IfExpr[
+                                                $cond: #ApplyExpr[
+                                                   $recv: #NameExpr['back_io']
+                                                   $recv: #NameExpr['kind_of?']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['FileInputMethod']
+                                                   ]
+                                                ]
+                                                $then: #ApplyExpr[
+                                                   $recv: #NameExpr['irb']
+                                                   $recv: #NameExpr['eval_input']
+                                                ]
+                                                $else: #ExceptionBlock[
+                                                   $main: #ApplyExpr[
+                                                      $recv: #NameExpr['irb']
+                                                      $recv: #NameExpr['eval_input']
+                                                   ]
+                                                   $rescue: #List[
+                                                      $rescue: #Rescue[
+                                                         $class: #NameExpr['LoadAbort']
+                                                         $then: #ApplyExpr[
+                                                            #Self['self']
+                                                            $recv: #NameExpr['print']
+                                                            $param: #List[
+                                                               $expression: #StringExpr['load abort!!\\n']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['load_file']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['path']
+                           ]
+                           $param: #OptionalParam[
+                              $name: #NameExpr['priv']
+                              $default: #Nil['nil']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['irb']
+                              $recv: #NameExpr['suspend_name']
+                              $param: #List[
+                                 $expression: #NameExpr['path']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['basename']
+                                    $param: #List[
+                                       $expression: #NameExpr['path']
+                                    ]
+                                 ]
+                              ]
+                              $body: #Block[
+                                 $body: #List[
+                                    $statement: #IfExpr[
+                                       $cond: #NameExpr['priv']
+                                       $then: #AssignExpr[
+                                          $left: #NameExpr['ws']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['WorkSpace']
+                                             $recv: #NameExpr['new']
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['Module']
+                                                   $recv: #NameExpr['new']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $else: #AssignExpr[
+                                          $left: #NameExpr['ws']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['WorkSpace']
+                                             $recv: #NameExpr['new']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['irb']
+                                       $recv: #NameExpr['suspend_workspace']
+                                       $param: #List[
+                                          $expression: #NameExpr['ws']
+                                       ]
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             $recv: #NameExpr['irb']
+                                             $recv: #NameExpr['suspend_input_method']
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['FileInputMethod']
+                                                   $recv: #NameExpr['new']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['path']
+                                                   ]
+                                                ]
+                                             ]
+                                             $body: #Block[
+                                                $param: #NameExpr['back_io']
+                                                $body: #ApplyExpr[
+                                                   $recv: #NameExpr['irb']
+                                                   $recv: #NameExpr['signal_status']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['IN_LOAD']
+                                                   ]
+                                                   $body: #Block[
+                                                      $body: #IfExpr[
+                                                         $cond: #ApplyExpr[
+                                                            $recv: #NameExpr['back_io']
+                                                            $recv: #NameExpr['kind_of?']
+                                                            $param: #List[
+                                                               $expression: #NameExpr['FileInputMethod']
+                                                            ]
+                                                         ]
+                                                         $then: #ApplyExpr[
+                                                            $recv: #NameExpr['irb']
+                                                            $recv: #NameExpr['eval_input']
+                                                         ]
+                                                         $else: #ExceptionBlock[
+                                                            $main: #ApplyExpr[
+                                                               $recv: #NameExpr['irb']
+                                                               $recv: #NameExpr['eval_input']
+                                                            ]
+                                                            $rescue: #List[
+                                                               $rescue: #Rescue[
+                                                                  $class: #NameExpr['LoadAbort']
+                                                                  $then: #ApplyExpr[
+                                                                     #Self['self']
+                                                                     $recv: #NameExpr['print']
+                                                                     $param: #List[
+                                                                        $expression: #StringExpr['load abort!!\\n']
+                                                                     ]
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['old']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['back_io']
+                                 $right: #NameExpr['@io']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['back_path']
+                                 $right: #NameExpr['@irb_path']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['back_name']
+                                 $right: #NameExpr['@irb_name']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['back_scanner']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['@irb']
+                                    $recv: #NameExpr['scanner']
+                                 ]
+                              ]
+                              $statement: #ExceptionBlock[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@io']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['FileInputMethod']
+                                          $recv: #NameExpr['new']
+                                          $param: #List[
+                                             $expression: #NameExpr['path']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@irb_name']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['File']
+                                          $recv: #NameExpr['basename']
+                                          $param: #List[
+                                             $expression: #NameExpr['path']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@irb_path']
+                                       $right: #NameExpr['path']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@irb']
+                                       $recv: #NameExpr['signal_status']
+                                       $param: #List[
+                                          $expression: #NameExpr['IN_LOAD']
+                                       ]
+                                       $body: #Block[
+                                          $body: #IfExpr[
+                                             $cond: #ApplyExpr[
+                                                $recv: #NameExpr['back_io']
+                                                $recv: #NameExpr['kind_of?']
+                                                $param: #List[
+                                                   $expression: #NameExpr['FileInputMethod']
+                                                ]
+                                             ]
+                                             $then: #ApplyExpr[
+                                                $recv: #NameExpr['@irb']
+                                                $recv: #NameExpr['eval_input']
+                                             ]
+                                             $else: #ExceptionBlock[
+                                                $main: #ApplyExpr[
+                                                   $recv: #NameExpr['@irb']
+                                                   $recv: #NameExpr['eval_input']
+                                                ]
+                                                $rescue: #List[
+                                                   $rescue: #Rescue[
+                                                      $class: #NameExpr['LoadAbort']
+                                                      $then: #ApplyExpr[
+                                                         #Self['self']
+                                                         $recv: #NameExpr['print']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['load abort!!\\n']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $ensure: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@io']
+                                       $right: #NameExpr['back_io']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@irb_name']
+                                       $right: #NameExpr['back_name']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@irb_path']
+                                       $right: #NameExpr['back_path']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Field[
+                                          $base: #NameExpr['@irb']
+                                          $name: #NameExpr['scanner']
+                                       ]
+                                       $right: #NameExpr['back_scanner']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,184 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['drb/drb']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['thread']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['Logger']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['fname']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@fname']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['fname']
+                              $recv: #NameExpr['to_s']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@fp']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['open']
+                              $param: #List[
+                                 $expression: #NameExpr['@fname']
+                                 $expression: #StringExpr['a+']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@queue']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Thread']
+                                 $name: #NameExpr['Queue']
+                              ]
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@th']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['new']
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $recv: #Self['self']
+                                    $recv: #NameExpr['flush']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['log']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['str']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['@queue']
+                        $recv: #NameExpr['push']
+                        $param: #List[
+                           $expression: #AddExpr[
+                              $left: #StringExpr[
+                                 $inner: #ApplyExpr[
+                                    $recv: #NameExpr['Time']
+                                    $recv: #NameExpr['now']
+                                 ]
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['str']
+                                 $recv: #NameExpr['to_s']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['flush']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ExceptionBlock[
+                        $main: #While[
+                           $cond: #IntExpr['1']
+                           $body: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['@fp']
+                                 $recv: #NameExpr['puts']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@queue']
+                                       $recv: #NameExpr['pop']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['@fp']
+                                 $recv: #NameExpr['flush']
+                              ]
+                           ]
+                        ]
+                        $ensure: #ApplyExpr[
+                           $recv: #NameExpr['@fp']
+                           $recv: #NameExpr['close']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #EqExpr[
+            $left: #File['__FILE__']
+            $right: #BuiltInVariable['$0']
+         ]
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['here']
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['ARGV']
+                  $recv: #NameExpr['shift']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['DRb']
+               $recv: #NameExpr['start_service']
+               $param: #List[
+                  $expression: #NameExpr['here']
+                  $expression: #ApplyExpr[
+                     $recv: #NameExpr['Logger']
+                     $recv: #NameExpr['new']
+                     $param: #List[
+                        $expression: #StringExpr['/usr/tmp/dlogd.log']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['puts']
+               $param: #List[
+                  $expression: #ApplyExpr[
+                     $recv: #NameExpr['DRb']
+                     $recv: #NameExpr['uri']
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #ApplyExpr[
+                  $recv: #NameExpr['DRb']
+                  $recv: #NameExpr['thread']
+               ]
+               $recv: #NameExpr['join']
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

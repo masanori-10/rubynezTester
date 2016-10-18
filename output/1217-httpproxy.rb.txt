@@ -1,0 +1,126 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['webrick']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['webrick/httpproxy']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['pch']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['Proc']
+            $recv: #NameExpr['new']
+            $body: #Block[
+               $param: #MultipleLeftHandSideExpression[
+                  $item: #NameExpr['req']
+                  $item: #NameExpr['res']
+               ]
+               $body: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['p']
+                  $param: #List[
+                     $expression: #Array[
+                        $index: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['req']
+                              $recv: #NameExpr['request_line']
+                           ]
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['res']
+                              $recv: #NameExpr['status_line']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['upstream_proxy']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #IfExpr[
+                  $cond: #AssignExpr[
+                     $left: #NameExpr['prx']
+                     $right: #Indexer[
+                        $recv: #NameExpr['ENV']
+                        $index: #List[
+                           $expression: #StringExpr['http_proxy']
+                        ]
+                     ]
+                  ]
+                  $then: #RReturnStmt[
+                     $expr: #List[
+                        $expression: #ApplyExpr[
+                           $recv: #NameExpr['URI']
+                           $recv: #NameExpr['parse']
+                           $param: #List[
+                              $expression: #NameExpr['prx']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #RReturnStmt[
+                  $expr: #List[
+                     $expression: #Nil['nil']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['httpd']
+         $right: #ApplyExpr[
+            $recv: #Field[
+               $recv: #NameExpr['WEBrick']
+               $name: #NameExpr['HTTPProxyServer']
+            ]
+            $recv: #NameExpr['new']
+            $param: #List[
+               $hash: #Hash[
+                  $key: #NameExpr['Port']
+                  $value: #IntExpr['10080']
+               ]
+               $hash: #Hash[
+                  $key: #NameExpr['ProxyContentHandler']
+                  $value: #NameExpr['pch']
+               ]
+               $hash: #Hash[
+                  $key: #NameExpr['ProxyURI']
+                  $value: #NameExpr['upstream_proxy']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['Signal']
+         $recv: #NameExpr['trap']
+         $param: #List[
+            $expression: #NameExpr['INT']
+         ]
+         $body: #Block[
+            $body: #ApplyExpr[
+               $recv: #NameExpr['httpd']
+               $recv: #NameExpr['shutdown']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['httpd']
+         $recv: #NameExpr['start']
+      ]
+   ]
+   #Comsumed['comsumed']
+]

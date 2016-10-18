@@ -1,0 +1,226 @@
+#Source[
+   #IfExpr[
+      $cond: #OrExpr[
+         $left: #NameExpr['$mingw']
+         $right: #NameExpr['$mswin']
+      ]
+      $then: #List[
+         $statement: #AssignExpr[
+            $left: #NameExpr['dlntestlib']
+            $right: #StringExpr[
+               $inner: #NameExpr['$LIBEXT']
+            ]
+         ]
+         $statement: #LShiftExpr[
+            $left: #NameExpr['$LOCAL_LIBS']
+            $right: #StringExpr[
+               $inner: #NameExpr['dlntestlib']
+            ]
+         ]
+         $statement: #AssignExpr[
+            $left: #NameExpr['$srcs']
+            $right: #Array[
+               $index: #List[
+                  $expression: #StringExpr['dlntest.c']
+               ]
+            ]
+         ]
+         $statement: #AssignExpr[
+            $left: #NameExpr['$objs']
+            $right: #Array[
+               $index: #List[
+                  $expression: #StringExpr['dlntest.o']
+               ]
+            ]
+         ]
+         $statement: #AssignExpr[
+            $left: #NameExpr['testdll']
+            $right: #StringExpr['dlntest.dll']
+         ]
+         $statement: #LShiftExpr[
+            $left: #NameExpr['$cleanfiles']
+            $right: #NameExpr['testdll']
+         ]
+         $statement: #LShiftExpr[
+            $left: #NameExpr['$cleanfiles']
+            $right: #StringExpr[
+               $inner: #NameExpr['$LIBEXT']
+            ]
+         ]
+         $statement: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['config_string']
+            $param: #List[
+               $expression: #StringExpr['cleanobjs']
+            ]
+            $body: #Block[
+               $param: #NameExpr['t']
+               $body: #ApplyExpr[
+                  $recv: #NameExpr['$cleanfiles']
+                  $recv: #NameExpr['concat']
+                  $param: #List[
+                     $expression: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #NameExpr['t']
+                           $recv: #NameExpr['gsub']
+                           $param: #List[
+                              $expression: #Regex['/\\$\\*/']
+                              $expression: #StringExpr['dlntest']
+                           ]
+                        ]
+                        $recv: #NameExpr['split']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+         $statement: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['create_makefile']
+            $param: #List[
+               $expression: #StringExpr['-test-/win32/dln']
+            ]
+            $body: #Block[
+               $param: #NameExpr['m']
+               $body: #List[
+                  $statement: #LShiftExpr[
+                     $left: #NameExpr['m']
+                     $right: #ConnectString[
+                        $String: #StringExpr['\\n']
+                        $String: #StringExpr[
+                           $inner: #NameExpr['dlntestlib']
+                        ]
+                     ]
+                  ]
+                  $statement: #IfExpr[
+                     $cond: #NameExpr['$mingw']
+                     $then: #List[
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['m']
+                           $right: #StringExpr['\\n']
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['m']
+                           $right: #StringExpr['dlntest.dll: DEFFILE := $(srcdir)/libdlntest.def\\n']
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['m']
+                           $right: #StringExpr['dlntest.dll: DLDFLAGS += -Wl,--out-implib,$(DLNTESTLIB)\\n']
+                        ]
+                     ]
+                  ]
+                  $statement: #NameExpr['m']
+               ]
+            ]
+         ]
+         $statement: #AssignExpr[
+            $left: #NameExpr['m']
+            $right: #ApplyExpr[
+               $recv: #NameExpr['File']
+               $recv: #NameExpr['read']
+               $param: #List[
+                  $expression: #StringExpr['Makefile']
+               ]
+            ]
+         ]
+         $statement: #AndExpr[
+            $left: #ApplyExpr[
+               $recv: #NameExpr['m']
+               $recv: #NameExpr['sub!']
+               $param: #List[
+                  $expression: #Regex['/(.*)\\$\\(DLNTEST_LDSHARED\\)$/']
+               ]
+               $body: #Block[
+                  $body: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['pre']
+                        $right: #MatchedRegex['$1']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['link_so']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['LINK_SO']
+                           $recv: #NameExpr['gsub']
+                           $param: #List[
+                              $expression: #Regex['/^/']
+                           ]
+                           $body: #Block[
+                              $body: #NameExpr['pre']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['link_so']
+                        $recv: #NameExpr['sub!']
+                        $param: #List[
+                           $expression: #Regex['/\\$\\(LOCAL_LIBS\\)/']
+                           $expression: #StringExpr['']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['link_so']
+                        $recv: #NameExpr['gsub!']
+                        $param: #List[
+                           $expression: #Regex['/-\\$\\(arch\\)/']
+                           $expression: #StringExpr['']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['link_so']
+                        $recv: #NameExpr['gsub!']
+                        $param: #List[
+                           $expression: #Regex['/:.so=/']
+                           $expression: #StringExpr[':.dll=']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['link_so']
+                        $recv: #NameExpr['sub!']
+                        $param: #List[
+                           $expression: #Regex['/\\$\\(OBJS\\)/']
+                           $expression: #StringExpr[
+                              $inner: #NameExpr['$OBJEXT']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['link_so']
+                        $recv: #NameExpr['sub!']
+                        $param: #List[
+                           $expression: #Regex['/\\$\\(DEFFILE\\)/']
+                           $expression: #StringExpr['$(srcdir)/libdlntest.def']
+                        ]
+                     ]
+                     $statement: #NameExpr['link_so']
+                  ]
+               ]
+            ]
+            $right: #ApplyExpr[
+               $recv: #NameExpr['File']
+               $recv: #NameExpr['binwrite']
+               $param: #List[
+                  $expression: #StringExpr['Makefile']
+                  $expression: #NameExpr['m']
+               ]
+            ]
+         ]
+         $statement: #ApplyExpr[
+            $recv: #NameExpr['FileUtils']
+            $recv: #NameExpr['rm_f']
+            $param: #List[
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['RbConfig']
+                  $recv: #NameExpr['expand']
+                  $param: #List[
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['testdll']
+                        $recv: #NameExpr['dup']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

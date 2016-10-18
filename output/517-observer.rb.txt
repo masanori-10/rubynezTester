@@ -1,0 +1,101 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['observer']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['DRb']
+         $body: #BlockExpr[
+            $main: #Module[
+               $name: #NameExpr['DRbObservable']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['include']
+                        $param: #List[
+                           $expression: #NameExpr['Observable']
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['notify_observers']
+                        $param: #List[
+                           $param: #VariadicParam[
+                              $name: #NameExpr['arg']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #IfExpr[
+                              $cond: #AndExpr[
+                                 $left: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['defined?']
+                                    $param: #List[
+                                       $expression: #NameExpr['@observer_state']
+                                    ]
+                                 ]
+                                 $right: #NameExpr['@observer_state']
+                              ]
+                              $then: #List[
+                                 $statement: #IfExpr[
+                                    $cond: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['defined?']
+                                       $param: #List[
+                                          $expression: #NameExpr['@observer_peers']
+                                       ]
+                                    ]
+                                    $then: #ApplyExpr[
+                                       $recv: #NameExpr['@observer_peers']
+                                       $recv: #NameExpr['each']
+                                       $body: #Block[
+                                          $param: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['observer']
+                                             $item: #NameExpr['method']
+                                          ]
+                                          $body: #ExceptionBlock[
+                                             $main: #ApplyExpr[
+                                                $recv: #NameExpr['observer']
+                                                $recv: #NameExpr['send']
+                                                $param: #List[
+                                                   $expression: #NameExpr['method']
+                                                   $variadic: #Variadic[
+                                                      $base: #NameExpr['arg']
+                                                   ]
+                                                ]
+                                             ]
+                                             $rescue: #List[
+                                                $rescue: #Rescue[
+                                                   $then: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['delete_observer']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['observer']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@observer_state']
+                                    $right: #FalseExpr['false']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,166 @@
+#Source[
+   #List[
+      $statement: #AssignExpr[
+         $left: #BuiltInVariable['$/']
+         $right: #Nil['nil']
+      ]
+      $statement: #While[
+         $cond: #AssignExpr[
+            $left: #NameExpr['line']
+            $right: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['gets']
+               $param: #Empty['']
+            ]
+         ]
+         $body: #IfExpr[
+            $cond: #Match[
+               $left: #Regex['/^((void|VALUE|int|char *\\*|ID|struct \\w+ *\\*|st_table *\\*) *)?\\n(\\w+)\\(.*\\)\\n\\s*((.+;\\n)*)\\{/']
+               $right: #NameExpr['line']
+            ]
+            $then: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['line']
+                  $right: #BuiltInVariable['$\'']
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['printf']
+                  $param: #List[
+                     $expression: #StringExpr['%s %s(']
+                     $expression: #MatchedRegex['$2']
+                     $expression: #MatchedRegex['$3']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['args']
+                  $right: #Array['[]']
+               ]
+               $statement: #For[
+                  $iter: #NameExpr['arg']
+                  $range: #ApplyExpr[
+                     $recv: #MatchedRegex['$4']
+                     $recv: #NameExpr['split']
+                     $param: #List[
+                        $expression: #Regex['/;\\n\\s*/']
+                     ]
+                  ]
+                  $body: #List[
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['arg']
+                        $recv: #NameExpr['gsub!']
+                        $param: #List[
+                           $expression: #Regex['/ +/']
+                           $expression: #StringExpr[' ']
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #AssignExpr[
+                           $left: #NameExpr['arg']
+                           $right: #ComplExpr[
+                              $expr: #Regex['/,/']
+                           ]
+                        ]
+                        $then: #List[
+                           $statement: #IfExpr[
+                              $cond: #AssignExpr[
+                                 $left: #NameExpr['arg']
+                                 $right: #ComplExpr[
+                                    $expr: #Regex['/(([^*]+) *\\** *\\w+),/']
+                                 ]
+                              ]
+                              $then: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['type']
+                                    $right: #ApplyExpr[
+                                       $recv: #MatchedRegex['$2']
+                                       $recv: #NameExpr['strip']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['args']
+                                    $recv: #NameExpr['push']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #MatchedRegex['$1']
+                                          $recv: #NameExpr['strip']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['arg']
+                                    $right: #BuiltInVariable['$\'']
+                                 ]
+                              ]
+                              $else: #AssignExpr[
+                                 $left: #NameExpr['type']
+                                 $right: #StringExpr['']
+                              ]
+                           ]
+                           $statement: #While[
+                              $cond: #ApplyExpr[
+                                 $base: #ApplyExpr[
+                                    $recv: #NameExpr['arg']
+                                    $recv: #NameExpr['sub!']
+                                    $param: #List[
+                                       $expression: #Regex['/(\\** *\\w+)(,|$)/']
+                                       $expression: #StringExpr['']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['&']
+                                 $param: #List[
+                                    $expression: #BuiltInVariable['$~']
+                                 ]
+                              ]
+                              $body: #ApplyExpr[
+                                 $base: #NameExpr['args']
+                                 $recv: #NameExpr['push']
+                                 $param: #List[
+                                    $expression: #AddExpr[
+                                       $left: #AddExpr[
+                                          $left: #NameExpr['type']
+                                          $right: #StringExpr[' ']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #MatchedRegex['$1']
+                                          $recv: #NameExpr['strip']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #ApplyExpr[
+                           $base: #NameExpr['args']
+                           $recv: #NameExpr['push']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['arg']
+                                 $recv: #NameExpr['strip']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['printf']
+                  $param: #List[
+                     $expression: #StringExpr['%s);\\n']
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['args']
+                        $recv: #NameExpr['join']
+                        $param: #List[
+                           $expression: #StringExpr[', ']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Redo['redo']
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

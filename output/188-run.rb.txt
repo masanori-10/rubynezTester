@@ -1,0 +1,650 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['benchmark']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rbconfig']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$matzrubyonly']
+         $right: #FalseExpr['false']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$rubyonly']
+         $right: #FalseExpr['false']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$results']
+         $right: #Array['[]']
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['prepare_wc_input']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['wcinput']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['join']
+                     $param: #List[
+                        $expression: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['dirname']
+                           $param: #List[
+                              $expression: #BuiltInVariable['$0']
+                           ]
+                        ]
+                        $expression: #StringExpr['wc.input']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['wcbase']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['join']
+                     $param: #List[
+                        $expression: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['dirname']
+                           $param: #List[
+                              $expression: #BuiltInVariable['$0']
+                           ]
+                        ]
+                        $expression: #StringExpr['wc.input.base']
+                     ]
+                  ]
+               ]
+               $statement: #Unless[
+                  $cond: #ApplyExpr[
+                     $recv: #NameExpr['FileTest']
+                     $recv: #NameExpr['exist?']
+                     $param: #List[
+                        $expression: #NameExpr['wcinput']
+                     ]
+                  ]
+                  $then: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['data']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['read']
+                           $param: #List[
+                              $expression: #NameExpr['wcbase']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #IntExpr['13']
+                        $recv: #NameExpr['times']
+                        $body: #Block[
+                           $body: #LShiftExpr[
+                              $left: #NameExpr['data']
+                              $right: #NameExpr['data']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['open']
+                        $param: #List[
+                           $expression: #NameExpr['wcinput']
+                           $expression: #StringExpr['w']
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['f']
+                           $body: #ApplyExpr[
+                              $base: #NameExpr['f']
+                              $recv: #NameExpr['write']
+                              $param: #List[
+                                 $expression: #NameExpr['data']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #NameExpr['prepare_wc_input']
+      $statement: #FuncDecl[
+         $name: #NameExpr['bm']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['file']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['prog']
+                  $right: #ApplyExpr[
+                     $recv: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['readlines']
+                           $param: #List[
+                              $expression: #NameExpr['file']
+                           ]
+                        ]
+                        $recv: #NameExpr['map']
+                        $body: #Block[
+                           $param: #NameExpr['e']
+                           $body: #ApplyExpr[
+                              $recv: #NameExpr['e']
+                              $recv: #NameExpr['rstrip']
+                           ]
+                        ]
+                     ]
+                     $recv: #NameExpr['join']
+                     $param: #List[
+                        $expression: #StringExpr['\\n']
+                     ]
+                  ]
+               ]
+               $statement: #IfExpr[
+                  $then: #RReturnStmt['return']
+                  $cond: #ApplyExpr[
+                     $recv: #NameExpr['prog']
+                     $recv: #NameExpr['empty?']
+                  ]
+               ]
+               $statement: #Match[
+                  $left: #Regex['/[a-z]+_(.+)\\.rb/']
+                  $right: #NameExpr['file']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['bm_name']
+                  $right: #MatchedRegex['$1']
+               ]
+               $statement: #Unless[
+                  $then: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['puts']
+                     $param: #List[
+                        $expression: #StringExpr['-----------------------------------------------------------']
+                     ]
+                  ]
+                  $cond: #LOr[
+                     $left: #NameExpr['$rubyonly']
+                     $right: #NameExpr['$matzrubyonly']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #StringExpr[
+                        $inner: #NameExpr['bm_name']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #HereDocument['#{prog}\n--\n']
+                  ]
+               ]
+               $statement: #ExceptionBlock[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['result']
+                        $right: #Array[
+                           $index: #List[
+                              $expression: #NameExpr['bm_name']
+                           ]
+                        ]
+                     ]
+                     $statement: #Unless[
+                        $then: #LShiftExpr[
+                           $left: #NameExpr['result']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['matzruby_exec']
+                              $param: #List[
+                                 $expression: #NameExpr['file']
+                              ]
+                           ]
+                        ]
+                        $cond: #NameExpr['$rubyonly']
+                     ]
+                     $statement: #Unless[
+                        $then: #LShiftExpr[
+                           $left: #NameExpr['result']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['ruby_exec']
+                              $param: #List[
+                                 $expression: #NameExpr['file']
+                              ]
+                           ]
+                        ]
+                        $cond: #NameExpr['$matzrubyonly']
+                     ]
+                     $statement: #LShiftExpr[
+                        $left: #NameExpr['$results']
+                        $right: #NameExpr['result']
+                     ]
+                  ]
+                  $rescue: #List[
+                     $rescue: #Rescue[
+                        $class: #NameExpr['Exception']
+                        $target: #NameExpr['e']
+                        $then: #List[
+                           $statement: #NameExpr['puts']
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['puts']
+                              $param: #List[
+                                 $expression: #StringExpr[
+                                    $inner: #NameExpr['e']
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['puts']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['e']
+                                    $recv: #NameExpr['backtrace']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['benchmark']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['file']
+            ]
+            $param: #Param[
+               $param: #NameExpr['bin']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['m']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['Benchmark']
+                     $recv: #NameExpr['measure']
+                     $body: #Block[
+                        $body: #Command['#{bin} #{$opts} #{file}']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['sec']
+                  $right: #ModExpr[
+                     $left: #StringExpr['%.3f']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['m']
+                        $recv: #NameExpr['real']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #StringExpr[
+                        $inner: #NameExpr['sec']
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['sec']
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['ruby_exec']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['file']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['print']
+                  $param: #List[
+                     $expression: #StringExpr['ruby']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['benchmark']
+                  $param: #List[
+                     $expression: #NameExpr['file']
+                     $expression: #NameExpr['$ruby_program']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['matzruby_exec']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['file']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['print']
+                  $param: #List[
+                     $expression: #StringExpr['matz']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['rubylib']
+                  $right: #Indexer[
+                     $recv: #NameExpr['ENV']
+                     $index: #List[
+                        $expression: #StringExpr['RUBYLIB']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #Indexer[
+                     $base: #NameExpr['ENV']
+                     $index: #List[
+                        $expression: #StringExpr['RUBYLIB']
+                     ]
+                  ]
+                  $right: #StringExpr['']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['r']
+                  $right: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['benchmark']
+                     $param: #List[
+                        $expression: #NameExpr['file']
+                        $expression: #NameExpr['$matzruby_program']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #Indexer[
+                     $base: #NameExpr['ENV']
+                     $index: #List[
+                        $expression: #StringExpr['RUBYLIB']
+                     ]
+                  ]
+                  $right: #NameExpr['rubylib']
+               ]
+               $statement: #NameExpr['r']
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #EqExpr[
+            $left: #BuiltInVariable['$0']
+            $right: #File['__FILE__']
+         ]
+         $then: #List[
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['ARGV']
+               $recv: #NameExpr['each']
+               $body: #Block[
+                  $param: #NameExpr['arg']
+                  $body: #Case[
+                     $cond: #NameExpr['arg']
+                     $body: #List[
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #Regex['/\\A--ruby=(.+)/']
+                           ]
+                           $then: #AssignExpr[
+                              $left: #NameExpr['$ruby_program']
+                              $right: #MatchedRegex['$1']
+                           ]
+                        ]
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #Regex['/\\A--matzruby=(.+)/']
+                           ]
+                           $then: #AssignExpr[
+                              $left: #NameExpr['$matzruby_program']
+                              $right: #MatchedRegex['$1']
+                           ]
+                        ]
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #Regex['/\\A--opts=(.+)/']
+                           ]
+                           $then: #AssignExpr[
+                              $left: #NameExpr['$opts']
+                              $right: #MatchedRegex['$1']
+                           ]
+                        ]
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #Regex['/\\A(-r|--only-ruby)\\z/']
+                           ]
+                           $then: #AssignExpr[
+                              $left: #NameExpr['$rubyonly']
+                              $right: #TrueExpr['true']
+                           ]
+                        ]
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #Regex['/\\A(-m|--only-matzruby)\\z/']
+                           ]
+                           $then: #AssignExpr[
+                              $left: #NameExpr['$matzrubyonly']
+                              $right: #TrueExpr['true']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['ARGV']
+               $recv: #NameExpr['delete_if']
+               $body: #Block[
+                  $param: #NameExpr['arg']
+                  $body: #Match[
+                     $left: #Regex['/\\A-/']
+                     $right: #NameExpr['arg']
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['puts']
+               $param: #List[
+                  $expression: #StringExpr['MatzRuby:']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['system']
+               $param: #List[
+                  $expression: #StringExpr[
+                     $inner: #NameExpr['$matzruby_program']
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['puts']
+               $param: #List[
+                  $expression: #StringExpr['Ruby:']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['system']
+               $param: #List[
+                  $expression: #StringExpr[
+                     $inner: #NameExpr['$ruby_program']
+                  ]
+               ]
+            ]
+            $statement: #NameExpr['puts']
+            $statement: #IfExpr[
+               $cond: #ApplyExpr[
+                  $recv: #NameExpr['ARGV']
+                  $recv: #NameExpr['empty?']
+               ]
+               $then: #ApplyExpr[
+                  $recv: #ApplyExpr[
+                     $recv: #ApplyExpr[
+                        $recv: #NameExpr['Dir']
+                        $recv: #NameExpr['glob']
+                        $param: #List[
+                           $expression: #AddExpr[
+                              $left: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['dirname']
+                                 $param: #List[
+                                    $expression: #File['__FILE__']
+                                 ]
+                              ]
+                              $right: #StringExpr['/bm_*.rb']
+                           ]
+                        ]
+                     ]
+                     $recv: #NameExpr['sort']
+                  ]
+                  $recv: #NameExpr['each']
+                  $body: #Block[
+                     $param: #NameExpr['file']
+                     $body: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['bm']
+                        $param: #List[
+                           $expression: #NameExpr['file']
+                        ]
+                     ]
+                  ]
+               ]
+               $else: #ApplyExpr[
+                  $recv: #NameExpr['ARGV']
+                  $recv: #NameExpr['each']
+                  $body: #Block[
+                     $param: #NameExpr['file']
+                     $body: #ApplyExpr[
+                        $recv: #NameExpr['Dir']
+                        $recv: #NameExpr['glob']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['dirname']
+                                    $param: #List[
+                                       $expression: #File['__FILE__']
+                                    ]
+                                 ]
+                                 $expression: #AddExpr[
+                                    $left: #NameExpr['file']
+                                    $right: #StringExpr['*']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['ef']
+                           $body: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['bm']
+                              $param: #List[
+                                 $expression: #NameExpr['ef']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #NameExpr['puts']
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['puts']
+               $param: #List[
+                  $expression: #StringExpr['-- benchmark summary ---------------------------']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['$results']
+               $recv: #NameExpr['each']
+               $body: #Block[
+                  $param: #NameExpr['res']
+                  $body: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['print']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['res']
+                              $recv: #NameExpr['shift']
+                           ]
+                           $expression: #StringExpr['\\t']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #LOr[
+                           $left: #NameExpr['res']
+                           $right: #Array['[]']
+                        ]
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['result']
+                           $body: #List[
+                              $statement: #Match[
+                                 $left: #Regex['/([\\d\\.]+)/']
+                                 $right: #NameExpr['result']
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['print']
+                                    $param: #List[
+                                       $expression: #AddExpr[
+                                          $left: #MatchedRegex['$1']
+                                          $right: #StringExpr['\\t']
+                                       ]
+                                    ]
+                                 ]
+                                 $cond: #MatchedRegex['$1']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #NameExpr['puts']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

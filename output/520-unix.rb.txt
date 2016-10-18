@@ -1,0 +1,641 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['socket']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['drb/drb']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['tmpdir']
+         ]
+      ]
+      $statement: #Unless[
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['raise']
+            $param: #List[
+               $expression: #NameExpr['LoadError']
+               $expression: #StringExpr['UNIXServer is required']
+            ]
+         ]
+         $cond: #Defined[
+            $base: #NameExpr['UNIXServer']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['DRb']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #Class[
+                  $name: #NameExpr['DRbUNIXSocket']
+                  $super: #NameExpr['DRbTCPSocket']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #SFuncDecl[
+                           $path: #Self['self']
+                           $name: #NameExpr['parse_uri']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['uri']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #IfExpr[
+                                 $cond: #Match[
+                                    $left: #Regex['/^drbunix:(.*?)(\\?(.*))?$/']
+                                    $right: #NameExpr['uri']
+                                 ]
+                                 $then: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['filename']
+                                       $right: #MatchedRegex['$1']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['option']
+                                       $right: #MatchedRegex['$3']
+                                    ]
+                                    $statement: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['filename']
+                                          $expression: #NameExpr['option']
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #List[
+                                    $statement: #Unless[
+                                       $then: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['raise']
+                                          $param: #List[
+                                             $expression: #NameExpr['DRbBadScheme']
+                                             $expression: #NameExpr['uri']
+                                          ]
+                                       ]
+                                       $cond: #AssignExpr[
+                                          $left: #NameExpr['uri']
+                                          $right: #ComplExpr[
+                                             $expr: #Regex['/^drbunix:/']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['DRbBadURI']
+                                          $expression: #AddExpr[
+                                             $left: #StringExpr['can\\\'t parse uri:']
+                                             $right: #NameExpr['uri']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #SFuncDecl[
+                           $path: #Self['self']
+                           $name: #NameExpr['open']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['uri']
+                              ]
+                              $param: #Param[
+                                 $param: #NameExpr['config']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #MultipleAssign[
+                                    $left: #MultipleLeftHandSideExpression[
+                                       $item: #NameExpr['filename']
+                                    ]
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['parse_uri']
+                                       $param: #List[
+                                          $expression: #NameExpr['uri']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['filename']
+                                    $recv: #NameExpr['untaint']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['soc']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['UNIXSocket']
+                                       $recv: #NameExpr['open']
+                                       $param: #List[
+                                          $expression: #NameExpr['filename']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #Self['self']
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #NameExpr['uri']
+                                       $expression: #NameExpr['soc']
+                                       $expression: #NameExpr['config']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #SFuncDecl[
+                           $path: #Self['self']
+                           $name: #NameExpr['open_server']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['uri']
+                              ]
+                              $param: #Param[
+                                 $param: #NameExpr['config']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #MultipleAssign[
+                                    $left: #MultipleLeftHandSideExpression[
+                                       $item: #NameExpr['filename']
+                                    ]
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['parse_uri']
+                                       $param: #List[
+                                          $expression: #NameExpr['uri']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #EqExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['filename']
+                                          $recv: #NameExpr['size']
+                                       ]
+                                       $right: #IntExpr['0']
+                                    ]
+                                    $then: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['soc']
+                                          $right: #NameExpr['temp_server']
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['filename']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['soc']
+                                             $recv: #NameExpr['path']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['uri']
+                                          $right: #AddExpr[
+                                             $left: #StringExpr['drbunix:']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['soc']
+                                                $recv: #NameExpr['path']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $else: #AssignExpr[
+                                       $left: #NameExpr['soc']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['UNIXServer']
+                                          $recv: #NameExpr['open']
+                                          $param: #List[
+                                             $expression: #NameExpr['filename']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['owner']
+                                    $right: #Indexer[
+                                       $recv: #NameExpr['config']
+                                       $index: #List[
+                                          $expression: #NameExpr['UNIXFileOwner']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['group']
+                                    $right: #Indexer[
+                                       $recv: #NameExpr['config']
+                                       $index: #List[
+                                          $expression: #NameExpr['UNIXFileGroup']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #LOr[
+                                       $left: #NameExpr['owner']
+                                       $right: #NameExpr['group']
+                                    ]
+                                    $then: #List[
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['require']
+                                          $param: #List[
+                                             $expression: #StringExpr['etc']
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $then: #AssignExpr[
+                                             $left: #NameExpr['owner']
+                                             $right: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #NameExpr['Etc']
+                                                   $recv: #NameExpr['getpwnam']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['owner']
+                                                   ]
+                                                ]
+                                                $recv: #NameExpr['uid']
+                                             ]
+                                          ]
+                                          $cond: #NameExpr['owner']
+                                       ]
+                                       $statement: #IfExpr[
+                                          $then: #AssignExpr[
+                                             $left: #NameExpr['group']
+                                             $right: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #NameExpr['Etc']
+                                                   $recv: #NameExpr['getgrnam']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['group']
+                                                   ]
+                                                ]
+                                                $recv: #NameExpr['gid']
+                                             ]
+                                          ]
+                                          $cond: #NameExpr['group']
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $base: #NameExpr['File']
+                                          $recv: #NameExpr['chown']
+                                          $param: #List[
+                                             $expression: #NameExpr['owner']
+                                             $expression: #NameExpr['group']
+                                             $expression: #NameExpr['filename']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['mode']
+                                    $right: #Indexer[
+                                       $recv: #NameExpr['config']
+                                       $index: #List[
+                                          $expression: #NameExpr['UNIXFileMode']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['chmod']
+                                       $param: #List[
+                                          $expression: #NameExpr['mode']
+                                          $expression: #NameExpr['filename']
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['mode']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #Self['self']
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #NameExpr['uri']
+                                       $expression: #NameExpr['soc']
+                                       $expression: #NameExpr['config']
+                                       $expression: #TrueExpr['true']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #SFuncDecl[
+                           $path: #Self['self']
+                           $name: #NameExpr['uri_option']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['uri']
+                              ]
+                              $param: #Param[
+                                 $param: #NameExpr['config']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #MultipleAssign[
+                                    $left: #MultipleLeftHandSideExpression[
+                                       $item: #NameExpr['filename']
+                                       $item: #NameExpr['option']
+                                    ]
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['parse_uri']
+                                       $param: #List[
+                                          $expression: #NameExpr['uri']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['filename']
+                                       ]
+                                       $expression: #NameExpr['option']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['uri']
+                              ]
+                              $param: #Param[
+                                 $param: #NameExpr['soc']
+                              ]
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['config']
+                                 $default: #List['{}']
+                              ]
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['server_mode']
+                                 $default: #FalseExpr['false']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #Super['super']
+                                    $param: #List[
+                                       $expression: #NameExpr['uri']
+                                       $expression: #NameExpr['soc']
+                                       $expression: #NameExpr['config']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['set_sockopt']
+                                    $param: #List[
+                                       $expression: #NameExpr['@socket']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@server_mode']
+                                    $right: #NameExpr['server_mode']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@acl']
+                                    $right: #Nil['nil']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['Max_try']
+                           $right: #IntExpr['10']
+                        ]
+                        $statement: #NameExpr['private']
+                        $statement: #SFuncDecl[
+                           $path: #Self['self']
+                           $name: #NameExpr['temp_server']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['tmpdir']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['Dir']
+                                       $recv: #NameExpr['tmpdir']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['n']
+                                    $right: #IntExpr['0']
+                                 ]
+                                 $statement: #While[
+                                    $cond: #TrueExpr['true']
+                                    $body: #List[
+                                       $statement: #ExceptionBlock[
+                                          $main: #List[
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['tmpname']
+                                                $right: #ApplyExpr[
+                                                   #Self['self']
+                                                   $recv: #NameExpr['sprintf']
+                                                   $param: #List[
+                                                      $expression: #StringExpr['%s/druby%d.%d']
+                                                      $expression: #NameExpr['tmpdir']
+                                                      $expression: #BuiltInVariable['$$']
+                                                      $expression: #NameExpr['n']
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['lock']
+                                                $right: #AddExpr[
+                                                   $left: #NameExpr['tmpname']
+                                                   $right: #StringExpr['.lock']
+                                                ]
+                                             ]
+                                             $statement: #Unless[
+                                                $cond: #OrExpr[
+                                                   $left: #ApplyExpr[
+                                                      $recv: #NameExpr['File']
+                                                      $recv: #NameExpr['exist?']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['tmpname']
+                                                      ]
+                                                   ]
+                                                   $right: #ApplyExpr[
+                                                      $recv: #NameExpr['File']
+                                                      $recv: #NameExpr['exist?']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['lock']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $then: #List[
+                                                   $statement: #ApplyExpr[
+                                                      $recv: #NameExpr['Dir']
+                                                      $recv: #NameExpr['mkdir']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['lock']
+                                                      ]
+                                                   ]
+                                                   $statement: #Break['break']
+                                                ]
+                                             ]
+                                          ]
+                                          $rescue: #List[
+                                             $rescue: #Rescue[
+                                                $then: #IfExpr[
+                                                   $then: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['raise']
+                                                      $param: #List[
+                                                         $expression: #ModExpr[
+                                                            $left: #StringExpr['cannot generate tempfile `%s\'']
+                                                            $right: #NameExpr['tmpname']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $cond: #GteExpt[
+                                                      $left: #NameExpr['n']
+                                                      $right: #NameExpr['Max_try']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AddAssign[
+                                          $left: #NameExpr['n']
+                                          $right: #IntExpr['1']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['soc']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['UNIXServer']
+                                       $recv: #NameExpr['new']
+                                       $param: #List[
+                                          $expression: #NameExpr['tmpname']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['Dir']
+                                    $recv: #NameExpr['rmdir']
+                                    $param: #List[
+                                       $expression: #NameExpr['lock']
+                                    ]
+                                 ]
+                                 $statement: #NameExpr['soc']
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['public']
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['close']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #Unless[
+                                    $then: #RReturnStmt['return']
+                                    $cond: #NameExpr['@socket']
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #AssignExpr[
+                                       $left: #NameExpr['path']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['@socket']
+                                          $recv: #NameExpr['path']
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['@server_mode']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['@socket']
+                                    $recv: #NameExpr['close']
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['unlink']
+                                       $param: #List[
+                                          $expression: #NameExpr['path']
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['@server_mode']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@socket']
+                                    $right: #Nil['nil']
+                                 ]
+                                 $statement: #NameExpr['close_shutdown_pipe']
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['accept']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['s']
+                                    $right: #NameExpr['accept_or_shutdown']
+                                 ]
+                                 $statement: #Unless[
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #Nil['nil']
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['s']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #Self['self']
+                                       $recv: #NameExpr['class']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #Nil['nil']
+                                       $expression: #NameExpr['s']
+                                       $expression: #NameExpr['@config']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['set_sockopt']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['soc']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #Empty['']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['DRbProtocol']
+                  $recv: #NameExpr['add_protocol']
+                  $param: #List[
+                     $expression: #NameExpr['DRbUNIXSocket']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

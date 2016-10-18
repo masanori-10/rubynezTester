@@ -1,0 +1,595 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rss/1.0']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rss/dublincore']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['RSS']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['TAXO_PREFIX']
+                  $right: #StringExpr['taxo']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['TAXO_URI']
+                  $right: #StringExpr['http://purl.org/rss/1.0/modules/taxonomy/']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['RDF']
+                  $recv: #NameExpr['install_ns']
+                  $param: #List[
+                     $expression: #NameExpr['TAXO_PREFIX']
+                     $expression: #NameExpr['TAXO_URI']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['TAXO_ELEMENTS']
+                  $right: #Array['[]']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #ParcentNotation['%w(link)']
+                  $recv: #NameExpr['each']
+                  $body: #Block[
+                     $param: #NameExpr['name']
+                     $body: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['full_name']
+                           $right: #StringExpr[
+                              $inner: #NameExpr['TAXO_PREFIX']
+                              $inner: #NameExpr['name']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['BaseListener']
+                           $recv: #NameExpr['install_get_text_element']
+                           $param: #List[
+                              $expression: #NameExpr['TAXO_URI']
+                              $expression: #NameExpr['name']
+                              $expression: #NameExpr['full_name']
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['TAXO_ELEMENTS']
+                           $right: #StringExpr[
+                              $inner: #NameExpr['TAXO_PREFIX']
+                              $inner: #NameExpr['name']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #ParcentNotation['%w(topic topics)']
+                  $recv: #NameExpr['each']
+                  $body: #Block[
+                     $param: #NameExpr['name']
+                     $body: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['class_name']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Utils']
+                              $recv: #NameExpr['to_class_name']
+                              $param: #List[
+                                 $expression: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['BaseListener']
+                           $recv: #NameExpr['install_class_name']
+                           $param: #List[
+                              $expression: #NameExpr['TAXO_URI']
+                              $expression: #NameExpr['name']
+                              $expression: #StringExpr[
+                                 $inner: #NameExpr['class_name']
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['TAXO_ELEMENTS']
+                           $right: #StringExpr[
+                              $inner: #NameExpr['TAXO_PREFIX']
+                              $inner: #NameExpr['name']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Module[
+                  $name: #NameExpr['TaxonomyTopicsModel']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['extend']
+                           $param: #List[
+                              $expression: #NameExpr['BaseModel']
+                           ]
+                        ]
+                        $statement: #SFuncDecl[
+                           $path: #Self['self']
+                           $name: #NameExpr['append_features']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['klass']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #Super['super']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['klass']
+                                    $recv: #NameExpr['install_must_call_validator']
+                                    $param: #List[
+                                       $expression: #NameExpr['TAXO_PREFIX']
+                                       $expression: #NameExpr['TAXO_URI']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #ParcentNotation['%w(topics)']
+                                    $recv: #NameExpr['each']
+                                    $body: #Block[
+                                       $param: #NameExpr['name']
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['klass']
+                                          $recv: #NameExpr['install_have_child_element']
+                                          $param: #List[
+                                             $expression: #NameExpr['name']
+                                             $expression: #NameExpr['TAXO_URI']
+                                             $expression: #StringExpr['?']
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['TAXO_PREFIX']
+                                                $inner: #NameExpr['name']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Class[
+                           $name: #NameExpr['TaxonomyTopics']
+                           $super: #NameExpr['Element']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['include']
+                                    $param: #List[
+                                       $expression: #NameExpr['RSS10']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['Bag']
+                                    $right: #Field[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['RSS']
+                                          $name: #NameExpr['RDF']
+                                       ]
+                                       $name: #NameExpr['Bag']
+                                    ]
+                                 ]
+                                 $statement: #SClass[
+                                    $path: #Self['self']
+                                    $body: #BlockExpr[
+                                       $main: #List[
+                                          $statement: #FuncDecl[
+                                             $name: #NameExpr['required_prefix']
+                                             $param: #List['']
+                                             $body: #BlockExpr[
+                                                $main: #NameExpr['TAXO_PREFIX']
+                                             ]
+                                          ]
+                                          $statement: #FuncDecl[
+                                             $name: #NameExpr['required_uri']
+                                             $param: #List['']
+                                             $body: #BlockExpr[
+                                                $main: #NameExpr['TAXO_URI']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@tag_name']
+                                    $right: #StringExpr['topics']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['install_have_child_element']
+                                    $param: #List[
+                                       $expression: #StringExpr['Bag']
+                                       $expression: #Field[
+                                          $recv: #NameExpr['RDF']
+                                          $name: #NameExpr['URI']
+                                       ]
+                                       $expression: #Nil['nil']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['install_must_call_validator']
+                                    $param: #List[
+                                       $expression: #StringExpr['rdf']
+                                       $expression: #Field[
+                                          $recv: #NameExpr['RDF']
+                                          $name: #NameExpr['URI']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['initialize']
+                                    $param: #List[
+                                       $param: #VariadicParam[
+                                          $name: #NameExpr['args']
+                                       ]
+                                    ]
+                                    $body: #BlockExpr[
+                                       $main: #List[
+                                          $statement: #IfExpr[
+                                             $cond: #ApplyExpr[
+                                                $recv: #NameExpr['Utils']
+                                                $recv: #NameExpr['element_initialize_arguments?']
+                                                $param: #List[
+                                                   $expression: #NameExpr['args']
+                                                ]
+                                             ]
+                                             $then: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #Super['super']
+                                             ]
+                                             $else: #List[
+                                                $statement: #ApplyExpr[
+                                                   #Self['self']
+                                                   $recv: #Super['super']
+                                                   $param: #Empty['']
+                                                ]
+                                                $statement: #AssignExpr[
+                                                   $left: #Field[
+                                                      $base: #Self['self']
+                                                      $name: #NameExpr['Bag']
+                                                   ]
+                                                   $right: #Indexer[
+                                                      $recv: #NameExpr['args']
+                                                      $index: #List[
+                                                         $expression: #IntExpr['0']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #LOrAssign[
+                                             $left: #Field[
+                                                $base: #Self['self']
+                                                $name: #NameExpr['Bag']
+                                             ]
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['Bag']
+                                                $recv: #NameExpr['new']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['full_name']
+                                    $param: #List['']
+                                    $body: #BlockExpr[
+                                       $main: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['tag_name_with_prefix']
+                                          $param: #List[
+                                             $expression: #NameExpr['TAXO_PREFIX']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['maker_target']
+                                    $param: #List[
+                                       $param: #Param[
+                                          $param: #NameExpr['target']
+                                       ]
+                                    ]
+                                    $body: #BlockExpr[
+                                       $main: #ApplyExpr[
+                                          $recv: #NameExpr['target']
+                                          $recv: #NameExpr['taxo_topics']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['resources']
+                                    $param: #List['']
+                                    $body: #BlockExpr[
+                                       $main: #IfExpr[
+                                          $cond: #NameExpr['@Bag']
+                                          $then: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['@Bag']
+                                                $recv: #NameExpr['lis']
+                                             ]
+                                             $recv: #NameExpr['collect']
+                                             $body: #Block[
+                                                $param: #NameExpr['li']
+                                                $body: #ApplyExpr[
+                                                   $recv: #NameExpr['li']
+                                                   $recv: #NameExpr['resource']
+                                                ]
+                                             ]
+                                          ]
+                                          $else: #Array['[]']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Module[
+                  $name: #NameExpr['TaxonomyTopicModel']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['extend']
+                           $param: #List[
+                              $expression: #NameExpr['BaseModel']
+                           ]
+                        ]
+                        $statement: #SFuncDecl[
+                           $path: #Self['self']
+                           $name: #NameExpr['append_features']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['klass']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #Super['super']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['var_name']
+                                    $right: #StringExpr[
+                                       $inner: #NameExpr['TAXO_PREFIX']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['klass']
+                                    $recv: #NameExpr['install_have_children_element']
+                                    $param: #List[
+                                       $expression: #StringExpr['topic']
+                                       $expression: #NameExpr['TAXO_URI']
+                                       $expression: #StringExpr['*']
+                                       $expression: #NameExpr['var_name']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Class[
+                           $name: #NameExpr['TaxonomyTopic']
+                           $super: #NameExpr['Element']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['include']
+                                    $param: #List[
+                                       $expression: #NameExpr['RSS10']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['include']
+                                    $param: #List[
+                                       $expression: #NameExpr['DublinCoreModel']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['include']
+                                    $param: #List[
+                                       $expression: #NameExpr['TaxonomyTopicsModel']
+                                    ]
+                                 ]
+                                 $statement: #SClass[
+                                    $path: #Self['self']
+                                    $body: #BlockExpr[
+                                       $main: #List[
+                                          $statement: #FuncDecl[
+                                             $name: #NameExpr['required_prefix']
+                                             $param: #List['']
+                                             $body: #BlockExpr[
+                                                $main: #NameExpr['TAXO_PREFIX']
+                                             ]
+                                          ]
+                                          $statement: #FuncDecl[
+                                             $name: #NameExpr['required_uri']
+                                             $param: #List['']
+                                             $body: #BlockExpr[
+                                                $main: #NameExpr['TAXO_URI']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@tag_name']
+                                    $right: #StringExpr['topic']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['install_get_attribute']
+                                    $param: #List[
+                                       $expression: #StringExpr['about']
+                                       $expression: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['RSS']
+                                             $name: #NameExpr['RDF']
+                                          ]
+                                          $name: #NameExpr['URI']
+                                       ]
+                                       $expression: #TrueExpr['true']
+                                       $expression: #Nil['nil']
+                                       $expression: #Nil['nil']
+                                       $expression: #StringExpr[
+                                          $inner: #Field[
+                                             $recv: #NameExpr['RDF']
+                                             $name: #NameExpr['PREFIX']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['install_text_element']
+                                    $param: #List[
+                                       $expression: #StringExpr['link']
+                                       $expression: #NameExpr['TAXO_URI']
+                                       $expression: #StringExpr['?']
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['TAXO_PREFIX']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['initialize']
+                                    $param: #List[
+                                       $param: #VariadicParam[
+                                          $name: #NameExpr['args']
+                                       ]
+                                    ]
+                                    $body: #BlockExpr[
+                                       $main: #IfExpr[
+                                          $cond: #ApplyExpr[
+                                             $recv: #NameExpr['Utils']
+                                             $recv: #NameExpr['element_initialize_arguments?']
+                                             $param: #List[
+                                                $expression: #NameExpr['args']
+                                             ]
+                                          ]
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #Super['super']
+                                          ]
+                                          $else: #List[
+                                             $statement: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #Super['super']
+                                                $param: #Empty['']
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #Field[
+                                                   $base: #Self['self']
+                                                   $name: #NameExpr['about']
+                                                ]
+                                                $right: #Indexer[
+                                                   $recv: #NameExpr['args']
+                                                   $index: #List[
+                                                      $expression: #IntExpr['0']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['full_name']
+                                    $param: #List['']
+                                    $body: #BlockExpr[
+                                       $main: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['tag_name_with_prefix']
+                                          $param: #List[
+                                             $expression: #NameExpr['TAXO_PREFIX']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['maker_target']
+                                    $param: #List[
+                                       $param: #Param[
+                                          $param: #NameExpr['target']
+                                       ]
+                                    ]
+                                    $body: #BlockExpr[
+                                       $main: #ApplyExpr[
+                                          $recv: #NameExpr['target']
+                                          $recv: #NameExpr['new_taxo_topic']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['RDF']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['include']
+                           $param: #List[
+                              $expression: #NameExpr['TaxonomyTopicModel']
+                           ]
+                        ]
+                        $statement: #Class[
+                           $name: #NameExpr['Channel']
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['include']
+                                 $param: #List[
+                                    $expression: #NameExpr['TaxonomyTopicsModel']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Class[
+                           $name: #NameExpr['Item']
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['include']
+                                 $param: #List[
+                                    $expression: #NameExpr['TaxonomyTopicsModel']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

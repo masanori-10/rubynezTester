@@ -1,0 +1,326 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['openssl']
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['crypt_by_password']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['alg']
+            ]
+            $param: #Param[
+               $param: #NameExpr['pass']
+            ]
+            $param: #Param[
+               $param: #NameExpr['salt']
+            ]
+            $param: #Param[
+               $param: #NameExpr['text']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #StringExpr['--Setup--']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #ParcentNotation['%(cipher alg:    "#{alg}")']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #ParcentNotation['%(plain text:    "#{text}")']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #ParcentNotation['%(password:      "#{pass}")']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #ParcentNotation['%(salt:          "#{salt}")']
+                  ]
+               ]
+               $statement: #NameExpr['puts']
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #StringExpr['--Encrypting--']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['enc']
+                  $right: #ApplyExpr[
+                     $recv: #Field[
+                        $recv: #NameExpr['OpenSSL']
+                        $name: #NameExpr['Cipher']
+                     ]
+                     $recv: #NameExpr['new']
+                     $param: #List[
+                        $expression: #NameExpr['alg']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['enc']
+                  $recv: #NameExpr['encrypt']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['enc']
+                  $recv: #NameExpr['pkcs5_keyivgen']
+                  $param: #List[
+                     $expression: #NameExpr['pass']
+                     $expression: #NameExpr['salt']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['cipher']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['enc']
+                     $recv: #NameExpr['update']
+                     $param: #List[
+                        $expression: #NameExpr['text']
+                     ]
+                  ]
+               ]
+               $statement: #LShiftExpr[
+                  $left: #NameExpr['cipher']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['enc']
+                     $recv: #NameExpr['final']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #ParcentNotation['%(encrypted text: #{cipher.inspect})']
+                  ]
+               ]
+               $statement: #NameExpr['puts']
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #StringExpr['--Decrypting--']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['dec']
+                  $right: #ApplyExpr[
+                     $recv: #Field[
+                        $recv: #NameExpr['OpenSSL']
+                        $name: #NameExpr['Cipher']
+                     ]
+                     $recv: #NameExpr['new']
+                     $param: #List[
+                        $expression: #NameExpr['alg']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['dec']
+                  $recv: #NameExpr['decrypt']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['dec']
+                  $recv: #NameExpr['pkcs5_keyivgen']
+                  $param: #List[
+                     $expression: #NameExpr['pass']
+                     $expression: #NameExpr['salt']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['plain']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['dec']
+                     $recv: #NameExpr['update']
+                     $param: #List[
+                        $expression: #NameExpr['cipher']
+                     ]
+                  ]
+               ]
+               $statement: #LShiftExpr[
+                  $left: #NameExpr['plain']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['dec']
+                     $recv: #NameExpr['final']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #ParcentNotation['%(decrypted text: "#{plain}")']
+                  ]
+               ]
+               $statement: #NameExpr['puts']
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['ciphers']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['ciphers']
+                  $right: #ApplyExpr[
+                     $recv: #ApplyExpr[
+                        $recv: #Field[
+                           $recv: #NameExpr['OpenSSL']
+                           $name: #NameExpr['Cipher']
+                        ]
+                        $recv: #NameExpr['ciphers']
+                     ]
+                     $recv: #NameExpr['sort']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['ciphers']
+                  $recv: #NameExpr['each']
+                  $body: #Block[
+                     $param: #NameExpr['i']
+                     $body: #IfExpr[
+                        $cond: #LAnd[
+                           $left: #NeExpr[
+                              $left: #ApplyExpr[
+                                 $recv: #NameExpr['i']
+                                 $recv: #NameExpr['upcase']
+                              ]
+                              $right: #NameExpr['i']
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['ciphers']
+                              $recv: #NameExpr['include?']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['i']
+                                    $recv: #NameExpr['upcase']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $then: #ApplyExpr[
+                           $recv: #NameExpr['ciphers']
+                           $recv: #NameExpr['delete']
+                           $param: #List[
+                              $expression: #NameExpr['i']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #RReturnStmt[
+                  $expr: #List[
+                     $expression: #NameExpr['ciphers']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #StringExpr[
+               $inner: #Field[
+                  $recv: #NameExpr['OpenSSL']
+                  $name: #NameExpr['OPENSSL_VERSION']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['ciphers']
+         $recv: #NameExpr['each_with_index']
+         $body: #Block[
+            $param: #MultipleLeftHandSideExpression[
+               $item: #NameExpr['name']
+               $item: #NameExpr['i']
+            ]
+            $body: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['printf']
+                  $param: #List[
+                     $expression: #StringExpr['%-15s']
+                     $expression: #NameExpr['name']
+                  ]
+               ]
+               $statement: #IfExpr[
+                  $then: #NameExpr['puts']
+                  $cond: #EqExpr[
+                     $left: #ModExpr[
+                        $left: #AddExpr[
+                           $left: #NameExpr['i']
+                           $right: #IntExpr['1']
+                        ]
+                        $right: #IntExpr['5']
+                     ]
+                     $right: #IntExpr['0']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #NameExpr['puts']
+      $statement: #NameExpr['puts']
+      $statement: #AssignExpr[
+         $left: #NameExpr['alg']
+         $right: #LOr[
+            $left: #ApplyExpr[
+               $recv: #NameExpr['ARGV']
+               $recv: #NameExpr['shift']
+            ]
+            $right: #ApplyExpr[
+               $recv: #NameExpr['ciphers']
+               $recv: #NameExpr['first']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['pass']
+         $right: #StringExpr['secret password']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['salt']
+         $right: #StringExpr['8 octets']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['text']
+         $right: #StringExpr['abcdefghijklmnopqrstuvwxyz']
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['crypt_by_password']
+         $param: #List[
+            $expression: #NameExpr['alg']
+            $expression: #NameExpr['pass']
+            $expression: #NameExpr['salt']
+            $expression: #NameExpr['text']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

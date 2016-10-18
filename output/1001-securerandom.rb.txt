@@ -1,0 +1,471 @@
+#Source[
+   #List[
+      $statement: #ExceptionBlock[
+         $main: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['require']
+            $param: #List[
+               $expression: #StringExpr['openssl']
+            ]
+         ]
+         $rescue: #List[
+            $rescue: #Rescue[
+               $class: #NameExpr['LoadError']
+               $then: #Empty['']
+            ]
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['SecureRandom']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #IfExpr[
+                  $cond: #Defined[
+                     $base: #LAnd[
+                        $left: #Field[
+                           $recv: #NameExpr['OpenSSL']
+                           $name: #NameExpr['Random']
+                        ]
+                        $right: #NotMatch[
+                           $left: #Regex['/mswin|mingw/']
+                           $right: #NameExpr['RUBY_PLATFORM']
+                        ]
+                     ]
+                  ]
+                  $then: #SFuncDecl[
+                     $path: #Self['self']
+                     $name: #NameExpr['gen_random']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['n']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #Unless[
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['@pid']
+                                 $right: #IntExpr['0']
+                              ]
+                              $cond: #Defined[
+                                 $base: #NameExpr['@pid']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['pid']
+                              $right: #BuiltInVariable['$$']
+                           ]
+                           $statement: #Unless[
+                              $cond: #EqExpr[
+                                 $left: #NameExpr['@pid']
+                                 $right: #NameExpr['pid']
+                              ]
+                              $then: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['now']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['Process']
+                                       $recv: #NameExpr['clock_gettime']
+                                       $param: #List[
+                                          $expression: #Field[
+                                             $recv: #NameExpr['Process']
+                                             $name: #NameExpr['CLOCK_REALTIME']
+                                          ]
+                                          $expression: #NameExpr['nanosecond']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['OpenSSL']
+                                       $name: #NameExpr['Random']
+                                    ]
+                                    $recv: #NameExpr['random_add']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #Array[
+                                             $index: #List[
+                                                $expression: #NameExpr['now']
+                                                $expression: #NameExpr['@pid']
+                                                $expression: #NameExpr['pid']
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['join']
+                                          $param: #List[
+                                             $expression: #StringExpr['']
+                                          ]
+                                       ]
+                                       $expression: #FloatExpr['0.0']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['seed']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['Random']
+                                       $recv: #NameExpr['raw_seed']
+                                       $param: #List[
+                                          $expression: #IntExpr['16']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #NameExpr['seed']
+                                    $then: #ApplyExpr[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['OpenSSL']
+                                          $name: #NameExpr['Random']
+                                       ]
+                                       $recv: #NameExpr['random_add']
+                                       $param: #List[
+                                          $expression: #NameExpr['seed']
+                                          $expression: #IntExpr['16']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@pid']
+                                    $right: #NameExpr['pid']
+                                 ]
+                              ]
+                           ]
+                           $statement: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['OpenSSL']
+                                       $name: #NameExpr['Random']
+                                    ]
+                                    $recv: #NameExpr['random_bytes']
+                                    $param: #List[
+                                       $expression: #NameExpr['n']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $else: #SFuncDecl[
+                     $path: #Self['self']
+                     $name: #NameExpr['gen_random']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['n']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['ret']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['Random']
+                                 $recv: #NameExpr['raw_seed']
+                                 $param: #List[
+                                    $expression: #NameExpr['n']
+                                 ]
+                              ]
+                           ]
+                           $statement: #Unless[
+                              $cond: #NameExpr['ret']
+                              $then: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['NotImplementedError']
+                                    $expression: #StringExpr['No random device']
+                                 ]
+                              ]
+                           ]
+                           $statement: #Unless[
+                              $cond: #EqExpr[
+                                 $left: #ApplyExpr[
+                                    $recv: #NameExpr['ret']
+                                    $recv: #NameExpr['length']
+                                 ]
+                                 $right: #NameExpr['n']
+                              ]
+                              $then: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['NotImplementedError']
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['ret']
+                                          $recv: #NameExpr['length']
+                                       ]
+                                       $inner: #NameExpr['n']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #NameExpr['ret']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #SClass[
+                  $path: #Self['self']
+                  $body: #BlockExpr[
+                     $main: #Alias[
+                        $newname: #NameExpr['bytes']
+                        $target: #NameExpr['gen_random']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Module[
+         $name: #NestedName[
+            $path: #NameExpr['Random']
+            $name: #NameExpr['Formatter']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['random_bytes']
+                  $param: #List[
+                     $param: #OptionalParam[
+                        $name: #NameExpr['n']
+                        $default: #Nil['nil']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['n']
+                           $right: #Conditional[
+                              $cond: #NameExpr['n']
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['n']
+                                 $recv: #NameExpr['to_int']
+                              ]
+                              $else: #IntExpr['16']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['gen_random']
+                           $param: #List[
+                              $expression: #NameExpr['n']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['hex']
+                  $param: #List[
+                     $param: #OptionalParam[
+                        $name: #NameExpr['n']
+                        $default: #Nil['nil']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #Indexer[
+                        $recv: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['random_bytes']
+                              $param: #List[
+                                 $expression: #NameExpr['n']
+                              ]
+                           ]
+                           $recv: #NameExpr['unpack']
+                           $param: #List[
+                              $expression: #StringExpr['H*']
+                           ]
+                        ]
+                        $index: #List[
+                           $expression: #IntExpr['0']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['base64']
+                  $param: #List[
+                     $param: #OptionalParam[
+                        $name: #NameExpr['n']
+                        $default: #Nil['nil']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #Array[
+                           $index: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['random_bytes']
+                                 $param: #List[
+                                    $expression: #NameExpr['n']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $recv: #NameExpr['pack']
+                        $param: #List[
+                           $expression: #StringExpr['m0']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['urlsafe_base64']
+                  $param: #List[
+                     $param: #OptionalParam[
+                        $name: #NameExpr['n']
+                        $default: #Nil['nil']
+                     ]
+                     $param: #OptionalParam[
+                        $name: #NameExpr['padding']
+                        $default: #FalseExpr['false']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['s']
+                           $right: #ApplyExpr[
+                              $recv: #Array[
+                                 $index: #List[
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['random_bytes']
+                                       $param: #List[
+                                          $expression: #NameExpr['n']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $recv: #NameExpr['pack']
+                              $param: #List[
+                                 $expression: #StringExpr['m0']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['s']
+                           $recv: #NameExpr['tr!']
+                           $param: #List[
+                              $expression: #StringExpr['+/']
+                              $expression: #StringExpr['-_']
+                           ]
+                        ]
+                        $statement: #Unless[
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['s']
+                              $recv: #NameExpr['delete!']
+                              $param: #List[
+                                 $expression: #StringExpr['=']
+                              ]
+                           ]
+                           $cond: #NameExpr['padding']
+                        ]
+                        $statement: #NameExpr['s']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['uuid']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['ary']
+                           $right: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['random_bytes']
+                                 $param: #List[
+                                    $expression: #IntExpr['16']
+                                 ]
+                              ]
+                              $recv: #NameExpr['unpack']
+                              $param: #List[
+                                 $expression: #StringExpr['NnnnnN']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['ary']
+                              $index: #List[
+                                 $expression: #IntExpr['2']
+                              ]
+                           ]
+                           $right: #OrExpr[
+                              $left: #AndExpr[
+                                 $left: #Indexer[
+                                    $recv: #NameExpr['ary']
+                                    $index: #List[
+                                       $expression: #IntExpr['2']
+                                    ]
+                                 ]
+                                 $right: #HexInteger['0x0fff']
+                              ]
+                              $right: #HexInteger['0x4000']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['ary']
+                              $index: #List[
+                                 $expression: #IntExpr['3']
+                              ]
+                           ]
+                           $right: #OrExpr[
+                              $left: #AndExpr[
+                                 $left: #Indexer[
+                                    $recv: #NameExpr['ary']
+                                    $index: #List[
+                                       $expression: #IntExpr['3']
+                                    ]
+                                 ]
+                                 $right: #HexInteger['0x3fff']
+                              ]
+                              $right: #HexInteger['0x8000']
+                           ]
+                        ]
+                        $statement: #ModExpr[
+                           $left: #StringExpr['%08x-%04x-%04x-%04x-%04x%08x']
+                           $right: #NameExpr['ary']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['private']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['gen_random']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['n']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #Self['self']
+                        $recv: #NameExpr['bytes']
+                        $param: #List[
+                           $expression: #NameExpr['n']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['SecureRandom']
+         $recv: #NameExpr['extend']
+         $param: #List[
+            $expression: #Field[
+               $recv: #NameExpr['Random']
+               $name: #NameExpr['Formatter']
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

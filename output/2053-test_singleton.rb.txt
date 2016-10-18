@@ -1,0 +1,467 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['singleton']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestSingleton']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #Class[
+                  $name: #NameExpr['SingletonTest']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['include']
+                        $param: #List[
+                           $expression: #NameExpr['Singleton']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_marshal']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['o1']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['SingletonTest']
+                              $recv: #NameExpr['instance']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['m']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Marshal']
+                              $recv: #NameExpr['dump']
+                              $param: #List[
+                                 $expression: #NameExpr['o1']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['o2']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Marshal']
+                              $recv: #NameExpr['load']
+                              $param: #List[
+                                 $expression: #NameExpr['m']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_same']
+                           $param: #List[
+                              $expression: #NameExpr['o1']
+                              $expression: #NameExpr['o2']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_instance_never_changes']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['SingletonTest']
+                              $recv: #NameExpr['instance']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['SingletonTest']
+                              $recv: #NameExpr['instance']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_same']
+                           $param: #List[
+                              $expression: #NameExpr['a']
+                              $expression: #NameExpr['b']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_initialize_raises_exception']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_raise']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['NoMethodError']
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['SingletonTest']
+                                    $recv: #NameExpr['new']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_allocate_raises_exception']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_raise']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['NoMethodError']
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['SingletonTest']
+                                    $recv: #NameExpr['allocate']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_clone_raises_exception']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['exception']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_raise']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['TypeError']
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['SingletonTest']
+                                             $recv: #NameExpr['instance']
+                                          ]
+                                          $recv: #NameExpr['clone']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expected']
+                           $right: #StringExpr['can\'t clone instance of singleton TestSingleton::SingletonTest']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['expected']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['exception']
+                                 $recv: #NameExpr['message']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_dup_raises_exception']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['exception']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_raise']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['TypeError']
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['SingletonTest']
+                                             $recv: #NameExpr['instance']
+                                          ]
+                                          $recv: #NameExpr['dup']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expected']
+                           $right: #StringExpr['can\'t dup instance of singleton TestSingleton::SingletonTest']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['expected']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['exception']
+                                 $recv: #NameExpr['message']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_include_in_module_raises_exception']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['mod']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Module']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['exception']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_raise']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['TypeError']
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['mod']
+                                          $recv: #NameExpr['class_eval']
+                                          $body: #Block[
+                                             $body: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['include']
+                                                $param: #List[
+                                                   $expression: #NameExpr['Singleton']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expected']
+                           $right: #StringExpr[
+                              $inner: #NameExpr['mod']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['expected']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['exception']
+                                 $recv: #NameExpr['message']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_extending_singleton_raises_exception']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_raise']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['NoMethodError']
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $base: #StringExpr['foo']
+                                    $recv: #NameExpr['extend']
+                                    $param: #List[
+                                       $expression: #NameExpr['Singleton']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_inheritance_works_with_overridden_inherited_method']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['super_super_called']
+                           $right: #FalseExpr['false']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['outer']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Class']
+                              $recv: #NameExpr['new']
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['define_singleton_method']
+                                    $param: #List[
+                                       $expression: #NameExpr['inherited']
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['sub']
+                                       $body: #AssignExpr[
+                                          $left: #NameExpr['super_super_called']
+                                          $right: #TrueExpr['true']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['inner']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Class']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #NameExpr['outer']
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['include']
+                                    $param: #List[
+                                       $expression: #NameExpr['Singleton']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['tester']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Class']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #NameExpr['inner']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert']
+                           $param: #List[
+                              $expression: #NameExpr['super_super_called']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['tester']
+                              $recv: #NameExpr['instance']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['tester']
+                              $recv: #NameExpr['instance']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_same']
+                           $param: #List[
+                              $expression: #NameExpr['a']
+                              $expression: #NameExpr['b']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_class_level_cloning_preserves_singleton_behavior']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['klass']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['SingletonTest']
+                              $recv: #NameExpr['clone']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['klass']
+                              $recv: #NameExpr['instance']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['klass']
+                              $recv: #NameExpr['instance']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_same']
+                           $param: #List[
+                              $expression: #NameExpr['a']
+                              $expression: #NameExpr['b']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

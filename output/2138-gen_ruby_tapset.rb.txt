@@ -1,0 +1,252 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['optparse']
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['set_argument']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['argname']
+            ]
+            $param: #Param[
+               $param: #NameExpr['nth']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['argname']
+                  $recv: #NameExpr['gsub!']
+                  $param: #List[
+                     $expression: #Regex['/.+ (.+)/']
+                     $expression: #StringExpr['\\1']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['argname']
+                  $recv: #NameExpr['gsub!']
+                  $param: #List[
+                     $expression: #Regex['/^\\*/']
+                     $expression: #StringExpr['']
+                  ]
+               ]
+               $statement: #StringExpr[
+                  $inner: #NameExpr['argname']
+                  $inner: #NameExpr['nth']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['ruby_path']
+         $right: #StringExpr['/usr/local/ruby']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['opts']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['OptionParser']
+            $recv: #NameExpr['new']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['opts']
+         $recv: #NameExpr['on']
+         $param: #List[
+            $expression: #StringExpr['--ruby-path=PATH']
+         ]
+         $body: #Block[
+            $param: #NameExpr['v']
+            $body: #AssignExpr[
+               $left: #NameExpr['ruby_path']
+               $right: #NameExpr['v']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['opts']
+         $recv: #NameExpr['parse!']
+         $param: #List[
+            $expression: #NameExpr['ARGV']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['text']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['ARGF']
+            $recv: #NameExpr['read']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['text']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/^#.*$/']
+            $expression: #StringExpr['']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['text']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/^provider ruby \\{/']
+            $expression: #StringExpr['']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['text']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/^\\};/']
+            $expression: #StringExpr['']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['text']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/probe (.+)\\( *\\);/']
+         ]
+         $body: #Block[
+            $body: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['probe_name']
+                  $right: #MatchedRegex['$1']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['probe']
+                  $right: #HereDocument['    probe #{probe_name} = process("ruby").provider("ruby").mark("#{probe_name}")\n    {\n    }\n']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['text']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/ *probe (.+)\\(([^,)]+)\\);/']
+         ]
+         $body: #Block[
+            $body: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['probe_name']
+                  $right: #MatchedRegex['$1']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['arg1']
+                  $right: #MatchedRegex['$2']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['probe']
+                  $right: #HereDocument['    probe #{probe_name} = process("ruby").provider("ruby").mark("#{probe_name}")\n    {\n      #{set_argument(arg1, 1)}\n    }\n']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['text']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/ *probe (.+)\\(([^,)]+),([^,)]+)\\);/']
+         ]
+         $body: #Block[
+            $body: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['probe_name']
+                  $right: #MatchedRegex['$1']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['arg1']
+                  $right: #MatchedRegex['$2']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['arg2']
+                  $right: #MatchedRegex['$3']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['probe']
+                  $right: #HereDocument['    probe #{probe_name} = process("#{ruby_path}").provider("ruby").mark("#{probe_name}")\n    {\n      #{set_argument(arg1, 1)}\n      #{set_argument(arg2, 2)}\n    }\n']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['text']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/ *probe (.+)\\(([^,)]+),([^,)]+),([^,)]+)\\);/']
+         ]
+         $body: #Block[
+            $body: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['probe_name']
+                  $right: #MatchedRegex['$1']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['arg1']
+                  $right: #MatchedRegex['$2']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['arg2']
+                  $right: #MatchedRegex['$3']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['arg3']
+                  $right: #MatchedRegex['$4']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['probe']
+                  $right: #HereDocument['    probe #{probe_name} = process("#{ruby_path}").provider("ruby").mark("#{probe_name}")\n    {\n      #{set_argument(arg1, 1)}\n      #{set_argument(arg2, 2)}\n      #{set_argument(arg3, 3)}\n    }\n']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['text']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/ *probe (.+)\\(([^,)]+),([^,)]+),([^,)]+),([^,)]+)\\);/']
+         ]
+         $body: #Block[
+            $body: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['probe_name']
+                  $right: #MatchedRegex['$1']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['arg1']
+                  $right: #MatchedRegex['$2']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['arg2']
+                  $right: #MatchedRegex['$3']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['arg3']
+                  $right: #MatchedRegex['$4']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['arg4']
+                  $right: #MatchedRegex['$5']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['probe']
+                  $right: #HereDocument['    probe #{probe_name} = process("#{ruby_path}").provider("ruby").mark("#{probe_name}")\n    {\n      #{set_argument(arg1, 1)}\n      #{set_argument(arg2, 2)}\n      #{set_argument(arg3, 3)}\n      #{set_argument(arg4, 4)}\n    }\n']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #NameExpr['text']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,1850 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/test_case']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/ext']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/installer']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestGemExtBuilder']
+         $super: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@ext']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['@tempdir']
+                                 $expression: #StringExpr['ext']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@dest_path']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['@tempdir']
+                                 $expression: #StringExpr['prefix']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #NameExpr['@ext']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #NameExpr['@dest_path']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@orig_DESTDIR']
+                           $right: #Indexer[
+                              $recv: #NameExpr['ENV']
+                              $index: #List[
+                                 $expression: #StringExpr['DESTDIR']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@spec']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['util_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['a']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@builder']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Ext']
+                                 ]
+                                 $name: #NameExpr['Builder']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #NameExpr['@spec']
+                                 $expression: #StringExpr['']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['teardown']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['ENV']
+                              $index: #List[
+                                 $expression: #StringExpr['DESTDIR']
+                              ]
+                           ]
+                           $right: #NameExpr['@orig_DESTDIR']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_class_make']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['ENV']
+                              $index: #List[
+                                 $expression: #StringExpr['DESTDIR']
+                              ]
+                           ]
+                           $right: #StringExpr['destination']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['results']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['Dir']
+                           $recv: #NameExpr['chdir']
+                           $param: #List[
+                              $expression: #NameExpr['@ext']
+                           ]
+                           $body: #Block[
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['open']
+                                    $param: #List[
+                                       $expression: #StringExpr['Makefile']
+                                       $expression: #StringExpr['w']
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['io']
+                                       $body: #ApplyExpr[
+                                          $base: #NameExpr['io']
+                                          $recv: #NameExpr['puts']
+                                          $param: #List[
+                                             $expression: #HereDocument['all:\n\\t@#{Gem.ruby} -e "puts %Q{all: \\#{ENV[\'DESTDIR\']}}"\n\nclean:\n\\t@#{Gem.ruby} -e "puts %Q{clean: \\#{ENV[\'DESTDIR\']}}"\n\ninstall:\n\\t@#{Gem.ruby} -e "puts %Q{install: \\#{ENV[\'DESTDIR\']}}"\n']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['Gem']
+                                          $name: #NameExpr['Ext']
+                                       ]
+                                       $name: #NameExpr['Builder']
+                                    ]
+                                    $recv: #NameExpr['make']
+                                    $param: #List[
+                                       $expression: #NameExpr['@dest_path']
+                                       $expression: #NameExpr['results']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['results']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['results']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #StringExpr['\\n']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #GtExpr[
+                              $left: #NameExpr['RUBY_VERSION']
+                              $right: #StringExpr['2.0']
+                           ]
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%"DESTDIR=#{ENV[\'DESTDIR\']}" clean$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%"DESTDIR=#{ENV[\'DESTDIR\']}"$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%"DESTDIR=#{ENV[\'DESTDIR\']}" install$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                           ]
+                           $else: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['refute_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%"DESTDIR=#{ENV[\'DESTDIR\']}" clean$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['refute_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%"DESTDIR=#{ENV[\'DESTDIR\']}"$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['refute_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%"DESTDIR=#{ENV[\'DESTDIR\']}" install$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #NotMatch[
+                              $left: #Regex['/nmake/']
+                              $right: #NameExpr['results']
+                           ]
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%^clean: destination$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%^all: destination$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%^install: destination$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_class_make_no_clean']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['ENV']
+                              $index: #List[
+                                 $expression: #StringExpr['DESTDIR']
+                              ]
+                           ]
+                           $right: #StringExpr['destination']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['results']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['Dir']
+                           $recv: #NameExpr['chdir']
+                           $param: #List[
+                              $expression: #NameExpr['@ext']
+                           ]
+                           $body: #Block[
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['open']
+                                    $param: #List[
+                                       $expression: #StringExpr['Makefile']
+                                       $expression: #StringExpr['w']
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['io']
+                                       $body: #ApplyExpr[
+                                          $base: #NameExpr['io']
+                                          $recv: #NameExpr['puts']
+                                          $param: #List[
+                                             $expression: #HereDocument['all:\n\\t@#{Gem.ruby} -e "puts %Q{all: \\#{ENV[\'DESTDIR\']}}"\n\ninstall:\n\\t@#{Gem.ruby} -e "puts %Q{install: \\#{ENV[\'DESTDIR\']}}"\n']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['Gem']
+                                          $name: #NameExpr['Ext']
+                                       ]
+                                       $name: #NameExpr['Builder']
+                                    ]
+                                    $recv: #NameExpr['make']
+                                    $param: #List[
+                                       $expression: #NameExpr['@dest_path']
+                                       $expression: #NameExpr['results']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['results']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['results']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #StringExpr['\\n']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #GtExpr[
+                              $left: #NameExpr['RUBY_VERSION']
+                              $right: #StringExpr['2.0']
+                           ]
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%"DESTDIR=#{ENV[\'DESTDIR\']}" clean$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%"DESTDIR=#{ENV[\'DESTDIR\']}"$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%"DESTDIR=#{ENV[\'DESTDIR\']}" install$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                           ]
+                           $else: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['refute_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%"DESTDIR=#{ENV[\'DESTDIR\']}" clean$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['refute_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%"DESTDIR=#{ENV[\'DESTDIR\']}"$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['refute_match']
+                                 $param: #List[
+                                    $expression: #Regex['%r%"DESTDIR=#{ENV[\'DESTDIR\']}" install$%']
+                                    $expression: #NameExpr['results']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_build_extensions']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #LShiftExpr[
+                           $left: #ApplyExpr[
+                              $recv: #NameExpr['@spec']
+                              $recv: #NameExpr['extensions']
+                           ]
+                           $right: #StringExpr['ext/extconf.rb']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['ext_dir']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['@spec']
+                                    $recv: #NameExpr['gem_dir']
+                                 ]
+                                 $expression: #StringExpr['ext']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #NameExpr['ext_dir']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['extconf_rb']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['ext_dir']
+                                 $expression: #StringExpr['extconf.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['extconf_rb']
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['f']
+                              $body: #List[
+                                 $statement: #LShiftExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['f']
+                                       $recv: #NameExpr['write']
+                                    ]
+                                    $right: #MinusExpr[
+                                       $expr: #StringExpr['RUBY']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['require']
+                                    $param: #List[
+                                       $expression: #StringExpr['mkmf']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['create_makefile']
+                                    $param: #List[
+                                       $expression: #StringExpr['a']
+                                    ]
+                                 ]
+                                 $statement: #NameExpr['RUBY']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['ext_lib_dir']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['ext_dir']
+                                 $expression: #StringExpr['lib']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir']
+                           $param: #List[
+                              $expression: #NameExpr['ext_lib_dir']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['touch']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['ext_lib_dir']
+                                    $expression: #StringExpr['a.rb']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['ext_lib_dir']
+                                    $expression: #StringExpr['a']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['touch']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['ext_lib_dir']
+                                    $expression: #StringExpr['a']
+                                    $expression: #StringExpr['b.rb']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['use_ui']
+                           $param: #List[
+                              $expression: #NameExpr['@ui']
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['@builder']
+                                 $recv: #NameExpr['build_extensions']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_path_exists']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@spec']
+                                 $recv: #NameExpr['extension_dir']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_path_exists']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@spec']
+                                 $recv: #NameExpr['gem_build_complete_path']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_path_exists']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@spec']
+                                       $recv: #NameExpr['extension_dir']
+                                    ]
+                                    $expression: #StringExpr['gem_make.out']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_path_exists']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@spec']
+                                       $recv: #NameExpr['extension_dir']
+                                    ]
+                                    $expression: #StringExpr['a.rb']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_path_exists']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@spec']
+                                       $recv: #NameExpr['gem_dir']
+                                    ]
+                                    $expression: #StringExpr['lib']
+                                    $expression: #StringExpr['a.rb']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_path_exists']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@spec']
+                                       $recv: #NameExpr['gem_dir']
+                                    ]
+                                    $expression: #StringExpr['lib']
+                                    $expression: #StringExpr['a']
+                                    $expression: #StringExpr['b.rb']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_build_extensions_with_gemhome_with_space']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $base: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['win_platform?']
+                              ]
+                              $recv: #NameExpr['&']
+                              $param: #List[
+                                 $expression: #LteExpr[
+                                    $left: #NameExpr['RUBY_VERSION']
+                                    $right: #StringExpr['2.0']
+                                 ]
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['skip']
+                              $param: #List[
+                                 $expression: #StringExpr['gemhome with spaces does not work with Ruby 1.9.x on Windows']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['new_gemhome']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['@tempdir']
+                                 $expression: #StringExpr['gem home']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['rename']
+                           $param: #List[
+                              $expression: #NameExpr['@gemhome']
+                              $expression: #NameExpr['new_gemhome']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@gemhome']
+                           $right: #NameExpr['new_gemhome']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['Gem']
+                           $recv: #NameExpr['use_paths']
+                           $param: #List[
+                              $expression: #NameExpr['@gemhome']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@spec']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['util_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['a']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@builder']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Ext']
+                                 ]
+                                 $name: #NameExpr['Builder']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #NameExpr['@spec']
+                                 $expression: #StringExpr['']
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['test_build_extensions']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_build_extensions_install_ext_only']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #SClass[
+                           $path: #NameExpr['Gem']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #Alias[
+                                    $newname: #NameExpr['orig_install_extension_in_lib']
+                                    $target: #NameExpr['install_extension_in_lib']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['remove_method']
+                                    $param: #List[
+                                       $expression: #NameExpr['install_extension_in_lib']
+                                    ]
+                                 ]
+                                 $statement: #SFuncDecl[
+                                    $path: #NameExpr['Gem']
+                                    $name: #NameExpr['install_extension_in_lib']
+                                    $param: #List['']
+                                    $body: #BlockExpr[
+                                       $main: #FalseExpr['false']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #ApplyExpr[
+                              $recv: #NameExpr['@spec']
+                              $recv: #NameExpr['extensions']
+                           ]
+                           $right: #StringExpr['ext/extconf.rb']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['ext_dir']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['@spec']
+                                    $recv: #NameExpr['gem_dir']
+                                 ]
+                                 $expression: #StringExpr['ext']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #NameExpr['ext_dir']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['extconf_rb']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['ext_dir']
+                                 $expression: #StringExpr['extconf.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['extconf_rb']
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['f']
+                              $body: #List[
+                                 $statement: #LShiftExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['f']
+                                       $recv: #NameExpr['write']
+                                    ]
+                                    $right: #MinusExpr[
+                                       $expr: #StringExpr['RUBY']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['require']
+                                    $param: #List[
+                                       $expression: #StringExpr['mkmf']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['create_makefile']
+                                    $param: #List[
+                                       $expression: #StringExpr['a']
+                                    ]
+                                 ]
+                                 $statement: #NameExpr['RUBY']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['ext_lib_dir']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['ext_dir']
+                                 $expression: #StringExpr['lib']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir']
+                           $param: #List[
+                              $expression: #NameExpr['ext_lib_dir']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['touch']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['ext_lib_dir']
+                                    $expression: #StringExpr['a.rb']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['ext_lib_dir']
+                                    $expression: #StringExpr['a']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['touch']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['ext_lib_dir']
+                                    $expression: #StringExpr['a']
+                                    $expression: #StringExpr['b.rb']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['use_ui']
+                           $param: #List[
+                              $expression: #NameExpr['@ui']
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['@builder']
+                                 $recv: #NameExpr['build_extensions']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_path_exists']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@spec']
+                                 $recv: #NameExpr['extension_dir']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_path_exists']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@spec']
+                                 $recv: #NameExpr['gem_build_complete_path']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_path_exists']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@spec']
+                                       $recv: #NameExpr['extension_dir']
+                                    ]
+                                    $expression: #StringExpr['gem_make.out']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_path_exists']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@spec']
+                                       $recv: #NameExpr['extension_dir']
+                                    ]
+                                    $expression: #StringExpr['a.rb']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['refute_path_exists']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@spec']
+                                       $recv: #NameExpr['gem_dir']
+                                    ]
+                                    $expression: #StringExpr['lib']
+                                    $expression: #StringExpr['a.rb']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['refute_path_exists']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@spec']
+                                       $recv: #NameExpr['gem_dir']
+                                    ]
+                                    $expression: #StringExpr['lib']
+                                    $expression: #StringExpr['a']
+                                    $expression: #StringExpr['b.rb']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $ensure: #SClass[
+                        $path: #NameExpr['Gem']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['remove_method']
+                                 $param: #List[
+                                    $expression: #NameExpr['install_extension_in_lib']
+                                 ]
+                              ]
+                              $statement: #Alias[
+                                 $newname: #NameExpr['install_extension_in_lib']
+                                 $target: #NameExpr['orig_install_extension_in_lib']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_build_extensions_none']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['use_ui']
+                           $param: #List[
+                              $expression: #NameExpr['@ui']
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['@builder']
+                                 $recv: #NameExpr['build_extensions']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@ui']
+                                 $recv: #NameExpr['output']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@ui']
+                                 $recv: #NameExpr['error']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['refute_path_exists']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@spec']
+                                       $recv: #NameExpr['extension_dir']
+                                    ]
+                                    $expression: #StringExpr['gem_make.out']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_build_extensions_rebuild_failure']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@spec']
+                                 $recv: #NameExpr['extension_dir']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['touch']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@spec']
+                                 $recv: #NameExpr['gem_build_complete_path']
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #ApplyExpr[
+                              $recv: #NameExpr['@spec']
+                              $recv: #NameExpr['extensions']
+                           ]
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_raises']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Ext']
+                                 ]
+                                 $name: #NameExpr['BuildError']
+                              ]
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['use_ui']
+                                 $param: #List[
+                                    $expression: #NameExpr['@ui']
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['@builder']
+                                       $recv: #NameExpr['build_extensions']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['refute_path_exists']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@spec']
+                                 $recv: #NameExpr['gem_build_complete_path']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_build_extensions_extconf_bad']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #LShiftExpr[
+                           $left: #ApplyExpr[
+                              $recv: #NameExpr['@spec']
+                              $recv: #NameExpr['extensions']
+                           ]
+                           $right: #StringExpr['extconf.rb']
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@spec']
+                                 $recv: #NameExpr['gem_dir']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['e']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_raises']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['Ext']
+                                    ]
+                                    $name: #NameExpr['BuildError']
+                                 ]
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['use_ui']
+                                    $param: #List[
+                                       $expression: #NameExpr['@ui']
+                                    ]
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['@builder']
+                                          $recv: #NameExpr['build_extensions']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['/\\AERROR: Failed to build gem native extension.$/']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['e']
+                                 $recv: #NameExpr['message']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['Building native extensions.  This could take a while...\\n']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@ui']
+                                 $recv: #NameExpr['output']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@ui']
+                                 $recv: #NameExpr['error']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['gem_make_out']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['@spec']
+                                    $recv: #NameExpr['extension_dir']
+                                 ]
+                                 $expression: #StringExpr['gem_make.out']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['%r%#{Regexp.escape Gem.ruby}.* extconf\\.rb%']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['read']
+                                 $param: #List[
+                                    $expression: #NameExpr['gem_make_out']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['%r%: No such file%']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['read']
+                                 $param: #List[
+                                    $expression: #NameExpr['gem_make_out']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['refute_path_exists']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@spec']
+                                 $recv: #NameExpr['gem_build_complete_path']
+                              ]
+                           ]
+                        ]
+                        $statement: #Unless[
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['skip']
+                              $param: #List[
+                                 $expression: #StringExpr['Gem.ruby is not the name of the binary being run in the end']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $base: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['read']
+                                 $param: #List[
+                                    $expression: #NameExpr['gem_make_out']
+                                 ]
+                              ]
+                              $recv: #NameExpr['include?']
+                              $param: #List[
+                                 $expression: #StringExpr[
+                                    $inner: #ApplyExpr[
+                                       $recv: #NameExpr['Gem']
+                                       $recv: #NameExpr['ruby']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['%r%#{Regexp.escape Gem.ruby}: No such file%']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['read']
+                                 $param: #List[
+                                    $expression: #NameExpr['gem_make_out']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_build_extensions_unsupported']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@spec']
+                                 $recv: #NameExpr['gem_dir']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['gem_make_out']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['@spec']
+                                    $recv: #NameExpr['extension_dir']
+                                 ]
+                                 $expression: #StringExpr['gem_make.out']
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #ApplyExpr[
+                              $recv: #NameExpr['@spec']
+                              $recv: #NameExpr['extensions']
+                           ]
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['e']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_raises']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['Ext']
+                                    ]
+                                    $name: #NameExpr['BuildError']
+                                 ]
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['use_ui']
+                                    $param: #List[
+                                       $expression: #NameExpr['@ui']
+                                    ]
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['@builder']
+                                          $recv: #NameExpr['build_extensions']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['/^\\s*No builder for extension \'\'$/']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['e']
+                                 $recv: #NameExpr['message']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['Building native extensions.  This could take a while...\\n']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@ui']
+                                 $recv: #NameExpr['output']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@ui']
+                                 $recv: #NameExpr['error']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['No builder for extension \'\'\\n']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['read']
+                                 $param: #List[
+                                    $expression: #NameExpr['gem_make_out']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['refute_path_exists']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@spec']
+                                 $recv: #NameExpr['gem_build_complete_path']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $ensure: #ApplyExpr[
+                        $base: #NameExpr['FileUtils']
+                        $recv: #NameExpr['rm_f']
+                        $param: #List[
+                           $expression: #NameExpr['gem_make_out']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_build_extensions_with_build_args']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['args']
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #StringExpr['--aa']
+                                 $expression: #StringExpr['--bb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Field[
+                              $base: #NameExpr['@builder']
+                              $name: #NameExpr['build_args']
+                           ]
+                           $right: #NameExpr['args']
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #ApplyExpr[
+                              $recv: #NameExpr['@spec']
+                              $recv: #NameExpr['extensions']
+                           ]
+                           $right: #StringExpr['extconf.rb']
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@spec']
+                                 $recv: #NameExpr['gem_dir']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@spec']
+                                       $recv: #NameExpr['gem_dir']
+                                    ]
+                                    $expression: #StringExpr['extconf.rb']
+                                 ]
+                              ]
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['f']
+                              $body: #List[
+                                 $statement: #LShiftExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['f']
+                                       $recv: #NameExpr['write']
+                                    ]
+                                    $right: #MinusExpr[
+                                       $expr: #StringExpr['RUBY']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr['IN EXTCONF']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['extconf_args']
+                                    $right: #ApplyExpr[
+                                       $base: #NameExpr['File']
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['File']
+                                             $recv: #NameExpr['dirname']
+                                             $param: #List[
+                                                $expression: #File['__FILE__']
+                                             ]
+                                          ]
+                                          $expression: #StringExpr['extconf_args']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['File']
+                                    $recv: #NameExpr['open']
+                                    $param: #List[
+                                       $expression: #NameExpr['extconf_args']
+                                       $expression: #StringExpr['w']
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['f']
+                                       $body: #ApplyExpr[
+                                          $base: #NameExpr['f']
+                                          $recv: #NameExpr['puts']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['ARGV']
+                                                $recv: #NameExpr['inspect']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['File']
+                                    $recv: #NameExpr['open']
+                                    $param: #List[
+                                       $expression: #StringExpr['Makefile']
+                                       $expression: #StringExpr['w']
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['f']
+                                       $body: #List[
+                                          $statement: #ApplyExpr[
+                                             $base: #NameExpr['f']
+                                             $recv: #NameExpr['puts']
+                                             $param: #List[
+                                                $expression: #StringExpr['clean:\\n\\techo cleaned']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $base: #NameExpr['f']
+                                             $recv: #NameExpr['puts']
+                                             $param: #List[
+                                                $expression: #StringExpr['default:\\n\\techo built']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $base: #NameExpr['f']
+                                             $recv: #NameExpr['puts']
+                                             $param: #List[
+                                                $expression: #StringExpr['install:\\n\\techo installed']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #NameExpr['RUBY']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['use_ui']
+                           $param: #List[
+                              $expression: #NameExpr['@ui']
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['@builder']
+                                 $recv: #NameExpr['build_extensions']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['path']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['@spec']
+                                    $recv: #NameExpr['gem_dir']
+                                 ]
+                                 $expression: #StringExpr['extconf_args']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['args']
+                                 $recv: #NameExpr['inspect']
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['read']
+                                    $param: #List[
+                                       $expression: #NameExpr['path']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['strip']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_path_exists']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@spec']
+                                 $recv: #NameExpr['extension_dir']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_initialize']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['build_info_dir']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['@gemhome']
+                                 $expression: #StringExpr['build_info']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #NameExpr['build_info_dir']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['build_info_file']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['build_info_dir']
+                                 $expression: #StringExpr[
+                                    $inner: #ApplyExpr[
+                                       $recv: #NameExpr['@spec']
+                                       $recv: #NameExpr['full_name']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['build_info_file']
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['io']
+                              $body: #ApplyExpr[
+                                 $base: #NameExpr['io']
+                                 $recv: #NameExpr['puts']
+                                 $param: #List[
+                                    $expression: #StringExpr['--with-foo-dir=/nonexistent']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['builder']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Ext']
+                                 ]
+                                 $name: #NameExpr['Builder']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #NameExpr['@spec']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w[--with-foo-dir=/nonexistent]']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['builder']
+                                 $recv: #NameExpr['build_args']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_initialize_build_args']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['builder']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Ext']
+                                 ]
+                                 $name: #NameExpr['Builder']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #NameExpr['@spec']
+                                 $expression: #ParcentNotation['%w[--with-foo-dir=/nonexistent]']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w[--with-foo-dir=/nonexistent]']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['builder']
+                                 $recv: #NameExpr['build_args']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

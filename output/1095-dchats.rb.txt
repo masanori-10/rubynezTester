@@ -1,0 +1,341 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['thread']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['drb/drb']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['ChatEntry']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['include']
+                  $param: #List[
+                     $expression: #NameExpr['DRbUndumped']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['server']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['there']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@server']
+                           $right: #NameExpr['server']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@there']
+                           $right: #NameExpr['there']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@name']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['there']
+                              $recv: #NameExpr['name']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@key']
+                           $right: #AssignExpr[
+                              $left: #Field[
+                                 $base: #NameExpr['there']
+                                 $name: #NameExpr['key']
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['Time']
+                                 $recv: #NameExpr['now']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['attr']
+                  $param: #List[
+                     $expression: #NameExpr['name']
+                     $expression: #TrueExpr['true']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['attr']
+                  $param: #List[
+                     $expression: #NameExpr['there']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['say']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['str']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['@server']
+                        $recv: #NameExpr['distribute']
+                        $param: #List[
+                           $expression: #NameExpr['@there']
+                           $expression: #NameExpr['str']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['listen']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['str']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['@there']
+                        $recv: #NameExpr['message']
+                        $param: #List[
+                           $expression: #NameExpr['@key']
+                           $expression: #NameExpr['str']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['ChatServer']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@mutex']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Mutex']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@members']
+                           $right: #List['{}']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['add_member']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['there']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['client']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['ChatEntry']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #Self['self']
+                                 $expression: #NameExpr['there']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@mutex']
+                           $recv: #NameExpr['synchronize']
+                           $body: #Block[
+                              $body: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['@members']
+                                    $index: #List[
+                                       $expression: #NameExpr['there']
+                                    ]
+                                 ]
+                                 $right: #NameExpr['client']
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['client']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['distribute']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['there']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['str']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['name']
+                           $right: #ApplyExpr[
+                              $recv: #Indexer[
+                                 $recv: #NameExpr['@members']
+                                 $index: #List[
+                                    $expression: #NameExpr['there']
+                                 ]
+                              ]
+                              $recv: #NameExpr['name']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['msg']
+                           $right: #StringExpr[
+                              $inner: #NameExpr['name']
+                              $inner: #NameExpr['str']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['msg2']
+                           $right: #StringExpr[
+                              $inner: #NameExpr['name']
+                              $inner: #NameExpr['str']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@mutex']
+                           $recv: #NameExpr['synchronize']
+                           $body: #Block[
+                              $body: #For[
+                                 $iter: #NameExpr['m']
+                                 $range: #ApplyExpr[
+                                    $recv: #NameExpr['@members']
+                                    $recv: #NameExpr['keys']
+                                 ]
+                                 $body: #ExceptionBlock[
+                                    $main: #IfExpr[
+                                       $cond: #EqExpr[
+                                          $left: #NameExpr['m']
+                                          $right: #NameExpr['there']
+                                       ]
+                                       $then: #ApplyExpr[
+                                          $recv: #Indexer[
+                                             $recv: #NameExpr['@members']
+                                             $index: #List[
+                                                $expression: #NameExpr['m']
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['listen']
+                                          $param: #List[
+                                             $expression: #NameExpr['msg2']
+                                          ]
+                                       ]
+                                       $else: #ApplyExpr[
+                                          $recv: #Indexer[
+                                             $recv: #NameExpr['@members']
+                                             $index: #List[
+                                                $expression: #NameExpr['m']
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['listen']
+                                          $param: #List[
+                                             $expression: #NameExpr['msg']
+                                          ]
+                                       ]
+                                    ]
+                                    $rescue: #List[
+                                       $rescue: #Rescue[
+                                          $then: #List[
+                                             $statement: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['p']
+                                                $param: #List[
+                                                   $expression: #BuiltInVariable['$!']
+                                                ]
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                $recv: #NameExpr['@members']
+                                                $recv: #NameExpr['delete']
+                                                $param: #List[
+                                                   $expression: #NameExpr['m']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #EqExpr[
+            $left: #File['__FILE__']
+            $right: #BuiltInVariable['$0']
+         ]
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['here']
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['ARGV']
+                  $recv: #NameExpr['shift']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['DRb']
+               $recv: #NameExpr['start_service']
+               $param: #List[
+                  $expression: #NameExpr['here']
+                  $expression: #ApplyExpr[
+                     $recv: #NameExpr['ChatServer']
+                     $recv: #NameExpr['new']
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['puts']
+               $param: #List[
+                  $expression: #ApplyExpr[
+                     $recv: #NameExpr['DRb']
+                     $recv: #NameExpr['uri']
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #ApplyExpr[
+                  $recv: #NameExpr['DRb']
+                  $recv: #NameExpr['thread']
+               ]
+               $recv: #NameExpr['join']
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

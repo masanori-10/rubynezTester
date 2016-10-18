@@ -1,0 +1,287 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['e2mmap']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['IRB']
+         $body: #BlockExpr[
+            $main: #Class[
+               $name: #NameExpr['Frame']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['extend']
+                        $param: #List[
+                           $expression: #NameExpr['Exception2MessageMapper']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['def_exception']
+                        $param: #List[
+                           $expression: #NameExpr['FrameOverflow']
+                           $expression: #StringExpr['frame overflow']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['def_exception']
+                        $param: #List[
+                           $expression: #NameExpr['FrameUnderflow']
+                           $expression: #StringExpr['frame underflow']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['INIT_STACK_TIMES']
+                        $right: #IntExpr['3']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['CALL_STACK_OFFSET']
+                        $right: #IntExpr['3']
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['initialize']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #AssignExpr[
+                              $left: #NameExpr['@frames']
+                              $right: #MulExpr[
+                                 $left: #Array[
+                                    $index: #List[
+                                       $expression: #NameExpr['TOPLEVEL_BINDING']
+                                    ]
+                                 ]
+                                 $right: #NameExpr['INIT_STACK_TIMES']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['trace_func']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['event']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['file']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['line']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['id']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['binding']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #Case[
+                              $cond: #NameExpr['event']
+                              $body: #List[
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #StringExpr['call']
+                                       $expression: #StringExpr['class']
+                                    ]
+                                    $then: #ApplyExpr[
+                                       $base: #NameExpr['@frames']
+                                       $recv: #NameExpr['push']
+                                       $param: #List[
+                                          $expression: #NameExpr['binding']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #StringExpr['return']
+                                       $expression: #StringExpr['end']
+                                    ]
+                                    $then: #ApplyExpr[
+                                       $recv: #NameExpr['@frames']
+                                       $recv: #NameExpr['pop']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['top']
+                        $param: #List[
+                           $param: #OptionalParam[
+                              $name: #NameExpr['n']
+                              $default: #IntExpr['0']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['bind']
+                                 $right: #Indexer[
+                                    $recv: #NameExpr['@frames']
+                                    $index: #List[
+                                       $expression: #MinusExpr[
+                                          $expr: #AddExpr[
+                                             $left: #NameExpr['n']
+                                             $right: #NameExpr['CALL_STACK_OFFSET']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $then: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['Fail']
+                                    $param: #List[
+                                       $expression: #NameExpr['FrameUnderflow']
+                                    ]
+                                 ]
+                                 $cond: #NameExpr['bind']
+                              ]
+                              $statement: #NameExpr['bind']
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['bottom']
+                        $param: #List[
+                           $param: #OptionalParam[
+                              $name: #NameExpr['n']
+                              $default: #IntExpr['0']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['bind']
+                                 $right: #Indexer[
+                                    $recv: #NameExpr['@frames']
+                                    $index: #List[
+                                       $expression: #NameExpr['n']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $then: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['Fail']
+                                    $param: #List[
+                                       $expression: #NameExpr['FrameOverflow']
+                                    ]
+                                 ]
+                                 $cond: #NameExpr['bind']
+                              ]
+                              $statement: #NameExpr['bind']
+                           ]
+                        ]
+                     ]
+                     $statement: #SFuncDecl[
+                        $path: #NameExpr['Frame']
+                        $name: #NameExpr['bottom']
+                        $param: #List[
+                           $param: #OptionalParam[
+                              $name: #NameExpr['n']
+                              $default: #IntExpr['0']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@backtrace']
+                              $recv: #NameExpr['bottom']
+                              $param: #List[
+                                 $expression: #NameExpr['n']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #SFuncDecl[
+                        $path: #NameExpr['Frame']
+                        $name: #NameExpr['top']
+                        $param: #List[
+                           $param: #OptionalParam[
+                              $name: #NameExpr['n']
+                              $default: #IntExpr['0']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@backtrace']
+                              $recv: #NameExpr['top']
+                              $param: #List[
+                                 $expression: #NameExpr['n']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #SFuncDecl[
+                        $path: #NameExpr['Frame']
+                        $name: #NameExpr['sender']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['eval']
+                              $param: #List[
+                                 $expression: #StringExpr['self']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['@backtrace']
+                                    $recv: #NameExpr['top']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@backtrace']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['Frame']
+                           $recv: #NameExpr['new']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['set_trace_func']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['proc']
+                              $body: #Block[
+                                 $param: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['event']
+                                    $item: #NameExpr['file']
+                                    $item: #NameExpr['line']
+                                    $item: #NameExpr['id']
+                                    $item: #NameExpr['binding']
+                                    $item: #NameExpr['klass']
+                                 ]
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['@backtrace']
+                                    $recv: #NameExpr['trace_func']
+                                    $param: #List[
+                                       $expression: #NameExpr['event']
+                                       $expression: #NameExpr['file']
+                                       $expression: #NameExpr['line']
+                                       $expression: #NameExpr['id']
+                                       $expression: #NameExpr['binding']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,331 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['webrick/ssl']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['WEBrick']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #Module[
+                  $name: #NameExpr['Config']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['HTTP']
+                        $recv: #NameExpr['update']
+                        $param: #List[
+                           $expression: #NameExpr['SSL']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['HTTPRequest']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['attr_reader']
+                           $param: #List[
+                              $expression: #NameExpr['cipher']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['attr_reader']
+                           $param: #List[
+                              $expression: #NameExpr['server_cert']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['attr_reader']
+                           $param: #List[
+                              $expression: #NameExpr['client_cert']
+                           ]
+                        ]
+                        $statement: #Alias[
+                           $newname: #NameExpr['orig_parse']
+                           $target: #NameExpr['parse']
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['parse']
+                           $param: #List[
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['socket']
+                                 $default: #Nil['nil']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #IfExpr[
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['socket']
+                                       $recv: #NameExpr['respond_to?']
+                                       $param: #List[
+                                          $expression: #NameExpr['cert']
+                                       ]
+                                    ]
+                                    $then: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@server_cert']
+                                          $right: #LOr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['socket']
+                                                $recv: #NameExpr['cert']
+                                             ]
+                                             $right: #Indexer[
+                                                $recv: #NameExpr['@config']
+                                                $index: #List[
+                                                   $expression: #NameExpr['SSLCertificate']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@client_cert']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['socket']
+                                             $recv: #NameExpr['peer_cert']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@client_cert_chain']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['socket']
+                                             $recv: #NameExpr['peer_cert_chain']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@cipher']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['socket']
+                                             $recv: #NameExpr['cipher']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['orig_parse']
+                                    $param: #List[
+                                       $expression: #NameExpr['socket']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Alias[
+                           $newname: #NameExpr['orig_parse_uri']
+                           $target: #NameExpr['parse_uri']
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['parse_uri']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['str']
+                              ]
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['scheme']
+                                 $default: #StringExpr['https']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #IfExpr[
+                                    $cond: #NameExpr['server_cert']
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['orig_parse_uri']
+                                             $param: #List[
+                                                $expression: #NameExpr['str']
+                                                $expression: #NameExpr['scheme']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['orig_parse_uri']
+                                          $param: #List[
+                                             $expression: #NameExpr['str']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['private']
+                           $param: #List[
+                              $expression: #NameExpr['parse_uri']
+                           ]
+                        ]
+                        $statement: #Alias[
+                           $newname: #NameExpr['orig_meta_vars']
+                           $target: #NameExpr['meta_vars']
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['meta_vars']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['meta']
+                                    $right: #NameExpr['orig_meta_vars']
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #NameExpr['server_cert']
+                                    $then: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['meta']
+                                             $index: #List[
+                                                $expression: #StringExpr['HTTPS']
+                                             ]
+                                          ]
+                                          $right: #StringExpr['on']
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['meta']
+                                             $index: #List[
+                                                $expression: #StringExpr['SSL_SERVER_CERT']
+                                             ]
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['@server_cert']
+                                             $recv: #NameExpr['to_pem']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['meta']
+                                             $index: #List[
+                                                $expression: #StringExpr['SSL_CLIENT_CERT']
+                                             ]
+                                          ]
+                                          $right: #Conditional[
+                                             $cond: #NameExpr['@client_cert']
+                                             $then: #ApplyExpr[
+                                                $recv: #NameExpr['@client_cert']
+                                                $recv: #NameExpr['to_pem']
+                                             ]
+                                             $else: #StringExpr['']
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $cond: #NameExpr['@client_cert_chain']
+                                          $then: #ApplyExpr[
+                                             $recv: #NameExpr['@client_cert_chain']
+                                             $recv: #NameExpr['each_with_index']
+                                             $body: #Block[
+                                                $param: #MultipleLeftHandSideExpression[
+                                                   $item: #NameExpr['cert']
+                                                   $item: #NameExpr['i']
+                                                ]
+                                                $body: #AssignExpr[
+                                                   $left: #Indexer[
+                                                      $base: #NameExpr['meta']
+                                                      $index: #List[
+                                                         $expression: #StringExpr[
+                                                            $inner: #NameExpr['i']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $right: #ApplyExpr[
+                                                      $recv: #NameExpr['cert']
+                                                      $recv: #NameExpr['to_pem']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['meta']
+                                             $index: #List[
+                                                $expression: #StringExpr['SSL_CIPHER']
+                                             ]
+                                          ]
+                                          $right: #Indexer[
+                                             $recv: #NameExpr['@cipher']
+                                             $index: #List[
+                                                $expression: #IntExpr['0']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['meta']
+                                             $index: #List[
+                                                $expression: #StringExpr['SSL_PROTOCOL']
+                                             ]
+                                          ]
+                                          $right: #Indexer[
+                                             $recv: #NameExpr['@cipher']
+                                             $index: #List[
+                                                $expression: #IntExpr['1']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['meta']
+                                             $index: #List[
+                                                $expression: #StringExpr['SSL_CIPHER_USEKEYSIZE']
+                                             ]
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #Indexer[
+                                                $recv: #NameExpr['@cipher']
+                                                $index: #List[
+                                                   $expression: #IntExpr['2']
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['to_s']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['meta']
+                                             $index: #List[
+                                                $expression: #StringExpr['SSL_CIPHER_ALGKEYSIZE']
+                                             ]
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #Indexer[
+                                                $recv: #NameExpr['@cipher']
+                                                $index: #List[
+                                                   $expression: #IntExpr['3']
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['to_s']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #NameExpr['meta']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

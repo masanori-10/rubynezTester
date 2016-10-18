@@ -1,0 +1,2473 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require_relative']
+         $param: #List[
+            $expression: #StringExpr['base']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['tempfile']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #NameExpr['TestCSV']
+            $name: #NameExpr['Interface']
+         ]
+         $super: #NameExpr['TestCSV']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['extend']
+                  $param: #List[
+                     $expression: #NameExpr['DifferentOFS']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@tempfile']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Tempfile']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #ParcentNotation['%w"temp .csv"']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@tempfile']
+                           $recv: #NameExpr['close']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@path']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['@tempfile']
+                              $recv: #NameExpr['path']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['wb']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['file']
+                              $body: #List[
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['file']
+                                    $right: #StringExpr['1\\t2\\t3\\r\\n']
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['file']
+                                    $right: #StringExpr['4\\t5\\r\\n']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@expected']
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #ParcentNotation['%w{1 2 3}']
+                                 $expression: #ParcentNotation['%w{4 5}']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['teardown']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@tempfile']
+                           $recv: #NameExpr['close']
+                           $param: #List[
+                              $expression: #TrueExpr['true']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_foreach']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['CSV']
+                        $recv: #NameExpr['foreach']
+                        $param: #List[
+                           $expression: #NameExpr['@path']
+                           $hash: #Hash[
+                              $key: #NameExpr['col_sep']
+                              $value: #StringExpr['\\t']
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['row_sep']
+                              $value: #StringExpr['\\r\\n']
+                           ]
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['row']
+                           $body: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['@expected']
+                                    $recv: #NameExpr['shift']
+                                 ]
+                                 $expression: #NameExpr['row']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_foreach_enum']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['foreach']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $hash: #Hash[
+                                 $key: #NameExpr['col_sep']
+                                 $value: #StringExpr['\\t']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['row_sep']
+                                 $value: #StringExpr['\\r\\n']
+                              ]
+                           ]
+                        ]
+                        $recv: #NameExpr['zip']
+                        $param: #List[
+                           $expression: #NameExpr['@expected']
+                        ]
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['row']
+                              $item: #NameExpr['exp']
+                           ]
+                           $body: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #NameExpr['exp']
+                                 $expression: #NameExpr['row']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_open_and_close']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['csv']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CSV']
+                              $recv: #NameExpr['open']
+                              $param: #List[
+                                 $expression: #NameExpr['@path']
+                                 $expression: #StringExpr['r+']
+                                 $hash: #Hash[
+                                    $key: #NameExpr['col_sep']
+                                    $value: #StringExpr['\\t']
+                                 ]
+                                 $hash: #Hash[
+                                    $key: #NameExpr['row_sep']
+                                    $value: #StringExpr['\\r\\n']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_nil']
+                           $param: #List[
+                              $expression: #NameExpr['csv']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_instance_of']
+                           $param: #List[
+                              $expression: #NameExpr['CSV']
+                              $expression: #NameExpr['csv']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_predicate']
+                           $param: #List[
+                              $expression: #NameExpr['csv']
+                              $expression: #NameExpr['closed?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['csv']
+                           $recv: #NameExpr['close']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_predicate']
+                           $param: #List[
+                              $expression: #NameExpr['csv']
+                              $expression: #NameExpr['closed?']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['ret']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CSV']
+                              $recv: #NameExpr['open']
+                              $param: #List[
+                                 $expression: #NameExpr['@path']
+                              ]
+                              $body: #Block[
+                                 $param: #NameExpr['new_csv']
+                                 $body: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['csv']
+                                       $right: #NameExpr['new_csv']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_instance_of']
+                                       $param: #List[
+                                          $expression: #NameExpr['CSV']
+                                          $expression: #NameExpr['new_csv']
+                                       ]
+                                    ]
+                                    $statement: #StringExpr['Return value.']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_predicate']
+                           $param: #List[
+                              $expression: #NameExpr['csv']
+                              $expression: #NameExpr['closed?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['Return value.']
+                              $expression: #NameExpr['ret']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_parse']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['data']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['binread']
+                              $param: #List[
+                                 $expression: #NameExpr['@path']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['@expected']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['parse']
+                                 $param: #List[
+                                    $expression: #NameExpr['data']
+                                    $hash: #Hash[
+                                       $key: #NameExpr['col_sep']
+                                       $value: #StringExpr['\\t']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['row_sep']
+                                       $value: #StringExpr['\\r\\n']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['parse']
+                           $param: #List[
+                              $expression: #NameExpr['data']
+                              $hash: #Hash[
+                                 $key: #NameExpr['col_sep']
+                                 $value: #StringExpr['\\t']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['row_sep']
+                                 $value: #StringExpr['\\r\\n']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['row']
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@expected']
+                                       $recv: #NameExpr['shift']
+                                    ]
+                                    $expression: #NameExpr['row']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_parse_line']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['row']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CSV']
+                              $recv: #NameExpr['parse_line']
+                              $param: #List[
+                                 $expression: #StringExpr['1;2;3']
+                                 $hash: #Hash[
+                                    $key: #NameExpr['col_sep']
+                                    $value: #StringExpr[';']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_nil']
+                           $param: #List[
+                              $expression: #NameExpr['row']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_instance_of']
+                           $param: #List[
+                              $expression: #NameExpr['Array']
+                              $expression: #NameExpr['row']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w{1 2 3}']
+                              $expression: #NameExpr['row']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['row']
+                           $right: #ApplyExpr[
+                              $recv: #StringExpr['1;2;3']
+                              $recv: #NameExpr['parse_csv']
+                              $param: #List[
+                                 $hash: #Hash[
+                                    $key: #NameExpr['col_sep']
+                                    $value: #StringExpr[';']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_nil']
+                           $param: #List[
+                              $expression: #NameExpr['row']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_instance_of']
+                           $param: #List[
+                              $expression: #NameExpr['Array']
+                              $expression: #NameExpr['row']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w{1 2 3}']
+                              $expression: #NameExpr['row']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_parse_line_with_empty_lines']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Nil['nil']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['parse_line']
+                                 $param: #List[
+                                    $expression: #StringExpr['']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['Array']
+                                 $recv: #NameExpr['new']
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['parse_line']
+                                 $param: #List[
+                                    $expression: #StringExpr['\\n1,2,3']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_read_and_readlines']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['@expected']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['read']
+                                 $param: #List[
+                                    $expression: #NameExpr['@path']
+                                    $hash: #Hash[
+                                       $key: #NameExpr['col_sep']
+                                       $value: #StringExpr['\\t']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['row_sep']
+                                       $value: #StringExpr['\\r\\n']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['@expected']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['readlines']
+                                 $param: #List[
+                                    $expression: #NameExpr['@path']
+                                    $hash: #Hash[
+                                       $key: #NameExpr['col_sep']
+                                       $value: #StringExpr['\\t']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['row_sep']
+                                       $value: #StringExpr['\\r\\n']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['data']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CSV']
+                              $recv: #NameExpr['open']
+                              $param: #List[
+                                 $expression: #NameExpr['@path']
+                                 $hash: #Hash[
+                                    $key: #NameExpr['col_sep']
+                                    $value: #StringExpr['\\t']
+                                 ]
+                                 $hash: #Hash[
+                                    $key: #NameExpr['row_sep']
+                                    $value: #StringExpr['\\r\\n']
+                                 ]
+                              ]
+                              $body: #Block[
+                                 $param: #NameExpr['csv']
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['csv']
+                                    $recv: #NameExpr['read']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['@expected']
+                              $expression: #NameExpr['data']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['data']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CSV']
+                              $recv: #NameExpr['open']
+                              $param: #List[
+                                 $expression: #NameExpr['@path']
+                                 $hash: #Hash[
+                                    $key: #NameExpr['col_sep']
+                                    $value: #StringExpr['\\t']
+                                 ]
+                                 $hash: #Hash[
+                                    $key: #NameExpr['row_sep']
+                                    $value: #StringExpr['\\r\\n']
+                                 ]
+                              ]
+                              $body: #Block[
+                                 $param: #NameExpr['csv']
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['csv']
+                                    $recv: #NameExpr['readlines']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['@expected']
+                              $expression: #NameExpr['data']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_table']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['table']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CSV']
+                              $recv: #NameExpr['table']
+                              $param: #List[
+                                 $expression: #NameExpr['@path']
+                                 $hash: #Hash[
+                                    $key: #NameExpr['col_sep']
+                                    $value: #StringExpr['\\t']
+                                 ]
+                                 $hash: #Hash[
+                                    $key: #NameExpr['row_sep']
+                                    $value: #StringExpr['\\r\\n']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_instance_of']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['CSV']
+                                 $name: #NameExpr['Table']
+                              ]
+                              $expression: #NameExpr['table']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['"1"']
+                                          $expression: #NameExpr['"2"']
+                                          $expression: #NameExpr['"3"']
+                                       ]
+                                    ]
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #IntExpr['4']
+                                          $expression: #IntExpr['5']
+                                          $expression: #Nil['nil']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['table']
+                                 $recv: #NameExpr['to_a']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_shift']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['CSV']
+                        $recv: #NameExpr['open']
+                        $param: #List[
+                           $expression: #NameExpr['@path']
+                           $expression: #StringExpr['rb+']
+                           $hash: #Hash[
+                              $key: #NameExpr['col_sep']
+                              $value: #StringExpr['\\t']
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['row_sep']
+                              $value: #StringExpr['\\r\\n']
+                           ]
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['csv']
+                           $body: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@expected']
+                                       $recv: #NameExpr['shift']
+                                    ]
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['csv']
+                                       $recv: #NameExpr['shift']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@expected']
+                                       $recv: #NameExpr['shift']
+                                    ]
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['csv']
+                                       $recv: #NameExpr['shift']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #Nil['nil']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['csv']
+                                       $recv: #NameExpr['shift']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_enumerators_are_supported']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['CSV']
+                        $recv: #NameExpr['open']
+                        $param: #List[
+                           $expression: #NameExpr['@path']
+                           $hash: #Hash[
+                              $key: #NameExpr['col_sep']
+                              $value: #StringExpr['\\t']
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['row_sep']
+                              $value: #StringExpr['\\r\\n']
+                           ]
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['csv']
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['enum']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['csv']
+                                    $recv: #NameExpr['each']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_instance_of']
+                                 $param: #List[
+                                    $expression: #NameExpr['Enumerator']
+                                    $expression: #NameExpr['enum']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@expected']
+                                       $recv: #NameExpr['shift']
+                                    ]
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['enum']
+                                       $recv: #NameExpr['next']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_nil_is_not_acceptable']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_raise_with_message']
+                        $param: #List[
+                           $expression: #NameExpr['ArgumentError']
+                           $expression: #StringExpr['Cannot parse nil as CSV']
+                        ]
+                        $body: #Block[
+                           $body: #ApplyExpr[
+                              $recv: #NameExpr['CSV']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #Nil['nil']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_generate']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['str']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CSV']
+                              $recv: #NameExpr['generate']
+                              $body: #Block[
+                                 $param: #NameExpr['csv']
+                                 $body: #List[
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_instance_of']
+                                       $param: #List[
+                                          $expression: #NameExpr['CSV']
+                                          $expression: #NameExpr['csv']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #NameExpr['csv']
+                                          $expression: #LShiftExpr[
+                                             $left: #NameExpr['csv']
+                                             $right: #Array[
+                                                $index: #List[
+                                                   $expression: #IntExpr['1']
+                                                   $expression: #IntExpr['2']
+                                                   $expression: #IntExpr['3']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #NameExpr['csv']
+                                          $expression: #LShiftExpr[
+                                             $left: #NameExpr['csv']
+                                             $right: #Array[
+                                                $index: #List[
+                                                   $expression: #IntExpr['4']
+                                                   $expression: #Nil['nil']
+                                                   $expression: #IntExpr['5']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_nil']
+                           $param: #List[
+                              $expression: #NameExpr['str']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_instance_of']
+                           $param: #List[
+                              $expression: #NameExpr['String']
+                              $expression: #NameExpr['str']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['1,2,3\\n4,,5\\n']
+                              $expression: #NameExpr['str']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['generate']
+                           $param: #List[
+                              $expression: #NameExpr['str']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #NameExpr['csv']
+                                    $expression: #LShiftExpr[
+                                       $left: #NameExpr['csv']
+                                       $right: #Array[
+                                          $index: #List[
+                                             $expression: #StringExpr['last']
+                                             $expression: #ParcentNotation['%Q{"row"}']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%Q{1,2,3\\n4,,5\\nlast,"""row"""\\n}']
+                              $expression: #NameExpr['str']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_generate_line']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['line']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CSV']
+                              $recv: #NameExpr['generate_line']
+                              $param: #List[
+                                 $expression: #ParcentNotation['%w{1 2 3}']
+                                 $hash: #Hash[
+                                    $key: #NameExpr['col_sep']
+                                    $value: #StringExpr[';']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_nil']
+                           $param: #List[
+                              $expression: #NameExpr['line']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_instance_of']
+                           $param: #List[
+                              $expression: #NameExpr['String']
+                              $expression: #NameExpr['line']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['1;2;3\\n']
+                              $expression: #NameExpr['line']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['line']
+                           $right: #ApplyExpr[
+                              $recv: #ParcentNotation['%w{1 2 3}']
+                              $recv: #NameExpr['to_csv']
+                              $param: #List[
+                                 $hash: #Hash[
+                                    $key: #NameExpr['col_sep']
+                                    $value: #StringExpr[';']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_nil']
+                           $param: #List[
+                              $expression: #NameExpr['line']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_instance_of']
+                           $param: #List[
+                              $expression: #NameExpr['String']
+                              $expression: #NameExpr['line']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['1;2;3\\n']
+                              $expression: #NameExpr['line']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_write_header_detection']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['unlink']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['headers']
+                           $right: #ParcentNotation['%w{a b c}']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['w']
+                              $hash: #Hash[
+                                 $key: #NameExpr['headers']
+                                 $value: #TrueExpr['true']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #List[
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['csv']
+                                    $right: #NameExpr['headers']
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['csv']
+                                    $right: #ParcentNotation['%w{1 2 3}']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #NameExpr['headers']
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['csv']
+                                          $recv: #NameExpr['instance_variable_get']
+                                          $param: #List[
+                                             $expression: #NameExpr['@headers']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_write_lineno']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['unlink']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['lines']
+                                    $right: #IntExpr['20']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['lines']
+                                    $recv: #NameExpr['times']
+                                    $body: #Block[
+                                       $body: #LShiftExpr[
+                                          $left: #NameExpr['csv']
+                                          $right: #ParcentNotation['%w{a b c}']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #NameExpr['lines']
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['csv']
+                                          $recv: #NameExpr['lineno']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_write_hash']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['unlink']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['lines']
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #NameExpr['a']
+                                       $value: #IntExpr['1']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['b']
+                                       $value: #IntExpr['2']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['c']
+                                       $value: #IntExpr['3']
+                                    ]
+                                 ]
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #NameExpr['a']
+                                       $value: #IntExpr['4']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['b']
+                                       $value: #IntExpr['5']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['c']
+                                       $value: #IntExpr['6']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['wb']
+                              $hash: #Hash[
+                                 $key: #NameExpr['headers']
+                                 $value: #TrueExpr['true']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['header_converters']
+                                 $value: #NameExpr['symbol']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #List[
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['csv']
+                                    $right: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['lines']
+                                          $recv: #NameExpr['first']
+                                       ]
+                                       $recv: #NameExpr['keys']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['lines']
+                                    $recv: #NameExpr['each']
+                                    $body: #Block[
+                                       $param: #NameExpr['line']
+                                       $body: #LShiftExpr[
+                                          $left: #NameExpr['csv']
+                                          $right: #NameExpr['line']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['rb']
+                              $hash: #Hash[
+                                 $key: #NameExpr['headers']
+                                 $value: #TrueExpr['true']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['converters']
+                                 $value: #NameExpr['all']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['header_converters']
+                                 $value: #NameExpr['symbol']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['csv']
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['line']
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['lines']
+                                             $recv: #NameExpr['shift']
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['line']
+                                             $recv: #NameExpr['to_hash']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_write_hash_with_string_keys']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['unlink']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['lines']
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #NameExpr['a']
+                                       $value: #IntExpr['1']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['b']
+                                       $value: #IntExpr['2']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['c']
+                                       $value: #IntExpr['3']
+                                    ]
+                                 ]
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #NameExpr['a']
+                                       $value: #IntExpr['4']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['b']
+                                       $value: #IntExpr['5']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['c']
+                                       $value: #IntExpr['6']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['wb']
+                              $hash: #Hash[
+                                 $key: #NameExpr['headers']
+                                 $value: #TrueExpr['true']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #List[
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['csv']
+                                    $right: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['lines']
+                                          $recv: #NameExpr['first']
+                                       ]
+                                       $recv: #NameExpr['keys']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['lines']
+                                    $recv: #NameExpr['each']
+                                    $body: #Block[
+                                       $param: #NameExpr['line']
+                                       $body: #LShiftExpr[
+                                          $left: #NameExpr['csv']
+                                          $right: #NameExpr['line']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['rb']
+                              $hash: #Hash[
+                                 $key: #NameExpr['headers']
+                                 $value: #TrueExpr['true']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['csv']
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['line']
+                                    $body: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['csv']
+                                          $recv: #NameExpr['headers']
+                                       ]
+                                       $recv: #NameExpr['each_with_index']
+                                       $body: #Block[
+                                          $param: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['header']
+                                             $item: #NameExpr['h']
+                                          ]
+                                          $body: #List[
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['keys']
+                                                $right: #ApplyExpr[
+                                                   $recv: #ApplyExpr[
+                                                      $recv: #NameExpr['line']
+                                                      $recv: #NameExpr['to_hash']
+                                                   ]
+                                                   $recv: #NameExpr['keys']
+                                                ]
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['assert_instance_of']
+                                                $param: #List[
+                                                   $expression: #NameExpr['String']
+                                                   $expression: #Indexer[
+                                                      $recv: #NameExpr['keys']
+                                                      $index: #List[
+                                                         $expression: #NameExpr['h']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['assert_same']
+                                                $param: #List[
+                                                   $expression: #NameExpr['header']
+                                                   $expression: #Indexer[
+                                                      $recv: #NameExpr['keys']
+                                                      $index: #List[
+                                                         $expression: #NameExpr['h']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_write_hash_with_headers_array']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['unlink']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['lines']
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #NameExpr['a']
+                                       $value: #IntExpr['1']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['b']
+                                       $value: #IntExpr['2']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['c']
+                                       $value: #IntExpr['3']
+                                    ]
+                                 ]
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #NameExpr['a']
+                                       $value: #IntExpr['4']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['b']
+                                       $value: #IntExpr['5']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['c']
+                                       $value: #IntExpr['6']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['wb']
+                              $hash: #Hash[
+                                 $key: #NameExpr['headers']
+                                 $value: #Array[
+                                    $index: #List[
+                                       $expression: #NameExpr['b']
+                                       $expression: #NameExpr['a']
+                                       $expression: #NameExpr['c']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['lines']
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['line']
+                                    $body: #LShiftExpr[
+                                       $left: #NameExpr['csv']
+                                       $right: #NameExpr['line']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['rb']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['f']
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #StringExpr['2,1,3']
+                                       $expression: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['f']
+                                             $recv: #NameExpr['gets']
+                                          ]
+                                          $recv: #NameExpr['strip']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #StringExpr['5,4,6']
+                                       $expression: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['f']
+                                             $recv: #NameExpr['gets']
+                                          ]
+                                          $recv: #NameExpr['strip']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['rb']
+                              $hash: #Hash[
+                                 $key: #NameExpr['headers']
+                                 $value: #Array[
+                                    $index: #List[
+                                       $expression: #NameExpr['b']
+                                       $expression: #NameExpr['a']
+                                       $expression: #NameExpr['c']
+                                    ]
+                                 ]
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['converters']
+                                 $value: #NameExpr['all']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['csv']
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['line']
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['lines']
+                                             $recv: #NameExpr['shift']
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['line']
+                                             $recv: #NameExpr['to_hash']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_write_hash_with_headers_string']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['unlink']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['lines']
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['a']
+                                       $value: #IntExpr['1']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['b']
+                                       $value: #IntExpr['2']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['c']
+                                       $value: #IntExpr['3']
+                                    ]
+                                 ]
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['a']
+                                       $value: #IntExpr['4']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['b']
+                                       $value: #IntExpr['5']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['c']
+                                       $value: #IntExpr['6']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['wb']
+                              $hash: #Hash[
+                                 $key: #NameExpr['headers']
+                                 $value: #StringExpr['b|a|c']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['col_sep']
+                                 $value: #StringExpr['|']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['lines']
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['line']
+                                    $body: #LShiftExpr[
+                                       $left: #NameExpr['csv']
+                                       $right: #NameExpr['line']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['rb']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['f']
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #StringExpr['2|1|3']
+                                       $expression: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['f']
+                                             $recv: #NameExpr['gets']
+                                          ]
+                                          $recv: #NameExpr['strip']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #StringExpr['5|4|6']
+                                       $expression: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['f']
+                                             $recv: #NameExpr['gets']
+                                          ]
+                                          $recv: #NameExpr['strip']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['rb']
+                              $hash: #Hash[
+                                 $key: #NameExpr['headers']
+                                 $value: #StringExpr['b|a|c']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['col_sep']
+                                 $value: #StringExpr['|']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['converters']
+                                 $value: #NameExpr['all']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['csv']
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['line']
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['lines']
+                                             $recv: #NameExpr['shift']
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['line']
+                                             $recv: #NameExpr['to_hash']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_write_headers']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['unlink']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['lines']
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['a']
+                                       $value: #IntExpr['1']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['b']
+                                       $value: #IntExpr['2']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['c']
+                                       $value: #IntExpr['3']
+                                    ]
+                                 ]
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['a']
+                                       $value: #IntExpr['4']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['b']
+                                       $value: #IntExpr['5']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['c']
+                                       $value: #IntExpr['6']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['wb']
+                              $hash: #Hash[
+                                 $key: #NameExpr['headers']
+                                 $value: #StringExpr['b|a|c']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['write_headers']
+                                 $value: #TrueExpr['true']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['col_sep']
+                                 $value: #StringExpr['|']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['lines']
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['line']
+                                    $body: #LShiftExpr[
+                                       $left: #NameExpr['csv']
+                                       $right: #NameExpr['line']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['rb']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['f']
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #StringExpr['b|a|c']
+                                       $expression: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['f']
+                                             $recv: #NameExpr['gets']
+                                          ]
+                                          $recv: #NameExpr['strip']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #StringExpr['2|1|3']
+                                       $expression: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['f']
+                                             $recv: #NameExpr['gets']
+                                          ]
+                                          $recv: #NameExpr['strip']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #StringExpr['5|4|6']
+                                       $expression: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['f']
+                                             $recv: #NameExpr['gets']
+                                          ]
+                                          $recv: #NameExpr['strip']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['rb']
+                              $hash: #Hash[
+                                 $key: #NameExpr['headers']
+                                 $value: #TrueExpr['true']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['col_sep']
+                                 $value: #StringExpr['|']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['converters']
+                                 $value: #NameExpr['all']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['csv']
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['line']
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['lines']
+                                             $recv: #NameExpr['shift']
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['line']
+                                             $recv: #NameExpr['to_hash']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_append']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['unlink']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['wb']
+                              $hash: #Hash[
+                                 $key: #NameExpr['col_sep']
+                                 $value: #StringExpr['\\t']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['row_sep']
+                                 $value: #StringExpr['\\r\\n']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['@expected']
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['row']
+                                    $body: #LShiftExpr[
+                                       $left: #NameExpr['csv']
+                                       $right: #NameExpr['row']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['test_shift']
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['unlink']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@path']
+                              $expression: #StringExpr['wb']
+                              $hash: #Hash[
+                                 $key: #NameExpr['col_sep']
+                                 $value: #StringExpr['\\t']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['row_sep']
+                                 $value: #StringExpr['\\r\\n']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['@expected']
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['row']
+                                    $body: #LShiftExpr[
+                                       $left: #NameExpr['csv']
+                                       $right: #ApplyExpr[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['CSV']
+                                             $name: #NameExpr['Row']
+                                          ]
+                                          $recv: #NameExpr['new']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['Array']
+                                                $recv: #NameExpr['new']
+                                             ]
+                                             $expression: #NameExpr['row']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['test_shift']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_filter']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_respond_to']
+                           $param: #List[
+                              $expression: #NameExpr['CSV']
+                              $expression: #NameExpr['filter']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expected']
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #Array[
+                                    $index: #List[
+                                       $expression: #IntExpr['1']
+                                       $expression: #IntExpr['2']
+                                       $expression: #IntExpr['3']
+                                    ]
+                                 ]
+                                 $expression: #Array[
+                                    $index: #List[
+                                       $expression: #IntExpr['4']
+                                       $expression: #IntExpr['5']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['filter']
+                           $param: #List[
+                              $expression: #StringExpr['1;2;3\\n4;5\\n']
+                              $expression: #AssignExpr[
+                                 $left: #NameExpr['result']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['String']
+                                    $recv: #NameExpr['new']
+                                 ]
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['in_col_sep']
+                                 $value: #StringExpr[';']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['out_col_sep']
+                                 $value: #StringExpr[',']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['converters']
+                                 $value: #NameExpr['all']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['row']
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #NameExpr['row']
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['expected']
+                                          $recv: #NameExpr['shift']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['row']
+                                    $recv: #NameExpr['map!']
+                                    $body: #Block[
+                                       $param: #NameExpr['n']
+                                       $body: #MulExpr[
+                                          $left: #NameExpr['n']
+                                          $right: #IntExpr['2']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['row']
+                                    $right: #StringExpr['Added\\r']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['2,4,6,\\"Added\\r\\"\\n8,10,\\"Added\\r\\"\\n']
+                              $expression: #NameExpr['result']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_instance']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['csv']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['String']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['first']
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nothing_raised']
+                           $param: #List[
+                              $expression: #NameExpr['Exception']
+                           ]
+                           $body: #Block[
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['first']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['CSV']
+                                       $recv: #NameExpr['instance']
+                                       $param: #List[
+                                          $expression: #NameExpr['csv']
+                                          $hash: #Hash[
+                                             $key: #NameExpr['col_sep']
+                                             $value: #StringExpr[';']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['first']
+                                    $right: #ParcentNotation['%w{a b c}']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['a;b;c\\n']
+                              $expression: #NameExpr['csv']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['second']
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nothing_raised']
+                           $param: #List[
+                              $expression: #NameExpr['Exception']
+                           ]
+                           $body: #Block[
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['second']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['CSV']
+                                       $recv: #NameExpr['instance']
+                                       $param: #List[
+                                          $expression: #NameExpr['csv']
+                                          $hash: #Hash[
+                                             $key: #NameExpr['col_sep']
+                                             $value: #StringExpr[';']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['second']
+                                    $right: #Array[
+                                       $index: #List[
+                                          $expression: #IntExpr['1']
+                                          $expression: #IntExpr['2']
+                                          $expression: #IntExpr['3']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['first']
+                                 $recv: #NameExpr['object_id']
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['second']
+                                 $recv: #NameExpr['object_id']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['a;b;c\\n1;2;3\\n']
+                              $expression: #NameExpr['csv']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['STDOUT']
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['CSV']
+                                    $recv: #NameExpr['instance']
+                                 ]
+                                 $recv: #NameExpr['instance_eval']
+                                 $body: #Block[
+                                    $body: #NameExpr['@io']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['STDOUT']
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['CSV']
+                                 $body: #Block[
+                                    $param: #NameExpr['new_csv']
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['new_csv']
+                                       $recv: #NameExpr['instance_eval']
+                                       $body: #Block[
+                                          $body: #NameExpr['@io']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_options_are_not_modified']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['opt']
+                           $right: #ApplyExpr[
+                              $recv: #List['{}']
+                              $recv: #NameExpr['freeze']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nothing_raised']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['foreach']
+                                 $param: #List[
+                                    $expression: #NameExpr['@path']
+                                    $expression: #NameExpr['opt']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nothing_raised']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['@path']
+                                    $expression: #NameExpr['opt']
+                                 ]
+                                 $body: #Block[
+                                    $body: #Empty['']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nothing_raised']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['parse']
+                                 $param: #List[
+                                    $expression: #StringExpr['']
+                                    $expression: #NameExpr['opt']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nothing_raised']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['parse_line']
+                                 $param: #List[
+                                    $expression: #StringExpr['']
+                                    $expression: #NameExpr['opt']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nothing_raised']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['read']
+                                 $param: #List[
+                                    $expression: #NameExpr['@path']
+                                    $expression: #NameExpr['opt']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nothing_raised']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['readlines']
+                                 $param: #List[
+                                    $expression: #NameExpr['@path']
+                                    $expression: #NameExpr['opt']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nothing_raised']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['table']
+                                 $param: #List[
+                                    $expression: #NameExpr['@path']
+                                    $expression: #NameExpr['opt']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nothing_raised']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['generate']
+                                 $param: #List[
+                                    $expression: #NameExpr['opt']
+                                 ]
+                                 $body: #Block[
+                                    $body: #Empty['']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nothing_raised']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['generate_line']
+                                 $param: #List[
+                                    $expression: #Array['[]']
+                                    $expression: #NameExpr['opt']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nothing_raised']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['filter']
+                                 $param: #List[
+                                    $expression: #StringExpr['']
+                                    $expression: #StringExpr['']
+                                    $expression: #NameExpr['opt']
+                                 ]
+                                 $body: #Block[
+                                    $body: #Empty['']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nothing_raised']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['instance']
+                                 $param: #List[
+                                    $expression: #StringExpr['']
+                                    $expression: #NameExpr['opt']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

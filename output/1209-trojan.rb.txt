@@ -1,0 +1,106 @@
+#Source[
+   #List[
+      $statement: #AssignExpr[
+         $left: #NameExpr['path']
+         $right: #ApplyExpr[
+            $recv: #Indexer[
+               $recv: #NameExpr['ENV']
+               $index: #List[
+                  $expression: #StringExpr['PATH']
+               ]
+            ]
+            $recv: #NameExpr['split']
+            $param: #List[
+               $expression: #Field[
+                  $recv: #NameExpr['File']
+                  $name: #NameExpr['PATH_SEPARATOR']
+               ]
+            ]
+         ]
+      ]
+      $statement: #For[
+         $iter: #NameExpr['dir']
+         $range: #NameExpr['path']
+         $body: #IfExpr[
+            $cond: #ApplyExpr[
+               $recv: #NameExpr['File']
+               $recv: #NameExpr['directory?']
+               $param: #List[
+                  $expression: #NameExpr['dir']
+               ]
+            ]
+            $then: #List[
+               $statement: #For[
+                  $iter: #NameExpr['f']
+                  $range: #AssignExpr[
+                     $left: #NameExpr['d']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['Dir']
+                        $recv: #NameExpr['open']
+                        $param: #List[
+                           $expression: #NameExpr['dir']
+                        ]
+                     ]
+                  ]
+                  $body: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['fpath']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['join']
+                           $param: #List[
+                              $expression: #NameExpr['dir']
+                              $expression: #NameExpr['f']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $base: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['file?']
+                              $param: #List[
+                                 $expression: #NameExpr['fpath']
+                              ]
+                           ]
+                           $recv: #NameExpr['&']
+                           $param: #List[
+                              $expression: #NeExpr[
+                                 $left: #AndExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['File']
+                                          $recv: #NameExpr['stat']
+                                          $param: #List[
+                                             $expression: #NameExpr['fpath']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['mode']
+                                    ]
+                                    $right: #OctalInteger['022']
+                                 ]
+                                 $right: #IntExpr['0']
+                              ]
+                           ]
+                        ]
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['printf']
+                           $param: #List[
+                              $expression: #StringExpr['file %s is writable from other users\\n']
+                              $expression: #NameExpr['fpath']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['d']
+                  $recv: #NameExpr['close']
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

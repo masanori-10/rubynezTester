@@ -1,0 +1,176 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['optparse']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['openssl']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['include']
+         $param: #List[
+            $expression: #NameExpr['OpenSSL']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['options']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['ARGV']
+            $recv: #NameExpr['getopts']
+            $param: #List[
+               $expression: #StringExpr['c:k:C:']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['cert_file']
+         $right: #Indexer[
+            $recv: #NameExpr['options']
+            $index: #List[
+               $expression: #StringExpr['c']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['key_file']
+         $right: #Indexer[
+            $recv: #NameExpr['options']
+            $index: #List[
+               $expression: #StringExpr['k']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['ca_path']
+         $right: #Indexer[
+            $recv: #NameExpr['options']
+            $index: #List[
+               $expression: #StringExpr['C']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['data']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['$stdin']
+            $recv: #NameExpr['read']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['cert']
+         $right: #ApplyExpr[
+            $recv: #Field[
+               $recv: #NameExpr['X509']
+               $name: #NameExpr['Certificate']
+            ]
+            $recv: #NameExpr['new']
+            $param: #List[
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['File']
+                  $recv: #NameExpr['read']
+                  $param: #List[
+                     $expression: #NameExpr['cert_file']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['key']
+         $right: #ApplyExpr[
+            $recv: #Field[
+               $recv: #NameExpr['PKey']
+               $name: #NameExpr['RSA']
+            ]
+            $recv: #NameExpr['new']
+            $param: #List[
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['File']
+                  $recv: #NameExpr['read']
+                  $param: #List[
+                     $expression: #NameExpr['key_file']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['p7enc']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['PKCS7']
+            $recv: #NameExpr['read_smime']
+            $param: #List[
+               $expression: #NameExpr['data']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['data']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['p7enc']
+            $recv: #NameExpr['decrypt']
+            $param: #List[
+               $expression: #NameExpr['key']
+               $expression: #NameExpr['cert']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['store']
+         $right: #ApplyExpr[
+            $recv: #Field[
+               $recv: #NameExpr['X509']
+               $name: #NameExpr['Store']
+            ]
+            $recv: #NameExpr['new']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['store']
+         $recv: #NameExpr['add_path']
+         $param: #List[
+            $expression: #NameExpr['ca_path']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['p7sig']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['PKCS7']
+            $recv: #NameExpr['read_smime']
+            $param: #List[
+               $expression: #NameExpr['data']
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #ApplyExpr[
+            $recv: #NameExpr['p7sig']
+            $recv: #NameExpr['verify']
+            $param: #List[
+               $expression: #Array['[]']
+               $expression: #NameExpr['store']
+            ]
+         ]
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['puts']
+            $param: #List[
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['p7sig']
+                  $recv: #NameExpr['data']
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

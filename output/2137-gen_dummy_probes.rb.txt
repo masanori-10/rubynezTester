@@ -1,0 +1,108 @@
+#Source[
+   #List[
+      $statement: #AssignExpr[
+         $left: #NameExpr['text']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['ARGF']
+            $recv: #NameExpr['read']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['text']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['%r\'(?:^ *)?/\\*.*?\\*/\\n?\'m']
+            $expression: #StringExpr['']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['text']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/^#(?:pragma|include|if|endif).*\\n/']
+            $expression: #StringExpr['']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['text']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/provider ruby \\{/']
+            $expression: #StringExpr['#ifndef\\t_PROBES_H\\n#define\\t_PROBES_H\\n#define DTRACE_PROBES_DISABLED 1\\n']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['text']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/\\};/']
+            $expression: #StringExpr['\\n#endif\\t/* _PROBES_H */']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['text']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/^ *probe ([^\\(]*)\\(([^\\)]*)\\);/']
+         ]
+         $body: #Block[
+            $body: #List[
+               $statement: #MultipleAssign[
+                  $left: #MultipleLeftHandSideExpression[
+                     $item: #NameExpr['name']
+                     $item: #NameExpr['args']
+                  ]
+                  $right: #MultipleRightHandSideExpression[
+                     $expression: #MatchedRegex['$1']
+                     $expression: #MatchedRegex['$2']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['name']
+                  $recv: #NameExpr['upcase!']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['name']
+                  $recv: #NameExpr['gsub!']
+                  $param: #List[
+                     $expression: #Regex['/__/']
+                     $expression: #StringExpr['_']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['args']
+                  $recv: #NameExpr['gsub!']
+                  $param: #List[
+                     $expression: #Regex['/(\\A|, *)[^,]*\\b(?=\\w+(?=,|\\z))/']
+                     $expression: #StringExpr['\\1']
+                  ]
+               ]
+               $statement: #ConnectString[
+                  $String: #StringExpr[
+                     $inner: #NameExpr['name']
+                  ]
+                  $String: #StringExpr[
+                     $inner: #NameExpr['name']
+                     $inner: #NameExpr['args']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #StringExpr['/* -*- c -*- */']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #NameExpr['text']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

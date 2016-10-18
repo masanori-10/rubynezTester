@@ -1,0 +1,932 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rss/1.0']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rss/dublincore']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['RSS']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['IMAGE_PREFIX']
+                  $right: #StringExpr['image']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['IMAGE_URI']
+                  $right: #StringExpr['http://purl.org/rss/1.0/modules/image/']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['RDF']
+                  $recv: #NameExpr['install_ns']
+                  $param: #List[
+                     $expression: #NameExpr['IMAGE_PREFIX']
+                     $expression: #NameExpr['IMAGE_URI']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['IMAGE_ELEMENTS']
+                  $right: #Array['[]']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #ParcentNotation['%w(item favicon)']
+                  $recv: #NameExpr['each']
+                  $body: #Block[
+                     $param: #NameExpr['name']
+                     $body: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['class_name']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Utils']
+                              $recv: #NameExpr['to_class_name']
+                              $param: #List[
+                                 $expression: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['BaseListener']
+                           $recv: #NameExpr['install_class_name']
+                           $param: #List[
+                              $expression: #NameExpr['IMAGE_URI']
+                              $expression: #NameExpr['name']
+                              $expression: #StringExpr[
+                                 $inner: #NameExpr['class_name']
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['IMAGE_ELEMENTS']
+                           $right: #StringExpr[
+                              $inner: #NameExpr['IMAGE_PREFIX']
+                              $inner: #NameExpr['name']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Module[
+                  $name: #NameExpr['ImageModelUtils']
+                  $body: #BlockExpr[
+                     $main: #FuncDecl[
+                        $name: #NameExpr['validate_one_tag_name']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['ignore_unknown_element']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['name']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['tags']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #IfExpr[
+                                 $cond: #NotExpr[
+                                    $expr: #NameExpr['ignore_unknown_element']
+                                 ]
+                                 $then: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['invalid']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['tags']
+                                          $recv: #NameExpr['find']
+                                          $body: #Block[
+                                             $param: #NameExpr['tag']
+                                             $body: #NeExpr[
+                                                $left: #NameExpr['tag']
+                                                $right: #NameExpr['name']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #IfExpr[
+                                       $then: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['raise']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['UnknownTagError']
+                                                $recv: #NameExpr['new']
+                                                $param: #List[
+                                                   $expression: #NameExpr['invalid']
+                                                   $expression: #NameExpr['IMAGE_URI']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $cond: #NameExpr['invalid']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['raise']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['TooMuchTagError']
+                                          $recv: #NameExpr['new']
+                                          $param: #List[
+                                             $expression: #NameExpr['name']
+                                             $expression: #NameExpr['tag_name']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $cond: #GtExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['tags']
+                                       $recv: #NameExpr['size']
+                                    ]
+                                    $right: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Module[
+                  $name: #NameExpr['ImageItemModel']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['include']
+                           $param: #List[
+                              $expression: #NameExpr['ImageModelUtils']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['extend']
+                           $param: #List[
+                              $expression: #NameExpr['BaseModel']
+                           ]
+                        ]
+                        $statement: #SFuncDecl[
+                           $path: #Self['self']
+                           $name: #NameExpr['append_features']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['klass']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #Super['super']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['klass']
+                                    $recv: #NameExpr['install_have_child_element']
+                                    $param: #List[
+                                       $expression: #StringExpr['item']
+                                       $expression: #NameExpr['IMAGE_URI']
+                                       $expression: #StringExpr['?']
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['IMAGE_PREFIX']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['klass']
+                                    $recv: #NameExpr['install_must_call_validator']
+                                    $param: #List[
+                                       $expression: #NameExpr['IMAGE_PREFIX']
+                                       $expression: #NameExpr['IMAGE_URI']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Class[
+                           $name: #NameExpr['ImageItem']
+                           $super: #NameExpr['Element']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['include']
+                                    $param: #List[
+                                       $expression: #NameExpr['RSS10']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['include']
+                                    $param: #List[
+                                       $expression: #NameExpr['DublinCoreModel']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@tag_name']
+                                    $right: #StringExpr['item']
+                                 ]
+                                 $statement: #SClass[
+                                    $path: #Self['self']
+                                    $body: #BlockExpr[
+                                       $main: #List[
+                                          $statement: #FuncDecl[
+                                             $name: #NameExpr['required_prefix']
+                                             $param: #List['']
+                                             $body: #BlockExpr[
+                                                $main: #NameExpr['IMAGE_PREFIX']
+                                             ]
+                                          ]
+                                          $statement: #FuncDecl[
+                                             $name: #NameExpr['required_uri']
+                                             $param: #List['']
+                                             $body: #BlockExpr[
+                                                $main: #NameExpr['IMAGE_URI']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['install_must_call_validator']
+                                    $param: #List[
+                                       $expression: #NameExpr['IMAGE_PREFIX']
+                                       $expression: #NameExpr['IMAGE_URI']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #Array[
+                                       $index: #List[
+                                          $expression: #Array[
+                                             $index: #List[
+                                                $expression: #StringExpr['about']
+                                                $expression: #Field[
+                                                   $recv: #Field[
+                                                      $recv: #NameExpr['RSS']
+                                                      $name: #NameExpr['RDF']
+                                                   ]
+                                                   $name: #NameExpr['URI']
+                                                ]
+                                                $expression: #TrueExpr['true']
+                                             ]
+                                          ]
+                                          $expression: #Array[
+                                             $index: #List[
+                                                $expression: #StringExpr['resource']
+                                                $expression: #Field[
+                                                   $recv: #Field[
+                                                      $recv: #NameExpr['RSS']
+                                                      $name: #NameExpr['RDF']
+                                                   ]
+                                                   $name: #NameExpr['URI']
+                                                ]
+                                                $expression: #FalseExpr['false']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['each']
+                                    $body: #Block[
+                                       $param: #MultipleLeftHandSideExpression[
+                                          $item: #NameExpr['name']
+                                          $item: #NameExpr['uri']
+                                          $item: #NameExpr['required']
+                                       ]
+                                       $body: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['install_get_attribute']
+                                          $param: #List[
+                                             $expression: #NameExpr['name']
+                                             $expression: #NameExpr['uri']
+                                             $expression: #NameExpr['required']
+                                             $expression: #Nil['nil']
+                                             $expression: #Nil['nil']
+                                             $expression: #StringExpr[
+                                                $inner: #Field[
+                                                   $recv: #Field[
+                                                      $recv: #NameExpr['RSS']
+                                                      $name: #NameExpr['RDF']
+                                                   ]
+                                                   $name: #NameExpr['PREFIX']
+                                                ]
+                                                $inner: #NameExpr['name']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #ParcentNotation['%w(width height)']
+                                    $recv: #NameExpr['each']
+                                    $body: #Block[
+                                       $param: #NameExpr['tag']
+                                       $body: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['full_name']
+                                             $right: #StringExpr[
+                                                $inner: #NameExpr['IMAGE_PREFIX']
+                                                $inner: #NameExpr['tag']
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['disp_name']
+                                             $right: #StringExpr[
+                                                $inner: #NameExpr['IMAGE_PREFIX']
+                                                $inner: #NameExpr['tag']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['install_text_element']
+                                             $param: #List[
+                                                $expression: #NameExpr['tag']
+                                                $expression: #NameExpr['IMAGE_URI']
+                                                $expression: #StringExpr['?']
+                                                $expression: #NameExpr['full_name']
+                                                $expression: #NameExpr['integer']
+                                                $expression: #NameExpr['disp_name']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['BaseListener']
+                                             $recv: #NameExpr['install_get_text_element']
+                                             $param: #List[
+                                                $expression: #NameExpr['IMAGE_URI']
+                                                $expression: #NameExpr['tag']
+                                                $expression: #NameExpr['full_name']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #Alias[
+                                    $newname: #NameExpr['width=']
+                                    $target: #NameExpr['image_width=']
+                                 ]
+                                 $statement: #Alias[
+                                    $newname: #NameExpr['width']
+                                    $target: #NameExpr['image_width']
+                                 ]
+                                 $statement: #Alias[
+                                    $newname: #NameExpr['height=']
+                                    $target: #NameExpr['image_height=']
+                                 ]
+                                 $statement: #Alias[
+                                    $newname: #NameExpr['height']
+                                    $target: #NameExpr['image_height']
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['initialize']
+                                    $param: #List[
+                                       $param: #VariadicParam[
+                                          $name: #NameExpr['args']
+                                       ]
+                                    ]
+                                    $body: #BlockExpr[
+                                       $main: #IfExpr[
+                                          $cond: #ApplyExpr[
+                                             $recv: #NameExpr['Utils']
+                                             $recv: #NameExpr['element_initialize_arguments?']
+                                             $param: #List[
+                                                $expression: #NameExpr['args']
+                                             ]
+                                          ]
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #Super['super']
+                                          ]
+                                          $else: #List[
+                                             $statement: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #Super['super']
+                                                $param: #Empty['']
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #Field[
+                                                   $base: #Self['self']
+                                                   $name: #NameExpr['about']
+                                                ]
+                                                $right: #Indexer[
+                                                   $recv: #NameExpr['args']
+                                                   $index: #List[
+                                                      $expression: #IntExpr['0']
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #Field[
+                                                   $base: #Self['self']
+                                                   $name: #NameExpr['resource']
+                                                ]
+                                                $right: #Indexer[
+                                                   $recv: #NameExpr['args']
+                                                   $index: #List[
+                                                      $expression: #IntExpr['1']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['full_name']
+                                    $param: #List['']
+                                    $body: #BlockExpr[
+                                       $main: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['tag_name_with_prefix']
+                                          $param: #List[
+                                             $expression: #NameExpr['IMAGE_PREFIX']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #NameExpr['private']
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['maker_target']
+                                    $param: #List[
+                                       $param: #Param[
+                                          $param: #NameExpr['target']
+                                       ]
+                                    ]
+                                    $body: #BlockExpr[
+                                       $main: #ApplyExpr[
+                                          $recv: #NameExpr['target']
+                                          $recv: #NameExpr['image_item']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['setup_maker_attributes']
+                                    $param: #List[
+                                       $param: #Param[
+                                          $param: #NameExpr['item']
+                                       ]
+                                    ]
+                                    $body: #BlockExpr[
+                                       $main: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #Field[
+                                                $base: #NameExpr['item']
+                                                $name: #NameExpr['about']
+                                             ]
+                                             $right: #ApplyExpr[
+                                                $recv: #Self['self']
+                                                $recv: #NameExpr['about']
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #Field[
+                                                $base: #NameExpr['item']
+                                                $name: #NameExpr['resource']
+                                             ]
+                                             $right: #ApplyExpr[
+                                                $recv: #Self['self']
+                                                $recv: #NameExpr['resource']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Module[
+                  $name: #NameExpr['ImageFaviconModel']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['include']
+                           $param: #List[
+                              $expression: #NameExpr['ImageModelUtils']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['extend']
+                           $param: #List[
+                              $expression: #NameExpr['BaseModel']
+                           ]
+                        ]
+                        $statement: #SFuncDecl[
+                           $path: #Self['self']
+                           $name: #NameExpr['append_features']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['klass']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #Super['super']
+                                 ]
+                                 $statement: #Unless[
+                                    $cond: #EqExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['klass']
+                                          $recv: #NameExpr['class']
+                                       ]
+                                       $right: #NameExpr['Module']
+                                    ]
+                                    $then: #List[
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['klass']
+                                          $recv: #NameExpr['install_have_child_element']
+                                          $param: #List[
+                                             $expression: #StringExpr['favicon']
+                                             $expression: #NameExpr['IMAGE_URI']
+                                             $expression: #StringExpr['?']
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['IMAGE_PREFIX']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['klass']
+                                          $recv: #NameExpr['install_must_call_validator']
+                                          $param: #List[
+                                             $expression: #NameExpr['IMAGE_PREFIX']
+                                             $expression: #NameExpr['IMAGE_URI']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Class[
+                           $name: #NameExpr['ImageFavicon']
+                           $super: #NameExpr['Element']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['include']
+                                    $param: #List[
+                                       $expression: #NameExpr['RSS10']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['include']
+                                    $param: #List[
+                                       $expression: #NameExpr['DublinCoreModel']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@tag_name']
+                                    $right: #StringExpr['favicon']
+                                 ]
+                                 $statement: #SClass[
+                                    $path: #Self['self']
+                                    $body: #BlockExpr[
+                                       $main: #List[
+                                          $statement: #FuncDecl[
+                                             $name: #NameExpr['required_prefix']
+                                             $param: #List['']
+                                             $body: #BlockExpr[
+                                                $main: #NameExpr['IMAGE_PREFIX']
+                                             ]
+                                          ]
+                                          $statement: #FuncDecl[
+                                             $name: #NameExpr['required_uri']
+                                             $param: #List['']
+                                             $body: #BlockExpr[
+                                                $main: #NameExpr['IMAGE_URI']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #Array[
+                                       $index: #List[
+                                          $expression: #Array[
+                                             $index: #List[
+                                                $expression: #StringExpr['about']
+                                                $expression: #Field[
+                                                   $recv: #Field[
+                                                      $recv: #NameExpr['RSS']
+                                                      $name: #NameExpr['RDF']
+                                                   ]
+                                                   $name: #NameExpr['URI']
+                                                ]
+                                                $expression: #TrueExpr['true']
+                                                $expression: #Field[
+                                                   $recv: #Field[
+                                                      $recv: #NameExpr['RSS']
+                                                      $name: #NameExpr['RDF']
+                                                   ]
+                                                   $name: #NameExpr['PREFIX']
+                                                ]
+                                             ]
+                                          ]
+                                          $expression: #Array[
+                                             $index: #List[
+                                                $expression: #StringExpr['size']
+                                                $expression: #NameExpr['IMAGE_URI']
+                                                $expression: #TrueExpr['true']
+                                                $expression: #NameExpr['IMAGE_PREFIX']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['each']
+                                    $body: #Block[
+                                       $param: #MultipleLeftHandSideExpression[
+                                          $item: #NameExpr['name']
+                                          $item: #NameExpr['uri']
+                                          $item: #NameExpr['required']
+                                          $item: #NameExpr['prefix']
+                                       ]
+                                       $body: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['install_get_attribute']
+                                          $param: #List[
+                                             $expression: #NameExpr['name']
+                                             $expression: #NameExpr['uri']
+                                             $expression: #NameExpr['required']
+                                             $expression: #Nil['nil']
+                                             $expression: #Nil['nil']
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['prefix']
+                                                $inner: #NameExpr['name']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['AVAILABLE_SIZES']
+                                    $right: #ParcentNotation['%w(small medium large)']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['alias_method']
+                                    $param: #List[
+                                       $expression: #NameExpr['set_size']
+                                       $expression: #NameExpr['size=']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['private']
+                                    $param: #List[
+                                       $expression: #NameExpr['set_size']
+                                    ]
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['size=']
+                                    $param: #List[
+                                       $param: #Param[
+                                          $param: #NameExpr['new_value']
+                                       ]
+                                    ]
+                                    $body: #BlockExpr[
+                                       $main: #List[
+                                          $statement: #IfExpr[
+                                             $cond: #AndExpr[
+                                                $left: #NameExpr['@do_validate']
+                                                $right: #NotExpr[
+                                                   $expr: #ApplyExpr[
+                                                      $recv: #NameExpr['new_value']
+                                                      $recv: #NameExpr['nil?']
+                                                   ]
+                                                ]
+                                             ]
+                                             $then: #List[
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['new_value']
+                                                   $right: #ApplyExpr[
+                                                      $recv: #NameExpr['new_value']
+                                                      $recv: #NameExpr['strip']
+                                                   ]
+                                                ]
+                                                $statement: #Unless[
+                                                   $cond: #ApplyExpr[
+                                                      $recv: #NameExpr['AVAILABLE_SIZES']
+                                                      $recv: #NameExpr['include?']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['new_value']
+                                                      ]
+                                                   ]
+                                                   $then: #List[
+                                                      $statement: #AssignExpr[
+                                                         $left: #NameExpr['attr_name']
+                                                         $right: #StringExpr[
+                                                            $inner: #NameExpr['IMAGE_PREFIX']
+                                                         ]
+                                                      ]
+                                                      $statement: #ApplyExpr[
+                                                         #Self['self']
+                                                         $recv: #NameExpr['raise']
+                                                         $param: #List[
+                                                            $expression: #ApplyExpr[
+                                                               $recv: #NameExpr['NotAvailableValueError']
+                                                               $recv: #NameExpr['new']
+                                                               $param: #List[
+                                                                  $expression: #NameExpr['full_name']
+                                                                  $expression: #NameExpr['new_value']
+                                                                  $expression: #NameExpr['attr_name']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['set_size']
+                                             $param: #List[
+                                                $expression: #NameExpr['new_value']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #Alias[
+                                    $newname: #NameExpr['image_size=']
+                                    $target: #NameExpr['size=']
+                                 ]
+                                 $statement: #Alias[
+                                    $newname: #NameExpr['image_size']
+                                    $target: #NameExpr['size']
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['initialize']
+                                    $param: #List[
+                                       $param: #VariadicParam[
+                                          $name: #NameExpr['args']
+                                       ]
+                                    ]
+                                    $body: #BlockExpr[
+                                       $main: #IfExpr[
+                                          $cond: #ApplyExpr[
+                                             $recv: #NameExpr['Utils']
+                                             $recv: #NameExpr['element_initialize_arguments?']
+                                             $param: #List[
+                                                $expression: #NameExpr['args']
+                                             ]
+                                          ]
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #Super['super']
+                                          ]
+                                          $else: #List[
+                                             $statement: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #Super['super']
+                                                $param: #Empty['']
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #Field[
+                                                   $base: #Self['self']
+                                                   $name: #NameExpr['about']
+                                                ]
+                                                $right: #Indexer[
+                                                   $recv: #NameExpr['args']
+                                                   $index: #List[
+                                                      $expression: #IntExpr['0']
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #Field[
+                                                   $base: #Self['self']
+                                                   $name: #NameExpr['size']
+                                                ]
+                                                $right: #Indexer[
+                                                   $recv: #NameExpr['args']
+                                                   $index: #List[
+                                                      $expression: #IntExpr['1']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['full_name']
+                                    $param: #List['']
+                                    $body: #BlockExpr[
+                                       $main: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['tag_name_with_prefix']
+                                          $param: #List[
+                                             $expression: #NameExpr['IMAGE_PREFIX']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #NameExpr['private']
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['maker_target']
+                                    $param: #List[
+                                       $param: #Param[
+                                          $param: #NameExpr['target']
+                                       ]
+                                    ]
+                                    $body: #BlockExpr[
+                                       $main: #ApplyExpr[
+                                          $recv: #NameExpr['target']
+                                          $recv: #NameExpr['image_favicon']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['setup_maker_attributes']
+                                    $param: #List[
+                                       $param: #Param[
+                                          $param: #NameExpr['favicon']
+                                       ]
+                                    ]
+                                    $body: #BlockExpr[
+                                       $main: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #Field[
+                                                $base: #NameExpr['favicon']
+                                                $name: #NameExpr['about']
+                                             ]
+                                             $right: #ApplyExpr[
+                                                $recv: #Self['self']
+                                                $recv: #NameExpr['about']
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #Field[
+                                                $base: #NameExpr['favicon']
+                                                $name: #NameExpr['size']
+                                             ]
+                                             $right: #ApplyExpr[
+                                                $recv: #Self['self']
+                                                $recv: #NameExpr['size']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['RDF']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Class[
+                           $name: #NameExpr['Channel']
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['include']
+                                 $param: #List[
+                                    $expression: #NameExpr['ImageFaviconModel']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Class[
+                           $name: #NameExpr['Item']
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['include']
+                                 $param: #List[
+                                    $expression: #NameExpr['ImageItemModel']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

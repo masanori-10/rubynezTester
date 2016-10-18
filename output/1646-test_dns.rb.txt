@@ -1,0 +1,1748 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['resolv']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['socket']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['tempfile']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestResolvDNS']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@save_do_not_reverse_lookup']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['BasicSocket']
+                              $recv: #NameExpr['do_not_reverse_lookup']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Field[
+                              $base: #NameExpr['BasicSocket']
+                              $name: #NameExpr['do_not_reverse_lookup']
+                           ]
+                           $right: #TrueExpr['true']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['teardown']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #AssignExpr[
+                        $left: #Field[
+                           $base: #NameExpr['BasicSocket']
+                           $name: #NameExpr['do_not_reverse_lookup']
+                        ]
+                        $right: #NameExpr['@save_do_not_reverse_lookup']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['with_udp']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['host']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['port']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['u']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['UDPSocket']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ExceptionBlock[
+                           $main: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['u']
+                                 $recv: #NameExpr['bind']
+                                 $param: #List[
+                                    $expression: #NameExpr['host']
+                                    $expression: #NameExpr['port']
+                                 ]
+                              ]
+                              $statement: #Yield[
+                                 $param: #List[
+                                    $expression: #NameExpr['u']
+                                 ]
+                              ]
+                           ]
+                           $ensure: #ApplyExpr[
+                              $recv: #NameExpr['u']
+                              $recv: #NameExpr['close']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_resolve_with_2_ndots']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['conf']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Resolv']
+                                    $name: #NameExpr['DNS']
+                                 ]
+                                 $name: #NameExpr['Config']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $hash: #Hash[
+                                    $key: #NameExpr['nameserver']
+                                    $value: #Array[
+                                       $index: #List[
+                                          $expression: #StringExpr['127.0.0.1']
+                                       ]
+                                    ]
+                                 ]
+                                 $hash: #Hash[
+                                    $key: #NameExpr['ndots']
+                                    $value: #IntExpr['2']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['conf']
+                                 $recv: #NameExpr['single?']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['candidates']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['conf']
+                           $recv: #NameExpr['resolv']
+                           $param: #List[
+                              $expression: #StringExpr['example.com']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['candidate']
+                                 $item: #Variadic[
+                                    $item: #NameExpr['args']
+                                 ]
+                              ]
+                              $body: #List[
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['candidates']
+                                    $right: #NameExpr['candidate']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['raise']
+                                    $param: #List[
+                                       $expression: #Field[
+                                          $recv: #Field[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['Resolv']
+                                                $name: #NameExpr['DNS']
+                                             ]
+                                             $name: #NameExpr['Config']
+                                          ]
+                                          $name: #NameExpr['NXDomain']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['n']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Resolv']
+                                    $name: #NameExpr['DNS']
+                                 ]
+                                 $name: #NameExpr['Name']
+                              ]
+                              $recv: #NameExpr['create']
+                              $param: #List[
+                                 $expression: #StringExpr['example.com.']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['n']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['candidates']
+                                 $recv: #NameExpr['last']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_query_ipv4_address']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $then: #ExceptionBlock[
+                              $main: #NameExpr['OpenSSL']
+                              $rescue: #List[
+                                 $rescue: #Rescue[
+                                    $class: #NameExpr['LoadError']
+                                    $then: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['skip']
+                                       $param: #List[
+                                          $expression: #StringExpr['autoload problem. see [ruby-dev:45021][Bug #5786]']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $cond: #Defined[
+                              $base: #NameExpr['OpenSSL']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['with_udp']
+                           $param: #List[
+                              $expression: #StringExpr['127.0.0.1']
+                              $expression: #IntExpr['0']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['u']
+                              $body: #List[
+                                 $statement: #MultipleAssign[
+                                    $left: #MultipleLeftHandSideExpression[
+                                       $item: #NameExpr['_']
+                                       $item: #NameExpr['server_port']
+                                       $item: #NameExpr['_']
+                                       $item: #NameExpr['server_address']
+                                    ]
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['u']
+                                       $recv: #NameExpr['addr']
+                                    ]
+                                 ]
+                                 $statement: #ExceptionBlock[
+                                    $main: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['client_thread']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['Thread']
+                                             $recv: #NameExpr['new']
+                                             $body: #Block[
+                                                $body: #ApplyExpr[
+                                                   $recv: #Field[
+                                                      $recv: #NameExpr['Resolv']
+                                                      $name: #NameExpr['DNS']
+                                                   ]
+                                                   $recv: #NameExpr['open']
+                                                   $param: #List[
+                                                      $hash: #Hash[
+                                                         $key: #NameExpr['nameserver_port']
+                                                         $value: #Array[
+                                                            $index: #List[
+                                                               $expression: #Array[
+                                                                  $index: #List[
+                                                                     $expression: #NameExpr['server_address']
+                                                                     $expression: #NameExpr['server_port']
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $body: #Block[
+                                                      $param: #NameExpr['dns']
+                                                      $body: #ApplyExpr[
+                                                         $recv: #NameExpr['dns']
+                                                         $recv: #NameExpr['getresources']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['foo.example.org']
+                                                            $expression: #Field[
+                                                               $recv: #Field[
+                                                                  $recv: #Field[
+                                                                     $recv: #Field[
+                                                                        $recv: #NameExpr['Resolv']
+                                                                        $name: #NameExpr['DNS']
+                                                                     ]
+                                                                     $name: #NameExpr['Resource']
+                                                                  ]
+                                                                  $name: #NameExpr['IN']
+                                                               ]
+                                                               $name: #NameExpr['A']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['server_thread']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['Thread']
+                                             $recv: #NameExpr['new']
+                                             $body: #Block[
+                                                $body: #List[
+                                                   $statement: #MultipleAssign[
+                                                      $left: #MultipleLeftHandSideExpression[
+                                                         $item: #NameExpr['msg']
+                                                         $item: #Grouping[
+                                                            $item: #MultipleLeftHandSideExpression[
+                                                               $item: #NameExpr['_']
+                                                               $item: #NameExpr['client_port']
+                                                               $item: #NameExpr['_']
+                                                               $item: #NameExpr['client_address']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['Timeout']
+                                                         $recv: #NameExpr['timeout']
+                                                         $param: #List[
+                                                            $expression: #IntExpr['5']
+                                                         ]
+                                                         $body: #Block[
+                                                            $body: #ApplyExpr[
+                                                               $recv: #NameExpr['u']
+                                                               $recv: #NameExpr['recvfrom']
+                                                               $param: #List[
+                                                                  $expression: #IntExpr['4096']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #MultipleAssign[
+                                                      $left: #MultipleLeftHandSideExpression[
+                                                         $item: #NameExpr['id']
+                                                         $item: #NameExpr['word2']
+                                                         $item: #NameExpr['qdcount']
+                                                         $item: #NameExpr['ancount']
+                                                         $item: #NameExpr['nscount']
+                                                         $item: #NameExpr['arcount']
+                                                      ]
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['msg']
+                                                         $recv: #NameExpr['unpack']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['nnnnnn']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['qr']
+                                                      $right: #RShiftExpr[
+                                                         $left: #AndExpr[
+                                                            $left: #NameExpr['word2']
+                                                            $right: #HexInteger['0x8000']
+                                                         ]
+                                                         $right: #IntExpr['15']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['opcode']
+                                                      $right: #RShiftExpr[
+                                                         $left: #AndExpr[
+                                                            $left: #NameExpr['word2']
+                                                            $right: #HexInteger['0x7800']
+                                                         ]
+                                                         $right: #IntExpr['11']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['aa']
+                                                      $right: #RShiftExpr[
+                                                         $left: #AndExpr[
+                                                            $left: #NameExpr['word2']
+                                                            $right: #HexInteger['0x0400']
+                                                         ]
+                                                         $right: #IntExpr['10']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['tc']
+                                                      $right: #RShiftExpr[
+                                                         $left: #AndExpr[
+                                                            $left: #NameExpr['word2']
+                                                            $right: #HexInteger['0x0200']
+                                                         ]
+                                                         $right: #IntExpr['9']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['rd']
+                                                      $right: #RShiftExpr[
+                                                         $left: #AndExpr[
+                                                            $left: #NameExpr['word2']
+                                                            $right: #HexInteger['0x0100']
+                                                         ]
+                                                         $right: #IntExpr['8']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['ra']
+                                                      $right: #RShiftExpr[
+                                                         $left: #AndExpr[
+                                                            $left: #NameExpr['word2']
+                                                            $right: #HexInteger['0x0080']
+                                                         ]
+                                                         $right: #IntExpr['7']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['z']
+                                                      $right: #RShiftExpr[
+                                                         $left: #AndExpr[
+                                                            $left: #NameExpr['word2']
+                                                            $right: #HexInteger['0x0070']
+                                                         ]
+                                                         $right: #IntExpr['4']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['rcode']
+                                                      $right: #AndExpr[
+                                                         $left: #NameExpr['word2']
+                                                         $right: #HexInteger['0x000f']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['rest']
+                                                      $right: #Indexer[
+                                                         $recv: #NameExpr['msg']
+                                                         $index: #List[
+                                                            $expression: #ClosedRange[
+                                                               #IntExpr['12']
+                                                               #MinusExpr[
+                                                                  $expr: #IntExpr['1']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['0']
+                                                         $expression: #NameExpr['qr']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['0']
+                                                         $expression: #NameExpr['opcode']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['0']
+                                                         $expression: #NameExpr['aa']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['0']
+                                                         $expression: #NameExpr['tc']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['1']
+                                                         $expression: #NameExpr['rd']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['0']
+                                                         $expression: #NameExpr['ra']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['0']
+                                                         $expression: #NameExpr['z']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['0']
+                                                         $expression: #NameExpr['rcode']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['1']
+                                                         $expression: #NameExpr['qdcount']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['0']
+                                                         $expression: #NameExpr['ancount']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['0']
+                                                         $expression: #NameExpr['nscount']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['0']
+                                                         $expression: #NameExpr['arcount']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['name']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #Array[
+                                                            $index: #List[
+                                                               $expression: #IntExpr['3']
+                                                               $expression: #StringExpr['foo']
+                                                               $expression: #IntExpr['7']
+                                                               $expression: #StringExpr['example']
+                                                               $expression: #IntExpr['3']
+                                                               $expression: #StringExpr['org']
+                                                               $expression: #IntExpr['0']
+                                                            ]
+                                                         ]
+                                                         $recv: #NameExpr['pack']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['Ca*Ca*Ca*C']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_operator']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['rest']
+                                                         $expression: #NameExpr['start_with?']
+                                                         $expression: #NameExpr['name']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['rest']
+                                                      $right: #Indexer[
+                                                         $recv: #NameExpr['rest']
+                                                         $index: #List[
+                                                            $expression: #ClosedRange[
+                                                               #ApplyExpr[
+                                                                  $recv: #NameExpr['name']
+                                                                  $recv: #NameExpr['length']
+                                                               ]
+                                                               #MinusExpr[
+                                                                  $expr: #IntExpr['1']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['4']
+                                                         $expression: #ApplyExpr[
+                                                            $recv: #NameExpr['rest']
+                                                            $recv: #NameExpr['length']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #MultipleAssign[
+                                                      $left: #MultipleLeftHandSideExpression[
+                                                         $item: #NameExpr['qtype']
+                                                         $item: #NameExpr['_']
+                                                      ]
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['rest']
+                                                         $recv: #NameExpr['unpack']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['nn']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['1']
+                                                         $expression: #NameExpr['qtype']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['assert_equal']
+                                                      $param: #List[
+                                                         $expression: #IntExpr['1']
+                                                         $expression: #NameExpr['qtype']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['id']
+                                                      $right: #NameExpr['id']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['qr']
+                                                      $right: #IntExpr['1']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['opcode']
+                                                      $right: #NameExpr['opcode']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['aa']
+                                                      $right: #IntExpr['0']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['tc']
+                                                      $right: #IntExpr['0']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['rd']
+                                                      $right: #NameExpr['rd']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['ra']
+                                                      $right: #IntExpr['1']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['z']
+                                                      $right: #IntExpr['0']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['rcode']
+                                                      $right: #IntExpr['0']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['qdcount']
+                                                      $right: #IntExpr['0']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['ancount']
+                                                      $right: #IntExpr['1']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['nscount']
+                                                      $right: #IntExpr['0']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['arcount']
+                                                      $right: #IntExpr['0']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['word2']
+                                                      $right: #OrExpr[
+                                                         $left: #OrExpr[
+                                                            $left: #OrExpr[
+                                                               $left: #OrExpr[
+                                                                  $left: #OrExpr[
+                                                                     $left: #OrExpr[
+                                                                        $left: #OrExpr[
+                                                                           $left: #LShiftExpr[
+                                                                              $left: #NameExpr['qr']
+                                                                              $right: #IntExpr['15']
+                                                                           ]
+                                                                           $right: #LShiftExpr[
+                                                                              $left: #NameExpr['opcode']
+                                                                              $right: #IntExpr['11']
+                                                                           ]
+                                                                        ]
+                                                                        $right: #LShiftExpr[
+                                                                           $left: #NameExpr['aa']
+                                                                           $right: #IntExpr['10']
+                                                                        ]
+                                                                     ]
+                                                                     $right: #LShiftExpr[
+                                                                        $left: #NameExpr['tc']
+                                                                        $right: #IntExpr['9']
+                                                                     ]
+                                                                  ]
+                                                                  $right: #LShiftExpr[
+                                                                     $left: #NameExpr['rd']
+                                                                     $right: #IntExpr['8']
+                                                                  ]
+                                                               ]
+                                                               $right: #LShiftExpr[
+                                                                  $left: #NameExpr['ra']
+                                                                  $right: #IntExpr['7']
+                                                               ]
+                                                            ]
+                                                            $right: #LShiftExpr[
+                                                               $left: #NameExpr['z']
+                                                               $right: #IntExpr['4']
+                                                            ]
+                                                         ]
+                                                         $right: #NameExpr['rcode']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['msg']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #Array[
+                                                            $index: #List[
+                                                               $expression: #NameExpr['id']
+                                                               $expression: #NameExpr['word2']
+                                                               $expression: #NameExpr['qdcount']
+                                                               $expression: #NameExpr['ancount']
+                                                               $expression: #NameExpr['nscount']
+                                                               $expression: #NameExpr['arcount']
+                                                            ]
+                                                         ]
+                                                         $recv: #NameExpr['pack']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['nnnnnn']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['type']
+                                                      $right: #IntExpr['1']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['klass']
+                                                      $right: #IntExpr['1']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['ttl']
+                                                      $right: #IntExpr['3600']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['rdlength']
+                                                      $right: #IntExpr['4']
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['rdata']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #Array[
+                                                            $index: #List[
+                                                               $expression: #IntExpr['192']
+                                                               $expression: #IntExpr['0']
+                                                               $expression: #IntExpr['2']
+                                                               $expression: #IntExpr['1']
+                                                            ]
+                                                         ]
+                                                         $recv: #NameExpr['pack']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['CCCC']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['rr']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #Array[
+                                                            $index: #List[
+                                                               $expression: #NameExpr['name']
+                                                               $expression: #NameExpr['type']
+                                                               $expression: #NameExpr['klass']
+                                                               $expression: #NameExpr['ttl']
+                                                               $expression: #NameExpr['rdlength']
+                                                               $expression: #NameExpr['rdata']
+                                                            ]
+                                                         ]
+                                                         $recv: #NameExpr['pack']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['a*nnNna*']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #LShiftExpr[
+                                                      $left: #NameExpr['msg']
+                                                      $right: #NameExpr['rr']
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      $recv: #NameExpr['u']
+                                                      $recv: #NameExpr['send']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['msg']
+                                                         $expression: #IntExpr['0']
+                                                         $expression: #NameExpr['client_address']
+                                                         $expression: #NameExpr['client_port']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #MultipleAssign[
+                                          $left: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['result']
+                                             $item: #NameExpr['_']
+                                          ]
+                                          $right: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_join_threads']
+                                             $param: #List[
+                                                $expression: #Array[
+                                                   $index: #List[
+                                                      $expression: #NameExpr['client_thread']
+                                                      $expression: #NameExpr['server_thread']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['assert_instance_of']
+                                          $param: #List[
+                                             $expression: #NameExpr['Array']
+                                             $expression: #NameExpr['result']
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['assert_equal']
+                                          $param: #List[
+                                             $expression: #IntExpr['1']
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['result']
+                                                $recv: #NameExpr['length']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['rr']
+                                          $right: #Indexer[
+                                             $recv: #NameExpr['result']
+                                             $index: #List[
+                                                $expression: #IntExpr['0']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['assert_instance_of']
+                                          $param: #List[
+                                             $expression: #Field[
+                                                $recv: #Field[
+                                                   $recv: #Field[
+                                                      $recv: #Field[
+                                                         $recv: #NameExpr['Resolv']
+                                                         $name: #NameExpr['DNS']
+                                                      ]
+                                                      $name: #NameExpr['Resource']
+                                                   ]
+                                                   $name: #NameExpr['IN']
+                                                ]
+                                                $name: #NameExpr['A']
+                                             ]
+                                             $expression: #NameExpr['rr']
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['assert_instance_of']
+                                          $param: #List[
+                                             $expression: #Field[
+                                                $recv: #NameExpr['Resolv']
+                                                $name: #NameExpr['IPv4']
+                                             ]
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['rr']
+                                                $recv: #NameExpr['address']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['assert_equal']
+                                          $param: #List[
+                                             $expression: #StringExpr['192.0.2.1']
+                                             $expression: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #NameExpr['rr']
+                                                   $recv: #NameExpr['address']
+                                                ]
+                                                $recv: #NameExpr['to_s']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['assert_equal']
+                                          $param: #List[
+                                             $expression: #IntExpr['3600']
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['rr']
+                                                $recv: #NameExpr['ttl']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_query_ipv4_address_timeout']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['with_udp']
+                        $param: #List[
+                           $expression: #StringExpr['127.0.0.1']
+                           $expression: #IntExpr['0']
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['u']
+                           $body: #List[
+                              $statement: #MultipleAssign[
+                                 $left: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['_']
+                                    $item: #NameExpr['port']
+                                    $item: #NameExpr['_']
+                                    $item: #NameExpr['host']
+                                 ]
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['u']
+                                    $recv: #NameExpr['addr']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['start']
+                                 $right: #Nil['nil']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['rv']
+                                 $right: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Resolv']
+                                       $name: #NameExpr['DNS']
+                                    ]
+                                    $recv: #NameExpr['open']
+                                    $param: #List[
+                                       $hash: #Hash[
+                                          $key: #NameExpr['nameserver_port']
+                                          $value: #Array[
+                                             $index: #List[
+                                                $expression: #Array[
+                                                   $index: #List[
+                                                      $expression: #NameExpr['host']
+                                                      $expression: #NameExpr['port']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['dns']
+                                       $body: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #Field[
+                                                $base: #NameExpr['dns']
+                                                $name: #NameExpr['timeouts']
+                                             ]
+                                             $right: #FloatExpr['0.1']
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['start']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['Time']
+                                                $recv: #NameExpr['now']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['dns']
+                                             $recv: #NameExpr['getresources']
+                                             $param: #List[
+                                                $expression: #StringExpr['foo.example.org']
+                                                $expression: #Field[
+                                                   $recv: #Field[
+                                                      $recv: #Field[
+                                                         $recv: #Field[
+                                                            $recv: #NameExpr['Resolv']
+                                                            $name: #NameExpr['DNS']
+                                                         ]
+                                                         $name: #NameExpr['Resource']
+                                                      ]
+                                                      $name: #NameExpr['IN']
+                                                   ]
+                                                   $name: #NameExpr['A']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['t2']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['Time']
+                                    $recv: #NameExpr['now']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['diff']
+                                 $right: #SubExpr[
+                                    $left: #NameExpr['t2']
+                                    $right: #NameExpr['start']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['rv']
+                                       $recv: #NameExpr['empty?']
+                                    ]
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['rv']
+                                          $recv: #NameExpr['inspect']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_operator']
+                                 $param: #List[
+                                    $expression: #FloatExpr['0.1']
+                                    $expression: #NameExpr['<=']
+                                    $expression: #NameExpr['diff']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['rv']
+                                 $right: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Resolv']
+                                       $name: #NameExpr['DNS']
+                                    ]
+                                    $recv: #NameExpr['open']
+                                    $param: #List[
+                                       $hash: #Hash[
+                                          $key: #NameExpr['nameserver_port']
+                                          $value: #Array[
+                                             $index: #List[
+                                                $expression: #Array[
+                                                   $index: #List[
+                                                      $expression: #NameExpr['host']
+                                                      $expression: #NameExpr['port']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['dns']
+                                       $body: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #Field[
+                                                $base: #NameExpr['dns']
+                                                $name: #NameExpr['timeouts']
+                                             ]
+                                             $right: #Array[
+                                                $index: #List[
+                                                   $expression: #FloatExpr['0.1']
+                                                   $expression: #FloatExpr['0.2']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['start']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['Time']
+                                                $recv: #NameExpr['now']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['dns']
+                                             $recv: #NameExpr['getresources']
+                                             $param: #List[
+                                                $expression: #StringExpr['foo.example.org']
+                                                $expression: #Field[
+                                                   $recv: #Field[
+                                                      $recv: #Field[
+                                                         $recv: #Field[
+                                                            $recv: #NameExpr['Resolv']
+                                                            $name: #NameExpr['DNS']
+                                                         ]
+                                                         $name: #NameExpr['Resource']
+                                                      ]
+                                                      $name: #NameExpr['IN']
+                                                   ]
+                                                   $name: #NameExpr['A']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['t2']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['Time']
+                                    $recv: #NameExpr['now']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['diff']
+                                 $right: #SubExpr[
+                                    $left: #NameExpr['t2']
+                                    $right: #NameExpr['start']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['rv']
+                                       $recv: #NameExpr['empty?']
+                                    ]
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['rv']
+                                          $recv: #NameExpr['inspect']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_operator']
+                                 $param: #List[
+                                    $expression: #FloatExpr['0.3']
+                                    $expression: #NameExpr['<=']
+                                    $expression: #NameExpr['diff']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_no_server']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['u']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['UDPSocket']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['u']
+                           $recv: #NameExpr['bind']
+                           $param: #List[
+                              $expression: #StringExpr['127.0.0.1']
+                              $expression: #IntExpr['0']
+                           ]
+                        ]
+                        $statement: #MultipleAssign[
+                           $left: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['_']
+                              $item: #NameExpr['port']
+                              $item: #NameExpr['_']
+                              $item: #NameExpr['host']
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['u']
+                              $recv: #NameExpr['addr']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['u']
+                           $recv: #NameExpr['close']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['Timeout']
+                           $recv: #NameExpr['timeout']
+                           $param: #List[
+                              $expression: #IntExpr['5']
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Resolv']
+                                    $name: #NameExpr['DNS']
+                                 ]
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $hash: #Hash[
+                                       $key: #NameExpr['nameserver_port']
+                                       $value: #Array[
+                                          $index: #List[
+                                             $expression: #Array[
+                                                $index: #List[
+                                                   $expression: #NameExpr['host']
+                                                   $expression: #NameExpr['port']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['dns']
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #Array['[]']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['dns']
+                                             $recv: #NameExpr['getresources']
+                                             $param: #List[
+                                                $expression: #StringExpr['test-no-server.example.org']
+                                                $expression: #Field[
+                                                   $recv: #Field[
+                                                      $recv: #Field[
+                                                         $recv: #Field[
+                                                            $recv: #NameExpr['Resolv']
+                                                            $name: #NameExpr['DNS']
+                                                         ]
+                                                         $name: #NameExpr['Resource']
+                                                      ]
+                                                      $name: #NameExpr['IN']
+                                                   ]
+                                                   $name: #NameExpr['A']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_invalid_byte_comment']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['bug9273']
+                           $right: #StringExpr['[ruby-core:59239] [Bug #9273]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['Tempfile']
+                           $recv: #NameExpr['create']
+                           $param: #List[
+                              $expression: #StringExpr['resolv_test_dns_']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['tmpfile']
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['tmpfile']
+                                    $recv: #NameExpr['print']
+                                    $param: #List[
+                                       $expression: #StringExpr['\\xff\\x00\\x40']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['tmpfile']
+                                    $recv: #NameExpr['close']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_nothing_raised']
+                                    $param: #List[
+                                       $expression: #NameExpr['ArgumentError']
+                                       $expression: #NameExpr['bug9273']
+                                    ]
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $recv: #Field[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['Resolv']
+                                                $name: #NameExpr['DNS']
+                                             ]
+                                             $name: #NameExpr['Config']
+                                          ]
+                                          $recv: #NameExpr['parse_resolv_conf']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['tmpfile']
+                                                $recv: #NameExpr['path']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_dots_diffences']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['name1']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Resolv']
+                                    $name: #NameExpr['DNS']
+                                 ]
+                                 $name: #NameExpr['Name']
+                              ]
+                              $recv: #NameExpr['create']
+                              $param: #List[
+                                 $expression: #StringExpr['example.org']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['name2']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Resolv']
+                                    $name: #NameExpr['DNS']
+                                 ]
+                                 $name: #NameExpr['Name']
+                              ]
+                              $recv: #NameExpr['create']
+                              $param: #List[
+                                 $expression: #StringExpr['ex.ampl.eo.rg']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_equal']
+                           $param: #List[
+                              $expression: #NameExpr['name1']
+                              $expression: #NameExpr['name2']
+                              $expression: #StringExpr['different dots']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_case_insensitive_name']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['bug10550']
+                           $right: #StringExpr['[ruby-core:66498] [Bug #10550]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['lower']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Resolv']
+                                    $name: #NameExpr['DNS']
+                                 ]
+                                 $name: #NameExpr['Name']
+                              ]
+                              $recv: #NameExpr['create']
+                              $param: #List[
+                                 $expression: #StringExpr['ruby-lang.org']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['upper']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Resolv']
+                                    $name: #NameExpr['DNS']
+                                 ]
+                                 $name: #NameExpr['Name']
+                              ]
+                              $recv: #NameExpr['create']
+                              $param: #List[
+                                 $expression: #StringExpr['Ruby-Lang.org']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['lower']
+                              $expression: #NameExpr['upper']
+                              $expression: #NameExpr['bug10550']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_ipv6_name']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['addr']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Resolv']
+                                 $name: #NameExpr['IPv6']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #MulExpr[
+                                    $left: #StringExpr['\\0']
+                                    $right: #IntExpr['16']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['labels']
+                           $right: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['addr']
+                                 $recv: #NameExpr['to_name']
+                              ]
+                              $recv: #NameExpr['to_a']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expected']
+                           $right: #ApplyExpr[
+                              $recv: #AddExpr[
+                                 $left: #MulExpr[
+                                    $left: #Array[
+                                       $index: #List[
+                                          $expression: #StringExpr['0']
+                                       ]
+                                    ]
+                                    $right: #IntExpr['32']
+                                 ]
+                                 $right: #Array[
+                                    $index: #List[
+                                       $expression: #StringExpr['ip6']
+                                       $expression: #StringExpr['arpa']
+                                    ]
+                                 ]
+                              ]
+                              $recv: #NameExpr['map']
+                              $body: #Block[
+                                 $param: #NameExpr['label']
+                                 $body: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['Resolv']
+                                             $name: #NameExpr['DNS']
+                                          ]
+                                          $name: #NameExpr['Label']
+                                       ]
+                                       $name: #NameExpr['Str']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #NameExpr['label']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['expected']
+                              $expression: #NameExpr['labels']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_ipv6_create']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['ref']
+                           $right: #StringExpr['[Bug #11910] [ruby-core:72559]']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_instance_of']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['Resolv']
+                                 $name: #NameExpr['IPv6']
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Resolv']
+                                    $name: #NameExpr['IPv6']
+                                 ]
+                                 $recv: #NameExpr['create']
+                                 $param: #List[
+                                    $expression: #StringExpr['::1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_instance_of']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['Resolv']
+                                 $name: #NameExpr['IPv6']
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Resolv']
+                                    $name: #NameExpr['IPv6']
+                                 ]
+                                 $recv: #NameExpr['create']
+                                 $param: #List[
+                                    $expression: #StringExpr['::1:127.0.0.1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_too_big_label_address']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['n']
+                           $right: #IntExpr['2000']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['m']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Resolv']
+                                       $name: #NameExpr['DNS']
+                                    ]
+                                    $name: #NameExpr['Message']
+                                 ]
+                                 $name: #NameExpr['MessageEncoder']
+                              ]
+                              $recv: #NameExpr['new']
+                              $body: #Block[
+                                 $param: #NameExpr['msg']
+                                 $body: #ApplyExpr[
+                                    $recv: #IntExpr['2']
+                                    $recv: #NameExpr['times']
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['n']
+                                          $recv: #NameExpr['times']
+                                          $body: #Block[
+                                             $param: #NameExpr['i']
+                                             $body: #ApplyExpr[
+                                                $recv: #NameExpr['msg']
+                                                $recv: #NameExpr['put_labels']
+                                                $param: #List[
+                                                   $expression: #Array[
+                                                      $index: #List[
+                                                         $expression: #StringExpr[
+                                                            $inner: #NameExpr['i']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Resolv']
+                                    $name: #NameExpr['DNS']
+                                 ]
+                                 $name: #NameExpr['Message']
+                              ]
+                              $name: #NameExpr['MessageDecoder']
+                           ]
+                           $recv: #NameExpr['new']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['m']
+                                 $recv: #NameExpr['to_s']
+                              ]
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['msg']
+                              $body: #ApplyExpr[
+                                 $recv: #IntExpr['2']
+                                 $recv: #NameExpr['times']
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['n']
+                                       $recv: #NameExpr['times']
+                                       $body: #Block[
+                                          $param: #NameExpr['i']
+                                          $body: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_equal']
+                                             $param: #List[
+                                                $expression: #Array[
+                                                   $index: #List[
+                                                      $expression: #StringExpr[
+                                                         $inner: #NameExpr['i']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $expression: #ApplyExpr[
+                                                   $recv: #ApplyExpr[
+                                                      $recv: #NameExpr['msg']
+                                                      $recv: #NameExpr['get_labels']
+                                                   ]
+                                                   $recv: #NameExpr['map']
+                                                   $body: #Block[
+                                                      $param: #NameExpr['label']
+                                                      $body: #ApplyExpr[
+                                                         $recv: #NameExpr['label']
+                                                         $recv: #NameExpr['to_s']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_operator']
+                           $param: #List[
+                              $expression: #PowerExpr[
+                                 $left: #IntExpr['2']
+                                 $right: #IntExpr['14']
+                              ]
+                              $expression: #NameExpr['<']
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['m']
+                                    $recv: #NameExpr['to_s']
+                                 ]
+                                 $recv: #NameExpr['length']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

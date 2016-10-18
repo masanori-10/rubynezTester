@@ -1,0 +1,714 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/remote_fetcher']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NestedName[
+            $path: #NameExpr['Gem']
+            $name: #NameExpr['GemcutterUtilities']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  $base: #NameExpr['OptionParser']
+                  $recv: #NameExpr['accept']
+                  $param: #List[
+                     $expression: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['Symbol']
+                        $body: #Block[
+                           $param: #NameExpr['value']
+                           $body: #ApplyExpr[
+                              $recv: #NameExpr['value']
+                              $recv: #NameExpr['to_sym']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['attr_writer']
+                  $param: #List[
+                     $expression: #NameExpr['host']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['add_key_option']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['add_option']
+                        $param: #List[
+                           $expression: #StringExpr['-k']
+                           $expression: #StringExpr['--key KEYNAME']
+                           $expression: #NameExpr['Symbol']
+                           $expression: #StringExpr['Use the given API key']
+                           $expression: #StringExpr['from ~/.gem/credentials']
+                        ]
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['value']
+                              $item: #NameExpr['options']
+                           ]
+                           $body: #AssignExpr[
+                              $left: #Indexer[
+                                 $base: #NameExpr['options']
+                                 $index: #List[
+                                    $expression: #NameExpr['key']
+                                 ]
+                              ]
+                              $right: #NameExpr['value']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['api_key']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #IfExpr[
+                        $cond: #Indexer[
+                           $recv: #NameExpr['options']
+                           $index: #List[
+                              $expression: #NameExpr['key']
+                           ]
+                        ]
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['verify_api_key']
+                           $param: #List[
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['options']
+                                 $index: #List[
+                                    $expression: #NameExpr['key']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['Gem']
+                                    $recv: #NameExpr['configuration']
+                                 ]
+                                 $recv: #NameExpr['api_keys']
+                              ]
+                              $recv: #NameExpr['key?']
+                              $param: #List[
+                                 $expression: #NameExpr['host']
+                              ]
+                           ]
+                           $then: #Indexer[
+                              $recv: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['Gem']
+                                    $recv: #NameExpr['configuration']
+                                 ]
+                                 $recv: #NameExpr['api_keys']
+                              ]
+                              $index: #List[
+                                 $expression: #NameExpr['host']
+                              ]
+                           ]
+                           $else: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['configuration']
+                              ]
+                              $recv: #NameExpr['rubygems_api_key']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['host']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Unless[
+                           $then: #AssignExpr[
+                              $left: #NameExpr['configured_host']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['host']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['configuration']
+                              ]
+                              $recv: #NameExpr['disable_default_gem_server']
+                           ]
+                        ]
+                        $statement: #LOrAssign[
+                           $left: #NameExpr['@host']
+                           $right: #ExceptionBlock[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['env_rubygems_host']
+                                    $right: #Indexer[
+                                       $recv: #NameExpr['ENV']
+                                       $index: #List[
+                                          $expression: #StringExpr['RUBYGEMS_HOST']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #AssignExpr[
+                                       $left: #NameExpr['env_rubygems_host']
+                                       $right: #Nil['nil']
+                                    ]
+                                    $cond: #AndExpr[
+                                       $left: #NameExpr['env_rubygems_host']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['env_rubygems_host']
+                                          $recv: #NameExpr['empty?']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #LOr[
+                                    $left: #NameExpr['env_rubygems_host']
+                                    $right: #NameExpr['configured_host']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['rubygems_api_request']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['method']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['path']
+                     ]
+                     $param: #OptionalParam[
+                        $name: #NameExpr['host']
+                        $default: #Nil['nil']
+                     ]
+                     $param: #OptionalParam[
+                        $name: #NameExpr['allowed_push_host']
+                        $default: #Nil['nil']
+                     ]
+                     $param: #ProcedureParam[
+                        $name: #NameExpr['block']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['require']
+                           $param: #List[
+                              $expression: #StringExpr['net/http']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #AssignExpr[
+                              $left: #Field[
+                                 $base: #Self['self']
+                                 $name: #NameExpr['host']
+                              ]
+                              $right: #NameExpr['host']
+                           ]
+                           $cond: #NameExpr['host']
+                        ]
+                        $statement: #Unless[
+                           $cond: #ApplyExpr[
+                              $recv: #Self['self']
+                              $recv: #NameExpr['host']
+                           ]
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['alert_error']
+                                 $param: #List[
+                                    $expression: #StringExpr['You must specify a gem server']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['terminate_interaction']
+                                 $param: #List[
+                                    $expression: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #NameExpr['allowed_push_host']
+                           $then: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['allowed_host_uri']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['URI']
+                                    $recv: #NameExpr['parse']
+                                    $param: #List[
+                                       $expression: #NameExpr['allowed_push_host']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['host_uri']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['URI']
+                                    $recv: #NameExpr['parse']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #Self['self']
+                                          $recv: #NameExpr['host']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $cond: #ApplyExpr[
+                                    $base: #EqExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['host_uri']
+                                          $recv: #NameExpr['scheme']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['allowed_host_uri']
+                                          $recv: #NameExpr['scheme']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['&']
+                                    $param: #List[
+                                       $expression: #EqExpr[
+                                          $left: #ApplyExpr[
+                                             $recv: #NameExpr['host_uri']
+                                             $recv: #NameExpr['host']
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['allowed_host_uri']
+                                             $recv: #NameExpr['host']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $then: #List[
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['alert_error']
+                                       $param: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #Self['self']
+                                                   $recv: #NameExpr['host']
+                                                ]
+                                                $recv: #NameExpr['inspect']
+                                             ]
+                                             $inner: #ApplyExpr[
+                                                $recv: #NameExpr['allowed_push_host']
+                                                $recv: #NameExpr['inspect']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['terminate_interaction']
+                                       $param: #List[
+                                          $expression: #IntExpr['1']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['uri']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['URI']
+                              $recv: #NameExpr['parse']
+                              $param: #List[
+                                 $expression: #StringExpr[
+                                    $inner: #ApplyExpr[
+                                       $recv: #Self['self']
+                                       $recv: #NameExpr['host']
+                                    ]
+                                    $inner: #NameExpr['path']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['request_method']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #NameExpr['Net']
+                                 $name: #NameExpr['HTTP']
+                              ]
+                              $recv: #NameExpr['const_get']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['method']
+                                       $recv: #NameExpr['to_s']
+                                    ]
+                                    $recv: #NameExpr['capitalize']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['RemoteFetcher']
+                              ]
+                              $recv: #NameExpr['fetcher']
+                           ]
+                           $recv: #NameExpr['request']
+                           $param: #List[
+                              $expression: #NameExpr['uri']
+                              $expression: #NameExpr['request_method']
+                              $procedure: #Procedure[
+                                 $base: #NameExpr['block']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['sign_in']
+                  $param: #List[
+                     $param: #OptionalParam[
+                        $name: #NameExpr['sign_in_host']
+                        $default: #Nil['nil']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #LOrAssign[
+                           $left: #NameExpr['sign_in_host']
+                           $right: #ApplyExpr[
+                              $recv: #Self['self']
+                              $recv: #NameExpr['host']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #RReturnStmt['return']
+                           $cond: #NameExpr['api_key']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['pretty_host']
+                           $right: #IfExpr[
+                              $cond: #EqExpr[
+                                 $left: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['DEFAULT_HOST']
+                                 ]
+                                 $right: #NameExpr['sign_in_host']
+                              ]
+                              $then: #StringExpr['RubyGems.org']
+                              $else: #NameExpr['sign_in_host']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['say']
+                           $param: #List[
+                              $expression: #StringExpr[
+                                 $inner: #NameExpr['pretty_host']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['say']
+                           $param: #List[
+                              $expression: #AddExpr[
+                                 $left: #StringExpr['Don\'t have an account yet? ']
+                                 $right: #StringExpr[
+                                    $inner: #NameExpr['sign_in_host']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['email']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['ask']
+                              $param: #List[
+                                 $expression: #StringExpr['   Email: ']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['password']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['ask_for_password']
+                              $param: #List[
+                                 $expression: #StringExpr['Password: ']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['say']
+                           $param: #List[
+                              $expression: #StringExpr['\\n']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['response']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['rubygems_api_request']
+                              $param: #List[
+                                 $expression: #NameExpr['get']
+                                 $expression: #StringExpr['api/v1/api_key']
+                                 $expression: #NameExpr['sign_in_host']
+                              ]
+                              $body: #Block[
+                                 $param: #NameExpr['request']
+                                 $body: #ApplyExpr[
+                                    $base: #NameExpr['request']
+                                    $recv: #NameExpr['basic_auth']
+                                    $param: #List[
+                                       $expression: #NameExpr['email']
+                                       $expression: #NameExpr['password']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['with_response']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['response']
+                                 $body: #Block[
+                                    $param: #NameExpr['resp']
+                                    $body: #List[
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['say']
+                                          $param: #List[
+                                             $expression: #StringExpr['Signed in.']
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['set_api_key']
+                                          $param: #List[
+                                             $expression: #NameExpr['host']
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['resp']
+                                                $recv: #NameExpr['body']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['verify_api_key']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['key']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $base: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['configuration']
+                              ]
+                              $recv: #NameExpr['api_keys']
+                           ]
+                           $recv: #NameExpr['key?']
+                           $param: #List[
+                              $expression: #NameExpr['key']
+                           ]
+                        ]
+                        $then: #Indexer[
+                           $recv: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['configuration']
+                              ]
+                              $recv: #NameExpr['api_keys']
+                           ]
+                           $index: #List[
+                              $expression: #NameExpr['key']
+                           ]
+                        ]
+                        $else: #List[
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['alert_error']
+                              $param: #List[
+                                 $expression: #StringExpr['No such API key. Please add it to your configuration (done automatically on initial `gem push`).']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['terminate_interaction']
+                              $param: #List[
+                                 $expression: #IntExpr['1']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['with_response']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['response']
+                     ]
+                     $param: #OptionalParam[
+                        $name: #NameExpr['error_prefix']
+                        $default: #Nil['nil']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #Case[
+                        $cond: #NameExpr['response']
+                        $body: #List[
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Net']
+                                    $name: #NameExpr['HTTPSuccess']
+                                 ]
+                              ]
+                              $then: #IfExpr[
+                                 $cond: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['block_given?']
+                                 ]
+                                 $then: #Yield[
+                                    $param: #List[
+                                       $expression: #NameExpr['response']
+                                    ]
+                                 ]
+                                 $else: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['say']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['response']
+                                          $recv: #NameExpr['body']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['message']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['response']
+                                 $recv: #NameExpr['body']
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['message']
+                                 $right: #StringExpr[
+                                    $inner: #NameExpr['error_prefix']
+                                    $inner: #NameExpr['message']
+                                 ]
+                              ]
+                              $cond: #NameExpr['error_prefix']
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['say']
+                              $param: #List[
+                                 $expression: #NameExpr['message']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['terminate_interaction']
+                              $param: #List[
+                                 $expression: #IntExpr['1']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['set_api_key']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['host']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['key']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #IfExpr[
+                        $cond: #EqExpr[
+                           $left: #NameExpr['host']
+                           $right: #Field[
+                              $recv: #NameExpr['Gem']
+                              $name: #NameExpr['DEFAULT_HOST']
+                           ]
+                        ]
+                        $then: #AssignExpr[
+                           $left: #Field[
+                              $base: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['configuration']
+                              ]
+                              $name: #NameExpr['rubygems_api_key']
+                           ]
+                           $right: #NameExpr['key']
+                        ]
+                        $else: #ApplyExpr[
+                           $base: #ApplyExpr[
+                              $recv: #NameExpr['Gem']
+                              $recv: #NameExpr['configuration']
+                           ]
+                           $recv: #NameExpr['set_api_key']
+                           $param: #List[
+                              $expression: #NameExpr['host']
+                              $expression: #NameExpr['key']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

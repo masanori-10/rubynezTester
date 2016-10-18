@@ -1,0 +1,291 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['pp']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['DemoApplication']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['config']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['enctype']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@enctype']
+                           $right: #NameExpr['enctype']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['do_GET']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['req']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['res']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #NeExpr[
+                              $left: #ApplyExpr[
+                                 $recv: #NameExpr['req']
+                                 $recv: #NameExpr['path_info']
+                              ]
+                              $right: #StringExpr['/']
+                           ]
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['res']
+                              $recv: #NameExpr['set_redirect']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['WEBrick']
+                                       $name: #NameExpr['HTTPStatus']
+                                    ]
+                                    $name: #NameExpr['Found']
+                                 ]
+                                 $expression: #AddExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['req']
+                                       $recv: #NameExpr['script_name']
+                                    ]
+                                    $right: #StringExpr['/']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Field[
+                              $base: #NameExpr['res']
+                              $name: #NameExpr['body']
+                           ]
+                           $right: #HereDocument['      <HTML>\n       <FORM method="POST" enctype=#{@enctype}>\n        text: <INPUT type="text" name="text"><BR>\n        file: <INPUT type="file" name="file"><BR>\n        check:\n        <INPUT type="checkbox" name="check" value="a">a,\n        <INPUT type="checkbox" name="check" value="b">b,\n        <INPUT type="checkbox" name="check" value="c">c,\n        <BR>\n        <INPUT type="submit">\n       </FORM>\n      </HTML>\n']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['res']
+                              $index: #List[
+                                 $expression: #StringExpr['content-type']
+                              ]
+                           ]
+                           $right: #StringExpr['text/html; charset=iso-8859-1']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['do_POST']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['req']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['res']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #GtExpr[
+                              $left: #ApplyExpr[
+                                 $recv: #Indexer[
+                                    $recv: #NameExpr['req']
+                                    $index: #List[
+                                       $expression: #StringExpr['content-length']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['to_i']
+                              ]
+                              $right: #MulExpr[
+                                 $left: #IntExpr['1024']
+                                 $right: #IntExpr['10']
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['WEBrick']
+                                       $name: #NameExpr['HTTPStatus']
+                                    ]
+                                    $name: #NameExpr['Forbidden']
+                                 ]
+                                 $expression: #StringExpr['file size too large']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Field[
+                              $base: #NameExpr['res']
+                              $name: #NameExpr['body']
+                           ]
+                           $right: #HereDocument['      <HTML>\n       <H2>Query Parameters</H2>\n       #{display_query(req.query)}\n       <A href="#{req.path}">return</A>\n       <H2>Request</H2>\n       <PRE>#{WEBrick::HTMLUtils::escape(PP::pp(req, "", 80))}</PRE>\n       <H2>Response</H2>\n       <PRE>#{WEBrick::HTMLUtils::escape(PP::pp(res, "", 80))}</PRE>\n      </HTML>\n']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['res']
+                              $index: #List[
+                                 $expression: #StringExpr['content-type']
+                              ]
+                           ]
+                           $right: #StringExpr['text/html; charset=iso-8859-1']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['private']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['display_query']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['q']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['ret']
+                           $right: #StringExpr['']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['q']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['key']
+                                 $item: #NameExpr['val']
+                              ]
+                              $body: #List[
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['ret']
+                                    $right: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['WEBrick']
+                                             $name: #NameExpr['HTMLUtils']
+                                          ]
+                                          $recv: #NameExpr['escape']
+                                          $param: #List[
+                                             $expression: #NameExpr['key']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['ret']
+                                    $right: #StringExpr['<TABLE border=1>']
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['ret']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['make_tr']
+                                       $param: #List[
+                                          $expression: #StringExpr['val']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['val']
+                                             $recv: #NameExpr['inspect']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['ret']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['make_tr']
+                                       $param: #List[
+                                          $expression: #StringExpr['val.to_a']
+                                          $expression: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['val']
+                                                $recv: #NameExpr['to_a']
+                                             ]
+                                             $recv: #NameExpr['inspect']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['ret']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['make_tr']
+                                       $param: #List[
+                                          $expression: #StringExpr['val.to_ary']
+                                          $expression: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['val']
+                                                $recv: #NameExpr['to_ary']
+                                             ]
+                                             $recv: #NameExpr['inspect']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['ret']
+                                    $right: #StringExpr['</TABLE>']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['ret']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['make_tr']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['arg0']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['arg1']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #StringExpr[
+                        $inner: #NameExpr['arg0']
+                        $inner: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['WEBrick']
+                              $name: #NameExpr['HTMLUtils']
+                           ]
+                           $recv: #NameExpr['escape']
+                           $param: #List[
+                              $expression: #NameExpr['arg1']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,226 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestWaitForSingleFD']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['require']
+                  $param: #List[
+                     $expression: #StringExpr['-test-/wait_for_single_fd']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['with_pipe']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #MultipleAssign[
+                           $left: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['r']
+                              $item: #NameExpr['w']
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['IO']
+                              $recv: #NameExpr['pipe']
+                           ]
+                        ]
+                        $statement: #ExceptionBlock[
+                           $main: #Yield[
+                              $param: #List[
+                                 $expression: #NameExpr['r']
+                                 $expression: #NameExpr['w']
+                              ]
+                           ]
+                           $ensure: #List[
+                              $statement: #Unless[
+                                 $then: #ApplyExpr[
+                                    $recv: #NameExpr['r']
+                                    $recv: #NameExpr['close']
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['r']
+                                    $recv: #NameExpr['closed?']
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $then: #ApplyExpr[
+                                    $recv: #NameExpr['w']
+                                    $recv: #NameExpr['close']
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['w']
+                                    $recv: #NameExpr['closed?']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_wait_for_valid_fd']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['with_pipe']
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['r']
+                              $item: #NameExpr['w']
+                           ]
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['rc']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['IO']
+                                    $recv: #NameExpr['wait_for_single_fd']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['w']
+                                          $recv: #NameExpr['fileno']
+                                       ]
+                                       $expression: #NameExpr['RB_WAITFD_OUT']
+                                       $expression: #Nil['nil']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #NameExpr['RB_WAITFD_OUT']
+                                    $expression: #NameExpr['rc']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_wait_for_invalid_fd']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $then: #NameExpr['skip']
+                           $cond: #Match[
+                              $left: #Regex['/freebsd[1-8]/']
+                              $right: #NameExpr['RUBY_PLATFORM']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['with_pipe']
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['r']
+                                 $item: #NameExpr['w']
+                              ]
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['wfd']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['w']
+                                       $recv: #NameExpr['fileno']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['w']
+                                    $recv: #NameExpr['close']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_raise']
+                                    $param: #List[
+                                       $expression: #Field[
+                                          $recv: #NameExpr['Errno']
+                                          $name: #NameExpr['EBADF']
+                                       ]
+                                    ]
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['IO']
+                                          $recv: #NameExpr['wait_for_single_fd']
+                                          $param: #List[
+                                             $expression: #NameExpr['wfd']
+                                             $expression: #NameExpr['RB_WAITFD_OUT']
+                                             $expression: #Nil['nil']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_wait_for_closed_pipe']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['with_pipe']
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['r']
+                              $item: #NameExpr['w']
+                           ]
+                           $body: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['w']
+                                 $recv: #NameExpr['close']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['rc']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['IO']
+                                    $recv: #NameExpr['wait_for_single_fd']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['r']
+                                          $recv: #NameExpr['fileno']
+                                       ]
+                                       $expression: #NameExpr['RB_WAITFD_IN']
+                                       $expression: #Nil['nil']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #NameExpr['RB_WAITFD_IN']
+                                    $expression: #NameExpr['rc']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

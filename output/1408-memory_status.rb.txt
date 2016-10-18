@@ -1,0 +1,825 @@
+#Source[
+   #List[
+      $statement: #Module[
+         $name: #NameExpr['Memory']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['keys']
+                  $right: #Array['[]']
+               ]
+               $statement: #Case[
+                  $body: #List[
+                     $when: #When[
+                        $cond: #List[
+                           $expression: #LAnd[
+                              $left: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['exist?']
+                                 $param: #List[
+                                    $expression: #AssignExpr[
+                                       $left: #NameExpr['procfile']
+                                       $right: #StringExpr['/proc/self/status']
+                                    ]
+                                 ]
+                              ]
+                              $right: #Match[
+                                 $left: #AssignExpr[
+                                    $left: #NameExpr['pat']
+                                    $right: #Regex['/^Vm(\\w+):\\s+(\\d+)/']
+                                 ]
+                                 $right: #AssignExpr[
+                                    $left: #NameExpr['data']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['binread']
+                                       $param: #List[
+                                          $expression: #NameExpr['procfile']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $then: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['PROC_FILE']
+                              $right: #NameExpr['procfile']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['VM_PAT']
+                              $right: #NameExpr['pat']
+                           ]
+                           $statement: #SFuncDecl[
+                              $path: #Self['self']
+                              $name: #NameExpr['read_status']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #ApplyExpr[
+                                    $recv: #NameExpr['IO']
+                                    $recv: #NameExpr['foreach']
+                                    $param: #List[
+                                       $expression: #NameExpr['PROC_FILE']
+                                       $hash: #Hash[
+                                          $key: #NameExpr['encoding']
+                                          $value: #Field[
+                                             $recv: #NameExpr['Encoding']
+                                             $name: #NameExpr['ASCII_8BIT']
+                                          ]
+                                       ]
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['l']
+                                       $body: #IfExpr[
+                                          $then: #Yield[
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #ApplyExpr[
+                                                      $recv: #MatchedRegex['$1']
+                                                      $recv: #NameExpr['downcase']
+                                                   ]
+                                                   $recv: #NameExpr['intern']
+                                                ]
+                                                $expression: #MulExpr[
+                                                   $left: #ApplyExpr[
+                                                      $recv: #MatchedRegex['$2']
+                                                      $recv: #NameExpr['to_i']
+                                                   ]
+                                                   $right: #IntExpr['1024']
+                                                ]
+                                             ]
+                                          ]
+                                          $cond: #AssignExpr[
+                                             $left: #NameExpr['VM_PAT']
+                                             $right: #ComplExpr[
+                                                $expr: #NameExpr['l']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['data']
+                              $recv: #NameExpr['scan']
+                              $param: #List[
+                                 $expression: #NameExpr['pat']
+                              ]
+                              $body: #Block[
+                                 $param: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['k']
+                                    $item: #NameExpr['v']
+                                 ]
+                                 $body: #LShiftExpr[
+                                    $left: #NameExpr['keys']
+                                    $right: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['k']
+                                          $recv: #NameExpr['downcase']
+                                       ]
+                                       $recv: #NameExpr['intern']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $when: #When[
+                        $cond: #List[
+                           $expression: #Match[
+                              $left: #Regex['/mswin|mingw/']
+                              $right: #NameExpr['RUBY_PLATFORM']
+                           ]
+                        ]
+                        $then: #List[
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['require']
+                              $param: #List[
+                                 $expression: #StringExpr['fiddle/import']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['require']
+                              $param: #List[
+                                 $expression: #StringExpr['fiddle/types']
+                              ]
+                           ]
+                           $statement: #Module[
+                              $name: #NameExpr['Win32']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['extend']
+                                       $param: #List[
+                                          $expression: #Field[
+                                             $recv: #NameExpr['Fiddle']
+                                             $name: #NameExpr['Importer']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['dlload']
+                                       $param: #List[
+                                          $expression: #StringExpr['kernel32.dll']
+                                          $expression: #StringExpr['psapi.dll']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['include']
+                                       $param: #List[
+                                          $expression: #Field[
+                                             $recv: #NameExpr['Fiddle']
+                                             $name: #NameExpr['Win32Types']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['typealias']
+                                       $param: #List[
+                                          $expression: #StringExpr['SIZE_T']
+                                          $expression: #StringExpr['size_t']
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['PROCESS_MEMORY_COUNTERS']
+                                       $right: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['struct']
+                                          $param: #List[
+                                             $expression: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr['DWORD  cb']
+                                                   $expression: #StringExpr['DWORD  PageFaultCount']
+                                                   $expression: #StringExpr['SIZE_T PeakWorkingSetSize']
+                                                   $expression: #StringExpr['SIZE_T WorkingSetSize']
+                                                   $expression: #StringExpr['SIZE_T QuotaPeakPagedPoolUsage']
+                                                   $expression: #StringExpr['SIZE_T QuotaPagedPoolUsage']
+                                                   $expression: #StringExpr['SIZE_T QuotaPeakNonPagedPoolUsage']
+                                                   $expression: #StringExpr['SIZE_T QuotaNonPagedPoolUsage']
+                                                   $expression: #StringExpr['SIZE_T PagefileUsage']
+                                                   $expression: #StringExpr['SIZE_T PeakPagefileUsage']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['typealias']
+                                       $param: #List[
+                                          $expression: #StringExpr['PPROCESS_MEMORY_COUNTERS']
+                                          $expression: #StringExpr['PROCESS_MEMORY_COUNTERS*']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['extern']
+                                       $param: #List[
+                                          $expression: #StringExpr['HANDLE GetCurrentProcess()']
+                                          $expression: #NameExpr['stdcall']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['extern']
+                                       $param: #List[
+                                          $expression: #StringExpr['BOOL GetProcessMemoryInfo(HANDLE, PPROCESS_MEMORY_COUNTERS, DWORD)']
+                                          $expression: #NameExpr['stdcall']
+                                       ]
+                                    ]
+                                    $statement: #NameExpr['module_function']
+                                    $statement: #FuncDecl[
+                                       $name: #NameExpr['memory_info']
+                                       $param: #List['']
+                                       $body: #BlockExpr[
+                                          $main: #List[
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['size']
+                                                $right: #ApplyExpr[
+                                                   $recv: #NameExpr['PROCESS_MEMORY_COUNTERS']
+                                                   $recv: #NameExpr['size']
+                                                ]
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['data']
+                                                $right: #ApplyExpr[
+                                                   $recv: #NameExpr['PROCESS_MEMORY_COUNTERS']
+                                                   $recv: #NameExpr['malloc']
+                                                ]
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #Field[
+                                                   $base: #NameExpr['data']
+                                                   $name: #NameExpr['cb']
+                                                ]
+                                                $right: #NameExpr['size']
+                                             ]
+                                             $statement: #IfExpr[
+                                                $then: #NameExpr['data']
+                                                $cond: #ApplyExpr[
+                                                   #Self['self']
+                                                   $recv: #NameExpr['GetProcessMemoryInfo']
+                                                   $param: #List[
+                                                      $expression: #ApplyExpr[
+                                                         #Self['self']
+                                                         $recv: #NameExpr['GetCurrentProcess']
+                                                         $param: #Empty['']
+                                                      ]
+                                                      $expression: #NameExpr['data']
+                                                      $expression: #NameExpr['size']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #LShiftExpr[
+                              $left: #LShiftExpr[
+                                 $left: #NameExpr['keys']
+                                 $right: #NameExpr['peak']
+                              ]
+                              $right: #NameExpr['size']
+                           ]
+                           $statement: #SFuncDecl[
+                              $path: #Self['self']
+                              $name: #NameExpr['read_status']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #IfExpr[
+                                    $cond: #AssignExpr[
+                                       $left: #NameExpr['info']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['Win32']
+                                          $recv: #NameExpr['memory_info']
+                                       ]
+                                    ]
+                                    $then: #List[
+                                       $statement: #Yield[
+                                          $param: #List[
+                                             $expression: #NameExpr['peak']
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['info']
+                                                $recv: #NameExpr['PeakPagefileUsage']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #Yield[
+                                          $param: #List[
+                                             $expression: #NameExpr['size']
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['info']
+                                                $recv: #NameExpr['PagefileUsage']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $when: #When[
+                        $cond: #List[
+                           $expression: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['require_relative']
+                                 $param: #List[
+                                    $expression: #StringExpr['find_executable']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['pat']
+                                 $right: #Regex['/^\\s*(\\d+)\\s+(\\d+)$/']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['pscmd']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['EnvUtil']
+                                    $recv: #NameExpr['find_executable']
+                                    $param: #List[
+                                       $expression: #StringExpr['ps']
+                                       $expression: #StringExpr['-ovsz=']
+                                       $expression: #StringExpr['-orss=']
+                                       $expression: #StringExpr['-p']
+                                       $expression: #ApplyExpr[
+                                          $recv: #BuiltInVariable['$$']
+                                          $recv: #NameExpr['to_s']
+                                       ]
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['out']
+                                       $body: #AssignExpr[
+                                          $left: #NameExpr['pat']
+                                          $right: #ComplExpr[
+                                             $expr: #NameExpr['out']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $then: #List[
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['pscmd']
+                              $recv: #NameExpr['pop']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['PAT']
+                              $right: #NameExpr['pat']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['PSCMD']
+                              $right: #NameExpr['pscmd']
+                           ]
+                           $statement: #LShiftExpr[
+                              $left: #LShiftExpr[
+                                 $left: #NameExpr['keys']
+                                 $right: #NameExpr['size']
+                              ]
+                              $right: #NameExpr['rss']
+                           ]
+                           $statement: #SFuncDecl[
+                              $path: #Self['self']
+                              $name: #NameExpr['read_status']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #IfExpr[
+                                    $cond: #AssignExpr[
+                                       $left: #NameExpr['PAT']
+                                       $right: #ComplExpr[
+                                          $expr: #ApplyExpr[
+                                             $recv: #NameExpr['IO']
+                                             $recv: #NameExpr['popen']
+                                             $param: #List[
+                                                $expression: #AddExpr[
+                                                   $left: #NameExpr['PSCMD']
+                                                   $right: #Array[
+                                                      $index: #List[
+                                                         $expression: #ApplyExpr[
+                                                            $recv: #BuiltInVariable['$$']
+                                                            $recv: #NameExpr['to_s']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $expression: #StringExpr['r']
+                                                $hash: #Hash[
+                                                   $key: #NameExpr['err']
+                                                   $value: #Array[
+                                                      $index: #List[
+                                                         $expression: #NameExpr['child']
+                                                         $expression: #NameExpr['out']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $hash: #Hash[
+                                                   $key: #NameExpr['&']
+                                                   $value: #NameExpr['read']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $then: #List[
+                                       $statement: #Yield[
+                                          $param: #List[
+                                             $expression: #NameExpr['size']
+                                             $expression: #MulExpr[
+                                                $left: #ApplyExpr[
+                                                   $recv: #MatchedRegex['$1']
+                                                   $recv: #NameExpr['to_i']
+                                                ]
+                                                $right: #IntExpr['1024']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #Yield[
+                                          $param: #List[
+                                             $expression: #NameExpr['rss']
+                                             $expression: #MulExpr[
+                                                $left: #ApplyExpr[
+                                                   $recv: #MatchedRegex['$2']
+                                                   $recv: #NameExpr['to_i']
+                                                ]
+                                                $right: #IntExpr['1024']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $else: #SFuncDecl[
+                     $path: #Self['self']
+                     $name: #NameExpr['read_status']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #NameExpr['NotImplementedError']
+                              $expression: #StringExpr['unsupported platform']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #IfExpr[
+                  $cond: #NotExpr[
+                     $expr: #ApplyExpr[
+                        $recv: #NameExpr['keys']
+                        $recv: #NameExpr['empty?']
+                     ]
+                  ]
+                  $then: #AssignExpr[
+                     $left: #NameExpr['Status']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['Struct']
+                        $recv: #NameExpr['new']
+                        $param: #List[
+                           $variadic: #Variadic[
+                              $base: #NameExpr['keys']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #Defined[
+            $base: #Field[
+               $recv: #NameExpr['Memory']
+               $name: #NameExpr['Status']
+            ]
+         ]
+         $then: #List[
+            $statement: #Class[
+               $name: #NestedName[
+                  $path: #NameExpr['Memory']
+                  $name: #NameExpr['Status']
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['_update']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['Memory']
+                              $recv: #NameExpr['read_status']
+                              $body: #Block[
+                                 $param: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['key']
+                                    $item: #NameExpr['val']
+                                 ]
+                                 $body: #AssignExpr[
+                                    $left: #Indexer[
+                                       $base: #Self['self']
+                                       $index: #List[
+                                          $expression: #NameExpr['key']
+                                       ]
+                                    ]
+                                    $right: #NameExpr['val']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['Header']
+                        $right: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['members']
+                              $recv: #NameExpr['map']
+                              $body: #Block[
+                                 $param: #NameExpr['k']
+                                 $body: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['k']
+                                          $recv: #NameExpr['to_s']
+                                       ]
+                                       $recv: #NameExpr['upcase']
+                                    ]
+                                    $recv: #NameExpr['rjust']
+                                    $param: #List[
+                                       $expression: #IntExpr['6']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $recv: #NameExpr['join']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['Format']
+                        $right: #StringExpr['%6d']
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['initialize']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #NameExpr['_update']
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['to_s']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['status']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['each_pair']
+                                    $recv: #NameExpr['map']
+                                    $body: #Block[
+                                       $param: #MultipleLeftHandSideExpression[
+                                          $item: #NameExpr['n']
+                                          $item: #NameExpr['v']
+                                       ]
+                                       $body: #StringExpr[
+                                          $inner: #NameExpr['n']
+                                          $inner: #NameExpr['v']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #StringExpr[
+                                 $inner: #ApplyExpr[
+                                    $recv: #NameExpr['status']
+                                    $recv: #NameExpr['join']
+                                    $param: #List[
+                                       $expression: #StringExpr[',']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #SFuncDecl[
+                        $path: #Self['self']
+                        $name: #NameExpr['parse']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['str']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['status']
+                                 $right: #NameExpr['allocate']
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['str']
+                                 $recv: #NameExpr['scan']
+                                 $param: #List[
+                                    $expression: #Regex['/(?:\\A\\{|\\G,)(#{members.join(\'|\')}):(\\d+)(?=,|\\}\\z)/']
+                                 ]
+                                 $body: #Block[
+                                    $body: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['status']
+                                          $index: #List[
+                                             $expression: #MatchedRegex['$1']
+                                          ]
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #MatchedRegex['$2']
+                                          $recv: #NameExpr['to_i']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #NameExpr['status']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #Case[
+               $cond: #NameExpr['RUBY_PLATFORM']
+               $body: #List[
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #Regex['/solaris2\\.(?:9|[1-9][0-9])/i']
+                     ]
+                     $then: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['bits']
+                           $right: #Conditional[
+                              $cond: #EqExpr[
+                                 $left: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #Array[
+                                          $index: #List[
+                                             $expression: #Nil['nil']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['pack']
+                                       $param: #List[
+                                          $expression: #StringExpr['p']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['size']
+                                 ]
+                                 $right: #IntExpr['8']
+                              ]
+                              $then: #IntExpr['64']
+                              $else: #IntExpr['32']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #LAnd[
+                              $left: #LAnd[
+                                 $left: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #Indexer[
+                                          $recv: #NameExpr['ENV']
+                                          $index: #List[
+                                             $expression: #StringExpr['LD_PRELOAD']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['to_s']
+                                    ]
+                                    $recv: #NameExpr['empty?']
+                                 ]
+                                 $right: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #Indexer[
+                                          $recv: #NameExpr['ENV']
+                                          $index: #List[
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['bits']
+                                             ]
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['to_s']
+                                    ]
+                                    $recv: #NameExpr['empty?']
+                                 ]
+                              ]
+                              $right: #LOr[
+                                 $left: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #Indexer[
+                                          $recv: #NameExpr['ENV']
+                                          $index: #List[
+                                             $expression: #StringExpr['UMEM_OPTIONS']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['to_s']
+                                    ]
+                                    $recv: #NameExpr['empty?']
+                                 ]
+                                 $right: #EqExpr[
+                                    $left: #Indexer[
+                                       $recv: #NameExpr['ENV']
+                                       $index: #List[
+                                          $expression: #StringExpr['UMEM_OPTIONS']
+                                       ]
+                                    ]
+                                    $right: #StringExpr['backend=mmap']
+                                 ]
+                              ]
+                           ]
+                           $then: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['envs']
+                                 $right: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['LD_PRELOAD']
+                                       $value: #StringExpr['libumem.so']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['UMEM_OPTIONS']
+                                       $value: #StringExpr['backend=mmap']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['args']
+                                 $right: #Array[
+                                    $index: #List[
+                                       $expression: #NameExpr['envs']
+                                       $expression: #StringExpr['--disable=gems']
+                                       $expression: #StringExpr['-v']
+                                       $expression: #StringExpr['-']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #MultipleAssign[
+                                 $left: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['_']
+                                    $item: #NameExpr['err']
+                                    $item: #NameExpr['status']
+                                 ]
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['EnvUtil']
+                                    $recv: #NameExpr['invoke_ruby']
+                                    $param: #List[
+                                       $expression: #NameExpr['args']
+                                       $expression: #StringExpr['exit(0)']
+                                       $expression: #TrueExpr['true']
+                                       $expression: #TrueExpr['true']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #LAnd[
+                                    $left: #EqExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['status']
+                                          $recv: #NameExpr['exitstatus']
+                                       ]
+                                       $right: #IntExpr['0']
+                                    ]
+                                    $right: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['err']
+                                          $recv: #NameExpr['to_s']
+                                       ]
+                                       $recv: #NameExpr['empty?']
+                                    ]
+                                 ]
+                                 $then: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['Memory']
+                                       $name: #NameExpr['NO_MEMORY_LEAK_ENVS']
+                                    ]
+                                    $right: #NameExpr['envs']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,639 @@
+#Source[
+   #Module[
+      $name: #NameExpr['URI']
+      $body: #BlockExpr[
+         $main: #Class[
+            $name: #NameExpr['RFC3986_Parser']
+            $body: #BlockExpr[
+               $main: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['RFC3986_URI']
+                     $right: #Regex['/\\A(?<URI>(?<scheme>[A-Za-z][+\\-.0-9A-Za-z]*):(?<hier-part>\\/\\/(?<authority>(?:(?<userinfo>(?:%\\h\\h|[!$&-.0-;=A-Z_a-z~])*)@)?(?<host>(?<IP-literal>\\[(?:(?<IPv6address>(?:\\h{1,4}:){6}(?<ls32>\\h{1,4}:\\h{1,4}|(?<IPv4address>(?<dec-octet>[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5]|\\d)\\.\\g<dec-octet>\\.\\g<dec-octet>\\.\\g<dec-octet>))|::(?:\\h{1,4}:){5}\\g<ls32>|\\h{1,4}?::(?:\\h{1,4}:){4}\\g<ls32>|(?:(?:\\h{1,4}:)?\\h{1,4})?::(?:\\h{1,4}:){3}\\g<ls32>|(?:(?:\\h{1,4}:){,2}\\h{1,4})?::(?:\\h{1,4}:){2}\\g<ls32>|(?:(?:\\h{1,4}:){,3}\\h{1,4})?::\\h{1,4}:\\g<ls32>|(?:(?:\\h{1,4}:){,4}\\h{1,4})?::\\g<ls32>|(?:(?:\\h{1,4}:){,5}\\h{1,4})?::\\h{1,4}|(?:(?:\\h{1,4}:){,6}\\h{1,4})?::)|(?<IPvFuture>v\\h+\\.[!$&-.0-;=A-Z_a-z~]+))\\])|\\g<IPv4address>|(?<reg-name>(?:%\\h\\h|[!$&-.0-9;=A-Z_a-z~])+))?(?::(?<port>\\d*))?)(?<path-abempty>(?:\\/(?<segment>(?:%\\h\\h|[!$&-.0-;=@-Z_a-z~])*))*)|(?<path-absolute>\\/(?:(?<segment-nz>(?:%\\h\\h|[!$&-.0-;=@-Z_a-z~])+)(?:\\/\\g<segment>)*)?)|(?<path-rootless>\\g<segment-nz>(?:\\/\\g<segment>)*)|(?<path-empty>))(?:\\?(?<query>[^#]*))?(?:\\#(?<fragment>(?:%\\h\\h|[!$&-.0-;=@-Z_a-z~\\/?])*))?)\\z/']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['RFC3986_relative_ref']
+                     $right: #Regex['/\\A(?<relative-ref>(?<relative-part>\\/\\/(?<authority>(?:(?<userinfo>(?:%\\h\\h|[!$&-.0-;=A-Z_a-z~])*)@)?(?<host>(?<IP-literal>\\[(?<IPv6address>(?:\\h{1,4}:){6}(?<ls32>\\h{1,4}:\\h{1,4}|(?<IPv4address>(?<dec-octet>[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5]|\\d)\\.\\g<dec-octet>\\.\\g<dec-octet>\\.\\g<dec-octet>))|::(?:\\h{1,4}:){5}\\g<ls32>|\\h{1,4}?::(?:\\h{1,4}:){4}\\g<ls32>|(?:(?:\\h{1,4}:){,1}\\h{1,4})?::(?:\\h{1,4}:){3}\\g<ls32>|(?:(?:\\h{1,4}:){,2}\\h{1,4})?::(?:\\h{1,4}:){2}\\g<ls32>|(?:(?:\\h{1,4}:){,3}\\h{1,4})?::\\h{1,4}:\\g<ls32>|(?:(?:\\h{1,4}:){,4}\\h{1,4})?::\\g<ls32>|(?:(?:\\h{1,4}:){,5}\\h{1,4})?::\\h{1,4}|(?:(?:\\h{1,4}:){,6}\\h{1,4})?::)|(?<IPvFuture>v\\h+\\.[!$&-.0-;=A-Z_a-z~]+)\\])|\\g<IPv4address>|(?<reg-name>(?:%\\h\\h|[!$&-.0-9;=A-Z_a-z~])+))?(?::(?<port>\\d*))?)(?<path-abempty>(?:\\/(?<segment>(?:%\\h\\h|[!$&-.0-;=@-Z_a-z~])*))*)|(?<path-absolute>\\/(?:(?<segment-nz>(?:%\\h\\h|[!$&-.0-;=@-Z_a-z~])+)(?:\\/\\g<segment>)*)?)|(?<path-noscheme>(?<segment-nz-nc>(?:%\\h\\h|[!$&-.0-9;=@-Z_a-z~])+)(?:\\/\\g<segment>)*)|(?<path-empty>))(?:\\?(?<query>[^#]*))?(?:\\#(?<fragment>(?:%\\h\\h|[!$&-.0-;=@-Z_a-z~\\/?])*))?)\\z/']
+                  ]
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['attr_reader']
+                     $param: #List[
+                        $expression: #NameExpr['regexp']
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['initialize']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #AssignExpr[
+                           $left: #NameExpr['@regexp']
+                           $right: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['default_regexp']
+                                 $recv: #NameExpr['each_value']
+                                 $param: #List[
+                                    $procedure: #Procedure[
+                                       $base: #NameExpr['freeze']
+                                    ]
+                                 ]
+                              ]
+                              $recv: #NameExpr['freeze']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['split']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['uri']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #ExceptionBlock[
+                              $main: #AssignExpr[
+                                 $left: #NameExpr['uri']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['uri']
+                                    $recv: #NameExpr['to_str']
+                                 ]
+                              ]
+                              $rescue: #List[
+                                 $rescue: #Rescue[
+                                    $class: #NameExpr['NoMethodError']
+                                    $then: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['InvalidURIError']
+                                          $expression: #StringExpr[
+                                             $inner: #NameExpr['uri']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #OrExpr[
+                              $left: #ApplyExpr[
+                                 $recv: #NameExpr['uri']
+                                 $recv: #NameExpr['ascii_only?']
+                              ]
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['InvalidURIError']
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['uri']
+                                          $recv: #NameExpr['dump']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $cond: #AssignExpr[
+                                 $left: #NameExpr['m']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['RFC3986_URI']
+                                    $recv: #NameExpr['match']
+                                    $param: #List[
+                                       $expression: #NameExpr['uri']
+                                    ]
+                                 ]
+                              ]
+                              $then: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['query']
+                                    $right: #Indexer[
+                                       $recv: #NameExpr['m']
+                                       $index: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #StringExpr['query']
+                                             $recv: #NameExpr['freeze']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['scheme']
+                                    $right: #Indexer[
+                                       $recv: #NameExpr['m']
+                                       $index: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #StringExpr['scheme']
+                                             $recv: #NameExpr['freeze']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['opaque']
+                                    $right: #Indexer[
+                                       $recv: #NameExpr['m']
+                                       $index: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #StringExpr['path-rootless']
+                                             $recv: #NameExpr['freeze']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #NameExpr['opaque']
+                                    $then: #List[
+                                       $statement: #IfExpr[
+                                          $then: #LShiftExpr[
+                                             $left: #NameExpr['opaque']
+                                             $right: #StringExpr[
+                                                $inner: #NameExpr['query']
+                                             ]
+                                          ]
+                                          $cond: #NameExpr['query']
+                                       ]
+                                       $statement: #Array[
+                                          $index: #List[
+                                             $expression: #NameExpr['scheme']
+                                             $expression: #Nil['nil']
+                                             $expression: #Nil['nil']
+                                             $expression: #Nil['nil']
+                                             $expression: #Nil['nil']
+                                             $expression: #Nil['nil']
+                                             $expression: #NameExpr['opaque']
+                                             $expression: #Nil['nil']
+                                             $expression: #Indexer[
+                                                $recv: #NameExpr['m']
+                                                $index: #List[
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #StringExpr['fragment']
+                                                      $recv: #NameExpr['freeze']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $else: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['scheme']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['m']
+                                             $index: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #StringExpr['userinfo']
+                                                   $recv: #NameExpr['freeze']
+                                                ]
+                                             ]
+                                          ]
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['m']
+                                             $index: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #StringExpr['host']
+                                                   $recv: #NameExpr['freeze']
+                                                ]
+                                             ]
+                                          ]
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['m']
+                                             $index: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #StringExpr['port']
+                                                   $recv: #NameExpr['freeze']
+                                                ]
+                                             ]
+                                          ]
+                                          $expression: #Nil['nil']
+                                          $expression: #LOr[
+                                             $left: #LOr[
+                                                $left: #Indexer[
+                                                   $recv: #NameExpr['m']
+                                                   $index: #List[
+                                                      $expression: #ApplyExpr[
+                                                         $recv: #StringExpr['path-abempty']
+                                                         $recv: #NameExpr['freeze']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $right: #Indexer[
+                                                   $recv: #NameExpr['m']
+                                                   $index: #List[
+                                                      $expression: #ApplyExpr[
+                                                         $recv: #StringExpr['path-absolute']
+                                                         $recv: #NameExpr['freeze']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $right: #Indexer[
+                                                $recv: #NameExpr['m']
+                                                $index: #List[
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #StringExpr['path-empty']
+                                                      $recv: #NameExpr['freeze']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $expression: #Nil['nil']
+                                          $expression: #NameExpr['query']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['m']
+                                             $index: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #StringExpr['fragment']
+                                                   $recv: #NameExpr['freeze']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $else: #IfExpr[
+                                 $cond: #AssignExpr[
+                                    $left: #NameExpr['m']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['RFC3986_relative_ref']
+                                       $recv: #NameExpr['match']
+                                       $param: #List[
+                                          $expression: #NameExpr['uri']
+                                       ]
+                                    ]
+                                 ]
+                                 $then: #Array[
+                                    $index: #List[
+                                       $expression: #Nil['nil']
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['m']
+                                          $index: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #StringExpr['userinfo']
+                                                $recv: #NameExpr['freeze']
+                                             ]
+                                          ]
+                                       ]
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['m']
+                                          $index: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #StringExpr['host']
+                                                $recv: #NameExpr['freeze']
+                                             ]
+                                          ]
+                                       ]
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['m']
+                                          $index: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #StringExpr['port']
+                                                $recv: #NameExpr['freeze']
+                                             ]
+                                          ]
+                                       ]
+                                       $expression: #Nil['nil']
+                                       $expression: #LOr[
+                                          $left: #LOr[
+                                             $left: #LOr[
+                                                $left: #Indexer[
+                                                   $recv: #NameExpr['m']
+                                                   $index: #List[
+                                                      $expression: #ApplyExpr[
+                                                         $recv: #StringExpr['path-abempty']
+                                                         $recv: #NameExpr['freeze']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $right: #Indexer[
+                                                   $recv: #NameExpr['m']
+                                                   $index: #List[
+                                                      $expression: #ApplyExpr[
+                                                         $recv: #StringExpr['path-absolute']
+                                                         $recv: #NameExpr['freeze']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $right: #Indexer[
+                                                $recv: #NameExpr['m']
+                                                $index: #List[
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #StringExpr['path-noscheme']
+                                                      $recv: #NameExpr['freeze']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $right: #Indexer[
+                                             $recv: #NameExpr['m']
+                                             $index: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #StringExpr['path-empty']
+                                                   $recv: #NameExpr['freeze']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $expression: #Nil['nil']
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['m']
+                                          $index: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #StringExpr['query']
+                                                $recv: #NameExpr['freeze']
+                                             ]
+                                          ]
+                                       ]
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['m']
+                                          $index: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #StringExpr['fragment']
+                                                $recv: #NameExpr['freeze']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['raise']
+                                    $param: #List[
+                                       $expression: #NameExpr['InvalidURIError']
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['uri']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['parse']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['uri']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #MultipleAssign[
+                              $left: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['scheme']
+                                 $item: #NameExpr['userinfo']
+                                 $item: #NameExpr['host']
+                                 $item: #NameExpr['port']
+                                 $item: #NameExpr['registry']
+                                 $item: #NameExpr['path']
+                                 $item: #NameExpr['opaque']
+                                 $item: #NameExpr['query']
+                                 $item: #NameExpr['fragment']
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['split']
+                                 $param: #List[
+                                    $expression: #NameExpr['uri']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['scheme_list']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['URI']
+                                 $recv: #NameExpr['scheme_list']
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $cond: #ApplyExpr[
+                                 $base: #NameExpr['scheme']
+                                 $recv: #NameExpr['&']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['scheme_list']
+                                       $recv: #NameExpr['include?']
+                                       $param: #List[
+                                          $expression: #AssignExpr[
+                                             $left: #NameExpr['uc']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['scheme']
+                                                $recv: #NameExpr['upcase']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $then: #ApplyExpr[
+                                 $recv: #Indexer[
+                                    $recv: #NameExpr['scheme_list']
+                                    $index: #List[
+                                       $expression: #NameExpr['uc']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #NameExpr['scheme']
+                                    $expression: #NameExpr['userinfo']
+                                    $expression: #NameExpr['host']
+                                    $expression: #NameExpr['port']
+                                    $expression: #NameExpr['registry']
+                                    $expression: #NameExpr['path']
+                                    $expression: #NameExpr['opaque']
+                                    $expression: #NameExpr['query']
+                                    $expression: #NameExpr['fragment']
+                                    $expression: #Self['self']
+                                 ]
+                              ]
+                              $else: #ApplyExpr[
+                                 $recv: #NameExpr['Generic']
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #NameExpr['scheme']
+                                    $expression: #NameExpr['userinfo']
+                                    $expression: #NameExpr['host']
+                                    $expression: #NameExpr['port']
+                                    $expression: #NameExpr['registry']
+                                    $expression: #NameExpr['path']
+                                    $expression: #NameExpr['opaque']
+                                    $expression: #NameExpr['query']
+                                    $expression: #NameExpr['fragment']
+                                    $expression: #Self['self']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['join']
+                     $param: #List[
+                        $param: #VariadicParam[
+                           $name: #NameExpr['uris']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #Indexer[
+                                 $base: #NameExpr['uris']
+                                 $index: #List[
+                                    $expression: #IntExpr['0']
+                                 ]
+                              ]
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['convert_to_uri']
+                                 $param: #List[
+                                    $expression: #Indexer[
+                                       $recv: #NameExpr['uris']
+                                       $index: #List[
+                                          $expression: #IntExpr['0']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $base: #NameExpr['uris']
+                              $recv: #NameExpr['inject']
+                              $param: #List[
+                                 $expression: #NameExpr['merge']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['@@to_s']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['Kernel']
+                        $recv: #NameExpr['instance_method']
+                        $param: #List[
+                           $expression: #NameExpr['to_s']
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['inspect']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['@@to_s']
+                              $recv: #NameExpr['bind']
+                              $param: #List[
+                                 $expression: #Self['self']
+                              ]
+                           ]
+                           $recv: #NameExpr['call']
+                        ]
+                     ]
+                  ]
+                  $statement: #NameExpr['private']
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['default_regexp']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $hash: #Hash[
+                              $key: #NameExpr['SCHEME']
+                              $value: #Regex['/\\A[A-Za-z][A-Za-z0-9+\\-.]*\\z/']
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['USERINFO']
+                              $value: #Regex['/\\A(?:%\\h\\h|[!$&-.0-;=A-Z_a-z~])*\\z/']
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['HOST']
+                              $value: #Regex['/\\A(?:(?<IP-literal>\\[(?:(?<IPv6address>(?:\\h{1,4}:){6}(?<ls32>\\h{1,4}:\\h{1,4}|(?<IPv4address>(?<dec-octet>[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5]|\\d)\\.\\g<dec-octet>\\.\\g<dec-octet>\\.\\g<dec-octet>))|::(?:\\h{1,4}:){5}\\g<ls32>|\\h{,4}::(?:\\h{1,4}:){4}\\g<ls32>|(?:(?:\\h{1,4}:)?\\h{1,4})?::(?:\\h{1,4}:){3}\\g<ls32>|(?:(?:\\h{1,4}:){,2}\\h{1,4})?::(?:\\h{1,4}:){2}\\g<ls32>|(?:(?:\\h{1,4}:){,3}\\h{1,4})?::\\h{1,4}:\\g<ls32>|(?:(?:\\h{1,4}:){,4}\\h{1,4})?::\\g<ls32>|(?:(?:\\h{1,4}:){,5}\\h{1,4})?::\\h{1,4}|(?:(?:\\h{1,4}:){,6}\\h{1,4})?::)|(?<IPvFuture>v\\h+\\.[!$&-.0-;=A-Z_a-z~]+))\\])|\\g<IPv4address>|(?<reg-name>(?:%\\h\\h|[!$&-.0-9;=A-Z_a-z~])*))\\z/']
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['ABS_PATH']
+                              $value: #Regex['/\\A\\/(?:%\\h\\h|[!$&-.0-;=@-Z_a-z~])*(?:\\/(?:%\\h\\h|[!$&-.0-;=@-Z_a-z~])*)*\\z/']
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['REL_PATH']
+                              $value: #Regex['/\\A(?:%\\h\\h|[!$&-.0-;=@-Z_a-z~])+(?:\\/(?:%\\h\\h|[!$&-.0-;=@-Z_a-z~])*)*\\z/']
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['QUERY']
+                              $value: #Regex['/\\A(?:%\\h\\h|[!$&-.0-;=@-Z_a-z~\\/?])*\\z/']
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['FRAGMENT']
+                              $value: #Regex['/\\A(?:%\\h\\h|[!$&-.0-;=@-Z_a-z~\\/?])*\\z/']
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['OPAQUE']
+                              $value: #Regex['/\\A(?:[^\\/].*)?\\z/']
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['PORT']
+                              $value: #Regex['/\\A[\\x09\\x0a\\x0c\\x0d ]*\\d*[\\x09\\x0a\\x0c\\x0d ]*\\z/']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['convert_to_uri']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['uri']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['uri']
+                              $recv: #NameExpr['is_a?']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['URI']
+                                    $name: #NameExpr['Generic']
+                                 ]
+                              ]
+                           ]
+                           $then: #NameExpr['uri']
+                           $else: #IfExpr[
+                              $cond: #AssignExpr[
+                                 $left: #NameExpr['uri']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['String']
+                                    $recv: #NameExpr['try_convert']
+                                    $param: #List[
+                                       $expression: #NameExpr['uri']
+                                    ]
+                                 ]
+                              ]
+                              $then: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['parse']
+                                 $param: #List[
+                                    $expression: #NameExpr['uri']
+                                 ]
+                              ]
+                              $else: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['ArgumentError']
+                                    $expression: #StringExpr['bad argument (expected URI object or URI string)']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

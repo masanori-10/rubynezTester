@@ -1,0 +1,175 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rbconfig']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['EnvUtil']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['find_executable']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['cmd']
+                     ]
+                     $param: #VariadicParam[
+                        $name: #NameExpr['args']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['exts']
+                           $right: #OrExpr[
+                              $left: #ApplyExpr[
+                                 $recv: #Indexer[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['RbConfig']
+                                       $name: #NameExpr['CONFIG']
+                                    ]
+                                    $index: #List[
+                                       $expression: #StringExpr['EXECUTABLE_EXTS']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['split']
+                              ]
+                              $right: #Array[
+                                 $index: #List[
+                                    $expression: #Indexer[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['RbConfig']
+                                          $name: #NameExpr['CONFIG']
+                                       ]
+                                       $index: #List[
+                                          $expression: #StringExpr['EXEEXT']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #Indexer[
+                                 $recv: #NameExpr['ENV']
+                                 $index: #List[
+                                    $expression: #StringExpr['PATH']
+                                 ]
+                              ]
+                              $recv: #NameExpr['split']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['File']
+                                    $name: #NameExpr['PATH_SEPARATOR']
+                                 ]
+                              ]
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['path']
+                              $body: #List[
+                                 $statement: #IfExpr[
+                                    $then: #Next['next']
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['path']
+                                       $recv: #NameExpr['empty?']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['path']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #NameExpr['path']
+                                          $expression: #NameExpr['cmd']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['exts']
+                                    $recv: #NameExpr['each']
+                                    $body: #Block[
+                                       $param: #NameExpr['ext']
+                                       $body: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['cmdline']
+                                             $right: #Array[
+                                                $index: #List[
+                                                   $expression: #AddExpr[
+                                                      $left: #NameExpr['path']
+                                                      $right: #NameExpr['ext']
+                                                   ]
+                                                   $variadic: #Variadic[
+                                                      $base: #NameExpr['args']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #ExceptionBlock[
+                                             $main: #IfExpr[
+                                                $then: #RReturnStmt[
+                                                   $expr: #List[
+                                                      $expression: #NameExpr['cmdline']
+                                                   ]
+                                                ]
+                                                $cond: #Yield[
+                                                   $param: #List[
+                                                      $expression: #ApplyExpr[
+                                                         $recv: #NameExpr['IO']
+                                                         $recv: #NameExpr['popen']
+                                                         $param: #List[
+                                                            $expression: #NameExpr['cmdline']
+                                                            $expression: #StringExpr['r']
+                                                            $hash: #Hash[
+                                                               $key: #NameExpr['err']
+                                                               $value: #Array[
+                                                                  $index: #List[
+                                                                     $expression: #NameExpr['child']
+                                                                     $expression: #NameExpr['out']
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                            $hash: #Hash[
+                                                               $key: #NameExpr['&']
+                                                               $value: #NameExpr['read']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $rescue: #List[
+                                                $rescue: #Rescue[
+                                                   $then: #Next['next']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Nil['nil']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['module_function']
+                  $param: #List[
+                     $expression: #NameExpr['find_executable']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

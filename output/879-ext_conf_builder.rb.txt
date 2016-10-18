@@ -1,0 +1,509 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['fileutils']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['tempfile']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #Field[
+               $recv: #NameExpr['Gem']
+               $name: #NameExpr['Ext']
+            ]
+            $name: #NameExpr['ExtConfBuilder']
+         ]
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Gem']
+               $name: #NameExpr['Ext']
+            ]
+            $name: #NameExpr['Builder']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['FileEntry']
+                  $right: #Field[
+                     $recv: #NameExpr['FileUtils']
+                     $name: #NameExpr['Entry_']
+                  ]
+               ]
+               $statement: #SFuncDecl[
+                  $path: #Self['self']
+                  $name: #NameExpr['build']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['extension']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['directory']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['dest_path']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['results']
+                     ]
+                     $param: #OptionalParam[
+                        $name: #NameExpr['args']
+                        $default: #Array['[]']
+                     ]
+                     $param: #OptionalParam[
+                        $name: #NameExpr['lib_dir']
+                        $default: #Nil['nil']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['tmp_dest']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Dir']
+                              $recv: #NameExpr['mktmpdir']
+                              $param: #List[
+                                 $expression: #StringExpr['.gem.']
+                                 $expression: #StringExpr['.']
+                              ]
+                           ]
+                        ]
+                        $statement: #Unless[
+                           $then: #AssignExpr[
+                              $left: #NameExpr['tmp_dest']
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['get_relative_path']
+                                 $param: #List[
+                                    $expression: #NameExpr['tmp_dest']
+                                 ]
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $base: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['win_platform?']
+                              ]
+                              $recv: #NameExpr['&']
+                              $param: #List[
+                                 $expression: #LteExpr[
+                                    $left: #NameExpr['RUBY_VERSION']
+                                    $right: #StringExpr['2.0']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['t']
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['Tempfile']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w"siteconf .rb"']
+                              $expression: #StringExpr['.']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['siteconf']
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['t']
+                                    $right: #NameExpr['siteconf']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['siteconf']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr['require \'rbconfig\'']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['siteconf']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr[
+                                          $inner: #ApplyExpr[
+                                             $recv: #NameExpr['tmp_dest']
+                                             $recv: #NameExpr['dump']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #ParcentNotation['%w[sitearchdir sitelibdir]']
+                                    $recv: #NameExpr['each']
+                                    $body: #Block[
+                                       $param: #NameExpr['dir']
+                                       $body: #List[
+                                          $statement: #ApplyExpr[
+                                             $base: #NameExpr['siteconf']
+                                             $recv: #NameExpr['puts']
+                                             $param: #List[
+                                                $expression: #StringExpr[
+                                                   $inner: #NameExpr['dir']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $base: #NameExpr['siteconf']
+                                             $recv: #NameExpr['puts']
+                                             $param: #List[
+                                                $expression: #StringExpr[
+                                                   $inner: #NameExpr['dir']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['siteconf']
+                                    $recv: #NameExpr['flush']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['destdir']
+                                    $right: #Indexer[
+                                       $recv: #NameExpr['ENV']
+                                       $index: #List[
+                                          $expression: #StringExpr['DESTDIR']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ExceptionBlock[
+                                    $main: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['cmd']
+                                          $right: #ApplyExpr[
+                                             $base: #Array[
+                                                $index: #List[
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['Gem']
+                                                      $recv: #NameExpr['ruby']
+                                                   ]
+                                                   $expression: #StringExpr['-r']
+                                                   $expression: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['get_relative_path']
+                                                      $param: #List[
+                                                         $expression: #ApplyExpr[
+                                                            $recv: #NameExpr['siteconf']
+                                                            $recv: #NameExpr['path']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['File']
+                                                      $recv: #NameExpr['basename']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['extension']
+                                                      ]
+                                                   ]
+                                                   $variadic: #Variadic[
+                                                      $base: #NameExpr['args']
+                                                   ]
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['join']
+                                             $param: #List[
+                                                $expression: #StringExpr[' ']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ExceptionBlock[
+                                          $main: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['run']
+                                             $param: #List[
+                                                $expression: #NameExpr['cmd']
+                                                $expression: #NameExpr['results']
+                                             ]
+                                          ]
+                                          $ensure: #List[
+                                             $statement: #IfExpr[
+                                                $cond: #ApplyExpr[
+                                                   $base: #NameExpr['File']
+                                                   $recv: #NameExpr['exist?']
+                                                   $param: #List[
+                                                      $expression: #StringExpr['mkmf.log']
+                                                   ]
+                                                ]
+                                                $then: #List[
+                                                   $statement: #LShiftExpr[
+                                                      $left: #NameExpr['results']
+                                                      $right: #ConnectString[
+                                                         $String: #StringExpr['To see why this extension failed to compile, please check']
+                                                         $String: #StringExpr[' the mkmf.log which can be found here:\\n']
+                                                      ]
+                                                   ]
+                                                   $statement: #LShiftExpr[
+                                                      $left: #NameExpr['results']
+                                                      $right: #AddExpr[
+                                                         $left: #AddExpr[
+                                                            $left: #StringExpr['  ']
+                                                            $right: #ApplyExpr[
+                                                               $recv: #NameExpr['File']
+                                                               $recv: #NameExpr['join']
+                                                               $param: #List[
+                                                                  $expression: #NameExpr['dest_path']
+                                                                  $expression: #StringExpr['mkmf.log']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                         $right: #StringExpr['\\n']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      $base: #NameExpr['FileUtils']
+                                                      $recv: #NameExpr['mv']
+                                                      $param: #List[
+                                                         $expression: #StringExpr['mkmf.log']
+                                                         $expression: #NameExpr['dest_path']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                $recv: #NameExpr['siteconf']
+                                                $recv: #NameExpr['unlink']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['ENV']
+                                             $index: #List[
+                                                $expression: #StringExpr['DESTDIR']
+                                             ]
+                                          ]
+                                          $right: #Nil['nil']
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['make']
+                                          $param: #List[
+                                             $expression: #NameExpr['dest_path']
+                                             $expression: #NameExpr['results']
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $cond: #NameExpr['tmp_dest']
+                                          $then: #List[
+                                             $statement: #IfExpr[
+                                                $cond: #AndExpr[
+                                                   $left: #ApplyExpr[
+                                                      $recv: #NameExpr['Gem']
+                                                      $recv: #NameExpr['install_extension_in_lib']
+                                                   ]
+                                                   $right: #NameExpr['lib_dir']
+                                                ]
+                                                $then: #List[
+                                                   $statement: #ApplyExpr[
+                                                      $base: #NameExpr['FileUtils']
+                                                      $recv: #NameExpr['mkdir_p']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['lib_dir']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['entries']
+                                                      $right: #SubExpr[
+                                                         $left: #ApplyExpr[
+                                                            $recv: #NameExpr['Dir']
+                                                            $recv: #NameExpr['entries']
+                                                            $param: #List[
+                                                               $expression: #NameExpr['tmp_dest']
+                                                            ]
+                                                         ]
+                                                         $right: #ParcentNotation['%w[. ..]']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['entries']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['entries']
+                                                         $recv: #NameExpr['map']
+                                                         $body: #Block[
+                                                            $param: #NameExpr['entry']
+                                                            $body: #ApplyExpr[
+                                                               $base: #NameExpr['File']
+                                                               $recv: #NameExpr['join']
+                                                               $param: #List[
+                                                                  $expression: #NameExpr['tmp_dest']
+                                                                  $expression: #NameExpr['entry']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      $base: #NameExpr['FileUtils']
+                                                      $recv: #NameExpr['cp_r']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['entries']
+                                                         $expression: #NameExpr['lib_dir']
+                                                         $hash: #Hash[
+                                                            $key: #NameExpr['remove_destination']
+                                                            $value: #TrueExpr['true']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #NameExpr['FileEntry']
+                                                   $recv: #NameExpr['new']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['tmp_dest']
+                                                   ]
+                                                ]
+                                                $recv: #NameExpr['traverse']
+                                                $body: #Block[
+                                                   $param: #NameExpr['ent']
+                                                   $body: #List[
+                                                      $statement: #AssignExpr[
+                                                         $left: #NameExpr['destent']
+                                                         $right: #ApplyExpr[
+                                                            $recv: #ApplyExpr[
+                                                               $recv: #NameExpr['ent']
+                                                               $recv: #NameExpr['class']
+                                                            ]
+                                                            $recv: #NameExpr['new']
+                                                            $param: #List[
+                                                               $expression: #NameExpr['dest_path']
+                                                               $expression: #ApplyExpr[
+                                                                  $recv: #NameExpr['ent']
+                                                                  $recv: #NameExpr['rel']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                      $statement: #OrExpr[
+                                                         $left: #ApplyExpr[
+                                                            $recv: #NameExpr['destent']
+                                                            $recv: #NameExpr['exist?']
+                                                         ]
+                                                         $right: #ApplyExpr[
+                                                            $recv: #NameExpr['FileUtils']
+                                                            $recv: #NameExpr['mv']
+                                                            $param: #List[
+                                                               $expression: #ApplyExpr[
+                                                                  $recv: #NameExpr['ent']
+                                                                  $recv: #NameExpr['path']
+                                                               ]
+                                                               $expression: #ApplyExpr[
+                                                                  $recv: #NameExpr['destent']
+                                                                  $recv: #NameExpr['path']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $ensure: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['ENV']
+                                          $index: #List[
+                                             $expression: #StringExpr['DESTDIR']
+                                          ]
+                                       ]
+                                       $right: #NameExpr['destdir']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['t']
+                              $recv: #NameExpr['unlink']
+                           ]
+                           $cond: #AndExpr[
+                              $left: #NameExpr['t']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['t']
+                                 $recv: #NameExpr['path']
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['results']
+                     ]
+                     $ensure: #IfExpr[
+                        $then: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['rm_rf']
+                           $param: #List[
+                              $expression: #NameExpr['tmp_dest']
+                           ]
+                        ]
+                        $cond: #NameExpr['tmp_dest']
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['private']
+               $statement: #SFuncDecl[
+                  $path: #Self['self']
+                  $name: #NameExpr['get_relative_path']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['path']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $then: #AssignExpr[
+                              $left: #Indexer[
+                                 $base: #NameExpr['path']
+                                 $index: #List[
+                                    $expression: #ClosedRange[
+                                       #IntExpr['0']
+                                       #SubExpr[
+                                          $left: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['Dir']
+                                                $recv: #NameExpr['pwd']
+                                             ]
+                                             $recv: #NameExpr['length']
+                                          ]
+                                          $right: #IntExpr['1']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $right: #StringExpr['.']
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['path']
+                              $recv: #NameExpr['start_with?']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['Dir']
+                                    $recv: #NameExpr['pwd']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['path']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

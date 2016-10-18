@@ -1,0 +1,246 @@
+#Source[
+   #Class[
+      $name: #NestedName[
+         $path: #NameExpr['Gem']
+         $name: #NameExpr['PathSupport']
+      ]
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['attr_reader']
+               $param: #List[
+                  $expression: #NameExpr['home']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['attr_reader']
+               $param: #List[
+                  $expression: #NameExpr['path']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['attr_reader']
+               $param: #List[
+                  $expression: #NameExpr['spec_cache_dir']
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['initialize']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['env']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@home']
+                        $right: #LOr[
+                           $left: #Indexer[
+                              $recv: #NameExpr['env']
+                              $index: #List[
+                                 $expression: #StringExpr['GEM_HOME']
+                              ]
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Gem']
+                              $recv: #NameExpr['default_dir']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #Field[
+                           $recv: #NameExpr['File']
+                           $name: #NameExpr['ALT_SEPARATOR']
+                        ]
+                        $then: #AssignExpr[
+                           $left: #NameExpr['@home']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['@home']
+                              $recv: #NameExpr['gsub']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['File']
+                                    $name: #NameExpr['ALT_SEPARATOR']
+                                 ]
+                                 $expression: #Field[
+                                    $recv: #NameExpr['File']
+                                    $name: #NameExpr['SEPARATOR']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@path']
+                        $right: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['split_gem_path']
+                           $param: #List[
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['env']
+                                 $index: #List[
+                                    $expression: #StringExpr['GEM_PATH']
+                                 ]
+                              ]
+                              $expression: #NameExpr['@home']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@spec_cache_dir']
+                        $right: #LOr[
+                           $left: #Indexer[
+                              $recv: #NameExpr['env']
+                              $index: #List[
+                                 $expression: #StringExpr['GEM_SPEC_CACHE']
+                              ]
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Gem']
+                              $recv: #NameExpr['default_spec_cache_dir']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@spec_cache_dir']
+                        $right: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['@spec_cache_dir']
+                              $recv: #NameExpr['dup']
+                           ]
+                           $recv: #NameExpr['untaint']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #NameExpr['private']
+            $statement: #FuncDecl[
+               $name: #NameExpr['split_gem_path']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['gpaths']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['home']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['gem_path']
+                        $right: #Array['[]']
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #NameExpr['gpaths']
+                        $then: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['gem_path']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['gpaths']
+                                 $recv: #NameExpr['split']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['Gem']
+                                       $recv: #NameExpr['path_separator']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $cond: #AssignExpr[
+                                 $left: #NameExpr['gpaths']
+                                 $right: #ComplExpr[
+                                    $expr: #Regex['/#{Gem.path_separator}\\z/']
+                                 ]
+                              ]
+                              $then: #AddAssign[
+                                 $left: #NameExpr['gem_path']
+                                 $right: #NameExpr['default_path']
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $cond: #Field[
+                                 $recv: #NameExpr['File']
+                                 $name: #NameExpr['ALT_SEPARATOR']
+                              ]
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['gem_path']
+                                 $recv: #NameExpr['map!']
+                                 $body: #Block[
+                                    $param: #NameExpr['this_path']
+                                    $body: #ApplyExpr[
+                                       $base: #NameExpr['this_path']
+                                       $recv: #NameExpr['gsub']
+                                       $param: #List[
+                                          $expression: #Field[
+                                             $recv: #NameExpr['File']
+                                             $name: #NameExpr['ALT_SEPARATOR']
+                                          ]
+                                          $expression: #Field[
+                                             $recv: #NameExpr['File']
+                                             $name: #NameExpr['SEPARATOR']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #LShiftExpr[
+                              $left: #NameExpr['gem_path']
+                              $right: #NameExpr['home']
+                           ]
+                        ]
+                        $else: #AssignExpr[
+                           $left: #NameExpr['gem_path']
+                           $right: #NameExpr['default_path']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['gem_path']
+                        $recv: #NameExpr['uniq']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['default_path']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['gem_path']
+                        $right: #AddExpr[
+                           $left: #ApplyExpr[
+                              $recv: #NameExpr['Gem']
+                              $recv: #NameExpr['default_path']
+                           ]
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #NameExpr['@home']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #Defined[
+                           $base: #NameExpr['APPLE_GEM_HOME']
+                        ]
+                        $then: #LShiftExpr[
+                           $left: #NameExpr['gem_path']
+                           $right: #NameExpr['APPLE_GEM_HOME']
+                        ]
+                     ]
+                     $statement: #NameExpr['gem_path']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

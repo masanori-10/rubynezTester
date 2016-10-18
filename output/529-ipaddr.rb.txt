@@ -1,0 +1,2942 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['socket']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['IPAddr']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['IN4MASK']
+                  $right: #HexInteger['0xffffffff']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['IN6MASK']
+                  $right: #HexInteger['0xffffffffffffffffffffffffffffffff']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['IN6FORMAT']
+                  $right: #ApplyExpr[
+                     $recv: #MulExpr[
+                        $left: #Array[
+                           $index: #List[
+                              $expression: #StringExpr['%.4x']
+                           ]
+                        ]
+                        $right: #IntExpr['8']
+                     ]
+                     $recv: #NameExpr['join']
+                     $param: #List[
+                        $expression: #StringExpr[':']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['RE_IPV4ADDRLIKE']
+                  $right: #Regex['%r{\n    \\A\n    (\\d+) \\. (\\d+) \\. (\\d+) \\. (\\d+)\n    \\z\n  }x']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['RE_IPV6ADDRLIKE_FULL']
+                  $right: #Regex['%r{\n    \\A\n    (?:\n      (?: [\\da-f]{1,4} : ){7} [\\da-f]{1,4}\n    |\n      ( (?: [\\da-f]{1,4} : ){6} )\n      (\\d+) \\. (\\d+) \\. (\\d+) \\. (\\d+)\n    )\n    \\z\n  }xi']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['RE_IPV6ADDRLIKE_COMPRESSED']
+                  $right: #Regex['%r{\n    \\A\n    ( (?: (?: [\\da-f]{1,4} : )* [\\da-f]{1,4} )? )\n    ::\n    ( (?:\n      ( (?: [\\da-f]{1,4} : )* )\n      (?:\n        [\\da-f]{1,4}\n      |\n        (\\d+) \\. (\\d+) \\. (\\d+) \\. (\\d+)\n      )\n    )? )\n    \\z\n  }xi']
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['Error']
+                  $super: #NameExpr['ArgumentError']
+                  $body: #BlockExpr[
+                     $main: #Empty['']
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['InvalidAddressError']
+                  $super: #NameExpr['Error']
+                  $body: #BlockExpr[
+                     $main: #Empty['']
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['AddressFamilyError']
+                  $super: #NameExpr['Error']
+                  $body: #BlockExpr[
+                     $main: #Empty['']
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['InvalidPrefixError']
+                  $super: #NameExpr['InvalidAddressError']
+                  $body: #BlockExpr[
+                     $main: #Empty['']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['attr_reader']
+                  $param: #List[
+                     $expression: #NameExpr['family']
+                  ]
+               ]
+               $statement: #SFuncDecl[
+                  $path: #NameExpr['IPAddr']
+                  $name: #NameExpr['new_ntoh']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['addr']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['IPAddr']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['IPAddr']
+                                    $recv: #NameExpr['ntop']
+                                    $param: #List[
+                                       $expression: #NameExpr['addr']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #SFuncDecl[
+                  $path: #NameExpr['IPAddr']
+                  $name: #NameExpr['ntop']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['addr']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Case[
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['addr']
+                              $recv: #NameExpr['size']
+                           ]
+                           $body: #List[
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #IntExpr['4']
+                                 ]
+                                 $then: #AssignExpr[
+                                    $left: #NameExpr['s']
+                                    $right: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['addr']
+                                          $recv: #NameExpr['unpack']
+                                          $param: #List[
+                                             $expression: #StringExpr['C4']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #StringExpr['.']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #IntExpr['16']
+                                 ]
+                                 $then: #AssignExpr[
+                                    $left: #NameExpr['s']
+                                    $right: #ModExpr[
+                                       $left: #NameExpr['IN6FORMAT']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['addr']
+                                          $recv: #NameExpr['unpack']
+                                          $param: #List[
+                                             $expression: #StringExpr['n8']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #NameExpr['AddressFamilyError']
+                                 $expression: #StringExpr['unsupported address family']
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #NameExpr['s']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['&']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['other']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['clone']
+                              ]
+                              $recv: #NameExpr['set']
+                              $param: #List[
+                                 $expression: #AndExpr[
+                                    $left: #NameExpr['@addr']
+                                    $right: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['coerce_other']
+                                          $param: #List[
+                                             $expression: #NameExpr['other']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['to_i']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['|']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['other']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['clone']
+                              ]
+                              $recv: #NameExpr['set']
+                              $param: #List[
+                                 $expression: #OrExpr[
+                                    $left: #NameExpr['@addr']
+                                    $right: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['coerce_other']
+                                          $param: #List[
+                                             $expression: #NameExpr['other']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['to_i']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['>>']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['num']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['clone']
+                              ]
+                              $recv: #NameExpr['set']
+                              $param: #List[
+                                 $expression: #RShiftExpr[
+                                    $left: #NameExpr['@addr']
+                                    $right: #NameExpr['num']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['<<']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['num']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['clone']
+                              ]
+                              $recv: #NameExpr['set']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['addr_mask']
+                                    $param: #List[
+                                       $expression: #LShiftExpr[
+                                          $left: #NameExpr['@addr']
+                                          $right: #NameExpr['num']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['~']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['clone']
+                              ]
+                              $recv: #NameExpr['set']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['addr_mask']
+                                    $param: #List[
+                                       $expression: #ComplExpr[
+                                          $expr: #NameExpr['@addr']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['==']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['other']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['other']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['coerce_other']
+                              $param: #List[
+                                 $expression: #NameExpr['other']
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #LAnd[
+                                 $left: #EqExpr[
+                                    $left: #NameExpr['@family']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['other']
+                                       $recv: #NameExpr['family']
+                                    ]
+                                 ]
+                                 $right: #EqExpr[
+                                    $left: #NameExpr['@addr']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['other']
+                                       $recv: #NameExpr['to_i']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['mask']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['prefixlen']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['clone']
+                              ]
+                              $recv: #NameExpr['mask!']
+                              $param: #List[
+                                 $expression: #NameExpr['prefixlen']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['include?']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['other']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['other']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['coerce_other']
+                              $param: #List[
+                                 $expression: #NameExpr['other']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['ipv4_mapped?']
+                           ]
+                           $then: #List[
+                              $statement: #IfExpr[
+                                 $cond: #NeExpr[
+                                    $left: #RShiftExpr[
+                                       $left: #NameExpr['@mask_addr']
+                                       $right: #IntExpr['32']
+                                    ]
+                                    $right: #HexInteger['0xffffffffffffffffffffffff']
+                                 ]
+                                 $then: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #FalseExpr['false']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['mask_addr']
+                                 $right: #AndExpr[
+                                    $left: #NameExpr['@mask_addr']
+                                    $right: #NameExpr['IN4MASK']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['addr']
+                                 $right: #AndExpr[
+                                    $left: #NameExpr['@addr']
+                                    $right: #NameExpr['IN4MASK']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['family']
+                                 $right: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET']
+                                 ]
+                              ]
+                           ]
+                           $else: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['mask_addr']
+                                 $right: #NameExpr['@mask_addr']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['addr']
+                                 $right: #NameExpr['@addr']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['family']
+                                 $right: #NameExpr['@family']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['other']
+                              $recv: #NameExpr['ipv4_mapped?']
+                           ]
+                           $then: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['other_addr']
+                                 $right: #AndExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['other']
+                                       $recv: #NameExpr['to_i']
+                                    ]
+                                    $right: #NameExpr['IN4MASK']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['other_family']
+                                 $right: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET']
+                                 ]
+                              ]
+                           ]
+                           $else: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['other_addr']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['other']
+                                    $recv: #NameExpr['to_i']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['other_family']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['other']
+                                    $recv: #NameExpr['family']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #NeExpr[
+                              $left: #NameExpr['family']
+                              $right: #NameExpr['other_family']
+                           ]
+                           $then: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #FalseExpr['false']
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #EqExpr[
+                                 $left: #AndExpr[
+                                    $left: #NameExpr['addr']
+                                    $right: #NameExpr['mask_addr']
+                                 ]
+                                 $right: #AndExpr[
+                                    $left: #NameExpr['other_addr']
+                                    $right: #NameExpr['mask_addr']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Alias[
+                  $newname: #NameExpr['===']
+                  $target: #NameExpr['include?']
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['to_i']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #NameExpr['@addr']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['to_s']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['str']
+                           $right: #NameExpr['to_string']
+                        ]
+                        $statement: #IfExpr[
+                           $then: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #NameExpr['str']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['ipv4?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['str']
+                           $recv: #NameExpr['gsub!']
+                           $param: #List[
+                              $expression: #Regex['/\\b0{1,3}([\\da-f]+)\\b/i']
+                              $expression: #StringExpr['\\1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['loop']
+                           $body: #Block[
+                              $body: #List[
+                                 $statement: #IfExpr[
+                                    $then: #Break['break']
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['str']
+                                       $recv: #NameExpr['sub!']
+                                       $param: #List[
+                                          $expression: #Regex['/\\A0:0:0:0:0:0:0:0\\z/']
+                                          $expression: #StringExpr['::']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #Break['break']
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['str']
+                                       $recv: #NameExpr['sub!']
+                                       $param: #List[
+                                          $expression: #Regex['/\\b0:0:0:0:0:0:0\\b/']
+                                          $expression: #StringExpr[':']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #Break['break']
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['str']
+                                       $recv: #NameExpr['sub!']
+                                       $param: #List[
+                                          $expression: #Regex['/\\b0:0:0:0:0:0\\b/']
+                                          $expression: #StringExpr[':']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #Break['break']
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['str']
+                                       $recv: #NameExpr['sub!']
+                                       $param: #List[
+                                          $expression: #Regex['/\\b0:0:0:0:0\\b/']
+                                          $expression: #StringExpr[':']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #Break['break']
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['str']
+                                       $recv: #NameExpr['sub!']
+                                       $param: #List[
+                                          $expression: #Regex['/\\b0:0:0:0\\b/']
+                                          $expression: #StringExpr[':']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #Break['break']
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['str']
+                                       $recv: #NameExpr['sub!']
+                                       $param: #List[
+                                          $expression: #Regex['/\\b0:0:0\\b/']
+                                          $expression: #StringExpr[':']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #Break['break']
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['str']
+                                       $recv: #NameExpr['sub!']
+                                       $param: #List[
+                                          $expression: #Regex['/\\b0:0\\b/']
+                                          $expression: #StringExpr[':']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #Break['break']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['str']
+                           $recv: #NameExpr['sub!']
+                           $param: #List[
+                              $expression: #Regex['/:{3,}/']
+                              $expression: #StringExpr['::']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #Match[
+                              $left: #Regex['/\\A::(ffff:)?([\\da-f]{1,4}):([\\da-f]{1,4})\\z/i']
+                              $right: #NameExpr['str']
+                           ]
+                           $then: #AssignExpr[
+                              $left: #NameExpr['str']
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['sprintf']
+                                 $param: #List[
+                                    $expression: #StringExpr['::%s%d.%d.%d.%d']
+                                    $expression: #MatchedRegex['$1']
+                                    $expression: #DivExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #MatchedRegex['$2']
+                                          $recv: #NameExpr['hex']
+                                       ]
+                                       $right: #IntExpr['256']
+                                    ]
+                                    $expression: #ModExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #MatchedRegex['$2']
+                                          $recv: #NameExpr['hex']
+                                       ]
+                                       $right: #IntExpr['256']
+                                    ]
+                                    $expression: #DivExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #MatchedRegex['$3']
+                                          $recv: #NameExpr['hex']
+                                       ]
+                                       $right: #IntExpr['256']
+                                    ]
+                                    $expression: #ModExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #MatchedRegex['$3']
+                                          $recv: #NameExpr['hex']
+                                       ]
+                                       $right: #IntExpr['256']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['str']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['to_string']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['_to_string']
+                              $param: #List[
+                                 $expression: #NameExpr['@addr']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['hton']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #Case[
+                        $cond: #NameExpr['@family']
+                        $body: #List[
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET']
+                                 ]
+                              ]
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #Array[
+                                          $index: #List[
+                                             $expression: #NameExpr['@addr']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['pack']
+                                       $param: #List[
+                                          $expression: #StringExpr['N']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET6']
+                                 ]
+                              ]
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #ClosedRange[
+                                             #IntExpr['0']
+                                             #IntExpr['7']
+                                          ]
+                                          $recv: #NameExpr['map']
+                                          $body: #Block[
+                                             $param: #NameExpr['i']
+                                             $body: #AndExpr[
+                                                $left: #RShiftExpr[
+                                                   $left: #NameExpr['@addr']
+                                                   $right: #SubExpr[
+                                                      $left: #IntExpr['112']
+                                                      $right: #MulExpr[
+                                                         $left: #IntExpr['16']
+                                                         $right: #NameExpr['i']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $right: #HexInteger['0xffff']
+                                             ]
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['pack']
+                                       $param: #List[
+                                          $expression: #StringExpr['n8']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #NameExpr['AddressFamilyError']
+                              $expression: #StringExpr['unsupported address family']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['ipv4?']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #EqExpr[
+                              $left: #NameExpr['@family']
+                              $right: #Field[
+                                 $recv: #NameExpr['Socket']
+                                 $name: #NameExpr['AF_INET']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['ipv6?']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #EqExpr[
+                              $left: #NameExpr['@family']
+                              $right: #Field[
+                                 $recv: #NameExpr['Socket']
+                                 $name: #NameExpr['AF_INET6']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['ipv4_mapped?']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $command: #ApplyExpr[
+                              $base: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['ipv6?']
+                              ]
+                              $recv: #NameExpr['&']
+                              $param: #List[
+                                 $expression: #EqExpr[
+                                    $left: #RShiftExpr[
+                                       $left: #NameExpr['@addr']
+                                       $right: #IntExpr['32']
+                                    ]
+                                    $right: #HexInteger['0xffff']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['ipv4_compat?']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #LOr[
+                              $left: #NotExpr[
+                                 $expr: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['ipv6?']
+                                 ]
+                              ]
+                              $right: #NeExpr[
+                                 $left: #RShiftExpr[
+                                    $left: #NameExpr['@addr']
+                                    $right: #IntExpr['32']
+                                 ]
+                                 $right: #IntExpr['0']
+                              ]
+                           ]
+                           $then: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #FalseExpr['false']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a']
+                           $right: #AndExpr[
+                              $left: #NameExpr['@addr']
+                              $right: #NameExpr['IN4MASK']
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #LAnd[
+                                 $left: #NeExpr[
+                                    $left: #NameExpr['a']
+                                    $right: #IntExpr['0']
+                                 ]
+                                 $right: #NeExpr[
+                                    $left: #NameExpr['a']
+                                    $right: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['ipv4_mapped']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #NotExpr[
+                              $expr: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['ipv4?']
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #NameExpr['InvalidAddressError']
+                                 $expression: #StringExpr['not an IPv4 address']
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #Self['self']
+                                    $recv: #NameExpr['clone']
+                                 ]
+                                 $recv: #NameExpr['set']
+                                 $param: #List[
+                                    $expression: #OrExpr[
+                                       $left: #NameExpr['@addr']
+                                       $right: #HexInteger['0xffff00000000']
+                                    ]
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Socket']
+                                       $name: #NameExpr['AF_INET6']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['ipv4_compat']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #NotExpr[
+                              $expr: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['ipv4?']
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #NameExpr['InvalidAddressError']
+                                 $expression: #StringExpr['not an IPv4 address']
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #Self['self']
+                                    $recv: #NameExpr['clone']
+                                 ]
+                                 $recv: #NameExpr['set']
+                                 $param: #List[
+                                    $expression: #NameExpr['@addr']
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Socket']
+                                       $name: #NameExpr['AF_INET6']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['native']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #[
+                              $base: #ApplyExpr[
+                                 $base: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['ipv4_mapped?']
+                                 ]
+                                 $recv: #NameExpr['&']
+                                 $param: #List[
+                                    $expression: #NotExpr[
+                                       $expr: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['ipv4_compat?']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $then: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #Self['self']
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #Self['self']
+                                    $recv: #NameExpr['clone']
+                                 ]
+                                 $recv: #NameExpr['set']
+                                 $param: #List[
+                                    $expression: #AndExpr[
+                                       $left: #NameExpr['@addr']
+                                       $right: #NameExpr['IN4MASK']
+                                    ]
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Socket']
+                                       $name: #NameExpr['AF_INET']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['reverse']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #Case[
+                        $cond: #NameExpr['@family']
+                        $body: #List[
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET']
+                                 ]
+                              ]
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #AddExpr[
+                                       $left: #NameExpr['_reverse']
+                                       $right: #StringExpr['.in-addr.arpa']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET6']
+                                 ]
+                              ]
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #NameExpr['ip6_arpa']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #NameExpr['AddressFamilyError']
+                              $expression: #StringExpr['unsupported address family']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['ip6_arpa']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #NotExpr[
+                              $expr: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['ipv6?']
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #NameExpr['InvalidAddressError']
+                                 $expression: #StringExpr['not an IPv6 address']
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #AddExpr[
+                                 $left: #NameExpr['_reverse']
+                                 $right: #StringExpr['.ip6.arpa']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['ip6_int']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #NotExpr[
+                              $expr: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['ipv6?']
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #NameExpr['InvalidAddressError']
+                                 $expression: #StringExpr['not an IPv6 address']
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #AddExpr[
+                                 $left: #NameExpr['_reverse']
+                                 $right: #StringExpr['.ip6.int']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['succ']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['clone']
+                              ]
+                              $recv: #NameExpr['set']
+                              $param: #List[
+                                 $expression: #AddExpr[
+                                    $left: #NameExpr['@addr']
+                                    $right: #IntExpr['1']
+                                 ]
+                                 $expression: #NameExpr['@family']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['<=>']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['other']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['other']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['coerce_other']
+                              $param: #List[
+                                 $expression: #NameExpr['other']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #Nil['nil']
+                              ]
+                           ]
+                           $cond: #NeExpr[
+                              $left: #ApplyExpr[
+                                 $recv: #NameExpr['other']
+                                 $recv: #NameExpr['family']
+                              ]
+                              $right: #NameExpr['@family']
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #CompExpr[
+                                 $left: #NameExpr['@addr']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['other']
+                                    $recv: #NameExpr['to_i']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['include']
+                  $param: #List[
+                     $expression: #NameExpr['Comparable']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['eql?']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['other']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #LAnd[
+                              $left: #LAnd[
+                                 $left: #EqExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #Self['self']
+                                       $recv: #NameExpr['class']
+                                    ]
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['other']
+                                       $recv: #NameExpr['class']
+                                    ]
+                                 ]
+                                 $right: #EqExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #Self['self']
+                                       $recv: #NameExpr['hash']
+                                    ]
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['other']
+                                       $recv: #NameExpr['hash']
+                                    ]
+                                 ]
+                              ]
+                              $right: #EqExpr[
+                                 $left: #Self['self']
+                                 $right: #NameExpr['other']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['hash']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #OrExpr[
+                              $left: #LShiftExpr[
+                                 $left: #ApplyExpr[
+                                    $recv: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['@addr']
+                                          $expression: #NameExpr['@mask_addr']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['hash']
+                                 ]
+                                 $right: #IntExpr['1']
+                              ]
+                              $right: #Conditional[
+                                 $cond: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['ipv4?']
+                                 ]
+                                 $then: #IntExpr['0']
+                                 $else: #IntExpr['1']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['to_range']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['begin_addr']
+                           $right: #AndExpr[
+                              $left: #NameExpr['@addr']
+                              $right: #NameExpr['@mask_addr']
+                           ]
+                        ]
+                        $statement: #Case[
+                           $cond: #NameExpr['@family']
+                           $body: #List[
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Socket']
+                                       $name: #NameExpr['AF_INET']
+                                    ]
+                                 ]
+                                 $then: #AssignExpr[
+                                    $left: #NameExpr['end_addr']
+                                    $right: #OrExpr[
+                                       $left: #NameExpr['@addr']
+                                       $right: #XorExpr[
+                                          $left: #NameExpr['IN4MASK']
+                                          $right: #NameExpr['@mask_addr']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Socket']
+                                       $name: #NameExpr['AF_INET6']
+                                    ]
+                                 ]
+                                 $then: #AssignExpr[
+                                    $left: #NameExpr['end_addr']
+                                    $right: #OrExpr[
+                                       $left: #NameExpr['@addr']
+                                       $right: #XorExpr[
+                                          $left: #NameExpr['IN6MASK']
+                                          $right: #NameExpr['@mask_addr']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #NameExpr['AddressFamilyError']
+                                 $expression: #StringExpr['unsupported address family']
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #ClosedRange[
+                                 #ApplyExpr[
+                                    $recv: #NameExpr['clone']
+                                    $recv: #NameExpr['set']
+                                    $param: #List[
+                                       $expression: #NameExpr['begin_addr']
+                                       $expression: #NameExpr['@family']
+                                    ]
+                                 ]
+                                 #ApplyExpr[
+                                    $recv: #NameExpr['clone']
+                                    $recv: #NameExpr['set']
+                                    $param: #List[
+                                       $expression: #NameExpr['end_addr']
+                                       $expression: #NameExpr['@family']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['inspect']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Case[
+                           $cond: #NameExpr['@family']
+                           $body: #List[
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Socket']
+                                       $name: #NameExpr['AF_INET']
+                                    ]
+                                 ]
+                                 $then: #AssignExpr[
+                                    $left: #NameExpr['af']
+                                    $right: #StringExpr['IPv4']
+                                 ]
+                              ]
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Socket']
+                                       $name: #NameExpr['AF_INET6']
+                                    ]
+                                 ]
+                                 $then: #AssignExpr[
+                                    $left: #NameExpr['af']
+                                    $right: #StringExpr['IPv6']
+                                 ]
+                              ]
+                           ]
+                           $else: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #NameExpr['AddressFamilyError']
+                                 $expression: #StringExpr['unsupported address family']
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['sprintf']
+                                 $param: #List[
+                                    $expression: #StringExpr['#<%s: %s:%s/%s>']
+                                    $expression: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #Self['self']
+                                          $recv: #NameExpr['class']
+                                       ]
+                                       $recv: #NameExpr['name']
+                                    ]
+                                    $expression: #NameExpr['af']
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['_to_string']
+                                       $param: #List[
+                                          $expression: #NameExpr['@addr']
+                                       ]
+                                    ]
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['_to_string']
+                                       $param: #List[
+                                          $expression: #NameExpr['@mask_addr']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['protected']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['set']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['addr']
+                     ]
+                     $param: #VariadicParam[
+                        $name: #NameExpr['family']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Case[
+                           $cond: #Conditional[
+                              $cond: #Indexer[
+                                 $recv: #NameExpr['family']
+                                 $index: #List[
+                                    $expression: #IntExpr['0']
+                                 ]
+                              ]
+                              $then: #Indexer[
+                                 $recv: #NameExpr['family']
+                                 $index: #List[
+                                    $expression: #IntExpr['0']
+                                 ]
+                              ]
+                              $else: #NameExpr['@family']
+                           ]
+                           $body: #List[
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Socket']
+                                       $name: #NameExpr['AF_INET']
+                                    ]
+                                 ]
+                                 $then: #IfExpr[
+                                    $cond: #LOr[
+                                       $left: #LtExpr[
+                                          $left: #NameExpr['addr']
+                                          $right: #IntExpr['0']
+                                       ]
+                                       $right: #GtExpr[
+                                          $left: #NameExpr['addr']
+                                          $right: #NameExpr['IN4MASK']
+                                       ]
+                                    ]
+                                    $then: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['InvalidAddressError']
+                                          $expression: #StringExpr['invalid address']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Socket']
+                                       $name: #NameExpr['AF_INET6']
+                                    ]
+                                 ]
+                                 $then: #IfExpr[
+                                    $cond: #LOr[
+                                       $left: #LtExpr[
+                                          $left: #NameExpr['addr']
+                                          $right: #IntExpr['0']
+                                       ]
+                                       $right: #GtExpr[
+                                          $left: #NameExpr['addr']
+                                          $right: #NameExpr['IN6MASK']
+                                       ]
+                                    ]
+                                    $then: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['InvalidAddressError']
+                                          $expression: #StringExpr['invalid address']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #NameExpr['AddressFamilyError']
+                                 $expression: #StringExpr['unsupported address family']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@addr']
+                           $right: #NameExpr['addr']
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #Indexer[
+                              $recv: #NameExpr['family']
+                              $index: #List[
+                                 $expression: #IntExpr['0']
+                              ]
+                           ]
+                           $then: #AssignExpr[
+                              $left: #NameExpr['@family']
+                              $right: #Indexer[
+                                 $recv: #NameExpr['family']
+                                 $index: #List[
+                                    $expression: #IntExpr['0']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #Self['self']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['mask!']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['mask']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['mask']
+                              $recv: #NameExpr['kind_of?']
+                              $param: #List[
+                                 $expression: #NameExpr['String']
+                              ]
+                           ]
+                           $then: #IfExpr[
+                              $cond: #AssignExpr[
+                                 $left: #NameExpr['mask']
+                                 $right: #ComplExpr[
+                                    $expr: #Regex['/\\A\\d+\\z/']
+                                 ]
+                              ]
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['prefixlen']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['mask']
+                                    $recv: #NameExpr['to_i']
+                                 ]
+                              ]
+                              $else: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['m']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['IPAddr']
+                                       $recv: #NameExpr['new']
+                                       $param: #List[
+                                          $expression: #NameExpr['mask']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #NeExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['m']
+                                          $recv: #NameExpr['family']
+                                       ]
+                                       $right: #NameExpr['@family']
+                                    ]
+                                    $then: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['InvalidPrefixError']
+                                          $expression: #StringExpr['address family is not same']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@mask_addr']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['m']
+                                       $recv: #NameExpr['to_i']
+                                    ]
+                                 ]
+                                 $statement: #AndAssign[
+                                    $left: #NameExpr['@addr']
+                                    $right: #NameExpr['@mask_addr']
+                                 ]
+                                 $statement: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #Self['self']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #AssignExpr[
+                              $left: #NameExpr['prefixlen']
+                              $right: #NameExpr['mask']
+                           ]
+                        ]
+                        $statement: #Case[
+                           $cond: #NameExpr['@family']
+                           $body: #List[
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Socket']
+                                       $name: #NameExpr['AF_INET']
+                                    ]
+                                 ]
+                                 $then: #List[
+                                    $statement: #IfExpr[
+                                       $cond: #LOr[
+                                          $left: #LtExpr[
+                                             $left: #NameExpr['prefixlen']
+                                             $right: #IntExpr['0']
+                                          ]
+                                          $right: #GtExpr[
+                                             $left: #NameExpr['prefixlen']
+                                             $right: #IntExpr['32']
+                                          ]
+                                       ]
+                                       $then: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['raise']
+                                          $param: #List[
+                                             $expression: #NameExpr['InvalidPrefixError']
+                                             $expression: #StringExpr['invalid length']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['masklen']
+                                       $right: #SubExpr[
+                                          $left: #IntExpr['32']
+                                          $right: #NameExpr['prefixlen']
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@mask_addr']
+                                       $right: #LShiftExpr[
+                                          $left: #RShiftExpr[
+                                             $left: #NameExpr['IN4MASK']
+                                             $right: #NameExpr['masklen']
+                                          ]
+                                          $right: #NameExpr['masklen']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Socket']
+                                       $name: #NameExpr['AF_INET6']
+                                    ]
+                                 ]
+                                 $then: #List[
+                                    $statement: #IfExpr[
+                                       $cond: #LOr[
+                                          $left: #LtExpr[
+                                             $left: #NameExpr['prefixlen']
+                                             $right: #IntExpr['0']
+                                          ]
+                                          $right: #GtExpr[
+                                             $left: #NameExpr['prefixlen']
+                                             $right: #IntExpr['128']
+                                          ]
+                                       ]
+                                       $then: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['raise']
+                                          $param: #List[
+                                             $expression: #NameExpr['InvalidPrefixError']
+                                             $expression: #StringExpr['invalid length']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['masklen']
+                                       $right: #SubExpr[
+                                          $left: #IntExpr['128']
+                                          $right: #NameExpr['prefixlen']
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@mask_addr']
+                                       $right: #LShiftExpr[
+                                          $left: #RShiftExpr[
+                                             $left: #NameExpr['IN6MASK']
+                                             $right: #NameExpr['masklen']
+                                          ]
+                                          $right: #NameExpr['masklen']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #NameExpr['AddressFamilyError']
+                                 $expression: #StringExpr['unsupported address family']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@addr']
+                           $right: #LShiftExpr[
+                              $left: #RShiftExpr[
+                                 $left: #NameExpr['@addr']
+                                 $right: #NameExpr['masklen']
+                              ]
+                              $right: #NameExpr['masklen']
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #Self['self']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['private']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #OptionalParam[
+                        $name: #NameExpr['addr']
+                        $default: #StringExpr['::']
+                     ]
+                     $param: #OptionalParam[
+                        $name: #NameExpr['family']
+                        $default: #Field[
+                           $recv: #NameExpr['Socket']
+                           $name: #NameExpr['AF_UNSPEC']
+                        ]
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #NotExpr[
+                              $expr: #ApplyExpr[
+                                 $recv: #NameExpr['addr']
+                                 $recv: #NameExpr['kind_of?']
+                                 $param: #List[
+                                    $expression: #NameExpr['String']
+                                 ]
+                              ]
+                           ]
+                           $then: #Case[
+                              $cond: #NameExpr['family']
+                              $body: #List[
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Field[
+                                          $recv: #NameExpr['Socket']
+                                          $name: #NameExpr['AF_INET']
+                                       ]
+                                       $expression: #Field[
+                                          $recv: #NameExpr['Socket']
+                                          $name: #NameExpr['AF_INET6']
+                                       ]
+                                    ]
+                                    $then: #List[
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['set']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['addr']
+                                                $recv: #NameExpr['to_i']
+                                             ]
+                                             $expression: #NameExpr['family']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@mask_addr']
+                                          $right: #Conditional[
+                                             $cond: #EqExpr[
+                                                $left: #NameExpr['family']
+                                                $right: #Field[
+                                                   $recv: #NameExpr['Socket']
+                                                   $name: #NameExpr['AF_INET']
+                                                ]
+                                             ]
+                                             $then: #NameExpr['IN4MASK']
+                                             $else: #NameExpr['IN6MASK']
+                                          ]
+                                       ]
+                                       $statement: #RReturnStmt['return']
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Field[
+                                          $recv: #NameExpr['Socket']
+                                          $name: #NameExpr['AF_UNSPEC']
+                                       ]
+                                    ]
+                                    $then: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['AddressFamilyError']
+                                          $expression: #StringExpr['address family must be specified']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $else: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['AddressFamilyError']
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['family']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #MultipleAssign[
+                           $left: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['prefix']
+                              $item: #NameExpr['prefixlen']
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['addr']
+                              $recv: #NameExpr['split']
+                              $param: #List[
+                                 $expression: #StringExpr['/']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #AssignExpr[
+                              $left: #NameExpr['prefix']
+                              $right: #ComplExpr[
+                                 $expr: #Regex['/\\A\\[(.*)\\]\\z/i']
+                              ]
+                           ]
+                           $then: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['prefix']
+                                 $right: #MatchedRegex['$1']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['family']
+                                 $right: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET6']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@addr']
+                           $right: #AssignExpr[
+                              $left: #NameExpr['@family']
+                              $right: #Nil['nil']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #LOr[
+                              $left: #EqExpr[
+                                 $left: #NameExpr['family']
+                                 $right: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_UNSPEC']
+                                 ]
+                              ]
+                              $right: #EqExpr[
+                                 $left: #NameExpr['family']
+                                 $right: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET']
+                                 ]
+                              ]
+                           ]
+                           $then: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@addr']
+                                 $right: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['in_addr']
+                                    $param: #List[
+                                       $expression: #NameExpr['prefix']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #NameExpr['@addr']
+                                 $then: #AssignExpr[
+                                    $left: #NameExpr['@family']
+                                    $right: #Field[
+                                       $recv: #NameExpr['Socket']
+                                       $name: #NameExpr['AF_INET']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #[
+                              $base: #ApplyExpr[
+                                 $base: #NameExpr['@addr']
+                                 $recv: #NameExpr['&']
+                                 $param: #List[
+                                    $expression: #LOr[
+                                       $left: #EqExpr[
+                                          $left: #NameExpr['family']
+                                          $right: #Field[
+                                             $recv: #NameExpr['Socket']
+                                             $name: #NameExpr['AF_UNSPEC']
+                                          ]
+                                       ]
+                                       $right: #EqExpr[
+                                          $left: #NameExpr['family']
+                                          $right: #Field[
+                                             $recv: #NameExpr['Socket']
+                                             $name: #NameExpr['AF_INET6']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $then: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@addr']
+                                 $right: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['in6_addr']
+                                    $param: #List[
+                                       $expression: #NameExpr['prefix']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@family']
+                                 $right: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET6']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #LAnd[
+                              $left: #NeExpr[
+                                 $left: #NameExpr['family']
+                                 $right: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_UNSPEC']
+                                 ]
+                              ]
+                              $right: #NeExpr[
+                                 $left: #NameExpr['@family']
+                                 $right: #NameExpr['family']
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #NameExpr['AddressFamilyError']
+                                 $expression: #StringExpr['address family mismatch']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #NameExpr['prefixlen']
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['mask!']
+                              $param: #List[
+                                 $expression: #NameExpr['prefixlen']
+                              ]
+                           ]
+                           $else: #AssignExpr[
+                              $left: #NameExpr['@mask_addr']
+                              $right: #Conditional[
+                                 $cond: #EqExpr[
+                                    $left: #NameExpr['@family']
+                                    $right: #Field[
+                                       $recv: #NameExpr['Socket']
+                                       $name: #NameExpr['AF_INET']
+                                    ]
+                                 ]
+                                 $then: #NameExpr['IN4MASK']
+                                 $else: #NameExpr['IN6MASK']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['coerce_other']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['other']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #Case[
+                        $cond: #NameExpr['other']
+                        $body: #List[
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #NameExpr['IPAddr']
+                              ]
+                              $then: #NameExpr['other']
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #NameExpr['String']
+                              ]
+                              $then: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #Self['self']
+                                    $recv: #NameExpr['class']
+                                 ]
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #NameExpr['other']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #Self['self']
+                              $recv: #NameExpr['class']
+                           ]
+                           $recv: #NameExpr['new']
+                           $param: #List[
+                              $expression: #NameExpr['other']
+                              $expression: #NameExpr['@family']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['in_addr']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['addr']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Case[
+                           $cond: #NameExpr['addr']
+                           $body: #List[
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #NameExpr['Array']
+                                 ]
+                                 $then: #AssignExpr[
+                                    $left: #NameExpr['octets']
+                                    $right: #NameExpr['addr']
+                                 ]
+                              ]
+                           ]
+                           $else: #List[
+                              $statement: #OrExpr[
+                                 $left: #AssignExpr[
+                                    $left: #NameExpr['m']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['RE_IPV4ADDRLIKE']
+                                       $recv: #NameExpr['match']
+                                       $param: #List[
+                                          $expression: #NameExpr['addr']
+                                       ]
+                                    ]
+                                 ]
+                                 $right: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #Nil['nil']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['octets']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['m']
+                                    $recv: #NameExpr['captures']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['octets']
+                           $recv: #NameExpr['inject']
+                           $param: #List[
+                              $expression: #IntExpr['0']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['i']
+                                 $item: #NameExpr['s']
+                              ]
+                              $body: #List[
+                                 $statement: #OrExpr[
+                                    $left: #LtExpr[
+                                       $left: #AssignExpr[
+                                          $left: #NameExpr['n']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['s']
+                                             $recv: #NameExpr['to_i']
+                                          ]
+                                       ]
+                                       $right: #IntExpr['256']
+                                    ]
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['InvalidAddressError']
+                                          $expression: #StringExpr['invalid address']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AndExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['s']
+                                       $recv: #NameExpr['match']
+                                       $param: #List[
+                                          $expression: #Regex['/\\A0./']
+                                       ]
+                                    ]
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['InvalidAddressError']
+                                          $expression: #StringExpr['zero-filled number in IPv4 address is ambiguous']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #OrExpr[
+                                    $left: #LShiftExpr[
+                                       $left: #NameExpr['i']
+                                       $right: #IntExpr['8']
+                                    ]
+                                    $right: #NameExpr['n']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['in6_addr']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['left']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Case[
+                           $cond: #NameExpr['left']
+                           $body: #List[
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #NameExpr['RE_IPV6ADDRLIKE_FULL']
+                                 ]
+                                 $then: #List[
+                                    $statement: #IfExpr[
+                                       $cond: #MatchedRegex['$2']
+                                       $then: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['addr']
+                                             $right: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['in_addr']
+                                                $param: #List[
+                                                   $expression: #Indexer[
+                                                      $recv: #BuiltInVariable['$~']
+                                                      $index: #List[
+                                                         $expression: #IntExpr['2']
+                                                         $expression: #IntExpr['4']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['left']
+                                             $right: #AddExpr[
+                                                $left: #MatchedRegex['$1']
+                                                $right: #StringExpr[':']
+                                             ]
+                                          ]
+                                       ]
+                                       $else: #AssignExpr[
+                                          $left: #NameExpr['addr']
+                                          $right: #IntExpr['0']
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['right']
+                                       $right: #StringExpr['']
+                                    ]
+                                 ]
+                              ]
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #NameExpr['RE_IPV6ADDRLIKE_COMPRESSED']
+                                 ]
+                                 $then: #IfExpr[
+                                    $cond: #MatchedRegex['$4']
+                                    $then: #List[
+                                       $statement: #OrExpr[
+                                          $left: #LteExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['left']
+                                                $recv: #NameExpr['count']
+                                                $param: #List[
+                                                   $expression: #StringExpr[':']
+                                                ]
+                                             ]
+                                             $right: #IntExpr['6']
+                                          ]
+                                          $right: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['raise']
+                                             $param: #List[
+                                                $expression: #NameExpr['InvalidAddressError']
+                                                $expression: #StringExpr['invalid address']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['addr']
+                                          $right: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['in_addr']
+                                             $param: #List[
+                                                $expression: #Indexer[
+                                                   $recv: #BuiltInVariable['$~']
+                                                   $index: #List[
+                                                      $expression: #IntExpr['4']
+                                                      $expression: #IntExpr['4']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['left']
+                                          $right: #MatchedRegex['$1']
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['right']
+                                          $right: #AddExpr[
+                                             $left: #MatchedRegex['$3']
+                                             $right: #StringExpr['0:0']
+                                          ]
+                                       ]
+                                    ]
+                                    $else: #List[
+                                       $statement: #OrExpr[
+                                          $left: #LteExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['left']
+                                                $recv: #NameExpr['count']
+                                                $param: #List[
+                                                   $expression: #StringExpr[':']
+                                                ]
+                                             ]
+                                             $right: #Conditional[
+                                                $cond: #LOr[
+                                                   $left: #ApplyExpr[
+                                                      $recv: #MatchedRegex['$1']
+                                                      $recv: #NameExpr['empty?']
+                                                   ]
+                                                   $right: #ApplyExpr[
+                                                      $recv: #MatchedRegex['$2']
+                                                      $recv: #NameExpr['empty?']
+                                                   ]
+                                                ]
+                                                $then: #IntExpr['8']
+                                                $else: #IntExpr['7']
+                                             ]
+                                          ]
+                                          $right: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['raise']
+                                             $param: #List[
+                                                $expression: #NameExpr['InvalidAddressError']
+                                                $expression: #StringExpr['invalid address']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['left']
+                                          $right: #MatchedRegex['$1']
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['right']
+                                          $right: #MatchedRegex['$2']
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['addr']
+                                          $right: #IntExpr['0']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #NameExpr['InvalidAddressError']
+                                 $expression: #StringExpr['invalid address']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['l']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['left']
+                              $recv: #NameExpr['split']
+                              $param: #List[
+                                 $expression: #StringExpr[':']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['r']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['right']
+                              $recv: #NameExpr['split']
+                              $param: #List[
+                                 $expression: #StringExpr[':']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['rest']
+                           $right: #SubExpr[
+                              $left: #SubExpr[
+                                 $left: #IntExpr['8']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['l']
+                                    $recv: #NameExpr['size']
+                                 ]
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['r']
+                                 $recv: #NameExpr['size']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #LtExpr[
+                              $left: #NameExpr['rest']
+                              $right: #IntExpr['0']
+                           ]
+                           $then: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #Nil['nil']
+                              ]
+                           ]
+                        ]
+                        $statement: #OrExpr[
+                           $left: #ApplyExpr[
+                              $recv: #AddExpr[
+                                 $left: #AddExpr[
+                                    $left: #NameExpr['l']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['Array']
+                                       $recv: #NameExpr['new']
+                                       $param: #List[
+                                          $expression: #NameExpr['rest']
+                                          $expression: #StringExpr['0']
+                                       ]
+                                    ]
+                                 ]
+                                 $right: #NameExpr['r']
+                              ]
+                              $recv: #NameExpr['inject']
+                              $param: #List[
+                                 $expression: #IntExpr['0']
+                              ]
+                              $body: #Block[
+                                 $param: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['i']
+                                    $item: #NameExpr['s']
+                                 ]
+                                 $body: #OrExpr[
+                                    $left: #LShiftExpr[
+                                       $left: #NameExpr['i']
+                                       $right: #IntExpr['16']
+                                    ]
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['s']
+                                       $recv: #NameExpr['hex']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $right: #NameExpr['addr']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['addr_mask']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['addr']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #Case[
+                        $cond: #NameExpr['@family']
+                        $body: #List[
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET']
+                                 ]
+                              ]
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #AndExpr[
+                                       $left: #NameExpr['addr']
+                                       $right: #NameExpr['IN4MASK']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET6']
+                                 ]
+                              ]
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #AndExpr[
+                                       $left: #NameExpr['addr']
+                                       $right: #NameExpr['IN6MASK']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #NameExpr['AddressFamilyError']
+                              $expression: #StringExpr['unsupported address family']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['_reverse']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #Case[
+                        $cond: #NameExpr['@family']
+                        $body: #List[
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET']
+                                 ]
+                              ]
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #ClosedRange[
+                                             #IntExpr['0']
+                                             #IntExpr['3']
+                                          ]
+                                          $recv: #NameExpr['map']
+                                          $body: #Block[
+                                             $param: #NameExpr['i']
+                                             $body: #AndExpr[
+                                                $left: #RShiftExpr[
+                                                   $left: #NameExpr['@addr']
+                                                   $right: #MulExpr[
+                                                      $left: #IntExpr['8']
+                                                      $right: #NameExpr['i']
+                                                   ]
+                                                ]
+                                                $right: #HexInteger['0xff']
+                                             ]
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #StringExpr['.']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET6']
+                                 ]
+                              ]
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #ModExpr[
+                                             $left: #StringExpr['%.32x']
+                                             $right: #NameExpr['@addr']
+                                          ]
+                                          $recv: #NameExpr['reverse!']
+                                       ]
+                                       $recv: #NameExpr['gsub!']
+                                       $param: #List[
+                                          $expression: #Regex['/.(?!$)/']
+                                          $expression: #StringExpr['\\&.']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #NameExpr['AddressFamilyError']
+                              $expression: #StringExpr['unsupported address family']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['_to_string']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['addr']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #Case[
+                        $cond: #NameExpr['@family']
+                        $body: #List[
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET']
+                                 ]
+                              ]
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #ClosedRange[
+                                             #IntExpr['0']
+                                             #IntExpr['3']
+                                          ]
+                                          $recv: #NameExpr['map']
+                                          $body: #Block[
+                                             $param: #NameExpr['i']
+                                             $body: #AndExpr[
+                                                $left: #RShiftExpr[
+                                                   $left: #NameExpr['addr']
+                                                   $right: #SubExpr[
+                                                      $left: #IntExpr['24']
+                                                      $right: #MulExpr[
+                                                         $left: #IntExpr['8']
+                                                         $right: #NameExpr['i']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $right: #HexInteger['0xff']
+                                             ]
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #StringExpr['.']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Socket']
+                                    $name: #NameExpr['AF_INET6']
+                                 ]
+                              ]
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #ModExpr[
+                                          $left: #StringExpr['%.32x']
+                                          $right: #NameExpr['addr']
+                                       ]
+                                       $recv: #NameExpr['gsub!']
+                                       $param: #List[
+                                          $expression: #Regex['/.{4}(?!$)/']
+                                          $expression: #StringExpr['\\&:']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #NameExpr['AddressFamilyError']
+                              $expression: #StringExpr['unsupported address family']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Unless[
+         $cond: #ApplyExpr[
+            $base: #NameExpr['Socket']
+            $recv: #NameExpr['const_defined?']
+            $param: #List[
+               $expression: #NameExpr['AF_INET6']
+            ]
+         ]
+         $then: #List[
+            $statement: #Class[
+               $name: #NameExpr['Socket']
+               $super: #NameExpr['BasicSocket']
+               $body: #BlockExpr[
+                  $main: #AssignExpr[
+                     $left: #NameExpr['AF_INET6']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['Object']
+                        $recv: #NameExpr['new']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #SClass[
+               $path: #NameExpr['IPSocket']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #NameExpr['private']
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['valid_v6?']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['addr']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #Case[
+                              $cond: #NameExpr['addr']
+                              $body: #List[
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Field[
+                                          $recv: #NameExpr['IPAddr']
+                                          $name: #NameExpr['RE_IPV6ADDRLIKE_FULL']
+                                       ]
+                                    ]
+                                    $then: #IfExpr[
+                                       $cond: #MatchedRegex['$2']
+                                       $then: #ApplyExpr[
+                                          $recv: #Indexer[
+                                             $recv: #BuiltInVariable['$~']
+                                             $index: #List[
+                                                $expression: #IntExpr['2']
+                                                $expression: #IntExpr['4']
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['all?']
+                                          $body: #Block[
+                                             $param: #NameExpr['i']
+                                             $body: #LtExpr[
+                                                $left: #ApplyExpr[
+                                                   $recv: #NameExpr['i']
+                                                   $recv: #NameExpr['to_i']
+                                                ]
+                                                $right: #IntExpr['256']
+                                             ]
+                                          ]
+                                       ]
+                                       $else: #TrueExpr['true']
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Field[
+                                          $recv: #NameExpr['IPAddr']
+                                          $name: #NameExpr['RE_IPV6ADDRLIKE_COMPRESSED']
+                                       ]
+                                    ]
+                                    $then: #IfExpr[
+                                       $cond: #MatchedRegex['$4']
+                                       $then: #LAnd[
+                                          $left: #LteExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['addr']
+                                                $recv: #NameExpr['count']
+                                                $param: #List[
+                                                   $expression: #StringExpr[':']
+                                                ]
+                                             ]
+                                             $right: #IntExpr['6']
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #Indexer[
+                                                $recv: #BuiltInVariable['$~']
+                                                $index: #List[
+                                                   $expression: #IntExpr['4']
+                                                   $expression: #IntExpr['4']
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['all?']
+                                             $body: #Block[
+                                                $param: #NameExpr['i']
+                                                $body: #LtExpr[
+                                                   $left: #ApplyExpr[
+                                                      $recv: #NameExpr['i']
+                                                      $recv: #NameExpr['to_i']
+                                                   ]
+                                                   $right: #IntExpr['256']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $else: #LteExpr[
+                                          $left: #ApplyExpr[
+                                             $recv: #NameExpr['addr']
+                                             $recv: #NameExpr['count']
+                                             $param: #List[
+                                                $expression: #StringExpr[':']
+                                             ]
+                                          ]
+                                          $right: #IntExpr['7']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $else: #FalseExpr['false']
+                           ]
+                        ]
+                     ]
+                     $statement: #Alias[
+                        $newname: #NameExpr['getaddress_orig']
+                        $target: #NameExpr['getaddress']
+                     ]
+                     $statement: #NameExpr['public']
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['getaddress']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['s']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #IfExpr[
+                              $cond: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['valid_v6?']
+                                 $param: #List[
+                                    $expression: #NameExpr['s']
+                                 ]
+                              ]
+                              $then: #NameExpr['s']
+                              $else: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['getaddress_orig']
+                                 $param: #List[
+                                    $expression: #NameExpr['s']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

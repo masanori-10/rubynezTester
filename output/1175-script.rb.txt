@@ -1,0 +1,153 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['pty']
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #EqExpr[
+            $left: #ApplyExpr[
+               $recv: #NameExpr['ARGV']
+               $recv: #NameExpr['size']
+            ]
+            $right: #IntExpr['0']
+         ]
+         $then: #AssignExpr[
+            $left: #NameExpr['ofile']
+            $right: #StringExpr['typescript']
+         ]
+         $else: #AssignExpr[
+            $left: #NameExpr['ofile']
+            $right: #Indexer[
+               $recv: #NameExpr['ARGV']
+               $index: #List[
+                  $expression: #IntExpr['0']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['logfile']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['File']
+            $recv: #NameExpr['open']
+            $param: #List[
+               $expression: #NameExpr['ofile']
+               $expression: #StringExpr['a']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['system']
+         $param: #List[
+            $expression: #StringExpr['stty -echo raw lnext ^_']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['PTY']
+         $recv: #NameExpr['spawn']
+         $param: #List[
+            $expression: #StringExpr['/bin/csh']
+         ]
+         $body: #Block[
+            $param: #MultipleLeftHandSideExpression[
+               $item: #NameExpr['r_pty']
+               $item: #NameExpr['w_pty']
+               $item: #NameExpr['pid']
+            ]
+            $body: #List[
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['Thread']
+                  $recv: #NameExpr['new']
+                  $body: #Block[
+                     $body: #While[
+                        $cond: #TrueExpr['true']
+                        $body: #List[
+                           $statement: #ApplyExpr[
+                              $base: #NameExpr['w_pty']
+                              $recv: #NameExpr['print']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['STDIN']
+                                       $recv: #NameExpr['getc']
+                                    ]
+                                    $recv: #NameExpr['chr']
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['w_pty']
+                              $recv: #NameExpr['flush']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ExceptionBlock[
+                  $main: #While[
+                     $cond: #TrueExpr['true']
+                     $body: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['c']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['r_pty']
+                              $recv: #NameExpr['sysread']
+                              $param: #List[
+                                 $expression: #IntExpr['512']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #Break['break']
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['c']
+                              $recv: #NameExpr['nil?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['print']
+                           $param: #List[
+                              $expression: #NameExpr['c']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['STDOUT']
+                           $recv: #NameExpr['flush']
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['logfile']
+                           $recv: #NameExpr['print']
+                           $param: #List[
+                              $expression: #NameExpr['c']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $rescue: #List[
+                     $rescue: #Rescue[
+                        $then: #ApplyExpr[
+                           $recv: #NameExpr['logfile']
+                           $recv: #NameExpr['close']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['system']
+         $param: #List[
+            $expression: #StringExpr['stty echo -raw lnext ^v']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,362 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['socket']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['thread']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['port']
+         $right: #IntExpr['8888']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['res']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['Socket']
+            $recv: #NameExpr['getaddrinfo']
+            $param: #List[
+               $expression: #Nil['nil']
+               $expression: #NameExpr['port']
+               $expression: #Nil['nil']
+               $expression: #Field[
+                  $recv: #NameExpr['Socket']
+                  $name: #NameExpr['SOCK_STREAM']
+               ]
+               $expression: #Nil['nil']
+               $expression: #Field[
+                  $recv: #NameExpr['Socket']
+                  $name: #NameExpr['AI_PASSIVE']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['sockpool']
+         $right: #Array['[]']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['names']
+         $right: #Array['[]']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['threads']
+         $right: #Array['[]']
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['res']
+         $recv: #NameExpr['each']
+         $body: #Block[
+            $param: #NameExpr['i']
+            $body: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['s']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['TCPServer']
+                     $recv: #NameExpr['new']
+                     $param: #List[
+                        $expression: #Indexer[
+                           $recv: #NameExpr['i']
+                           $index: #List[
+                              $expression: #IntExpr['3']
+                           ]
+                        ]
+                        $expression: #Indexer[
+                           $recv: #NameExpr['i']
+                           $index: #List[
+                              $expression: #IntExpr['1']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['n']
+                  $right: #ApplyExpr[
+                     $recv: #ApplyExpr[
+                        $recv: #NameExpr['Socket']
+                        $recv: #NameExpr['getnameinfo']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['s']
+                              $recv: #NameExpr['getsockname']
+                           ]
+                           $expression: #OrExpr[
+                              $left: #Field[
+                                 $recv: #NameExpr['Socket']
+                                 $name: #NameExpr['NI_NUMERICHOST']
+                              ]
+                              $right: #Field[
+                                 $recv: #NameExpr['Socket']
+                                 $name: #NameExpr['NI_NUMERICSERV']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $recv: #NameExpr['join']
+                     $param: #List[
+                        $expression: #StringExpr[' port ']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $base: #NameExpr['sockpool']
+                  $recv: #NameExpr['push']
+                  $param: #List[
+                     $expression: #NameExpr['s']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $base: #NameExpr['names']
+                  $recv: #NameExpr['push']
+                  $param: #List[
+                     $expression: #NameExpr['n']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #ClosedRange[
+            #IntExpr['0']
+            #SubExpr[
+               $left: #ApplyExpr[
+                  $recv: #NameExpr['sockpool']
+                  $recv: #NameExpr['size']
+               ]
+               $right: #IntExpr['1']
+            ]
+         ]
+         $recv: #NameExpr['each']
+         $body: #Block[
+            $param: #NameExpr['i']
+            $body: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['mysock']
+                  $right: #Indexer[
+                     $recv: #NameExpr['sockpool']
+                     $index: #List[
+                        $expression: #NameExpr['i']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['myname']
+                  $right: #Indexer[
+                     $recv: #NameExpr['names']
+                     $index: #List[
+                        $expression: #NameExpr['i']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $base: #NameExpr['STDERR']
+                  $recv: #NameExpr['print']
+                  $param: #List[
+                     $expression: #StringExpr[
+                        $inner: #NameExpr['mysock']
+                        $inner: #NameExpr['myname']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #Indexer[
+                     $base: #NameExpr['threads']
+                     $index: #List[
+                        $expression: #NameExpr['i']
+                     ]
+                  ]
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['Thread']
+                     $recv: #NameExpr['start']
+                     $body: #Block[
+                        $body: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['ls']
+                              $right: #NameExpr['mysock']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['t']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['Thread']
+                                 $recv: #NameExpr['current']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $base: #NameExpr['STDERR']
+                              $recv: #NameExpr['print']
+                              $param: #List[
+                                 $expression: #StringExpr[
+                                    $inner: #NameExpr['myname']
+                                    $inner: #BuiltInVariable['$$']
+                                    $inner: #NameExpr['t']
+                                 ]
+                              ]
+                           ]
+                           $statement: #While[
+                              $cond: #TrueExpr['true']
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['as']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['ls']
+                                       $recv: #NameExpr['accept']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['Thread']
+                                    $recv: #NameExpr['start']
+                                    $body: #Block[
+                                       $body: #List[
+                                          $statement: #ApplyExpr[
+                                             $base: #NameExpr['STDERR']
+                                             $recv: #NameExpr['print']
+                                             $param: #List[
+                                                $expression: #StringExpr[
+                                                   $inner: #NameExpr['myname']
+                                                ]
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['Thread']
+                                                   $recv: #NameExpr['current']
+                                                ]
+                                                $expression: #StringExpr['\\n']
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['s']
+                                             $right: #NameExpr['as']
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['str']
+                                             $right: #StringExpr['']
+                                          ]
+                                          $statement: #While[
+                                             $cond: #AssignExpr[
+                                                $left: #NameExpr['line']
+                                                $right: #ApplyExpr[
+                                                   $recv: #NameExpr['s']
+                                                   $recv: #NameExpr['gets']
+                                                ]
+                                             ]
+                                             $body: #List[
+                                                $statement: #IfExpr[
+                                                   $then: #Break['break']
+                                                   $cond: #OrExpr[
+                                                      $left: #EqExpr[
+                                                         $left: #NameExpr['line']
+                                                         $right: #StringExpr['\\r\\n']
+                                                      ]
+                                                      $right: #EqExpr[
+                                                         $left: #NameExpr['line']
+                                                         $right: #StringExpr['\\n']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #LShiftExpr[
+                                                   $left: #NameExpr['str']
+                                                   $right: #NameExpr['line']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $base: #NameExpr['STDERR']
+                                             $recv: #NameExpr['print']
+                                             $param: #List[
+                                                $expression: #StringExpr[
+                                                   $inner: #NameExpr['myname']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['s']
+                                             $recv: #NameExpr['write']
+                                             $param: #List[
+                                                $expression: #StringExpr['HTTP/1.0 200 OK\\n']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['s']
+                                             $recv: #NameExpr['write']
+                                             $param: #List[
+                                                $expression: #StringExpr['Content-type: text/plain\\n\\n']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['s']
+                                             $recv: #NameExpr['write']
+                                             $param: #List[
+                                                $expression: #StringExpr[
+                                                   $inner: #NameExpr['myname']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['s']
+                                             $recv: #NameExpr['write']
+                                             $param: #List[
+                                                $expression: #StringExpr['---start\\n']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['s']
+                                             $recv: #NameExpr['write']
+                                             $param: #List[
+                                                $expression: #NameExpr['str']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['s']
+                                             $recv: #NameExpr['write']
+                                             $param: #List[
+                                                $expression: #StringExpr['---end\\n']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['s']
+                                             $recv: #NameExpr['close']
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $base: #NameExpr['STDERR']
+                                             $recv: #NameExpr['print']
+                                             $param: #List[
+                                                $expression: #StringExpr[
+                                                   $inner: #NameExpr['myname']
+                                                ]
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['Thread']
+                                                   $recv: #NameExpr['current']
+                                                ]
+                                                $expression: #StringExpr[' terminating\\n']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #For[
+         $iter: #NameExpr['t']
+         $range: #NameExpr['threads']
+         $body: #ApplyExpr[
+            $recv: #NameExpr['t']
+            $recv: #NameExpr['join']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,536 @@
+#Source[
+   #Module[
+      $name: #NameExpr['JISX0208']
+      $body: #BlockExpr[
+         $main: #Class[
+            $name: #NameExpr['Char']
+            $body: #BlockExpr[
+               $main: #List[
+                  $statement: #SClass[
+                     $path: #Self['self']
+                     $body: #BlockExpr[
+                        $main: #FuncDecl[
+                           $name: #NameExpr['from_sjis']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['sjis']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #Unless[
+                                    $cond: #LAnd[
+                                       $left: #LteExpr[
+                                          $left: #HexInteger['0x8140']
+                                          $right: #NameExpr['sjis']
+                                       ]
+                                       $right: #LteExpr[
+                                          $left: #NameExpr['sjis']
+                                          $right: #HexInteger['0xFCFC']
+                                       ]
+                                    ]
+                                    $then: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['ArgumentError']
+                                          $expression: #StringExpr[
+                                             $inner: #ApplyExpr[
+                                                $recv: #NameExpr['sjis']
+                                                $recv: #NameExpr['to_s']
+                                                $param: #List[
+                                                   $expression: #IntExpr['16']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #MultipleAssign[
+                                    $left: #MultipleLeftHandSideExpression[
+                                       $item: #NameExpr['sjis_hi']
+                                       $item: #NameExpr['sjis_lo']
+                                    ]
+                                    $right: #MultipleRightHandSideExpression[
+                                       $expression: #RShiftExpr[
+                                          $left: #NameExpr['sjis']
+                                          $right: #IntExpr['8']
+                                       ]
+                                       $expression: #AndExpr[
+                                          $left: #NameExpr['sjis']
+                                          $right: #HexInteger['0xFF']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['sjis_hi']
+                                    $right: #LShiftExpr[
+                                       $left: #SubExpr[
+                                          $left: #NameExpr['sjis_hi']
+                                          $right: #Conditional[
+                                             $cond: #LteExpr[
+                                                $left: #NameExpr['sjis_hi']
+                                                $right: #HexInteger['0x9F']
+                                             ]
+                                             $then: #HexInteger['0x80']
+                                             $else: #HexInteger['0xC0']
+                                          ]
+                                       ]
+                                       $right: #IntExpr['1']
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #LteExpr[
+                                       $left: #NameExpr['sjis_lo']
+                                       $right: #HexInteger['0x9E']
+                                    ]
+                                    $then: #List[
+                                       $statement: #SubAssign[
+                                          $left: #NameExpr['sjis_hi']
+                                          $right: #IntExpr['1']
+                                       ]
+                                       $statement: #SubAssign[
+                                          $left: #NameExpr['sjis_lo']
+                                          $right: #Conditional[
+                                             $cond: #LteExpr[
+                                                $left: #NameExpr['sjis_lo']
+                                                $right: #HexInteger['0x7E']
+                                             ]
+                                             $then: #HexInteger['0x3F']
+                                             $else: #HexInteger['0x40']
+                                          ]
+                                       ]
+                                    ]
+                                    $else: #SubAssign[
+                                       $left: #NameExpr['sjis_lo']
+                                       $right: #HexInteger['0x9E']
+                                    ]
+                                 ]
+                                 $statement: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #Self['self']
+                                          $recv: #NameExpr['new']
+                                          $param: #List[
+                                             $expression: #NameExpr['sjis_hi']
+                                             $expression: #NameExpr['sjis_lo']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['initialize']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['row']
+                        ]
+                        $param: #OptionalParam[
+                           $name: #NameExpr['cell']
+                           $default: #Nil['nil']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #IfExpr[
+                           $cond: #NameExpr['cell']
+                           $then: #AssignExpr[
+                              $left: #NameExpr['@code']
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['row_cell_to_code']
+                                 $param: #List[
+                                    $expression: #NameExpr['row']
+                                    $expression: #NameExpr['cell']
+                                 ]
+                              ]
+                           ]
+                           $else: #AssignExpr[
+                              $left: #NameExpr['@code']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['row']
+                                 $recv: #NameExpr['to_int']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['==']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['other']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #IfExpr[
+                              $cond: #StrictEquals[
+                                 $left: #ApplyExpr[
+                                    $recv: #Self['self']
+                                    $recv: #NameExpr['class']
+                                 ]
+                                 $right: #NameExpr['other']
+                              ]
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #EqExpr[
+                                       $left: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['Integer']
+                                          $param: #List[
+                                             $expression: #Self['self']
+                                          ]
+                                       ]
+                                       $right: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['Integer']
+                                          $param: #List[
+                                             $expression: #NameExpr['other']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #Super['super']
+                                    $param: #List[
+                                       $expression: #NameExpr['other']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['to_int']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #NameExpr['@code']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['hi']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #RShiftExpr[
+                           $left: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['Integer']
+                              $param: #List[
+                                 $expression: #Self['self']
+                              ]
+                           ]
+                           $right: #IntExpr['8']
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['lo']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #AndExpr[
+                           $left: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['Integer']
+                              $param: #List[
+                                 $expression: #Self['self']
+                              ]
+                           ]
+                           $right: #HexInteger['0xFF']
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['row']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #SubExpr[
+                           $left: #ApplyExpr[
+                              $recv: #Self['self']
+                              $recv: #NameExpr['hi']
+                           ]
+                           $right: #HexInteger['0x20']
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['cell']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #SubExpr[
+                           $left: #ApplyExpr[
+                              $recv: #Self['self']
+                              $recv: #NameExpr['lo']
+                           ]
+                           $right: #HexInteger['0x20']
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['succ']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #MultipleAssign[
+                              $left: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['succ_hi']
+                                 $item: #NameExpr['succ_lo']
+                              ]
+                              $right: #MultipleRightHandSideExpression[
+                                 $expression: #ApplyExpr[
+                                    $recv: #Self['self']
+                                    $recv: #NameExpr['hi']
+                                 ]
+                                 $expression: #AddExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #Self['self']
+                                       $recv: #NameExpr['lo']
+                                    ]
+                                    $right: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $cond: #GtExpr[
+                                 $left: #NameExpr['succ_lo']
+                                 $right: #HexInteger['0x7E']
+                              ]
+                              $then: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['succ_lo']
+                                    $right: #HexInteger['0x21']
+                                 ]
+                                 $statement: #AddAssign[
+                                    $left: #NameExpr['succ_hi']
+                                    $right: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                           $statement: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #Self['self']
+                                       $recv: #NameExpr['class']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #OrExpr[
+                                          $left: #LShiftExpr[
+                                             $left: #NameExpr['succ_hi']
+                                             $right: #IntExpr['8']
+                                          ]
+                                          $right: #NameExpr['succ_lo']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['to_sjis']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #MultipleAssign[
+                              $left: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['h']
+                                 $item: #NameExpr['l']
+                              ]
+                              $right: #MultipleRightHandSideExpression[
+                                 $expression: #ApplyExpr[
+                                    $recv: #Self['self']
+                                    $recv: #NameExpr['hi']
+                                 ]
+                                 $expression: #ApplyExpr[
+                                    $recv: #Self['self']
+                                    $recv: #NameExpr['lo']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['h']
+                              $right: #AddExpr[
+                                 $left: #DivExpr[
+                                    $left: #AddExpr[
+                                       $left: #NameExpr['h']
+                                       $right: #IntExpr['1']
+                                    ]
+                                    $right: #IntExpr['2']
+                                 ]
+                                 $right: #Conditional[
+                                    $cond: #ApplyExpr[
+                                       $recv: #ClosedRange[
+                                          #HexInteger['0x21']
+                                          #HexInteger['0x5E']
+                                       ]
+                                       $recv: #NameExpr['include?']
+                                       $param: #List[
+                                          $expression: #NameExpr['h']
+                                       ]
+                                    ]
+                                    $then: #HexInteger['0x70']
+                                    $else: #HexInteger['0xB0']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AddAssign[
+                              $left: #NameExpr['l']
+                              $right: #Conditional[
+                                 $cond: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #Self['self']
+                                       $recv: #NameExpr['hi']
+                                    ]
+                                    $recv: #NameExpr['odd?']
+                                 ]
+                                 $then: #AddExpr[
+                                    $left: #HexInteger['0x1F']
+                                    $right: #Conditional[
+                                       $cond: #GteExpt[
+                                          $left: #NameExpr['l']
+                                          $right: #HexInteger['0x60']
+                                       ]
+                                       $then: #IntExpr['1']
+                                       $else: #IntExpr['0']
+                                    ]
+                                 ]
+                                 $else: #HexInteger['0x7E']
+                              ]
+                           ]
+                           $statement: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #OrExpr[
+                                    $left: #LShiftExpr[
+                                       $left: #NameExpr['h']
+                                       $right: #IntExpr['8']
+                                    ]
+                                    $right: #NameExpr['l']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['inspect']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #StringExpr[
+                           $inner: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['object_id']
+                              ]
+                              $recv: #NameExpr['to_s']
+                              $param: #List[
+                                 $expression: #IntExpr['16']
+                              ]
+                           ]
+                           $inner: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['to_sjis']
+                              ]
+                              $recv: #NameExpr['to_s']
+                              $param: #List[
+                                 $expression: #IntExpr['16']
+                              ]
+                           ]
+                           $inner: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['to_int']
+                              ]
+                              $recv: #NameExpr['to_s']
+                              $param: #List[
+                                 $expression: #IntExpr['16']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #NameExpr['private']
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['row_cell_to_code']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['row']
+                        ]
+                        $param: #Param[
+                           $param: #NameExpr['cell']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #Unless[
+                              $cond: #LAnd[
+                                 $left: #LtExpr[
+                                    $left: #IntExpr['0']
+                                    $right: #NameExpr['row']
+                                 ]
+                                 $right: #ApplyExpr[
+                                    $recv: #ClosedRange[
+                                       #IntExpr['1']
+                                       #IntExpr['94']
+                                    ]
+                                    $recv: #NameExpr['include?']
+                                    $param: #List[
+                                       $expression: #NameExpr['cell']
+                                    ]
+                                 ]
+                              ]
+                              $then: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['ArgumentError']
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['row']
+                                       $inner: #NameExpr['cell']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #OrExpr[
+                                    $left: #LShiftExpr[
+                                       $left: #AddExpr[
+                                          $left: #NameExpr['row']
+                                          $right: #HexInteger['0x20']
+                                       ]
+                                       $right: #IntExpr['8']
+                                    ]
+                                    $right: #AddExpr[
+                                       $left: #NameExpr['cell']
+                                       $right: #HexInteger['0x20']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

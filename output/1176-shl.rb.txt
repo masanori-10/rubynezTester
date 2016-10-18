@@ -1,0 +1,366 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['pty']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$shells']
+         $right: #Array['[]']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$n_shells']
+         $right: #IntExpr['0']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$r_pty']
+         $right: #Nil['nil']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$w_pty']
+         $right: #Nil['nil']
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['writer']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['system']
+                  $param: #List[
+                     $expression: #StringExpr['stty -echo raw']
+                  ]
+               ]
+               $statement: #ExceptionBlock[
+                  $main: #While[
+                     $cond: #TrueExpr['true']
+                     $body: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['c']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['STDIN']
+                              $recv: #NameExpr['getc']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #EqExpr[
+                              $left: #NameExpr['c']
+                              $right: #IntExpr['26']
+                           ]
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['$reader']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #Nil['nil']
+                                 ]
+                              ]
+                              $statement: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #StringExpr['Suspend']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['$w_pty']
+                           $recv: #NameExpr['print']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['c']
+                                 $recv: #NameExpr['chr']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['$w_pty']
+                           $recv: #NameExpr['flush']
+                        ]
+                     ]
+                  ]
+                  $rescue: #List[
+                     $rescue: #Rescue[
+                        $then: #List[
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['$reader']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #Nil['nil']
+                              ]
+                           ]
+                           $statement: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #StringExpr['Exit']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $ensure: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['system']
+                     $param: #List[
+                        $expression: #StringExpr['stty echo -raw']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$reader']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['Thread']
+            $recv: #NameExpr['new']
+            $body: #Block[
+               $body: #While[
+                  $cond: #TrueExpr['true']
+                  $body: #ExceptionBlock[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $then: #Next['next']
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['$r_pty']
+                              $recv: #NameExpr['nil?']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['c']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['$r_pty']
+                              $recv: #NameExpr['getc']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['c']
+                              $recv: #NameExpr['nil?']
+                           ]
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['stop']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['print']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['c']
+                                 $recv: #NameExpr['chr']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['STDOUT']
+                           $recv: #NameExpr['flush']
+                        ]
+                     ]
+                     $rescue: #List[
+                        $rescue: #Rescue[
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['stop']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #While[
+         $cond: #TrueExpr['true']
+         $body: #List[
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['print']
+               $param: #List[
+                  $expression: #StringExpr['>> ']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['STDOUT']
+               $recv: #NameExpr['flush']
+            ]
+            $statement: #Case[
+               $cond: #NameExpr['gets']
+               $body: #List[
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #Regex['/^c/i']
+                     ]
+                     $then: #List[
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['$shells']
+                              $index: #List[
+                                 $expression: #NameExpr['$n_shells']
+                              ]
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['PTY']
+                              $recv: #NameExpr['spawn']
+                              $param: #List[
+                                 $expression: #StringExpr['/bin/csh']
+                              ]
+                           ]
+                        ]
+                        $statement: #MultipleAssign[
+                           $left: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['$r_pty']
+                              $item: #NameExpr['$w_pty']
+                           ]
+                           $right: #Indexer[
+                              $recv: #NameExpr['$shells']
+                              $index: #List[
+                                 $expression: #NameExpr['$n_shells']
+                              ]
+                           ]
+                        ]
+                        $statement: #AddAssign[
+                           $left: #NameExpr['$n_shells']
+                           $right: #IntExpr['1']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['$reader']
+                           $recv: #NameExpr['run']
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #EqExpr[
+                              $left: #NameExpr['writer']
+                              $right: #StringExpr['Exit']
+                           ]
+                           $then: #List[
+                              $statement: #SubAssign[
+                                 $left: #NameExpr['$n_shells']
+                                 $right: #IntExpr['1']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['$shells']
+                                    $index: #List[
+                                       $expression: #NameExpr['$n_shells']
+                                    ]
+                                 ]
+                                 $right: #Nil['nil']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #Regex['/^p/i']
+                     ]
+                     $then: #For[
+                        $iter: #NameExpr['i']
+                        $range: #ClosedRange[
+                           #IntExpr['0']
+                           #NameExpr['$n_shells']
+                        ]
+                        $body: #Unless[
+                           $cond: #ApplyExpr[
+                              $recv: #Indexer[
+                                 $recv: #NameExpr['$shells']
+                                 $index: #List[
+                                    $expression: #NameExpr['i']
+                                 ]
+                              ]
+                              $recv: #NameExpr['nil?']
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['print']
+                              $param: #List[
+                                 $expression: #NameExpr['i']
+                                 $expression: #StringExpr['\\n']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #Regex['/^([0-9]+)/']
+                     ]
+                     $then: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['n']
+                           $right: #ApplyExpr[
+                              $recv: #MatchedRegex['$1']
+                              $recv: #NameExpr['to_i']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $recv: #Indexer[
+                                 $recv: #NameExpr['$shells']
+                                 $index: #List[
+                                    $expression: #NameExpr['n']
+                                 ]
+                              ]
+                              $recv: #NameExpr['nil?']
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['print']
+                              $param: #List[
+                                 $expression: #StringExpr[
+                                    $inner: #NameExpr['i']
+                                 ]
+                              ]
+                           ]
+                           $else: #List[
+                              $statement: #MultipleAssign[
+                                 $left: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['$r_pty']
+                                    $item: #NameExpr['$w_pty']
+                                 ]
+                                 $right: #Indexer[
+                                    $recv: #NameExpr['$shells']
+                                    $index: #List[
+                                       $expression: #NameExpr['n']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['$reader']
+                                 $recv: #NameExpr['run']
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #EqExpr[
+                                    $left: #NameExpr['writer']
+                                    $right: #StringExpr['Exit']
+                                 ]
+                                 $then: #AssignExpr[
+                                    $left: #Indexer[
+                                       $base: #NameExpr['$shells']
+                                       $index: #List[
+                                          $expression: #NameExpr['n']
+                                       ]
+                                    ]
+                                    $right: #Nil['nil']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #Regex['/^q/i']
+                     ]
+                     $then: #NameExpr['exit']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,207 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['win32ole']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$urls']
+         $right: #Array['[]']
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['navigate']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['url']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #LShiftExpr[
+               $left: #NameExpr['$urls']
+               $right: #NameExpr['url']
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['stop_msg_loop']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #StringExpr['Now Stop IE...']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['$LOOP']
+                  $right: #FalseExpr['false']
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['default_handler']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['event']
+            ]
+            $param: #VariadicParam[
+               $name: #NameExpr['args']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #Case[
+               $cond: #NameExpr['event']
+               $body: #List[
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #StringExpr['BeforeNavigate']
+                     ]
+                     $then: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['puts']
+                        $param: #List[
+                           $expression: #StringExpr[
+                              $inner: #Indexer[
+                                 $recv: #NameExpr['args']
+                                 $index: #List[
+                                    $expression: #IntExpr['0']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['ie']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['WIN32OLE']
+            $recv: #NameExpr['new']
+            $param: #List[
+               $expression: #StringExpr['InternetExplorer.Application']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #Field[
+            $base: #NameExpr['ie']
+            $name: #NameExpr['visible']
+         ]
+         $right: #TrueExpr['true']
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['ie']
+         $recv: #NameExpr['gohome']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['ev']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['WIN32OLE_EVENT']
+            $recv: #NameExpr['new']
+            $param: #List[
+               $expression: #NameExpr['ie']
+               $expression: #StringExpr['DWebBrowserEvents']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['ev']
+         $recv: #NameExpr['on_event']
+         $body: #Block[
+            $param: #Variadic[
+               $item: #NameExpr['args']
+            ]
+            $body: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['default_handler']
+               $param: #List[
+                  $variadic: #Variadic[
+                     $base: #NameExpr['args']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['ev']
+         $recv: #NameExpr['on_event']
+         $param: #List[
+            $expression: #StringExpr['NavigateComplete']
+         ]
+         $body: #Block[
+            $param: #NameExpr['url']
+            $body: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['navigate']
+               $param: #List[
+                  $expression: #NameExpr['url']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['ev']
+         $recv: #NameExpr['on_event']
+         $param: #List[
+            $expression: #StringExpr['Quit']
+         ]
+         $body: #Block[
+            $param: #Variadic[
+               $item: #NameExpr['args']
+            ]
+            $body: #NameExpr['stop_msg_loop']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$LOOP']
+         $right: #TrueExpr['true']
+      ]
+      $statement: #While[
+         $cond: #NameExpr['$LOOP']
+         $body: #ApplyExpr[
+            $recv: #NameExpr['WIN32OLE_EVENT']
+            $recv: #NameExpr['message_loop']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #StringExpr['You Navigated the URLs ...']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['$urls']
+         $recv: #NameExpr['each_with_index']
+         $body: #Block[
+            $param: #MultipleLeftHandSideExpression[
+               $item: #NameExpr['url']
+               $item: #NameExpr['i']
+            ]
+            $body: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['puts']
+               $param: #List[
+                  $expression: #StringExpr[
+                     $inner: #AddExpr[
+                        $left: #NameExpr['i']
+                        $right: #IntExpr['1']
+                     ]
+                     $inner: #NameExpr['url']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

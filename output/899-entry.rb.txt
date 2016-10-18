@@ -1,0 +1,401 @@
+#Source[
+   #Class[
+      $name: #NestedName[
+         $path: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Gem']
+               $name: #NameExpr['Package']
+            ]
+            $name: #NameExpr['TarReader']
+         ]
+         $name: #NameExpr['Entry']
+      ]
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['attr_reader']
+               $param: #List[
+                  $expression: #NameExpr['header']
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['initialize']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['header']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['io']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@closed']
+                        $right: #FalseExpr['false']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@header']
+                        $right: #NameExpr['header']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@io']
+                        $right: #NameExpr['io']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@orig_pos']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['@io']
+                           $recv: #NameExpr['pos']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@read']
+                        $right: #IntExpr['0']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['check_closed']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #IfExpr[
+                     $then: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['raise']
+                        $param: #List[
+                           $expression: #NameExpr['IOError']
+                           $expression: #StringExpr[
+                              $inner: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['class']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $cond: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['closed?']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['bytes_read']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #NameExpr['@read']
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['close']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #AssignExpr[
+                     $left: #NameExpr['@closed']
+                     $right: #TrueExpr['true']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['closed?']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #NameExpr['@closed']
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['eof?']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #NameExpr['check_closed']
+                     $statement: #GteExpt[
+                        $left: #NameExpr['@read']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['@header']
+                           $recv: #NameExpr['size']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['full_name']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #IfExpr[
+                     $cond: #NeExpr[
+                        $left: #ApplyExpr[
+                           $recv: #NameExpr['@header']
+                           $recv: #NameExpr['prefix']
+                        ]
+                        $right: #StringExpr['']
+                     ]
+                     $then: #ApplyExpr[
+                        $base: #NameExpr['File']
+                        $recv: #NameExpr['join']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['@header']
+                              $recv: #NameExpr['prefix']
+                           ]
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['@header']
+                              $recv: #NameExpr['name']
+                           ]
+                        ]
+                     ]
+                     $else: #ApplyExpr[
+                        $recv: #NameExpr['@header']
+                        $recv: #NameExpr['name']
+                     ]
+                  ]
+                  $rescue: #List[
+                     $rescue: #Rescue[
+                        $class: #NameExpr['ArgumentError']
+                        $target: #NameExpr['e']
+                        $then: #List[
+                           $statement: #Unless[
+                              $then: #NameExpr['raise']
+                              $cond: #EqExpr[
+                                 $left: #ApplyExpr[
+                                    $recv: #NameExpr['e']
+                                    $recv: #NameExpr['message']
+                                 ]
+                                 $right: #StringExpr['string contains null byte']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['Package']
+                                    ]
+                                    $name: #NameExpr['TarInvalidError']
+                                 ]
+                                 $expression: #StringExpr['tar is corrupt, name contains null byte']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['getc']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #NameExpr['check_closed']
+                     $statement: #IfExpr[
+                        $then: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #Nil['nil']
+                           ]
+                        ]
+                        $cond: #GteExpt[
+                           $left: #NameExpr['@read']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['@header']
+                              $recv: #NameExpr['size']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['ret']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['@io']
+                           $recv: #NameExpr['getc']
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #AddAssign[
+                           $left: #NameExpr['@read']
+                           $right: #IntExpr['1']
+                        ]
+                        $cond: #NameExpr['ret']
+                     ]
+                     $statement: #NameExpr['ret']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['directory?']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #EqExpr[
+                     $left: #ApplyExpr[
+                        $recv: #NameExpr['@header']
+                        $recv: #NameExpr['typeflag']
+                     ]
+                     $right: #StringExpr['5']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['file?']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #EqExpr[
+                     $left: #ApplyExpr[
+                        $recv: #NameExpr['@header']
+                        $recv: #NameExpr['typeflag']
+                     ]
+                     $right: #StringExpr['0']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['symlink?']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #EqExpr[
+                     $left: #ApplyExpr[
+                        $recv: #NameExpr['@header']
+                        $recv: #NameExpr['typeflag']
+                     ]
+                     $right: #StringExpr['2']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['pos']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #NameExpr['check_closed']
+                     $statement: #NameExpr['bytes_read']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['read']
+               $param: #List[
+                  $param: #OptionalParam[
+                     $name: #NameExpr['len']
+                     $default: #Nil['nil']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #NameExpr['check_closed']
+                     $statement: #IfExpr[
+                        $then: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #Nil['nil']
+                           ]
+                        ]
+                        $cond: #GteExpt[
+                           $left: #NameExpr['@read']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['@header']
+                              $recv: #NameExpr['size']
+                           ]
+                        ]
+                     ]
+                     $statement: #LOrAssign[
+                        $left: #NameExpr['len']
+                        $right: #SubExpr[
+                           $left: #ApplyExpr[
+                              $recv: #NameExpr['@header']
+                              $recv: #NameExpr['size']
+                           ]
+                           $right: #NameExpr['@read']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['max_read']
+                        $right: #ApplyExpr[
+                           $recv: #Array[
+                              $index: #List[
+                                 $expression: #NameExpr['len']
+                                 $expression: #SubExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['@header']
+                                       $recv: #NameExpr['size']
+                                    ]
+                                    $right: #NameExpr['@read']
+                                 ]
+                              ]
+                           ]
+                           $recv: #NameExpr['min']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['ret']
+                        $right: #ApplyExpr[
+                           $base: #NameExpr['@io']
+                           $recv: #NameExpr['read']
+                           $param: #List[
+                              $expression: #NameExpr['max_read']
+                           ]
+                        ]
+                     ]
+                     $statement: #AddAssign[
+                        $left: #NameExpr['@read']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['ret']
+                           $recv: #NameExpr['size']
+                        ]
+                     ]
+                     $statement: #NameExpr['ret']
+                  ]
+               ]
+            ]
+            $statement: #Alias[
+               $newname: #NameExpr['readpartial']
+               $target: #NameExpr['read']
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['rewind']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #NameExpr['check_closed']
+                     $statement: #Unless[
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Package']
+                                 ]
+                                 $name: #NameExpr['NonSeekableIO']
+                              ]
+                           ]
+                        ]
+                        $cond: #ApplyExpr[
+                           $base: #NameExpr['@io']
+                           $recv: #NameExpr['respond_to?']
+                           $param: #List[
+                              $expression: #NameExpr['pos=']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #Field[
+                           $base: #NameExpr['@io']
+                           $name: #NameExpr['pos']
+                        ]
+                        $right: #NameExpr['@orig_pos']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@read']
+                        $right: #IntExpr['0']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,545 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/command']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #Field[
+               $recv: #NameExpr['Gem']
+               $name: #NameExpr['Commands']
+            ]
+            $name: #NameExpr['EnvironmentCommand']
+         ]
+         $super: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['Command']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #Super[
+                        $param: #List[
+                           $expression: #StringExpr['environment']
+                           $expression: #StringExpr['Display information about the RubyGems environment']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['arguments']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['args']
+                           $right: #HereDocument['          packageversion  display the package version\n          gemdir          display the path where gems are installed\n          gempath         display path used to search for gems\n          version         display the gem format version\n          remotesources   display the remote gem servers\n          platform        display the supported gem platforms\n          <omitted>       display everything\n']
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['args']
+                                 $recv: #NameExpr['gsub']
+                                 $param: #List[
+                                    $expression: #Regex['/^\\s+/']
+                                    $expression: #StringExpr['']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['description']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #HereDocument['The environment command lets you query rubygems for its configuration for\nuse in shell scripts or as a debugging aid.\n\nThe RubyGems environment can be controlled through command line arguments,\ngemrc files, environment variables and built-in defaults.\n\nCommand line argument defaults and some RubyGems defaults can be set in a\n~/.gemrc file for individual users and a gemrc in the SYSTEM CONFIGURATION\nDIRECTORY for all users. These files are YAML files with the following YAML\nkeys:\n\n  :sources: A YAML array of remote gem repositories to install gems from\n  :verbose: Verbosity of the gem command. false, true, and :really are the\n            levels\n  :update_sources: Enable/disable automatic updating of repository metadata\n  :backtrace: Print backtrace when RubyGems encounters an error\n  :gempath: The paths in which to look for gems\n  :disable_default_gem_server: Force specification of gem server host on push\n  <gem_command>: A string containing arguments for the specified gem command\n\nExample:\n\n  :verbose: false\n  install: --no-wrappers\n  update: --no-wrappers\n  :disable_default_gem_server: true\n\nRubyGems\' default local repository can be overridden with the GEM_PATH and\nGEM_HOME environment variables. GEM_HOME sets the default repository to\ninstall into. GEM_PATH allows multiple local repositories to be searched for\ngems.\n\nIf you are behind a proxy server, RubyGems uses the HTTP_PROXY,\nHTTP_PROXY_USER and HTTP_PROXY_PASS environment variables to discover the\nproxy server.\n\nIf you would like to push gems to a private gem server the RUBYGEMS_HOST\nenvironment variable can be set to the URI for that server.\n\nIf you are packaging RubyGems all of RubyGems\' defaults are in\nlib/rubygems/defaults.rb.  You may override these in\nlib/rubygems/defaults/operating_system.rb\n']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['usage']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr[
+                        $inner: #NameExpr['program_name']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['execute']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['out']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['String']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['arg']
+                           $right: #Indexer[
+                              $recv: #Indexer[
+                                 $recv: #NameExpr['options']
+                                 $index: #List[
+                                    $expression: #NameExpr['args']
+                                 ]
+                              ]
+                              $index: #List[
+                                 $expression: #IntExpr['0']
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #Case[
+                              $cond: #NameExpr['arg']
+                              $body: #List[
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^packageversion/']
+                                    ]
+                                    $then: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['RubyGemsPackageVersion']
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^version/']
+                                    ]
+                                    $then: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['VERSION']
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^gemdir/']
+                                       $expression: #Regex['/^gemhome/']
+                                       $expression: #Regex['/^home/']
+                                       $expression: #Regex['/^GEM_HOME/']
+                                    ]
+                                    $then: #ApplyExpr[
+                                       $recv: #NameExpr['Gem']
+                                       $recv: #NameExpr['dir']
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^gempath/']
+                                       $expression: #Regex['/^path/']
+                                       $expression: #Regex['/^GEM_PATH/']
+                                    ]
+                                    $then: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['Gem']
+                                          $recv: #NameExpr['path']
+                                       ]
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #Field[
+                                             $recv: #NameExpr['File']
+                                             $name: #NameExpr['PATH_SEPARATOR']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^remotesources/']
+                                    ]
+                                    $then: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['Gem']
+                                             $recv: #NameExpr['sources']
+                                          ]
+                                          $recv: #NameExpr['to_a']
+                                       ]
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #StringExpr['\\n']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^platform/']
+                                    ]
+                                    $then: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['Gem']
+                                          $recv: #NameExpr['platforms']
+                                       ]
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #Field[
+                                             $recv: #NameExpr['File']
+                                             $name: #NameExpr['PATH_SEPARATOR']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Nil['nil']
+                                    ]
+                                    $then: #NameExpr['show_environment']
+                                 ]
+                              ]
+                              $else: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['CommandLineError']
+                                    ]
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['arg']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['say']
+                           $param: #List[
+                              $expression: #NameExpr['out']
+                           ]
+                        ]
+                        $statement: #TrueExpr['true']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['add_path']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['out']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['path']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['path']
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['component']
+                           $body: #LShiftExpr[
+                              $left: #NameExpr['out']
+                              $right: #StringExpr[
+                                 $inner: #NameExpr['component']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['show_environment']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['out']
+                           $right: #ApplyExpr[
+                              $recv: #StringExpr['RubyGems Environment:\\n']
+                              $recv: #NameExpr['dup']
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr[
+                              $inner: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['VERSION']
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr[
+                              $inner: #NameExpr['RUBY_VERSION']
+                              $inner: #NameExpr['RUBY_RELEASE_DATE']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #LShiftExpr[
+                              $left: #NameExpr['out']
+                              $right: #StringExpr[
+                                 $inner: #NameExpr['RUBY_PATCHLEVEL']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['defined?']
+                              $param: #List[
+                                 $expression: #NameExpr['RUBY_PATCHLEVEL']
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr[
+                              $inner: #NameExpr['RUBY_PLATFORM']
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr[
+                              $inner: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['dir']
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr[
+                              $inner: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['user_dir']
+                              ]
+                           ]
+                        ]
+                        $statement: #Unless[
+                           $then: #LShiftExpr[
+                              $left: #NameExpr['out']
+                              $right: #StringExpr[
+                                 $inner: #ApplyExpr[
+                                    $recv: #NameExpr['Gem']
+                                    $recv: #NameExpr['prefix']
+                                 ]
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['prefix']
+                              ]
+                              $recv: #NameExpr['nil?']
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr[
+                              $inner: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['ruby']
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr[
+                              $inner: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['bindir']
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr[
+                              $inner: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['spec_cache_dir']
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr[
+                              $inner: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['ConfigFile']
+                                 ]
+                                 $name: #NameExpr['SYSTEM_CONFIG_PATH']
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr['  - RUBYGEMS PLATFORMS:\\n']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['Gem']
+                              $recv: #NameExpr['platforms']
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['platform']
+                              $body: #LShiftExpr[
+                                 $left: #NameExpr['out']
+                                 $right: #StringExpr[
+                                    $inner: #NameExpr['platform']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr['  - GEM PATHS:\\n']
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr[
+                              $inner: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['dir']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['gem_path']
+                           $right: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['path']
+                              ]
+                              $recv: #NameExpr['dup']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['gem_path']
+                           $recv: #NameExpr['delete']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['dir']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_path']
+                           $param: #List[
+                              $expression: #NameExpr['out']
+                              $expression: #NameExpr['gem_path']
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr['  - GEM CONFIGURATION:\\n']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['Gem']
+                              $recv: #NameExpr['configuration']
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['name']
+                                 $item: #NameExpr['value']
+                              ]
+                              $body: #List[
+                                 $statement: #IfExpr[
+                                    $then: #AssignExpr[
+                                       $left: #NameExpr['value']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['value']
+                                          $recv: #NameExpr['gsub']
+                                          $param: #List[
+                                             $expression: #Regex['/./']
+                                             $expression: #StringExpr['*']
+                                          ]
+                                       ]
+                                    ]
+                                    $cond: #EqExpr[
+                                       $left: #NameExpr['name']
+                                       $right: #StringExpr['gemcutter_key']
+                                    ]
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['out']
+                                    $right: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['name']
+                                          $recv: #NameExpr['inspect']
+                                       ]
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['value']
+                                          $recv: #NameExpr['inspect']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr['  - REMOTE SOURCES:\\n']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['Gem']
+                              $recv: #NameExpr['sources']
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['s']
+                              $body: #LShiftExpr[
+                                 $left: #NameExpr['out']
+                                 $right: #StringExpr[
+                                    $inner: #NameExpr['s']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['out']
+                           $right: #StringExpr['  - SHELL PATH:\\n']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['shell_path']
+                           $right: #ApplyExpr[
+                              $recv: #Indexer[
+                                 $recv: #NameExpr['ENV']
+                                 $index: #List[
+                                    $expression: #StringExpr['PATH']
+                                 ]
+                              ]
+                              $recv: #NameExpr['split']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['File']
+                                    $name: #NameExpr['PATH_SEPARATOR']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_path']
+                           $param: #List[
+                              $expression: #NameExpr['out']
+                              $expression: #NameExpr['shell_path']
+                           ]
+                        ]
+                        $statement: #NameExpr['out']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

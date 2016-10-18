@@ -1,0 +1,1264 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['forwardable']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['thread']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['sync']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['Shell']
+         $body: #BlockExpr[
+            $main: #Class[
+               $name: #NameExpr['ProcessController']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@ProcessControllers']
+                        $right: #List['{}']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@ProcessControllersMonitor']
+                        $right: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['Thread']
+                              $name: #NameExpr['Mutex']
+                           ]
+                           $recv: #NameExpr['new']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@ProcessControllersCV']
+                        $right: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['Thread']
+                              $name: #NameExpr['ConditionVariable']
+                           ]
+                           $recv: #NameExpr['new']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@BlockOutputMonitor']
+                        $right: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['Thread']
+                              $name: #NameExpr['Mutex']
+                           ]
+                           $recv: #NameExpr['new']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@BlockOutputCV']
+                        $right: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['Thread']
+                              $name: #NameExpr['ConditionVariable']
+                           ]
+                           $recv: #NameExpr['new']
+                        ]
+                     ]
+                     $statement: #SClass[
+                        $path: #Self['self']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['extend']
+                                 $param: #List[
+                                    $expression: #NameExpr['Forwardable']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['def_delegator']
+                                 $param: #List[
+                                    $expression: #StringExpr['@ProcessControllersMonitor']
+                                    $expression: #StringExpr['synchronize']
+                                    $expression: #StringExpr['process_controllers_exclusive']
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['active_process_controllers']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['process_controllers_exclusive']
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             $recv: #NameExpr['@ProcessControllers']
+                                             $recv: #NameExpr['dup']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['activate']
+                                 $param: #List[
+                                    $param: #Param[
+                                       $param: #NameExpr['pc']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['process_controllers_exclusive']
+                                       $body: #Block[
+                                          $body: #List[
+                                             $statement: #LOrAssign[
+                                                $left: #Indexer[
+                                                   $base: #NameExpr['@ProcessControllers']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['pc']
+                                                   ]
+                                                ]
+                                                $right: #IntExpr['0']
+                                             ]
+                                             $statement: #AddAssign[
+                                                $left: #Indexer[
+                                                   $base: #NameExpr['@ProcessControllers']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['pc']
+                                                   ]
+                                                ]
+                                                $right: #IntExpr['1']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['inactivate']
+                                 $param: #List[
+                                    $param: #Param[
+                                       $param: #NameExpr['pc']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['process_controllers_exclusive']
+                                       $body: #Block[
+                                          $body: #IfExpr[
+                                             $cond: #Indexer[
+                                                $recv: #NameExpr['@ProcessControllers']
+                                                $index: #List[
+                                                   $expression: #NameExpr['pc']
+                                                ]
+                                             ]
+                                             $then: #IfExpr[
+                                                $cond: #EqExpr[
+                                                   $left: #SubAssign[
+                                                      $left: #Indexer[
+                                                         $base: #NameExpr['@ProcessControllers']
+                                                         $index: #List[
+                                                            $expression: #NameExpr['pc']
+                                                         ]
+                                                      ]
+                                                      $right: #IntExpr['1']
+                                                   ]
+                                                   $right: #IntExpr['0']
+                                                ]
+                                                $then: #List[
+                                                   $statement: #ApplyExpr[
+                                                      $recv: #NameExpr['@ProcessControllers']
+                                                      $recv: #NameExpr['delete']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['pc']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      $recv: #NameExpr['@ProcessControllersCV']
+                                                      $recv: #NameExpr['signal']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['each_active_object']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['process_controllers_exclusive']
+                                       $body: #Block[
+                                          $body: #For[
+                                             $iter: #NameExpr['ref']
+                                             $range: #ApplyExpr[
+                                                $recv: #NameExpr['@ProcessControllers']
+                                                $recv: #NameExpr['keys']
+                                             ]
+                                             $body: #Yield[
+                                                $param: #List[
+                                                   $expression: #NameExpr['ref']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['block_output_synchronize']
+                                 $param: #List[
+                                    $param: #ProcedureParam[
+                                       $name: #NameExpr['b']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['@BlockOutputMonitor']
+                                       $recv: #NameExpr['synchronize']
+                                       $param: #List[
+                                          $procedure: #Procedure[
+                                             $base: #NameExpr['b']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['wait_to_finish_all_process_controllers']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['process_controllers_exclusive']
+                                       $body: #Block[
+                                          $body: #While[
+                                             $cond: #NotExpr[
+                                                $expr: #ApplyExpr[
+                                                   $recv: #NameExpr['@ProcessControllers']
+                                                   $recv: #NameExpr['empty?']
+                                                ]
+                                             ]
+                                             $body: #List[
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['Shell']
+                                                   $recv: #NameExpr['notify']
+                                                   $param: #List[
+                                                      $expression: #StringExpr['Process finishing, but active shell exists']
+                                                      $expression: #StringExpr['You can use Shell#transact or Shell#check_point for more safe execution.']
+                                                   ]
+                                                ]
+                                                $statement: #IfExpr[
+                                                   $cond: #ApplyExpr[
+                                                      $recv: #NameExpr['Shell']
+                                                      $recv: #NameExpr['debug?']
+                                                   ]
+                                                   $then: #For[
+                                                      $iter: #NameExpr['pc']
+                                                      $range: #ApplyExpr[
+                                                         $recv: #NameExpr['@ProcessControllers']
+                                                         $recv: #NameExpr['keys']
+                                                      ]
+                                                      $body: #List[
+                                                         $statement: #ApplyExpr[
+                                                            $recv: #NameExpr['Shell']
+                                                            $recv: #NameExpr['notify']
+                                                            $param: #List[
+                                                               $expression: #AddExpr[
+                                                                  $left: #StringExpr[' Not finished jobs in ']
+                                                                  $right: #ApplyExpr[
+                                                                     $recv: #ApplyExpr[
+                                                                        $recv: #NameExpr['pc']
+                                                                        $recv: #NameExpr['shell']
+                                                                     ]
+                                                                     $recv: #NameExpr['to_s']
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                         ]
+                                                         $statement: #For[
+                                                            $iter: #NameExpr['com']
+                                                            $range: #ApplyExpr[
+                                                               $recv: #NameExpr['pc']
+                                                               $recv: #NameExpr['jobs']
+                                                            ]
+                                                            $body: #ApplyExpr[
+                                                               $recv: #NameExpr['com']
+                                                               $recv: #NameExpr['notify']
+                                                               $param: #List[
+                                                                  $expression: #StringExpr['  Jobs: %id']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['@ProcessControllersCV']
+                                                   $recv: #NameExpr['wait']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['@ProcessControllersMonitor']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['USING_AT_EXIT_WHEN_PROCESS_EXIT']
+                        $right: #TrueExpr['true']
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['at_exit']
+                        $body: #Block[
+                           $body: #Unless[
+                              $then: #NameExpr['wait_to_finish_all_process_controllers']
+                              $cond: #BuiltInVariable['$@']
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['initialize']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['shell']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@shell']
+                                 $right: #NameExpr['shell']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@waiting_jobs']
+                                 $right: #Array['[]']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@active_jobs']
+                                 $right: #Array['[]']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@jobs_sync']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['Sync']
+                                    $recv: #NameExpr['new']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@job_monitor']
+                                 $right: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Thread']
+                                       $name: #NameExpr['Mutex']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@job_condition']
+                                 $right: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Thread']
+                                       $name: #NameExpr['ConditionVariable']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['attr_reader']
+                        $param: #List[
+                           $expression: #NameExpr['shell']
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['jobs']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['jobs']
+                                 $right: #Array['[]']
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['@jobs_sync']
+                                 $recv: #NameExpr['synchronize']
+                                 $param: #List[
+                                    $expression: #NameExpr['SH']
+                                 ]
+                                 $body: #Block[
+                                    $body: #List[
+                                       $statement: #ApplyExpr[
+                                          $base: #NameExpr['jobs']
+                                          $recv: #NameExpr['concat']
+                                          $param: #List[
+                                             $expression: #NameExpr['@waiting_jobs']
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $base: #NameExpr['jobs']
+                                          $recv: #NameExpr['concat']
+                                          $param: #List[
+                                             $expression: #NameExpr['@active_jobs']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #NameExpr['jobs']
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['active_jobs']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #NameExpr['@active_jobs']
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['waiting_jobs']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #NameExpr['@waiting_jobs']
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['jobs_exist?']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@jobs_sync']
+                              $recv: #NameExpr['synchronize']
+                              $param: #List[
+                                 $expression: #NameExpr['SH']
+                              ]
+                              $body: #Block[
+                                 $body: #OrExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['@active_jobs']
+                                       $recv: #NameExpr['empty?']
+                                    ]
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['@waiting_jobs']
+                                       $recv: #NameExpr['empty?']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['active_jobs_exist?']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@jobs_sync']
+                              $recv: #NameExpr['synchronize']
+                              $param: #List[
+                                 $expression: #NameExpr['SH']
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['@active_jobs']
+                                    $recv: #NameExpr['empty?']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['waiting_jobs_exist?']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@jobs_sync']
+                              $recv: #NameExpr['synchronize']
+                              $param: #List[
+                                 $expression: #NameExpr['SH']
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['@waiting_jobs']
+                                    $recv: #NameExpr['empty?']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['add_schedule']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['command']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@jobs_sync']
+                              $recv: #NameExpr['synchronize']
+                              $param: #List[
+                                 $expression: #NameExpr['EX']
+                              ]
+                              $body: #Block[
+                                 $body: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['ProcessController']
+                                       $recv: #NameExpr['activate']
+                                       $param: #List[
+                                          $expression: #Self['self']
+                                       ]
+                                    ]
+                                    $statement: #IfExpr[
+                                       $cond: #ApplyExpr[
+                                          $recv: #NameExpr['@active_jobs']
+                                          $recv: #NameExpr['empty?']
+                                       ]
+                                       $then: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['start_job']
+                                          $param: #List[
+                                             $expression: #NameExpr['command']
+                                          ]
+                                       ]
+                                       $else: #ApplyExpr[
+                                          $recv: #NameExpr['@waiting_jobs']
+                                          $recv: #NameExpr['push']
+                                          $param: #List[
+                                             $expression: #NameExpr['command']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['start_job']
+                        $param: #List[
+                           $param: #OptionalParam[
+                              $name: #NameExpr['command']
+                              $default: #Nil['nil']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@jobs_sync']
+                              $recv: #NameExpr['synchronize']
+                              $param: #List[
+                                 $expression: #NameExpr['EX']
+                              ]
+                              $body: #Block[
+                                 $body: #List[
+                                    $statement: #IfExpr[
+                                       $cond: #NameExpr['command']
+                                       $then: #List[
+                                          $statement: #IfExpr[
+                                             $then: #RReturnStmt['return']
+                                             $cond: #ApplyExpr[
+                                                $recv: #NameExpr['command']
+                                                $recv: #NameExpr['active?']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $base: #NameExpr['@waiting_jobs']
+                                             $recv: #NameExpr['delete']
+                                             $param: #List[
+                                                $expression: #NameExpr['command']
+                                             ]
+                                          ]
+                                       ]
+                                       $else: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['command']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['@waiting_jobs']
+                                                $recv: #NameExpr['shift']
+                                             ]
+                                          ]
+                                          $statement: #Unless[
+                                             $then: #RReturnStmt['return']
+                                             $cond: #NameExpr['command']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $base: #NameExpr['@active_jobs']
+                                       $recv: #NameExpr['push']
+                                       $param: #List[
+                                          $expression: #NameExpr['command']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['command']
+                                       $recv: #NameExpr['start']
+                                    ]
+                                    $statement: #For[
+                                       $iter: #NameExpr['job']
+                                       $range: #ApplyExpr[
+                                          $recv: #NameExpr['@waiting_jobs']
+                                          $recv: #NameExpr['dup']
+                                       ]
+                                       $body: #IfExpr[
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['start_job']
+                                             $param: #List[
+                                                $expression: #NameExpr['job']
+                                             ]
+                                          ]
+                                          $cond: #EqExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['job']
+                                                $recv: #NameExpr['input']
+                                             ]
+                                             $right: #NameExpr['command']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['waiting_job?']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['job']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@jobs_sync']
+                              $recv: #NameExpr['synchronize']
+                              $param: #List[
+                                 $expression: #NameExpr['SH']
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['@waiting_jobs']
+                                    $recv: #NameExpr['include?']
+                                    $param: #List[
+                                       $expression: #NameExpr['job']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['active_job?']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['job']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@jobs_sync']
+                              $recv: #NameExpr['synchronize']
+                              $param: #List[
+                                 $expression: #NameExpr['SH']
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['@active_jobs']
+                                    $recv: #NameExpr['include?']
+                                    $param: #List[
+                                       $expression: #NameExpr['job']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['terminate_job']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['command']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@jobs_sync']
+                              $recv: #NameExpr['synchronize']
+                              $param: #List[
+                                 $expression: #NameExpr['EX']
+                              ]
+                              $body: #Block[
+                                 $body: #List[
+                                    $statement: #ApplyExpr[
+                                       $base: #NameExpr['@active_jobs']
+                                       $recv: #NameExpr['delete']
+                                       $param: #List[
+                                          $expression: #NameExpr['command']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['ProcessController']
+                                       $recv: #NameExpr['inactivate']
+                                       $param: #List[
+                                          $expression: #Self['self']
+                                       ]
+                                    ]
+                                    $statement: #IfExpr[
+                                       $cond: #ApplyExpr[
+                                          $recv: #NameExpr['@active_jobs']
+                                          $recv: #NameExpr['empty?']
+                                       ]
+                                       $then: #List[
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['command']
+                                             $recv: #NameExpr['notify']
+                                             $param: #List[
+                                                $expression: #StringExpr['start_job in terminate_job(%id)']
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['Shell']
+                                                   $recv: #NameExpr['debug?']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #NameExpr['start_job']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['kill_job']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['sig']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['command']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@jobs_sync']
+                              $recv: #NameExpr['synchronize']
+                              $param: #List[
+                                 $expression: #NameExpr['EX']
+                              ]
+                              $body: #Block[
+                                 $body: #IfExpr[
+                                    $cond: #ApplyExpr[
+                                       $base: #NameExpr['@waiting_jobs']
+                                       $recv: #NameExpr['delete']
+                                       $param: #List[
+                                          $expression: #NameExpr['command']
+                                       ]
+                                    ]
+                                    $then: #List[
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['ProcessController']
+                                          $recv: #NameExpr['inactivate']
+                                          $param: #List[
+                                             $expression: #Self['self']
+                                          ]
+                                       ]
+                                       $statement: #RReturnStmt['return']
+                                    ]
+                                    $else: #IfExpr[
+                                       $cond: #ApplyExpr[
+                                          $recv: #NameExpr['@active_jobs']
+                                          $recv: #NameExpr['include?']
+                                          $param: #List[
+                                             $expression: #NameExpr['command']
+                                          ]
+                                       ]
+                                       $then: #List[
+                                          $statement: #ExceptionBlock[
+                                             $main: #List[
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['r']
+                                                   $right: #ApplyExpr[
+                                                      $recv: #NameExpr['command']
+                                                      $recv: #NameExpr['kill']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['sig']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['ProcessController']
+                                                   $recv: #NameExpr['inactivate']
+                                                   $param: #List[
+                                                      $expression: #Self['self']
+                                                   ]
+                                                ]
+                                             ]
+                                             $rescue: #List[
+                                                $rescue: #Rescue[
+                                                   $then: #List[
+                                                      $statement: #IfExpr[
+                                                         $then: #ApplyExpr[
+                                                            #Self['self']
+                                                            $recv: #NameExpr['print']
+                                                            $param: #List[
+                                                               $expression: #StringExpr['Shell: Warn: $!\\n']
+                                                            ]
+                                                         ]
+                                                         $cond: #ApplyExpr[
+                                                            $recv: #NameExpr['@shell']
+                                                            $recv: #NameExpr['verbose?']
+                                                         ]
+                                                      ]
+                                                      $statement: #RReturnStmt[
+                                                         $expr: #List[
+                                                            $expression: #Nil['nil']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $base: #NameExpr['@active_jobs']
+                                             $recv: #NameExpr['delete']
+                                             $param: #List[
+                                                $expression: #NameExpr['command']
+                                             ]
+                                          ]
+                                          $statement: #NameExpr['r']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['wait_all_jobs_execution']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@job_monitor']
+                              $recv: #NameExpr['synchronize']
+                              $body: #Block[
+                                 $body: #ExceptionBlock[
+                                    $main: #While[
+                                       $cond: #NotExpr[
+                                          $expr: #ApplyExpr[
+                                             $recv: #NameExpr['jobs']
+                                             $recv: #NameExpr['empty?']
+                                          ]
+                                       ]
+                                       $body: #List[
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['@job_condition']
+                                             $recv: #NameExpr['wait']
+                                             $param: #List[
+                                                $expression: #NameExpr['@job_monitor']
+                                             ]
+                                          ]
+                                          $statement: #For[
+                                             $iter: #NameExpr['job']
+                                             $range: #NameExpr['jobs']
+                                             $body: #ApplyExpr[
+                                                $recv: #NameExpr['job']
+                                                $recv: #NameExpr['notify']
+                                                $param: #List[
+                                                   $expression: #StringExpr['waiting job(%id)']
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['Shell']
+                                                      $recv: #NameExpr['debug?']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $ensure: #Unless[
+                                       $then: #Redo['redo']
+                                       $cond: #ApplyExpr[
+                                          $recv: #NameExpr['jobs']
+                                          $recv: #NameExpr['empty?']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['sfork']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['command']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #MultipleAssign[
+                                 $left: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['pipe_me_in']
+                                    $item: #NameExpr['pipe_peer_out']
+                                 ]
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['IO']
+                                    $recv: #NameExpr['pipe']
+                                 ]
+                              ]
+                              $statement: #MultipleAssign[
+                                 $left: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['pipe_peer_in']
+                                    $item: #NameExpr['pipe_me_out']
+                                 ]
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['IO']
+                                    $recv: #NameExpr['pipe']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['pid']
+                                 $right: #Nil['nil']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['pid_mutex']
+                                 $right: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Thread']
+                                       $name: #NameExpr['Mutex']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['pid_cv']
+                                 $right: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Thread']
+                                       $name: #NameExpr['ConditionVariable']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['Thread']
+                                 $recv: #NameExpr['start']
+                                 $body: #Block[
+                                    $body: #List[
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['ProcessController']
+                                          $recv: #NameExpr['block_output_synchronize']
+                                          $body: #Block[
+                                             $body: #List[
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['STDOUT']
+                                                   $recv: #NameExpr['flush']
+                                                ]
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['ProcessController']
+                                                   $recv: #NameExpr['each_active_object']
+                                                   $body: #Block[
+                                                      $param: #NameExpr['pc']
+                                                      $body: #For[
+                                                         $iter: #NameExpr['jobs']
+                                                         $range: #ApplyExpr[
+                                                            $recv: #NameExpr['pc']
+                                                            $recv: #NameExpr['active_jobs']
+                                                         ]
+                                                         $body: #ApplyExpr[
+                                                            $recv: #NameExpr['jobs']
+                                                            $recv: #NameExpr['flush']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['pid']
+                                                   $right: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['fork']
+                                                      $body: #Block[
+                                                         $body: #List[
+                                                            $statement: #ApplyExpr[
+                                                               $recv: #ApplyExpr[
+                                                                  $recv: #NameExpr['Thread']
+                                                                  $recv: #NameExpr['list']
+                                                               ]
+                                                               $recv: #NameExpr['each']
+                                                               $body: #Block[
+                                                                  $param: #NameExpr['th']
+                                                                  $body: #Unless[
+                                                                     $then: #ApplyExpr[
+                                                                        $recv: #NameExpr['th']
+                                                                        $recv: #NameExpr['kill']
+                                                                     ]
+                                                                     $cond: #EqExpr[
+                                                                        $left: #ApplyExpr[
+                                                                           $recv: #NameExpr['Thread']
+                                                                           $recv: #NameExpr['current']
+                                                                        ]
+                                                                        $right: #NameExpr['th']
+                                                                     ]
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                            $statement: #ApplyExpr[
+                                                               $recv: #NameExpr['STDIN']
+                                                               $recv: #NameExpr['reopen']
+                                                               $param: #List[
+                                                                  $expression: #NameExpr['pipe_peer_in']
+                                                               ]
+                                                            ]
+                                                            $statement: #ApplyExpr[
+                                                               $recv: #NameExpr['STDOUT']
+                                                               $recv: #NameExpr['reopen']
+                                                               $param: #List[
+                                                                  $expression: #NameExpr['pipe_peer_out']
+                                                               ]
+                                                            ]
+                                                            $statement: #ApplyExpr[
+                                                               $recv: #NameExpr['ObjectSpace']
+                                                               $recv: #NameExpr['each_object']
+                                                               $param: #List[
+                                                                  $expression: #NameExpr['IO']
+                                                               ]
+                                                               $body: #Block[
+                                                                  $param: #NameExpr['io']
+                                                                  $body: #IfExpr[
+                                                                     $cond: #NotExpr[
+                                                                        $expr: #ApplyExpr[
+                                                                           $recv: #Array[
+                                                                              $index: #List[
+                                                                                 $expression: #NameExpr['STDIN']
+                                                                                 $expression: #NameExpr['STDOUT']
+                                                                                 $expression: #NameExpr['STDERR']
+                                                                              ]
+                                                                           ]
+                                                                           $recv: #NameExpr['include?']
+                                                                           $param: #List[
+                                                                              $expression: #NameExpr['io']
+                                                                           ]
+                                                                        ]
+                                                                     ]
+                                                                     $then: #Unless[
+                                                                        $then: #ApplyExpr[
+                                                                           $recv: #NameExpr['io']
+                                                                           $recv: #NameExpr['close']
+                                                                        ]
+                                                                        $cond: #ApplyExpr[
+                                                                           $recv: #NameExpr['io']
+                                                                           $recv: #NameExpr['closed?']
+                                                                        ]
+                                                                     ]
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                            $statement: #Yield['yield']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['pid_cv']
+                                          $recv: #NameExpr['signal']
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['pipe_peer_in']
+                                          $recv: #NameExpr['close']
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['pipe_peer_out']
+                                          $recv: #NameExpr['close']
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $base: #NameExpr['command']
+                                          $recv: #NameExpr['notify']
+                                          $param: #List[
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['pid']
+                                             ]
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['@shell']
+                                                $recv: #NameExpr['debug?']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ExceptionBlock[
+                                          $main: #List[
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['_pid']
+                                                $right: #Nil['nil']
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                $recv: #NameExpr['command']
+                                                $recv: #NameExpr['notify']
+                                                $param: #List[
+                                                   $expression: #StringExpr['job(%id) start to waiting finish.']
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['@shell']
+                                                      $recv: #NameExpr['debug?']
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['_pid']
+                                                $right: #ApplyExpr[
+                                                   $recv: #NameExpr['Process']
+                                                   $recv: #NameExpr['waitpid']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['pid']
+                                                      $expression: #Nil['nil']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $rescue: #List[
+                                             $rescue: #Rescue[
+                                                $class: #Field[
+                                                   $recv: #NameExpr['Errno']
+                                                   $name: #NameExpr['ECHILD']
+                                                ]
+                                                $then: #List[
+                                                   $statement: #ApplyExpr[
+                                                      $base: #NameExpr['command']
+                                                      $recv: #NameExpr['notify']
+                                                      $param: #List[
+                                                         $expression: #StringExpr['warn: job(%id) was done already waitpid.']
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['_pid']
+                                                      $right: #TrueExpr['true']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $ensure: #List[
+                                             $statement: #ApplyExpr[
+                                                $recv: #NameExpr['command']
+                                                $recv: #NameExpr['notify']
+                                                $param: #List[
+                                                   $expression: #StringExpr['Job(%id): Wait to finish when Process finished.']
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['@shell']
+                                                      $recv: #NameExpr['debug?']
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #IfExpr[
+                                                $cond: #OrExpr[
+                                                   $left: #NameExpr['USING_AT_EXIT_WHEN_PROCESS_EXIT']
+                                                   $right: #NameExpr['_pid']
+                                                ]
+                                                $then: #Empty['']
+                                                $else: #List[
+                                                   $statement: #ApplyExpr[
+                                                      $recv: #NameExpr['command']
+                                                      $recv: #NameExpr['notify']
+                                                      $param: #List[
+                                                         $expression: #StringExpr['notice: Process finishing...']
+                                                         $expression: #StringExpr['wait for Job[%id] to finish.']
+                                                         $expression: #StringExpr['You can use Shell#transact or Shell#check_point for more safe execution.']
+                                                      ]
+                                                   ]
+                                                   $statement: #Redo['redo']
+                                                ]
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                $recv: #NameExpr['@job_monitor']
+                                                $recv: #NameExpr['synchronize']
+                                                $body: #Block[
+                                                   $body: #List[
+                                                      $statement: #ApplyExpr[
+                                                         #Self['self']
+                                                         $recv: #NameExpr['terminate_job']
+                                                         $param: #List[
+                                                            $expression: #NameExpr['command']
+                                                         ]
+                                                      ]
+                                                      $statement: #ApplyExpr[
+                                                         $recv: #NameExpr['@job_condition']
+                                                         $recv: #NameExpr['signal']
+                                                      ]
+                                                      $statement: #ApplyExpr[
+                                                         $base: #NameExpr['command']
+                                                         $recv: #NameExpr['notify']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['job(%id) finish.']
+                                                            $expression: #ApplyExpr[
+                                                               $recv: #NameExpr['@shell']
+                                                               $recv: #NameExpr['debug?']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['pid_mutex']
+                                 $recv: #NameExpr['synchronize']
+                                 $body: #Block[
+                                    $body: #While[
+                                       $cond: #NotExpr[
+                                          $expr: #NameExpr['pid']
+                                       ]
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['pid_cv']
+                                          $recv: #NameExpr['wait']
+                                          $param: #List[
+                                             $expression: #NameExpr['pid_mutex']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #NameExpr['pid']
+                                    $expression: #NameExpr['pipe_me_in']
+                                    $expression: #NameExpr['pipe_me_out']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

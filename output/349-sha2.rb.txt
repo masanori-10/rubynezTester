@@ -1,0 +1,235 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['digest']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['digest/sha2.so']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['Digest']
+         $body: #BlockExpr[
+            $main: #Class[
+               $name: #NameExpr['SHA2']
+               $super: #Field[
+                  $recv: #NameExpr['Digest']
+                  $name: #NameExpr['Class']
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['initialize']
+                        $param: #List[
+                           $param: #OptionalParam[
+                              $name: #NameExpr['bitlen']
+                              $default: #IntExpr['256']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #Case[
+                                 $cond: #NameExpr['bitlen']
+                                 $body: #List[
+                                    $when: #When[
+                                       $cond: #List[
+                                          $expression: #IntExpr['256']
+                                       ]
+                                       $then: #AssignExpr[
+                                          $left: #NameExpr['@sha2']
+                                          $right: #ApplyExpr[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['Digest']
+                                                $name: #NameExpr['SHA256']
+                                             ]
+                                             $recv: #NameExpr['new']
+                                          ]
+                                       ]
+                                    ]
+                                    $when: #When[
+                                       $cond: #List[
+                                          $expression: #IntExpr['384']
+                                       ]
+                                       $then: #AssignExpr[
+                                          $left: #NameExpr['@sha2']
+                                          $right: #ApplyExpr[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['Digest']
+                                                $name: #NameExpr['SHA384']
+                                             ]
+                                             $recv: #NameExpr['new']
+                                          ]
+                                       ]
+                                    ]
+                                    $when: #When[
+                                       $cond: #List[
+                                          $expression: #IntExpr['512']
+                                       ]
+                                       $then: #AssignExpr[
+                                          $left: #NameExpr['@sha2']
+                                          $right: #ApplyExpr[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['Digest']
+                                                $name: #NameExpr['SHA512']
+                                             ]
+                                             $recv: #NameExpr['new']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['raise']
+                                    $param: #List[
+                                       $expression: #NameExpr['ArgumentError']
+                                       $expression: #ModExpr[
+                                          $left: #StringExpr['unsupported bit length: %s']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['bitlen']
+                                             $recv: #NameExpr['inspect']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@bitlen']
+                                 $right: #NameExpr['bitlen']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['reset']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['@sha2']
+                                 $recv: #NameExpr['reset']
+                              ]
+                              $statement: #Self['self']
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['update']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['str']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['@sha2']
+                                 $recv: #NameExpr['update']
+                                 $param: #List[
+                                    $expression: #NameExpr['str']
+                                 ]
+                              ]
+                              $statement: #Self['self']
+                           ]
+                        ]
+                     ]
+                     $statement: #Alias[
+                        $newname: #NameExpr['<<']
+                        $target: #NameExpr['update']
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['finish']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@sha2']
+                              $recv: #NameExpr['digest!']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['private']
+                        $param: #List[
+                           $expression: #NameExpr['finish']
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['block_length']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@sha2']
+                              $recv: #NameExpr['block_length']
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['digest_length']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['@sha2']
+                              $recv: #NameExpr['digest_length']
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['initialize_copy']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['other']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #AssignExpr[
+                              $left: #NameExpr['@sha2']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['other']
+                                 $recv: #NameExpr['instance_eval']
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['@sha2']
+                                       $recv: #NameExpr['clone']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['inspect']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #ModExpr[
+                              $left: #StringExpr['#<%s:%d %s>']
+                              $right: #Array[
+                                 $index: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #Self['self']
+                                          $recv: #NameExpr['class']
+                                       ]
+                                       $recv: #NameExpr['name']
+                                    ]
+                                    $expression: #NameExpr['@bitlen']
+                                    $expression: #NameExpr['hexdigest']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,398 @@
+#Source[
+   #Class[
+      $name: #NestedName[
+         $path: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['Security']
+         ]
+         $name: #NameExpr['TrustDir']
+      ]
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['DEFAULT_PERMISSIONS']
+               $right: #List[
+                  $hash: #Hash[
+                     $key: #NameExpr['trust_dir']
+                     $value: #OctalInteger['0700']
+                  ]
+                  $hash: #Hash[
+                     $key: #NameExpr['trusted_cert']
+                     $value: #OctalInteger['0600']
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['attr_reader']
+               $param: #List[
+                  $expression: #NameExpr['dir']
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['initialize']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['dir']
+                  ]
+                  $param: #OptionalParam[
+                     $name: #NameExpr['permissions']
+                     $default: #NameExpr['DEFAULT_PERMISSIONS']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@dir']
+                        $right: #NameExpr['dir']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@permissions']
+                        $right: #NameExpr['permissions']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@digester']
+                        $right: #Field[
+                           $recv: #Field[
+                              $recv: #NameExpr['Gem']
+                              $name: #NameExpr['Security']
+                           ]
+                           $name: #NameExpr['DIGEST_ALGORITHM']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['cert_path']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['certificate']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['name_path']
+                     $param: #List[
+                        $expression: #ApplyExpr[
+                           $recv: #NameExpr['certificate']
+                           $recv: #NameExpr['subject']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['each_certificate']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #Unless[
+                        $then: #RReturnStmt[
+                           $expr: #List[
+                              $command: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['enum_for']
+                                 $param: #List[
+                                    $expression: #NameExpr['__method__']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $cond: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['block_given?']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['glob']
+                        $right: #ApplyExpr[
+                           $base: #NameExpr['File']
+                           $recv: #NameExpr['join']
+                           $param: #List[
+                              $expression: #NameExpr['@dir']
+                              $expression: #StringExpr['*.pem']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #Indexer[
+                           $recv: #NameExpr['Dir']
+                           $index: #List[
+                              $expression: #NameExpr['glob']
+                           ]
+                        ]
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['certificate_file']
+                           $body: #ExceptionBlock[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['certificate']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['load_certificate']
+                                       $param: #List[
+                                          $expression: #NameExpr['certificate_file']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #Yield[
+                                    $param: #List[
+                                       $expression: #NameExpr['certificate']
+                                       $expression: #NameExpr['certificate_file']
+                                    ]
+                                 ]
+                              ]
+                              $rescue: #List[
+                                 $rescue: #Rescue[
+                                    $class: #Field[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['OpenSSL']
+                                          $name: #NameExpr['X509']
+                                       ]
+                                       $name: #NameExpr['CertificateError']
+                                    ]
+                                    $then: #Next['next']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['issuer_of']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['certificate']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['path']
+                        $right: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['name_path']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['certificate']
+                                 $recv: #NameExpr['issuer']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #Unless[
+                        $then: #RReturnStmt['return']
+                        $cond: #ApplyExpr[
+                           $base: #NameExpr['File']
+                           $recv: #NameExpr['exist?']
+                           $param: #List[
+                              $expression: #NameExpr['path']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['load_certificate']
+                        $param: #List[
+                           $expression: #NameExpr['path']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['name_path']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['name']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['digest']
+                        $right: #ApplyExpr[
+                           $base: #NameExpr['@digester']
+                           $recv: #NameExpr['hexdigest']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['name']
+                                 $recv: #NameExpr['to_s']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $base: #NameExpr['File']
+                        $recv: #NameExpr['join']
+                        $param: #List[
+                           $expression: #NameExpr['@dir']
+                           $expression: #StringExpr[
+                              $inner: #NameExpr['digest']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['load_certificate']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['certificate_file']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['pem']
+                        $right: #ApplyExpr[
+                           $base: #NameExpr['File']
+                           $recv: #NameExpr['read']
+                           $param: #List[
+                              $expression: #NameExpr['certificate_file']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $base: #Field[
+                           $recv: #Field[
+                              $recv: #NameExpr['OpenSSL']
+                              $name: #NameExpr['X509']
+                           ]
+                           $name: #NameExpr['Certificate']
+                        ]
+                        $recv: #NameExpr['new']
+                        $param: #List[
+                           $expression: #NameExpr['pem']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['trust_cert']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['certificate']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #NameExpr['verify']
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['destination']
+                        $right: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['cert_path']
+                           $param: #List[
+                              $expression: #NameExpr['certificate']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['open']
+                        $param: #List[
+                           $expression: #NameExpr['destination']
+                           $expression: #StringExpr['wb']
+                           $expression: #Indexer[
+                              $recv: #NameExpr['@permissions']
+                              $index: #List[
+                                 $expression: #NameExpr['trusted_cert']
+                              ]
+                           ]
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['io']
+                           $body: #ApplyExpr[
+                              $base: #NameExpr['io']
+                              $recv: #NameExpr['write']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['certificate']
+                                    $recv: #NameExpr['to_pem']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['verify']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #IfExpr[
+                     $cond: #ApplyExpr[
+                        $base: #NameExpr['File']
+                        $recv: #NameExpr['exist?']
+                        $param: #List[
+                           $expression: #NameExpr['@dir']
+                        ]
+                     ]
+                     $then: #List[
+                        $statement: #Unless[
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['Security']
+                                    ]
+                                    $name: #NameExpr['Exception']
+                                 ]
+                                 $expression: #StringExpr[
+                                    $inner: #NameExpr['@dir']
+                                 ]
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['directory?']
+                              $param: #List[
+                                 $expression: #NameExpr['@dir']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['chmod']
+                           $param: #List[
+                              $expression: #OctalInteger['0700']
+                              $expression: #NameExpr['@dir']
+                           ]
+                        ]
+                     ]
+                     $else: #ApplyExpr[
+                        $base: #NameExpr['FileUtils']
+                        $recv: #NameExpr['mkdir_p']
+                        $param: #List[
+                           $expression: #NameExpr['@dir']
+                           $hash: #Hash[
+                              $key: #NameExpr['mode']
+                              $value: #Indexer[
+                                 $recv: #NameExpr['@permissions']
+                                 $index: #List[
+                                    $expression: #NameExpr['trust_dir']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

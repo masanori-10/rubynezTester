@@ -1,0 +1,499 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['mkmf']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rbconfig']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['dir_config']
+         $param: #List[
+            $expression: #StringExpr['zlib']
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #AndExpr[
+            $left: #ApplyExpr[
+               $recv: #ParcentNotation['%w\'z libz zlib1 zlib zdll zlibwapi\'']
+               $recv: #NameExpr['find']
+               $body: #Block[
+                  $param: #NameExpr['z']
+                  $body: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['have_library']
+                     $param: #List[
+                        $expression: #NameExpr['z']
+                        $expression: #StringExpr['deflateReset']
+                     ]
+                  ]
+               ]
+            ]
+            $right: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['have_header']
+               $param: #List[
+                  $expression: #StringExpr['zlib.h']
+               ]
+            ]
+         ]
+         $then: #AssignExpr[
+            $left: #NameExpr['have_zlib']
+            $right: #TrueExpr['true']
+         ]
+         $else: #List[
+            $statement: #Unless[
+               $cond: #ApplyExpr[
+                  $recv: #NameExpr['File']
+                  $recv: #NameExpr['directory?']
+                  $param: #List[
+                     $expression: #AssignExpr[
+                        $left: #NameExpr['zsrc']
+                        $right: #StringExpr[
+                           $inner: #NameExpr['$srcdir']
+                        ]
+                     ]
+                  ]
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['dirs']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['Dir']
+                        $recv: #NameExpr['open']
+                        $param: #List[
+                           $expression: #NameExpr['$srcdir']
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['z']
+                           $body: #ApplyExpr[
+                              $recv: #NameExpr['z']
+                              $recv: #NameExpr['grep']
+                              $param: #List[
+                                 $expression: #Regex['/\\Azlib-\\d+[.\\d]*\\z/']
+                              ]
+                              $body: #Block[
+                                 $param: #NameExpr['x']
+                                 $body: #StringExpr[
+                                    $inner: #NameExpr['$srcdir']
+                                    $inner: #NameExpr['x']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #NameExpr['dirs']
+                     $recv: #NameExpr['delete_if']
+                     $body: #Block[
+                        $param: #NameExpr['x']
+                        $body: #NotExpr[
+                           $expr: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['directory?']
+                              $param: #List[
+                                 $expression: #NameExpr['x']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['zsrc']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['dirs']
+                        $recv: #NameExpr['max_by']
+                        $body: #Block[
+                           $param: #NameExpr['x']
+                           $body: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['x']
+                                 $recv: #NameExpr['scan']
+                                 $param: #List[
+                                    $expression: #Regex['/\\d+/']
+                                 ]
+                              ]
+                              $recv: #NameExpr['map']
+                              $param: #List[
+                                 $procedure: #Procedure[
+                                    $base: #NameExpr['to_i']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #IfExpr[
+               $cond: #NameExpr['zsrc']
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['addconf']
+                     $right: #Array[
+                        $index: #List[
+                           $expression: #StringExpr[
+                              $inner: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['basename']
+                                 $param: #List[
+                                    $expression: #NameExpr['zsrc']
+                                 ]
+                              ]
+                           ]
+                           $expression: #StringExpr['all:\\n']
+                        ]
+                     ]
+                  ]
+                  $statement: #LShiftExpr[
+                     $left: #NameExpr['$INCFLAGS']
+                     $right: #StringExpr[' -I$(ZSRC)']
+                  ]
+                  $statement: #IfExpr[
+                     $cond: #OrExpr[
+                        $left: #NameExpr['$mswin']
+                        $right: #NameExpr['$mingw']
+                     ]
+                     $then: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['$libs']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['append_library']
+                              $param: #List[
+                                 $expression: #NameExpr['$libs']
+                                 $expression: #StringExpr['zdll']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['dll']
+                           $right: #StringExpr['zlib1.dll']
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['$extso']
+                           $right: #NameExpr['dll']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['addconf']
+                           $recv: #NameExpr['push']
+                           $param: #List[
+                              $expression: #StringExpr['ZIMPLIB = zdll.lib\\n']
+                              $expression: #StringExpr['$(TARGET_SO): $(ZIMPLIB)\\n']
+                              $expression: #StringExpr['$(ZIMPLIB):\\n']
+                              $expression: #StringExpr[
+                                 $inner: #Conditional[
+                                    $cond: #NameExpr['$nmake']
+                                    $then: #StringExpr['msc']
+                                    $else: #StringExpr['gcc']
+                                 ]
+                              ]
+                              $expression: #StringExpr[
+                                 $inner: #NameExpr['dll']
+                              ]
+                              $expression: #StringExpr[
+                                 $inner: #NameExpr['dll']
+                              ]
+                              $expression: #StringExpr[
+                                 $inner: #NameExpr['dll']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     $base: #NameExpr['Logging']
+                     $recv: #NameExpr['message']
+                     $param: #List[
+                        $expression: #StringExpr[
+                           $inner: #NameExpr['zsrc']
+                        ]
+                     ]
+                  ]
+                  $statement: #LShiftExpr[
+                     $left: #NameExpr['$defs']
+                     $right: #StringExpr['-DHAVE_ZLIB_H']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['have_zlib']
+                     $right: #TrueExpr['true']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #NameExpr['have_zlib']
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['defines']
+               $right: #Array['[]']
+            ]
+            $statement: #ApplyExpr[
+               $base: #NameExpr['Logging']
+               $recv: #NameExpr['message']
+               $param: #List[
+                  $expression: #StringExpr['checking for kind of operating system... ']
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['os_code']
+               $right: #LOr[
+                  $left: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['with_config']
+                     $param: #List[
+                        $expression: #StringExpr['os-code']
+                     ]
+                  ]
+                  $right: #Case[
+                     $cond: #Indexer[
+                        $recv: #ApplyExpr[
+                           $recv: #NameExpr['RUBY_PLATFORM']
+                           $recv: #NameExpr['split']
+                           $param: #List[
+                              $expression: #StringExpr['-']
+                              $expression: #IntExpr['2']
+                           ]
+                        ]
+                        $index: #List[
+                           $expression: #IntExpr['1']
+                        ]
+                     ]
+                     $body: #List[
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #StringExpr['amigaos']
+                           ]
+                           $then: #AssignExpr[
+                              $left: #NameExpr['os_code']
+                              $right: #StringExpr['AMIGA']
+                           ]
+                        ]
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #Regex['/mswin|mingw|bccwin/']
+                           ]
+                           $then: #AssignExpr[
+                              $left: #NameExpr['os_code']
+                              $right: #StringExpr['WIN32']
+                           ]
+                        ]
+                     ]
+                     $else: #AssignExpr[
+                        $left: #NameExpr['os_code']
+                        $right: #StringExpr['UNIX']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['os_code']
+               $right: #AddExpr[
+                  $left: #StringExpr['OS_']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['os_code']
+                     $recv: #NameExpr['upcase']
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['OS_NAMES']
+               $right: #List[
+                  $hash: #Hash[
+                     $key: #StringExpr['OS_MSDOS']
+                     $value: #StringExpr['MS-DOS']
+                  ]
+                  $hash: #Hash[
+                     $key: #StringExpr['OS_AMIGA']
+                     $value: #StringExpr['Amiga']
+                  ]
+                  $hash: #Hash[
+                     $key: #StringExpr['OS_VMS']
+                     $value: #StringExpr['VMS']
+                  ]
+                  $hash: #Hash[
+                     $key: #StringExpr['OS_UNIX']
+                     $value: #StringExpr['Unix']
+                  ]
+                  $hash: #Hash[
+                     $key: #StringExpr['OS_ATARI']
+                     $value: #StringExpr['Atari']
+                  ]
+                  $hash: #Hash[
+                     $key: #StringExpr['OS_MACOS']
+                     $value: #StringExpr['MacOS']
+                  ]
+                  $hash: #Hash[
+                     $key: #StringExpr['OS_TOPS20']
+                     $value: #StringExpr['TOPS20']
+                  ]
+                  $hash: #Hash[
+                     $key: #StringExpr['OS_WIN32']
+                     $value: #StringExpr['Win32']
+                  ]
+                  $hash: #Hash[
+                     $key: #StringExpr['OS_VMCMS']
+                     $value: #StringExpr['VM/CMS']
+                  ]
+                  $hash: #Hash[
+                     $key: #StringExpr['OS_ZSYSTEM']
+                     $value: #StringExpr['Z-System']
+                  ]
+                  $hash: #Hash[
+                     $key: #StringExpr['OS_CPM']
+                     $value: #StringExpr['CP/M']
+                  ]
+                  $hash: #Hash[
+                     $key: #StringExpr['OS_QDOS']
+                     $value: #StringExpr['QDOS']
+                  ]
+                  $hash: #Hash[
+                     $key: #StringExpr['OS_RISCOS']
+                     $value: #StringExpr['RISCOS']
+                  ]
+                  $hash: #Hash[
+                     $key: #StringExpr['OS_UNKNOWN']
+                     $value: #StringExpr['Unknown']
+                  ]
+               ]
+            ]
+            $statement: #Unless[
+               $cond: #ApplyExpr[
+                  $base: #NameExpr['OS_NAMES']
+                  $recv: #NameExpr['key?']
+                  $param: #List[
+                     $expression: #NameExpr['os_code']
+                  ]
+               ]
+               $then: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['raise']
+                  $param: #List[
+                     $expression: #StringExpr[
+                        $inner: #NameExpr['os_code']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $base: #NameExpr['Logging']
+               $recv: #NameExpr['message']
+               $param: #List[
+                  $expression: #StringExpr[
+                     $inner: #Indexer[
+                        $recv: #NameExpr['OS_NAMES']
+                        $index: #List[
+                           $expression: #NameExpr['os_code']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #LShiftExpr[
+               $left: #NameExpr['defines']
+               $right: #StringExpr[
+                  $inner: #NameExpr['os_code']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['$defs']
+               $recv: #NameExpr['concat']
+               $param: #List[
+                  $expression: #ApplyExpr[
+                     $recv: #NameExpr['defines']
+                     $recv: #NameExpr['collect']
+                     $body: #Block[
+                        $param: #NameExpr['d']
+                        $body: #AddExpr[
+                           $left: #StringExpr[' -D']
+                           $right: #NameExpr['d']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #IfExpr[
+               $cond: #NameExpr['zsrc']
+               $then: #List[
+                  $statement: #LShiftExpr[
+                     $left: #NameExpr['$defs']
+                     $right: #StringExpr['-DHAVE_CRC32_COMBINE']
+                  ]
+                  $statement: #LShiftExpr[
+                     $left: #NameExpr['$defs']
+                     $right: #StringExpr['-DHAVE_ADLER32_COMBINE']
+                  ]
+                  $statement: #LShiftExpr[
+                     $left: #NameExpr['$defs']
+                     $right: #StringExpr['-DHAVE_TYPE_Z_CRC_T']
+                  ]
+               ]
+               $else: #List[
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['have_func']
+                     $param: #List[
+                        $expression: #StringExpr['crc32_combine']
+                        $expression: #StringExpr['zlib.h']
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['have_func']
+                     $param: #List[
+                        $expression: #StringExpr['adler32_combine']
+                        $expression: #StringExpr['zlib.h']
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['have_type']
+                     $param: #List[
+                        $expression: #StringExpr['z_crc_t']
+                        $expression: #StringExpr['zlib.h']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['create_makefile']
+               $param: #List[
+                  $expression: #StringExpr['zlib']
+               ]
+               $body: #Block[
+                  $param: #NameExpr['conf']
+                  $body: #List[
+                     $statement: #IfExpr[
+                        $cond: #NameExpr['zsrc']
+                        $then: #IfExpr[
+                           $then: #ApplyExpr[
+                              $base: #NameExpr['conf']
+                              $recv: #NameExpr['concat']
+                              $param: #List[
+                                 $expression: #NameExpr['addconf']
+                              ]
+                           ]
+                           $cond: #NameExpr['addconf']
+                        ]
+                     ]
+                     $statement: #NameExpr['conf']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,195 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestRecursion']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['require']
+                  $param: #List[
+                     $expression: #StringExpr['-test-/recursion']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@obj']
+                           $right: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['Struct']
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #NameExpr['visited']
+                                 ]
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #FalseExpr['false']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@obj']
+                           $recv: #NameExpr['extend']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['Bug']
+                                 $name: #NameExpr['Recursive']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_recursive']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #SFuncDecl[
+                           $path: #NameExpr['@obj']
+                           $name: #NameExpr['doit']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #Self['self']
+                                       $name: #NameExpr['visited']
+                                    ]
+                                    $right: #TrueExpr['true']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['exec_recursive']
+                                    $param: #List[
+                                       $expression: #NameExpr['doit']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['raise']
+                                    $param: #List[
+                                       $expression: #StringExpr['recursive']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_raise_with_message']
+                           $param: #List[
+                              $expression: #NameExpr['RuntimeError']
+                              $expression: #StringExpr['recursive']
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['@obj']
+                                 $recv: #NameExpr['exec_recursive']
+                                 $param: #List[
+                                    $expression: #NameExpr['doit']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@obj']
+                                 $recv: #NameExpr['visited']
+                              ]
+                              $expression: #StringExpr['obj.hash was not called']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_recursive_outer']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #SFuncDecl[
+                           $path: #NameExpr['@obj']
+                           $name: #NameExpr['doit']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #Self['self']
+                                       $name: #NameExpr['visited']
+                                    ]
+                                    $right: #TrueExpr['true']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['exec_recursive_outer']
+                                    $param: #List[
+                                       $expression: #NameExpr['doit']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['raise']
+                                    $param: #List[
+                                       $expression: #StringExpr['recursive_outer should short circuit intermediate calls']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nothing_raised']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['@obj']
+                                 $recv: #NameExpr['exec_recursive_outer']
+                                 $param: #List[
+                                    $expression: #NameExpr['doit']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['@obj']
+                                 $recv: #NameExpr['visited']
+                              ]
+                              $expression: #StringExpr['obj.hash was not called']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

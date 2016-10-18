@@ -1,0 +1,236 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['tracer']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['IRB']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #SFuncDecl[
+                  $path: #NameExpr['IRB']
+                  $name: #NameExpr['initialize_tracer']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #Field[
+                              $base: #NameExpr['Tracer']
+                              $name: #NameExpr['verbose']
+                           ]
+                           $right: #FalseExpr['false']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['Tracer']
+                           $recv: #NameExpr['add_filter']
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['event']
+                                 $item: #NameExpr['file']
+                                 $item: #NameExpr['line']
+                                 $item: #NameExpr['id']
+                                 $item: #NameExpr['binding']
+                                 $item: #Variadic[
+                                    $item: #NameExpr['rests']
+                                 ]
+                              ]
+                              $body: #AndExpr[
+                                 $left: #NotMatch[
+                                    $left: #Regex['/^#{Regexp.quote(@CONF[:IRB_LIB_PATH])}/']
+                                    $right: #NameExpr['file']
+                                 ]
+                                 $right: #NeExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['basename']
+                                       $param: #List[
+                                          $expression: #NameExpr['file']
+                                       ]
+                                    ]
+                                    $right: #StringExpr['irb.rb']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['Context']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['attr_reader']
+                           $param: #List[
+                              $expression: #NameExpr['use_tracer']
+                           ]
+                        ]
+                        $statement: #Alias[
+                           $newname: #NameExpr['use_tracer?']
+                           $target: #NameExpr['use_tracer']
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['use_tracer=']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['opt']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #IfExpr[
+                                    $cond: #NameExpr['opt']
+                                    $then: #ApplyExpr[
+                                       $recv: #NameExpr['Tracer']
+                                       $recv: #NameExpr['set_get_line_procs']
+                                       $param: #List[
+                                          $expression: #NameExpr['@irb_path']
+                                       ]
+                                       $body: #Block[
+                                          $param: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['line_no']
+                                             $item: #Variadic[
+                                                $item: #NameExpr['rests']
+                                             ]
+                                          ]
+                                          $body: #ApplyExpr[
+                                             $recv: #NameExpr['@io']
+                                             $recv: #NameExpr['line']
+                                             $param: #List[
+                                                $expression: #NameExpr['line_no']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $else: #IfExpr[
+                                       $cond: #[
+                                          $base: #ApplyExpr[
+                                             $base: #NameExpr['opt']
+                                             $recv: #NameExpr['&']
+                                             $param: #List[
+                                                $expression: #NameExpr['@use_tracer']
+                                             ]
+                                          ]
+                                       ]
+                                       $then: #ApplyExpr[
+                                          $recv: #NameExpr['Tracer']
+                                          $recv: #NameExpr['off']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@use_tracer']
+                                    $right: #NameExpr['opt']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['WorkSpace']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Alias[
+                           $newname: #NameExpr['__evaluate__']
+                           $target: #NameExpr['evaluate']
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['evaluate']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['context']
+                              ]
+                              $param: #Param[
+                                 $param: #NameExpr['statements']
+                              ]
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['file']
+                                 $default: #Nil['nil']
+                              ]
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['line']
+                                 $default: #Nil['nil']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #IfExpr[
+                                 $cond: #ApplyExpr[
+                                    $base: #ApplyExpr[
+                                       $recv: #NameExpr['context']
+                                       $recv: #NameExpr['use_tracer?']
+                                    ]
+                                    $recv: #NameExpr['&']
+                                    $param: #List[
+                                       $expression: #LAnd[
+                                          $left: #NeExpr[
+                                             $left: #NameExpr['file']
+                                             $right: #Nil['nil']
+                                          ]
+                                          $right: #NeExpr[
+                                             $left: #NameExpr['line']
+                                             $right: #Nil['nil']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $then: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['Tracer']
+                                       $recv: #NameExpr['on']
+                                    ]
+                                    $statement: #ExceptionBlock[
+                                       $main: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['__evaluate__']
+                                          $param: #List[
+                                             $expression: #NameExpr['context']
+                                             $expression: #NameExpr['statements']
+                                             $expression: #NameExpr['file']
+                                             $expression: #NameExpr['line']
+                                          ]
+                                       ]
+                                       $ensure: #ApplyExpr[
+                                          $recv: #NameExpr['Tracer']
+                                          $recv: #NameExpr['off']
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['__evaluate__']
+                                    $param: #List[
+                                       $expression: #NameExpr['context']
+                                       $expression: #NameExpr['statements']
+                                       $expression: #LOr[
+                                          $left: #NameExpr['file']
+                                          $right: #File['__FILE__']
+                                       ]
+                                       $expression: #LOr[
+                                          $left: #NameExpr['line']
+                                          $right: #Line['__LINE__']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['IRB']
+                  $recv: #NameExpr['initialize_tracer']
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,492 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['timeout']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['fcntl']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestReadPartial']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['make_pipe']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #MultipleAssign[
+                           $left: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['r']
+                              $item: #NameExpr['w']
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['IO']
+                              $recv: #NameExpr['pipe']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['r']
+                           $recv: #NameExpr['binmode']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['w']
+                           $recv: #NameExpr['binmode']
+                        ]
+                        $statement: #ExceptionBlock[
+                           $main: #Yield[
+                              $param: #List[
+                                 $expression: #NameExpr['r']
+                                 $expression: #NameExpr['w']
+                              ]
+                           ]
+                           $ensure: #List[
+                              $statement: #Unless[
+                                 $then: #ApplyExpr[
+                                    $recv: #NameExpr['r']
+                                    $recv: #NameExpr['close']
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['r']
+                                    $recv: #NameExpr['closed?']
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $then: #ApplyExpr[
+                                    $recv: #NameExpr['w']
+                                    $recv: #NameExpr['close']
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['w']
+                                    $recv: #NameExpr['closed?']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['pipe']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['make_pipe']
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['r']
+                                 $item: #NameExpr['w']
+                              ]
+                              $body: #Yield[
+                                 $param: #List[
+                                    $expression: #NameExpr['r']
+                                    $expression: #NameExpr['w']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Unless[
+                           $then: #RReturnStmt['return']
+                           $cond: #Defined[
+                              $base: #Field[
+                                 $recv: #NameExpr['Fcntl']
+                                 $name: #NameExpr['F_SETFL']
+                              ]
+                           ]
+                        ]
+                        $statement: #Unless[
+                           $then: #RReturnStmt['return']
+                           $cond: #Defined[
+                              $base: #Field[
+                                 $recv: #NameExpr['Fcntl']
+                                 $name: #NameExpr['F_GETFL']
+                              ]
+                           ]
+                        ]
+                        $statement: #Unless[
+                           $then: #RReturnStmt['return']
+                           $cond: #Defined[
+                              $base: #Field[
+                                 $recv: #NameExpr['Fcntl']
+                                 $name: #NameExpr['O_NONBLOCK']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['make_pipe']
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['r']
+                                 $item: #NameExpr['w']
+                              ]
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['r']
+                                    $recv: #NameExpr['fcntl']
+                                    $param: #List[
+                                       $expression: #Field[
+                                          $recv: #NameExpr['Fcntl']
+                                          $name: #NameExpr['F_SETFL']
+                                       ]
+                                       $expression: #OrExpr[
+                                          $left: #ApplyExpr[
+                                             $recv: #NameExpr['r']
+                                             $recv: #NameExpr['fcntl']
+                                             $param: #List[
+                                                $expression: #Field[
+                                                   $recv: #NameExpr['Fcntl']
+                                                   $name: #NameExpr['F_GETFL']
+                                                ]
+                                             ]
+                                          ]
+                                          $right: #Field[
+                                             $recv: #NameExpr['Fcntl']
+                                             $name: #NameExpr['O_NONBLOCK']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #Yield[
+                                    $param: #List[
+                                       $expression: #NameExpr['r']
+                                       $expression: #NameExpr['w']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_length_zero']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['pipe']
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['r']
+                              $item: #NameExpr['w']
+                           ]
+                           $body: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #StringExpr['']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['r']
+                                    $recv: #NameExpr['readpartial']
+                                    $param: #List[
+                                       $expression: #IntExpr['0']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_closed_pipe']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['pipe']
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['r']
+                              $item: #NameExpr['w']
+                           ]
+                           $body: #List[
+                              $statement: #LShiftExpr[
+                                 $left: #NameExpr['w']
+                                 $right: #StringExpr['abc']
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['w']
+                                 $recv: #NameExpr['close']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['ab']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['r']
+                                       $recv: #NameExpr['readpartial']
+                                       $param: #List[
+                                          $expression: #IntExpr['2']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['c']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['r']
+                                       $recv: #NameExpr['readpartial']
+                                       $param: #List[
+                                          $expression: #IntExpr['2']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['EOFError']
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['r']
+                                       $recv: #NameExpr['readpartial']
+                                       $param: #List[
+                                          $expression: #IntExpr['2']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['EOFError']
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['r']
+                                       $recv: #NameExpr['readpartial']
+                                       $param: #List[
+                                          $expression: #IntExpr['2']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_open_pipe']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['pipe']
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['r']
+                              $item: #NameExpr['w']
+                           ]
+                           $body: #List[
+                              $statement: #LShiftExpr[
+                                 $left: #NameExpr['w']
+                                 $right: #StringExpr['abc']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['ab']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['r']
+                                       $recv: #NameExpr['readpartial']
+                                       $param: #List[
+                                          $expression: #IntExpr['2']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['c']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['r']
+                                       $recv: #NameExpr['readpartial']
+                                       $param: #List[
+                                          $expression: #IntExpr['2']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_raise']
+                                 $param: #List[
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Timeout']
+                                       $name: #NameExpr['Error']
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['Timeout']
+                                       $recv: #NameExpr['timeout']
+                                       $param: #List[
+                                          $expression: #FloatExpr['0.1']
+                                       ]
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             $recv: #NameExpr['r']
+                                             $recv: #NameExpr['readpartial']
+                                             $param: #List[
+                                                $expression: #IntExpr['2']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_with_stdio']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['pipe']
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['r']
+                              $item: #NameExpr['w']
+                           ]
+                           $body: #List[
+                              $statement: #LShiftExpr[
+                                 $left: #NameExpr['w']
+                                 $right: #StringExpr['abc\\ndef\\n']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['abc\\n']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['r']
+                                       $recv: #NameExpr['gets']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #LShiftExpr[
+                                 $left: #NameExpr['w']
+                                 $right: #StringExpr['ghi\\n']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['de']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['r']
+                                       $recv: #NameExpr['readpartial']
+                                       $param: #List[
+                                          $expression: #IntExpr['2']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['f\\n']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['r']
+                                       $recv: #NameExpr['readpartial']
+                                       $param: #List[
+                                          $expression: #IntExpr['4096']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['ghi\\n']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['r']
+                                       $recv: #NameExpr['readpartial']
+                                       $param: #List[
+                                          $expression: #IntExpr['4096']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_raise']
+                                 $param: #List[
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Timeout']
+                                       $name: #NameExpr['Error']
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['Timeout']
+                                       $recv: #NameExpr['timeout']
+                                       $param: #List[
+                                          $expression: #FloatExpr['0.1']
+                                       ]
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             $recv: #NameExpr['r']
+                                             $recv: #NameExpr['readpartial']
+                                             $param: #List[
+                                                $expression: #IntExpr['2']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

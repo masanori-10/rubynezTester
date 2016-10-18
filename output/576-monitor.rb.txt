@@ -1,0 +1,502 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['thread']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['MonitorMixin']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #Class[
+                  $name: #NameExpr['ConditionVariable']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Class[
+                           $name: #NameExpr['Timeout']
+                           $super: #NameExpr['Exception']
+                           $body: #BlockExpr[
+                              $main: #Empty['']
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['wait']
+                           $param: #List[
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['timeout']
+                                 $default: #Nil['nil']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['@monitor']
+                                    $recv: #NameExpr['__send__']
+                                    $param: #List[
+                                       $expression: #NameExpr['mon_check_owner']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['count']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['@monitor']
+                                       $recv: #NameExpr['__send__']
+                                       $param: #List[
+                                          $expression: #NameExpr['mon_exit_for_cond']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ExceptionBlock[
+                                    $main: #List[
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['@cond']
+                                          $recv: #NameExpr['wait']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['@monitor']
+                                                $recv: #NameExpr['instance_variable_get']
+                                                $param: #List[
+                                                   $expression: #NameExpr['@mon_mutex']
+                                                ]
+                                             ]
+                                             $expression: #NameExpr['timeout']
+                                          ]
+                                       ]
+                                       $statement: #RReturnStmt[
+                                          $expr: #List[
+                                             $expression: #TrueExpr['true']
+                                          ]
+                                       ]
+                                    ]
+                                    $ensure: #ApplyExpr[
+                                       $recv: #NameExpr['@monitor']
+                                       $recv: #NameExpr['__send__']
+                                       $param: #List[
+                                          $expression: #NameExpr['mon_enter_for_cond']
+                                          $expression: #NameExpr['count']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['wait_while']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #While[
+                                 $cond: #Yield['yield']
+                                 $body: #NameExpr['wait']
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['wait_until']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #Until[
+                                 $cond: #Yield['yield']
+                                 $body: #NameExpr['wait']
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['signal']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['@monitor']
+                                    $recv: #NameExpr['__send__']
+                                    $param: #List[
+                                       $expression: #NameExpr['mon_check_owner']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['@cond']
+                                    $recv: #NameExpr['signal']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['broadcast']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['@monitor']
+                                    $recv: #NameExpr['__send__']
+                                    $param: #List[
+                                       $expression: #NameExpr['mon_check_owner']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['@cond']
+                                    $recv: #NameExpr['broadcast']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['private']
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['monitor']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@monitor']
+                                    $right: #NameExpr['monitor']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@cond']
+                                    $right: #ApplyExpr[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['Thread']
+                                          $name: #NameExpr['ConditionVariable']
+                                       ]
+                                       $recv: #NameExpr['new']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #SFuncDecl[
+                  $path: #Self['self']
+                  $name: #NameExpr['extend_object']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['obj']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                           $param: #List[
+                              $expression: #NameExpr['obj']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['obj']
+                           $recv: #NameExpr['__send__']
+                           $param: #List[
+                              $expression: #NameExpr['mon_initialize']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['mon_try_enter']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #NeExpr[
+                              $left: #NameExpr['@mon_owner']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['Thread']
+                                 $recv: #NameExpr['current']
+                              ]
+                           ]
+                           $then: #List[
+                              $statement: #Unless[
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['@mon_mutex']
+                                    $recv: #NameExpr['try_lock']
+                                 ]
+                                 $then: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #FalseExpr['false']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@mon_owner']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['Thread']
+                                    $recv: #NameExpr['current']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@mon_count']
+                                 $right: #IntExpr['0']
+                              ]
+                           ]
+                        ]
+                        $statement: #AddAssign[
+                           $left: #NameExpr['@mon_count']
+                           $right: #IntExpr['1']
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #TrueExpr['true']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Alias[
+                  $newname: #NameExpr['try_mon_enter']
+                  $target: #NameExpr['mon_try_enter']
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['mon_enter']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #NeExpr[
+                              $left: #NameExpr['@mon_owner']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['Thread']
+                                 $recv: #NameExpr['current']
+                              ]
+                           ]
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['@mon_mutex']
+                                 $recv: #NameExpr['lock']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@mon_owner']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['Thread']
+                                    $recv: #NameExpr['current']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@mon_count']
+                                 $right: #IntExpr['0']
+                              ]
+                           ]
+                        ]
+                        $statement: #AddAssign[
+                           $left: #NameExpr['@mon_count']
+                           $right: #IntExpr['1']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['mon_exit']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #NameExpr['mon_check_owner']
+                        $statement: #SubAssign[
+                           $left: #NameExpr['@mon_count']
+                           $right: #IntExpr['1']
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #EqExpr[
+                              $left: #NameExpr['@mon_count']
+                              $right: #IntExpr['0']
+                           ]
+                           $then: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@mon_owner']
+                                 $right: #Nil['nil']
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['@mon_mutex']
+                                 $recv: #NameExpr['unlock']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['mon_synchronize']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #NameExpr['mon_enter']
+                        $statement: #ExceptionBlock[
+                           $main: #Yield['yield']
+                           $ensure: #NameExpr['mon_exit']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Alias[
+                  $newname: #NameExpr['synchronize']
+                  $target: #NameExpr['mon_synchronize']
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['new_cond']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['ConditionVariable']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #Self['self']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['private']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #VariadicParam[
+                        $name: #NameExpr['args']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                        $statement: #NameExpr['mon_initialize']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['mon_initialize']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@mon_owner']
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@mon_count']
+                           $right: #IntExpr['0']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@mon_mutex']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Thread']
+                                 $name: #NameExpr['Mutex']
+                              ]
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['mon_check_owner']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #IfExpr[
+                        $cond: #NeExpr[
+                           $left: #NameExpr['@mon_owner']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['current']
+                           ]
+                        ]
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #NameExpr['ThreadError']
+                              $expression: #StringExpr['current thread not owner']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['mon_enter_for_cond']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['count']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@mon_owner']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['current']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@mon_count']
+                           $right: #NameExpr['count']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['mon_exit_for_cond']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['count']
+                           $right: #NameExpr['@mon_count']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@mon_owner']
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@mon_count']
+                           $right: #IntExpr['0']
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #NameExpr['count']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['Monitor']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['include']
+                  $param: #List[
+                     $expression: #NameExpr['MonitorMixin']
+                  ]
+               ]
+               $statement: #Alias[
+                  $newname: #NameExpr['try_enter']
+                  $target: #NameExpr['try_mon_enter']
+               ]
+               $statement: #Alias[
+                  $newname: #NameExpr['enter']
+                  $target: #NameExpr['mon_enter']
+               ]
+               $statement: #Alias[
+                  $newname: #NameExpr['exit']
+                  $target: #NameExpr['mon_exit']
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

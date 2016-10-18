@@ -1,0 +1,334 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[1, 2, 3]}']
+            $expression: #ParcentNotation['%q{\n  def getproc &b\n    b\n  end\n\n  def m\n    yield\n  end\n\n  m{\n    i = 1\n    m{\n      j = 2\n      m{\n        k = 3\n        getproc{\n          [i, j, k]\n        }\n      }\n    }\n  }.call\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{7}']
+            $expression: #ParcentNotation['%q{\n  def make_proc(&b)\n    b\n  end\n\n  def make_closure\n    a = 0\n    make_proc{\n      a+=1\n    }\n  end\n\n  cl = make_closure\n  cl.call + cl.call * cl.call\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  class C\n    def foo\n      :ok\n    end\n  end\n\n  def block\n    C.method(:new).to_proc\n  end\n  b = block()\n  b.call.foo\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[0, 1, :last, 0, 2, :last]}']
+            $expression: #ParcentNotation['%q{\n  def proc &b\n    b\n  end\n\n  pr = []\n  proc{|i_b|\n    p3 = proc{|j_b|\n      pr << proc{|k_b|\n        [i_b, j_b, k_b]\n      }\n    }\n    p3.call(1)\n    p3.call(2)\n  }.call(0)\n\n  pr[0].call(:last).concat pr[1].call(:last)\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{12}']
+            $expression: #ParcentNotation['%q{\n  def iter\n    yield\n  end\n\n  def getproc &b\n    b\n  end\n\n  iter{\n    bvar = 3\n    getproc{\n      bvar2 = 4\n      bvar * bvar2\n    }\n  }.call\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{200}']
+            $expression: #ParcentNotation['%q{\n  def iter\n    yield\n  end\n\n  def getproc &b\n    b\n  end\n\n  loc1 = 0\n  pr1 = iter{\n    bl1 = 1\n    getproc{\n      loc1 += 1\n      bl1  += 1\n      loc1 + bl1\n    }\n  }\n\n  pr2 = iter{\n    bl1 = 1\n    getproc{\n      loc1 += 1\n      bl1  += 1\n      loc1 + bl1\n    }\n  }\n\n  pr1.call; pr2.call\n  pr1.call; pr2.call\n  pr1.call; pr2.call\n  (pr1.call + pr2.call) * loc1\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[1, 2]}']
+            $expression: #ParcentNotation['%q{\n  def proc(&pr)\n    pr\n  end\n\n  def m\n    a = 1\n    m2{\n      a\n    }\n  end\n\n  def m2\n    b = 2\n    proc{\n      [yield, b]\n    }\n  end\n\n  pr = m\n  x = [\'a\', 1,2,3,4,5,6,7,8,9,0,\n            1,2,3,4,5,6,7,8,9,0,\n            1,2,3,4,5,6,7,8,9,0,\n            1,2,3,4,5,6,7,8,9,0,\n            1,2,3,4,5,6,7,8,9,0,]\n  pr.call\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{1}']
+            $expression: #ParcentNotation['%q{\n  def proc(&pr)\n    pr\n  end\n\n  def m\n    a = 1\n    m2{\n      a\n    }\n  end\n\n  def m2\n    b = 2\n    proc{\n      [yield, b]\n    }\n    100000.times{|x|\n      "#{x}"\n    }\n    yield\n  end\n  m\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[:C, :C]}']
+            $expression: #ParcentNotation['%q{\n  Const = :top\n  class C\n    Const = :C\n    $pr = proc{\n      (1..2).map{\n        Const\n      }\n    }\n  end\n  $pr.call\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{top}']
+            $expression: #ParcentNotation['%q{\n  Const = :top\n  class C\n    Const = :C\n  end\n  pr = proc{\n    Const\n  }\n  C.class_eval %q{\n    pr.call\n  }\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{1}']
+            $expression: #ParcentNotation['%q{\n  def m(&b)\n    b\n  end\n\n  m{|e_proctest| e_proctest}.call(1)\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{12}']
+            $expression: #ParcentNotation['%q{\n  def m(&b)\n    b\n  end\n\n  m{|e_proctest1, e_proctest2|\n    a = e_proctest1 * e_proctest2 * 2\n    a * 3\n  }.call(1, 2)\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[[], [1], [1, 2], [1, 2, 3]]}']
+            $expression: #ParcentNotation['%q{\n  [\n  Proc.new{|*args| args}.call(),\n  Proc.new{|*args| args}.call(1),\n  Proc.new{|*args| args}.call(1, 2),\n  Proc.new{|*args| args}.call(1, 2, 3),\n  ]\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[[nil, []], [1, []], [1, [2]], [1, [2, 3]]]}']
+            $expression: #ParcentNotation['%q{\n  [\n  Proc.new{|a, *b| [a, b]}.call(),\n  Proc.new{|a, *b| [a, b]}.call(1),\n  Proc.new{|a, *b| [a, b]}.call(1, 2),\n  Proc.new{|a, *b| [a, b]}.call(1, 2, 3),\n  ]\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{0}']
+            $expression: #ParcentNotation['%q{\n  pr = proc{\n    $SAFE\n  }\n  $SAFE = 1\n  pr.call\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[1, 0]}']
+            $expression: #ParcentNotation['%q{\n  pr = proc{\n    $SAFE += 1\n  }\n  [pr.call, $SAFE]\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{1}']
+            $expression: #ParcentNotation['%q{\n  def m(&b)\n    b\n  end\n  m{1}.call\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{3}']
+            $expression: #ParcentNotation['%q{\n  def m(&b)\n    b\n  end\n\n  m{\n    a = 1\n    a + 2\n  }.call\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%Q{ok\\n}']
+            $expression: #ParcentNotation['%q{\n  class A; def get_block; proc {puts "ok"} end end\n  block = A.new.get_block\n  GC.start\n  block.call\n}']
+            $expression: #StringExpr['[ruby-core:14885]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  a = lambda {|x, y, &b| b }\n  b = a.curry[1]\n  if b.call(2){} == nil\n    :ng\n  else\n    :ok\n  end\n}']
+            $expression: #StringExpr['[ruby-core:15551]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  lambda {\n    break :ok\n    :ng\n  }.call\n}']
+            $expression: #StringExpr['[ruby-dev:34646]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[:bar, :foo]}']
+            $expression: #ParcentNotation['%q{\n  def foo\n    klass = Class.new do\n      define_method(:bar) do\n        return :bar\n      end\n    end\n    [klass.new.bar, :foo]\n  end\n  foo\n}']
+            $expression: #StringExpr['[ ruby-Bugs-19304 ]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n   $x = :ok\n   def def7(x, y)\n      x[y]\n      $x = :ng\n   end\n   def test_def7\n      def7(lambda {|x| x.call}, Proc.new {return})\n      $x = :ng\n   end\n   test_def7\n   $x\n}']
+            $expression: #StringExpr['[ruby-core:17164]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  lambda { a = lambda { return }; $x = :ng; a[]; $x = :ok }.call\n  $x\n}']
+            $expression: #StringExpr['[ruby-core:17164]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  lambda { a = lambda { break }; $x = :ng; a[]; $x = :ok }.call\n  $x\n}']
+            $expression: #StringExpr['[ruby-core:17164]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  def def8\n    $x = :ng\n    lambda { a = Proc.new { return }; a[]}.call\n    $x = :ok\n  end\n  def8\n  $x\n}']
+            $expression: #StringExpr['[ruby-core:17164]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n   def def9\n      lambda {|a| $x = :ok; a[]; $x = :ng }.call(Proc.new { return })\n      $x = :ng\n   end\n   def9\n   $x\n}']
+            $expression: #StringExpr['[ruby-core:17164]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n   def def10\n     $x = :ng\n     lambda { 1.times { return } }.call\n     $x = :ok\n   end\n   $x = :ok\n   def10\n   $x\n}']
+            $expression: #StringExpr['[ruby-core:17164]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n   def def11\n      yield\n   end\n   begin\n      lambda { def11 { return } }.call\n   rescue LocalJumpError\n      :ng\n   else\n      :ok\n   end\n}']
+            $expression: #StringExpr['[ruby-core:17164]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n   def def12\n      b = Proc.new { $x = :ng; lambda { return }.call; $x = :ok }.call\n   end\n   def12\n   $x\n}']
+            $expression: #StringExpr['[ruby-core:17164]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  def m\n    pr = proc{\n      proc{\n        return :ok\n      }\n    }.call\n    pr.call\n    :ng\n  end\n  m()\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  class Foo\n    def call_it\n      p = Proc.new\n      p.call\n    end\n  end\n\n  def give_it\n    proc { :ok }\n  end\n\n  f = Foo.new\n  a_proc = give_it\n  f.call_it(&give_it())\n}']
+            $expression: #StringExpr['[ruby-core:15711]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['foo!']
+            $expression: #ParcentNotation['%q{\n  class FooProc < Proc\n    def initialize\n      @foo = "foo!"\n    end\n\n    def bar\n      @foo\n    end\n  end\n\n  def bar\n    FooProc.new &lambda{\n      p 1\n    }\n  end\n\n  fp = bar(&lambda{\n    p 2\n  })\n\n  fp.bar\n}']
+            $expression: #StringExpr['Subclass of Proc']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  o = Object.new\n  def o.write(s); end\n  $stderr = o\n  at_exit{\n    print $!.message\n  }\n  raise "ok"\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  lambda do\n    class A\n      class B\n        proc{return :ng}.call\n      end\n    end\n  end.call\n  :ok\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  $proc = proc{return}\n  begin\n    lambda do\n      class A\n        class B\n          $proc.call\n        end\n      end\n    end.call\n    :ng\n  rescue LocalJumpError\n    :ok\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  def x\n    binding\n  end\n  b = x{|a| a }\n  b.eval(\'yield("ok")\')\n}']
+            $expression: #StringExpr['[Bug #5634]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  def x\n    binding\n  end\n  eval("x { \'ok\' }").eval "yield"\n}']
+            $expression: #StringExpr['[Bug #5634]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  def x\n    binding\n  end\n  def m\n    x{ \'ok\' }\n  end\n  eval(\'yield\', m)\n}']
+            $expression: #StringExpr['[Bug #5634]']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,244 @@
+#Source[
+   #List[
+      $statement: #ExceptionBlock[
+         $main: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['require']
+            $param: #List[
+               $expression: #StringExpr['win32ole']
+            ]
+         ]
+         $rescue: #List[
+            $rescue: #Rescue[
+               $class: #NameExpr['LoadError']
+               $then: #Empty['']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['word_installed?']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['installed']
+                  $right: #FalseExpr['false']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['w']
+                  $right: #Nil['nil']
+               ]
+               $statement: #IfExpr[
+                  $cond: #Defined[
+                     $base: #NameExpr['WIN32OLE']
+                  ]
+                  $then: #ExceptionBlock[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['w']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['WIN32OLE']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #StringExpr['Word.Application']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['installed']
+                           $right: #TrueExpr['true']
+                        ]
+                     ]
+                     $rescue: #List[
+                        $rescue: #Rescue[
+                           $then: #Empty['']
+                        ]
+                     ]
+                     $ensure: #IfExpr[
+                        $cond: #NameExpr['w']
+                        $then: #List[
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['w']
+                              $recv: #NameExpr['quit']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['w']
+                              $right: #Nil['nil']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #RReturnStmt[
+                  $expr: #List[
+                     $expression: #NameExpr['installed']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #Defined[
+            $base: #NameExpr['WIN32OLE']
+         ]
+         $then: #Class[
+            $name: #NameExpr['TestWIN32OLE_WITH_WORD']
+            $super: #Field[
+               $recv: #Field[
+                  $recv: #NameExpr['Test']
+                  $name: #NameExpr['Unit']
+               ]
+               $name: #NameExpr['TestCase']
+            ]
+            $body: #BlockExpr[
+               $main: #Unless[
+                  $cond: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['word_installed?']
+                  ]
+                  $then: #FuncDecl[
+                     $name: #NameExpr['test_dummy_for_skip_message']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['skip']
+                           $param: #List[
+                              $expression: #StringExpr['Microsoft Word is not installed']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $else: #List[
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['setup']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #ExceptionBlock[
+                              $main: #AssignExpr[
+                                 $left: #NameExpr['@obj']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['WIN32OLE']
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #StringExpr['Word.Application']
+                                    ]
+                                 ]
+                              ]
+                              $rescue: #List[
+                                 $rescue: #Rescue[
+                                    $class: #NameExpr['WIN32OLERuntimeError']
+                                    $then: #AssignExpr[
+                                       $left: #NameExpr['@obj']
+                                       $right: #Nil['nil']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_ole_methods']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #IfExpr[
+                              $cond: #NameExpr['@obj']
+                              $then: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['@obj']
+                                       $name: #NameExpr['visible']
+                                    ]
+                                    $right: #TrueExpr['true']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['@obj']
+                                       $recv: #NameExpr['wordbasic']
+                                    ]
+                                    $recv: #NameExpr['disableAutoMacros']
+                                    $param: #List[
+                                       $expression: #TrueExpr['true']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert']
+                                    $param: #List[
+                                       $expression: #TrueExpr['true']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_s_connect']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #IfExpr[
+                              $cond: #NameExpr['@obj']
+                              $then: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['obj2']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['WIN32OLE']
+                                       $recv: #NameExpr['connect']
+                                       $param: #List[
+                                          $expression: #StringExpr['Word.Application']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_instance_of']
+                                    $param: #List[
+                                       $expression: #NameExpr['WIN32OLE']
+                                       $expression: #NameExpr['obj2']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['obj2']
+                                       $name: #NameExpr['visible']
+                                    ]
+                                    $right: #TrueExpr['true']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['teardown']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #IfExpr[
+                              $cond: #NameExpr['@obj']
+                              $then: #List[
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['@obj']
+                                    $recv: #NameExpr['quit']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@obj']
+                                    $right: #Nil['nil']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

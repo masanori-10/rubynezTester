@@ -1,0 +1,421 @@
+#Source[
+   #List[
+      $statement: #ExceptionBlock[
+         $main: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['require']
+            $param: #List[
+               $expression: #StringExpr['win32ole']
+            ]
+         ]
+         $rescue: #List[
+            $rescue: #Rescue[
+               $class: #NameExpr['LoadError']
+               $then: #Empty['']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['fileutils']
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['ado_csv_installed?']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['installed']
+                  $right: #FalseExpr['false']
+               ]
+               $statement: #IfExpr[
+                  $cond: #Defined[
+                     $base: #NameExpr['WIN32OLE']
+                  ]
+                  $then: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['db']
+                        $right: #Nil['nil']
+                     ]
+                     $statement: #ExceptionBlock[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['db']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['WIN32OLE']
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #StringExpr['ADODB.Connection']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #Field[
+                                 $base: #NameExpr['db']
+                                 $name: #NameExpr['connectionString']
+                              ]
+                              $right: #StringExpr['Driver={Microsoft Text Driver (*.txt; *.csv)};DefaultDir=.;']
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['db']
+                              $recv: #NameExpr['open']
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['db']
+                              $recv: #NameExpr['close']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['db']
+                              $right: #Nil['nil']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['installed']
+                              $right: #TrueExpr['true']
+                           ]
+                        ]
+                        $rescue: #List[
+                           $rescue: #Rescue[
+                              $then: #Empty['']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['installed']
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #Defined[
+            $base: #NameExpr['WIN32OLE_VARIANT']
+         ]
+         $then: #Class[
+            $name: #NameExpr['TestWIN32OLE_VARIANT_OUTARG']
+            $super: #Field[
+               $recv: #Field[
+                  $recv: #NameExpr['Test']
+                  $name: #NameExpr['Unit']
+               ]
+               $name: #NameExpr['TestCase']
+            ]
+            $body: #BlockExpr[
+               $main: #List[
+                  $statement: #Module[
+                     $name: #NameExpr['ADO']
+                     $body: #BlockExpr[
+                        $main: #Empty['']
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['CONNSTR']
+                     $right: #StringExpr['Driver={Microsoft Text Driver (*.txt; *.csv)};DefaultDir=.;']
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['setup']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #IfExpr[
+                              $then: #RReturnStmt['return']
+                              $cond: #NotExpr[
+                                 $expr: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['ado_csv_installed?']
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['FileUtils']
+                              $recv: #NameExpr['cp']
+                              $param: #List[
+                                 $expression: #AddExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['dirname']
+                                       $param: #List[
+                                          $expression: #File['__FILE__']
+                                       ]
+                                    ]
+                                    $right: #StringExpr['/orig_data.csv']
+                                 ]
+                                 $expression: #StringExpr['./data.csv']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['@db']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['WIN32OLE']
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #StringExpr['ADODB.Connection']
+                                 ]
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $cond: #NotExpr[
+                                 $expr: #Defined[
+                                    $base: #Field[
+                                       $recv: #NameExpr['ADO']
+                                       $name: #NameExpr['AdStateOpen']
+                                    ]
+                                 ]
+                              ]
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['WIN32OLE']
+                                 $recv: #NameExpr['const_load']
+                                 $param: #List[
+                                    $expression: #NameExpr['@db']
+                                    $expression: #NameExpr['ADO']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #Field[
+                                 $base: #NameExpr['@db']
+                                 $name: #NameExpr['connectionString']
+                              ]
+                              $right: #NameExpr['CONNSTR']
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['@db']
+                              $recv: #NameExpr['open']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['test_variant_ref_and_argv']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #IfExpr[
+                              $cond: #NotExpr[
+                                 $expr: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['ado_csv_installed?']
+                                 ]
+                              ]
+                              $then: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['skip']
+                                 $param: #List[
+                                    $expression: #StringExpr['ActiveX Data Object Library not found']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['sql']
+                              $right: #StringExpr['INSERT INTO data.csv VALUES (5, \'E\')']
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['@db']
+                              $recv: #NameExpr['execute']
+                              $param: #List[
+                                 $expression: #NameExpr['sql']
+                                 $expression: #MinusExpr[
+                                    $expr: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['c']
+                              $right: #Indexer[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['WIN32OLE']
+                                    $name: #NameExpr['ARGV']
+                                 ]
+                                 $index: #List[
+                                    $expression: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #IntExpr['1']
+                                 $expression: #NameExpr['c']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['obj']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['WIN32OLE_VARIANT']
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #Nil['nil']
+                                    $expression: #OrExpr[
+                                       $left: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['WIN32OLE']
+                                             $name: #NameExpr['VARIANT']
+                                          ]
+                                          $name: #NameExpr['VT_VARIANT']
+                                       ]
+                                       $right: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['WIN32OLE']
+                                             $name: #NameExpr['VARIANT']
+                                          ]
+                                          $name: #NameExpr['VT_BYREF']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #Nil['nil']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['obj']
+                                    $recv: #NameExpr['value']
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['@db']
+                              $recv: #NameExpr['execute']
+                              $param: #List[
+                                 $expression: #NameExpr['sql']
+                                 $expression: #NameExpr['obj']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #IntExpr['1']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['obj']
+                                    $recv: #NameExpr['value']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['obj']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['WIN32OLE_VARIANT']
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #MinusExpr[
+                                       $expr: #IntExpr['100']
+                                    ]
+                                    $expression: #OrExpr[
+                                       $left: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['WIN32OLE']
+                                             $name: #NameExpr['VARIANT']
+                                          ]
+                                          $name: #NameExpr['VT_VARIANT']
+                                       ]
+                                       $right: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['WIN32OLE']
+                                             $name: #NameExpr['VARIANT']
+                                          ]
+                                          $name: #NameExpr['VT_BYREF']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #MinusExpr[
+                                    $expr: #IntExpr['100']
+                                 ]
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['obj']
+                                    $recv: #NameExpr['value']
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['@db']
+                              $recv: #NameExpr['execute']
+                              $param: #List[
+                                 $expression: #NameExpr['sql']
+                                 $expression: #NameExpr['obj']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #IntExpr['1']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['obj']
+                                    $recv: #NameExpr['value']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['teardown']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #IfExpr[
+                              $then: #RReturnStmt['return']
+                              $cond: #NotExpr[
+                                 $expr: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['ado_csv_installed?']
+                                 ]
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $cond: #ApplyExpr[
+                                 $base: #NameExpr['@db']
+                                 $recv: #NameExpr['&']
+                                 $param: #List[
+                                    $expression: #EqExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['@db']
+                                          $recv: #NameExpr['state']
+                                       ]
+                                       $right: #Field[
+                                          $recv: #NameExpr['ADO']
+                                          $name: #NameExpr['AdStateOpen']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['@db']
+                                 $recv: #NameExpr['close']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['unlink']
+                              $param: #List[
+                                 $expression: #StringExpr['data.csv']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

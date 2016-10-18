@@ -1,0 +1,250 @@
+#Source[
+   #List[
+      $statement: #IfExpr[
+         $cond: #EqExpr[
+            $left: #Indexer[
+               $recv: #NameExpr['ARGV']
+               $index: #List[
+                  $expression: #IntExpr['0']
+               ]
+            ]
+            $right: #StringExpr['-c']
+         ]
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['out_stdout']
+               $right: #IntExpr['1']
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['ARGV']
+               $recv: #NameExpr['shift']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$sawbegin']
+         $right: #IntExpr['0']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$sawend']
+         $right: #IntExpr['0']
+      ]
+      $statement: #While[
+         $cond: #AssignExpr[
+            $left: #NameExpr['line']
+            $right: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['gets']
+               $param: #Empty['']
+            ]
+         ]
+         $body: #IfExpr[
+            $cond: #Match[
+               $left: #Regex['/^begin\\s*(\\d*)\\s*(\\S*)/']
+               $right: #NameExpr['line']
+            ]
+            $then: #List[
+               $statement: #MultipleAssign[
+                  $left: #MultipleLeftHandSideExpression[
+                     $item: #NameExpr['$mode']
+                     $item: #NameExpr['$file']
+                  ]
+                  $right: #MultipleRightHandSideExpression[
+                     $expression: #MatchedRegex['$1']
+                     $expression: #MatchedRegex['$2']
+                  ]
+               ]
+               $statement: #AddAssign[
+                  $left: #NameExpr['$sawbegin']
+                  $right: #IntExpr['1']
+               ]
+               $statement: #IfExpr[
+                  $cond: #NameExpr['out_stdout']
+                  $then: #AssignExpr[
+                     $left: #NameExpr['out']
+                     $right: #NameExpr['STDOUT']
+                  ]
+                  $else: #IfExpr[
+                     $then: #AssignExpr[
+                        $left: #NameExpr['out']
+                        $right: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['$file']
+                              $expression: #StringExpr['w']
+                           ]
+                        ]
+                     ]
+                     $cond: #NeExpr[
+                        $left: #NameExpr['$file']
+                        $right: #StringExpr['']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['out']
+                  $recv: #NameExpr['binmode']
+               ]
+               $statement: #Break['break']
+            ]
+         ]
+      ]
+      $statement: #Unless[
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['raise']
+            $param: #List[
+               $expression: #StringExpr['missing begin']
+            ]
+         ]
+         $cond: #NameExpr['$sawbegin']
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['out']
+         $recv: #NameExpr['binmode']
+      ]
+      $statement: #While[
+         $cond: #AssignExpr[
+            $left: #NameExpr['line']
+            $right: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['gets']
+               $param: #Empty['']
+            ]
+         ]
+         $body: #List[
+            $statement: #IfExpr[
+               $cond: #Match[
+                  $left: #Regex['/^end/']
+                  $right: #NameExpr['line']
+               ]
+               $then: #List[
+                  $statement: #AddAssign[
+                     $left: #NameExpr['$sawend']
+                     $right: #IntExpr['1']
+                  ]
+                  $statement: #Unless[
+                     $then: #ApplyExpr[
+                        $recv: #NameExpr['out']
+                        $recv: #NameExpr['close']
+                     ]
+                     $cond: #NameExpr['out_stdout']
+                  ]
+                  $statement: #Unless[
+                     $then: #ApplyExpr[
+                        $base: #NameExpr['File']
+                        $recv: #NameExpr['chmod']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['$mode']
+                              $recv: #NameExpr['oct']
+                           ]
+                           $expression: #NameExpr['$file']
+                        ]
+                     ]
+                     $cond: #NameExpr['out_stdout']
+                  ]
+                  $statement: #Next['next']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['line']
+               $recv: #NameExpr['sub!']
+               $param: #List[
+                  $expression: #Regex['/[a-z]+$/']
+                  $expression: #StringExpr['']
+               ]
+            ]
+            $statement: #IfExpr[
+               $then: #Next['next']
+               $cond: #Match[
+                  $left: #Regex['/[a-z]/']
+                  $right: #NameExpr['line']
+               ]
+            ]
+            $statement: #IfExpr[
+               $then: #Next['next']
+               $cond: #NotExpr[
+                  $expr: #EqExpr[
+                     $left: #DivExpr[
+                        $left: #AddExpr[
+                           $left: #AndExpr[
+                              $left: #SubExpr[
+                                 $left: #Indexer[
+                                    $recv: #NameExpr['$_']
+                                    $index: #List[
+                                       $expression: #IntExpr['0']
+                                    ]
+                                 ]
+                                 $right: #IntExpr['32']
+                              ]
+                              $right: #OctalInteger['077']
+                           ]
+                           $right: #IntExpr['2']
+                        ]
+                        $right: #IntExpr['3']
+                     ]
+                     $right: #DivExpr[
+                        $left: #ApplyExpr[
+                           $recv: #NameExpr['$_']
+                           $recv: #NameExpr['length']
+                        ]
+                        $right: #IntExpr['4']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #IfExpr[
+               $then: #LShiftExpr[
+                  $left: #NameExpr['out']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['$_']
+                     $recv: #NameExpr['unpack']
+                     $param: #List[
+                        $expression: #StringExpr['u']
+                     ]
+                  ]
+               ]
+               $cond: #GtExpr[
+                  $left: #NameExpr['$sawbegin']
+                  $right: #NameExpr['$sawend']
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['raise']
+            $param: #List[
+               $expression: #StringExpr['missing end']
+            ]
+         ]
+         $cond: #GtExpr[
+            $left: #NameExpr['$sawbegin']
+            $right: #NameExpr['$sawend']
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['raise']
+            $param: #List[
+               $expression: #StringExpr['missing begin']
+            ]
+         ]
+         $cond: #NotExpr[
+            $expr: #NameExpr['$sawbegin']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['exit']
+         $param: #List[
+            $expression: #IntExpr['0']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

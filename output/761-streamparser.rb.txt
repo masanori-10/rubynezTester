@@ -1,0 +1,378 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rexml/parsers/baseparser']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['REXML']
+         $body: #BlockExpr[
+            $main: #Module[
+               $name: #NameExpr['Parsers']
+               $body: #BlockExpr[
+                  $main: #Class[
+                     $name: #NameExpr['StreamParser']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['initialize']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['source']
+                                 ]
+                                 $param: #Param[
+                                    $param: #NameExpr['listener']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@listener']
+                                       $right: #NameExpr['listener']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@parser']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['BaseParser']
+                                          $recv: #NameExpr['new']
+                                          $param: #List[
+                                             $expression: #NameExpr['source']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['add_listener']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['listener']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #ApplyExpr[
+                                    $recv: #NameExpr['@parser']
+                                    $recv: #NameExpr['add_listener']
+                                    $param: #List[
+                                       $expression: #NameExpr['listener']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['parse']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #While[
+                                    $cond: #TrueExpr['true']
+                                    $body: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['event']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['@parser']
+                                             $recv: #NameExpr['pull']
+                                          ]
+                                       ]
+                                       $statement: #Case[
+                                          $cond: #Indexer[
+                                             $recv: #NameExpr['event']
+                                             $index: #List[
+                                                $expression: #IntExpr['0']
+                                             ]
+                                          ]
+                                          $body: #List[
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #NameExpr['end_document']
+                                                ]
+                                                $then: #RReturnStmt['return']
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #NameExpr['start_element']
+                                                ]
+                                                $then: #List[
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['attrs']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #Indexer[
+                                                            $recv: #NameExpr['event']
+                                                            $index: #List[
+                                                               $expression: #IntExpr['2']
+                                                            ]
+                                                         ]
+                                                         $recv: #NameExpr['each']
+                                                         $body: #Block[
+                                                            $param: #MultipleLeftHandSideExpression[
+                                                               $item: #NameExpr['n']
+                                                               $item: #NameExpr['v']
+                                                            ]
+                                                            $body: #AssignExpr[
+                                                               $left: #Indexer[
+                                                                  $base: #Indexer[
+                                                                     $recv: #NameExpr['event']
+                                                                     $index: #List[
+                                                                        $expression: #IntExpr['2']
+                                                                     ]
+                                                                  ]
+                                                                  $index: #List[
+                                                                     $expression: #NameExpr['n']
+                                                                  ]
+                                                               ]
+                                                               $right: #ApplyExpr[
+                                                                  $recv: #NameExpr['@parser']
+                                                                  $recv: #NameExpr['unnormalize']
+                                                                  $param: #List[
+                                                                     $expression: #NameExpr['v']
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      $recv: #NameExpr['@listener']
+                                                      $recv: #NameExpr['tag_start']
+                                                      $param: #List[
+                                                         $expression: #Indexer[
+                                                            $recv: #NameExpr['event']
+                                                            $index: #List[
+                                                               $expression: #IntExpr['1']
+                                                            ]
+                                                         ]
+                                                         $expression: #NameExpr['attrs']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #NameExpr['end_element']
+                                                ]
+                                                $then: #ApplyExpr[
+                                                   $recv: #NameExpr['@listener']
+                                                   $recv: #NameExpr['tag_end']
+                                                   $param: #List[
+                                                      $expression: #Indexer[
+                                                         $recv: #NameExpr['event']
+                                                         $index: #List[
+                                                            $expression: #IntExpr['1']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #NameExpr['text']
+                                                ]
+                                                $then: #List[
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['normalized']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['@parser']
+                                                         $recv: #NameExpr['unnormalize']
+                                                         $param: #List[
+                                                            $expression: #Indexer[
+                                                               $recv: #NameExpr['event']
+                                                               $index: #List[
+                                                                  $expression: #IntExpr['1']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      $recv: #NameExpr['@listener']
+                                                      $recv: #NameExpr['text']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['normalized']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #NameExpr['processing_instruction']
+                                                ]
+                                                $then: #ApplyExpr[
+                                                   $recv: #NameExpr['@listener']
+                                                   $recv: #NameExpr['instruction']
+                                                   $param: #List[
+                                                      $variadic: #Variadic[
+                                                         $base: #Indexer[
+                                                            $recv: #NameExpr['event']
+                                                            $index: #List[
+                                                               $expression: #IntExpr['1']
+                                                               $expression: #IntExpr['2']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #NameExpr['start_doctype']
+                                                ]
+                                                $then: #ApplyExpr[
+                                                   $recv: #NameExpr['@listener']
+                                                   $recv: #NameExpr['doctype']
+                                                   $param: #List[
+                                                      $variadic: #Variadic[
+                                                         $base: #Indexer[
+                                                            $recv: #NameExpr['event']
+                                                            $index: #List[
+                                                               $expression: #ClosedRange[
+                                                                  #IntExpr['1']
+                                                                  #MinusExpr[
+                                                                     $expr: #IntExpr['1']
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #NameExpr['end_doctype']
+                                                ]
+                                                $then: #IfExpr[
+                                                   $then: #ApplyExpr[
+                                                      $recv: #NameExpr['@listener']
+                                                      $recv: #NameExpr['doctype_end']
+                                                   ]
+                                                   $cond: #ApplyExpr[
+                                                      $base: #NameExpr['@listener']
+                                                      $recv: #NameExpr['respond_to?']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['doctype_end']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #NameExpr['comment']
+                                                   $expression: #NameExpr['attlistdecl']
+                                                   $expression: #NameExpr['cdata']
+                                                   $expression: #NameExpr['xmldecl']
+                                                   $expression: #NameExpr['elementdecl']
+                                                ]
+                                                $then: #ApplyExpr[
+                                                   $recv: #NameExpr['@listener']
+                                                   $recv: #NameExpr['send']
+                                                   $param: #List[
+                                                      $expression: #ApplyExpr[
+                                                         $recv: #Indexer[
+                                                            $recv: #NameExpr['event']
+                                                            $index: #List[
+                                                               $expression: #IntExpr['0']
+                                                            ]
+                                                         ]
+                                                         $recv: #NameExpr['to_s']
+                                                      ]
+                                                      $variadic: #Variadic[
+                                                         $base: #Indexer[
+                                                            $recv: #NameExpr['event']
+                                                            $index: #List[
+                                                               $expression: #ClosedRange[
+                                                                  #IntExpr['1']
+                                                                  #MinusExpr[
+                                                                     $expr: #IntExpr['1']
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #NameExpr['entitydecl']
+                                                   $expression: #NameExpr['notationdecl']
+                                                ]
+                                                $then: #ApplyExpr[
+                                                   $recv: #NameExpr['@listener']
+                                                   $recv: #NameExpr['send']
+                                                   $param: #List[
+                                                      $expression: #ApplyExpr[
+                                                         $recv: #Indexer[
+                                                            $recv: #NameExpr['event']
+                                                            $index: #List[
+                                                               $expression: #IntExpr['0']
+                                                            ]
+                                                         ]
+                                                         $recv: #NameExpr['to_s']
+                                                      ]
+                                                      $expression: #Indexer[
+                                                         $recv: #NameExpr['event']
+                                                         $index: #List[
+                                                            $expression: #ClosedRange[
+                                                               #IntExpr['1']
+                                                               #MinusExpr[
+                                                                  $expr: #IntExpr['1']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #NameExpr['externalentity']
+                                                ]
+                                                $then: #List[
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['entity_reference']
+                                                      $right: #Indexer[
+                                                         $recv: #NameExpr['event']
+                                                         $index: #List[
+                                                            $expression: #IntExpr['1']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['content']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['entity_reference']
+                                                         $recv: #NameExpr['gsub']
+                                                         $param: #List[
+                                                            $expression: #Regex['/\\A%|;\\z/']
+                                                            $expression: #StringExpr['']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      $recv: #NameExpr['@listener']
+                                                      $recv: #NameExpr['entity']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['content']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

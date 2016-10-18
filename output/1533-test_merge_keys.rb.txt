@@ -1,0 +1,661 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require_relative']
+         $param: #List[
+            $expression: #StringExpr['helper']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['Psych']
+         $body: #BlockExpr[
+            $main: #Class[
+               $name: #NameExpr['TestMergeKeys']
+               $super: #NameExpr['TestCase']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #Class[
+                        $name: #NameExpr['Product']
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['attr_reader']
+                              $param: #List[
+                                 $expression: #NameExpr['bar']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_merge_key_with_bare_hash']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['doc']
+                                 $right: #ApplyExpr[
+                                    $base: #NameExpr['Psych']
+                                    $recv: #NameExpr['load']
+                                    $param: #List[
+                                       $expression: #HereDocument['map:\n  <<:\n    hello: world\n']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['hash']
+                                 $right: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['map']
+                                       $value: #List[
+                                          $hash: #Hash[
+                                             $key: #StringExpr['hello']
+                                             $value: #StringExpr['world']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #NameExpr['hash']
+                                    $expression: #NameExpr['doc']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_roundtrip_with_chevron_key']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['h']
+                                 $right: #List['{}']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['v']
+                                 $right: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['a']
+                                       $value: #NameExpr['h']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['<<']
+                                       $value: #NameExpr['h']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_cycle']
+                                 $param: #List[
+                                    $expression: #NameExpr['v']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_explicit_string']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['doc']
+                                 $right: #ApplyExpr[
+                                    $base: #NameExpr['Psych']
+                                    $recv: #NameExpr['load']
+                                    $param: #List[
+                                       $expression: #HereDocument['a: &me { hello: world }\nb: { !!str \'<<\': *me }\n']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['expected']
+                                 $right: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['a']
+                                       $value: #List[
+                                          $hash: #Hash[
+                                             $key: #StringExpr['hello']
+                                             $value: #StringExpr['world']
+                                          ]
+                                       ]
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['b']
+                                       $value: #List[
+                                          $hash: #Hash[
+                                             $key: #StringExpr['<<']
+                                             $value: #List[
+                                                $hash: #Hash[
+                                                   $key: #StringExpr['hello']
+                                                   $value: #StringExpr['world']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #NameExpr['expected']
+                                    $expression: #NameExpr['doc']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_mergekey_with_object']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['s']
+                                 $right: #HereDocument['foo: &foo\n  bar: 10\nproduct:\n  !ruby/object:#{Product.name}\n  <<: *foo\n']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['hash']
+                                 $right: #ApplyExpr[
+                                    $base: #NameExpr['Psych']
+                                    $recv: #NameExpr['load']
+                                    $param: #List[
+                                       $expression: #NameExpr['s']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #List[
+                                       $hash: #Hash[
+                                          $key: #StringExpr['bar']
+                                          $value: #IntExpr['10']
+                                       ]
+                                    ]
+                                    $expression: #Indexer[
+                                       $recv: #NameExpr['hash']
+                                       $index: #List[
+                                          $expression: #StringExpr['foo']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['product']
+                                 $right: #Indexer[
+                                    $recv: #NameExpr['hash']
+                                    $index: #List[
+                                       $expression: #StringExpr['product']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #IntExpr['10']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['product']
+                                       $recv: #NameExpr['bar']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_merge_nil']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['yaml']
+                                 $right: #HereDocument['defaults: &defaults\ndevelopment:\n  <<: *defaults\n']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #List[
+                                       $hash: #Hash[
+                                          $key: #StringExpr['<<']
+                                          $value: #Nil['nil']
+                                       ]
+                                    ]
+                                    $expression: #Indexer[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['Psych']
+                                          $recv: #NameExpr['load']
+                                          $param: #List[
+                                             $expression: #NameExpr['yaml']
+                                          ]
+                                       ]
+                                       $index: #List[
+                                          $expression: #StringExpr['development']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_merge_array']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['yaml']
+                                 $right: #HereDocument['foo: &hello\n- 1\nbaz:\n  <<: *hello\n']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #List[
+                                       $hash: #Hash[
+                                          $key: #StringExpr['<<']
+                                          $value: #Array[
+                                             $index: #List[
+                                                $expression: #IntExpr['1']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $expression: #Indexer[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['Psych']
+                                          $recv: #NameExpr['load']
+                                          $param: #List[
+                                             $expression: #NameExpr['yaml']
+                                          ]
+                                       ]
+                                       $index: #List[
+                                          $expression: #StringExpr['baz']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_merge_is_not_partial']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['yaml']
+                                 $right: #HereDocument['default: &default\n  hello: world\nfoo: &hello\n- 1\nbaz:\n  <<: [*hello, *default]\n']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['doc']
+                                 $right: #ApplyExpr[
+                                    $base: #NameExpr['Psych']
+                                    $recv: #NameExpr['load']
+                                    $param: #List[
+                                       $expression: #NameExpr['yaml']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['refute']
+                                 $param: #List[
+                                    $command: #ApplyExpr[
+                                       $base: #Indexer[
+                                          $recv: #NameExpr['doc']
+                                          $index: #List[
+                                             $expression: #StringExpr['baz']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['key?']
+                                       $param: #List[
+                                          $expression: #StringExpr['hello']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #List[
+                                       $hash: #Hash[
+                                          $key: #StringExpr['<<']
+                                          $value: #Array[
+                                             $index: #List[
+                                                $expression: #Array[
+                                                   $index: #List[
+                                                      $expression: #IntExpr['1']
+                                                   ]
+                                                ]
+                                                $expression: #List[
+                                                   $hash: #Hash[
+                                                      $key: #StringExpr['hello']
+                                                      $value: #StringExpr['world']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $expression: #Indexer[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['Psych']
+                                          $recv: #NameExpr['load']
+                                          $param: #List[
+                                             $expression: #NameExpr['yaml']
+                                          ]
+                                       ]
+                                       $index: #List[
+                                          $expression: #StringExpr['baz']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_merge_seq_nil']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['yaml']
+                                 $right: #HereDocument['foo: &hello\nbaz:\n  <<: [*hello]\n']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #List[
+                                       $hash: #Hash[
+                                          $key: #StringExpr['<<']
+                                          $value: #Array[
+                                             $index: #List[
+                                                $expression: #Nil['nil']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $expression: #Indexer[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['Psych']
+                                          $recv: #NameExpr['load']
+                                          $param: #List[
+                                             $expression: #NameExpr['yaml']
+                                          ]
+                                       ]
+                                       $index: #List[
+                                          $expression: #StringExpr['baz']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_bad_seq_merge']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['yaml']
+                                 $right: #HereDocument['defaults: &defaults [1, 2, 3]\ndevelopment:\n  <<: *defaults\n']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #List[
+                                       $hash: #Hash[
+                                          $key: #StringExpr['<<']
+                                          $value: #Array[
+                                             $index: #List[
+                                                $expression: #IntExpr['1']
+                                                $expression: #IntExpr['2']
+                                                $expression: #IntExpr['3']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $expression: #Indexer[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['Psych']
+                                          $recv: #NameExpr['load']
+                                          $param: #List[
+                                             $expression: #NameExpr['yaml']
+                                          ]
+                                       ]
+                                       $index: #List[
+                                          $expression: #StringExpr['development']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_missing_merge_key']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['yaml']
+                                 $right: #HereDocument['bar:\n  << : *foo\n']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['exp']
+                                 $right: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_raises']
+                                    $param: #List[
+                                       $expression: #Field[
+                                          $recv: #NameExpr['Psych']
+                                          $name: #NameExpr['BadAlias']
+                                       ]
+                                    ]
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $base: #NameExpr['Psych']
+                                          $recv: #NameExpr['load']
+                                          $param: #List[
+                                             $expression: #NameExpr['yaml']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_match']
+                                 $param: #List[
+                                    $expression: #StringExpr['foo']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['exp']
+                                       $recv: #NameExpr['message']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_merge_key']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['yaml']
+                                 $right: #HereDocument['foo: &foo\n  hello: world\nbar:\n  << : *foo\n  baz: boo\n']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['hash']
+                                 $right: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['foo']
+                                       $value: #List[
+                                          $hash: #Hash[
+                                             $key: #StringExpr['hello']
+                                             $value: #StringExpr['world']
+                                          ]
+                                       ]
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['bar']
+                                       $value: #List[
+                                          $hash: #Hash[
+                                             $key: #StringExpr['hello']
+                                             $value: #StringExpr['world']
+                                          ]
+                                          $hash: #Hash[
+                                             $key: #StringExpr['baz']
+                                             $value: #StringExpr['boo']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #NameExpr['hash']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['Psych']
+                                       $recv: #NameExpr['load']
+                                       $param: #List[
+                                          $expression: #NameExpr['yaml']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_multiple_maps']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['yaml']
+                                 $right: #HereDocument['---\n- &CENTER { x: 1, y: 2 }\n- &LEFT { x: 0, y: 2 }\n- &BIG { r: 10 }\n- &SMALL { r: 1 }\n\n# All the following maps are equal:\n\n- # Merge multiple maps\n  << : [ *CENTER, *BIG ]\n  label: center/big\n']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['hash']
+                                 $right: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['x']
+                                       $value: #IntExpr['1']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['y']
+                                       $value: #IntExpr['2']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['r']
+                                       $value: #IntExpr['10']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['label']
+                                       $value: #StringExpr['center/big']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #NameExpr['hash']
+                                    $expression: #Indexer[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['Psych']
+                                          $recv: #NameExpr['load']
+                                          $param: #List[
+                                             $expression: #NameExpr['yaml']
+                                          ]
+                                       ]
+                                       $index: #List[
+                                          $expression: #IntExpr['4']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_override']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['yaml']
+                                 $right: #HereDocument['---\n- &CENTER { x: 1, y: 2 }\n- &LEFT { x: 0, y: 2 }\n- &BIG { r: 10 }\n- &SMALL { r: 1 }\n\n# All the following maps are equal:\n\n- # Override\n  << : [ *BIG, *LEFT, *SMALL ]\n  x: 1\n  label: center/big\n']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['hash']
+                                 $right: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['x']
+                                       $value: #IntExpr['1']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['y']
+                                       $value: #IntExpr['2']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['r']
+                                       $value: #IntExpr['10']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['label']
+                                       $value: #StringExpr['center/big']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #NameExpr['hash']
+                                    $expression: #Indexer[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['Psych']
+                                          $recv: #NameExpr['load']
+                                          $param: #List[
+                                             $expression: #NameExpr['yaml']
+                                          ]
+                                       ]
+                                       $index: #List[
+                                          $expression: #IntExpr['4']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

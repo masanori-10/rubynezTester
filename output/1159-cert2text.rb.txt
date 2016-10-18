@@ -1,0 +1,122 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['openssl']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['include']
+         $param: #List[
+            $expression: #Field[
+               $recv: #NameExpr['OpenSSL']
+               $name: #NameExpr['X509']
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['cert2text']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['cert_str']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  $recv: #Array[
+                     $index: #List[
+                        $expression: #NameExpr['Certificate']
+                        $expression: #NameExpr['CRL']
+                        $expression: #NameExpr['Request']
+                     ]
+                  ]
+                  $recv: #NameExpr['each']
+                  $body: #Block[
+                     $param: #NameExpr['klass']
+                     $body: #ExceptionBlock[
+                        $main: #List[
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['puts']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['klass']
+                                       $recv: #NameExpr['new']
+                                       $param: #List[
+                                          $expression: #NameExpr['cert_str']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['to_text']
+                                 ]
+                              ]
+                           ]
+                           $statement: #RReturnStmt['return']
+                        ]
+                        $rescue: #List[
+                           $rescue: #Rescue[
+                              $then: #Empty['']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['raise']
+                  $param: #List[
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['ArgumentError']
+                        $recv: #NameExpr['new']
+                        $param: #List[
+                           $expression: #StringExpr['Unknown format.']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #ApplyExpr[
+            $recv: #NameExpr['ARGV']
+            $recv: #NameExpr['empty?']
+         ]
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['cert2text']
+            $param: #List[
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['STDIN']
+                  $recv: #NameExpr['read']
+               ]
+            ]
+         ]
+         $else: #ApplyExpr[
+            $recv: #NameExpr['ARGV']
+            $recv: #NameExpr['each']
+            $body: #Block[
+               $param: #NameExpr['file']
+               $body: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['cert2text']
+                  $param: #List[
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['File']
+                        $recv: #NameExpr['read']
+                        $param: #List[
+                           $expression: #NameExpr['file']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

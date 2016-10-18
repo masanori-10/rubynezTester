@@ -1,0 +1,364 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['benchmark']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['pp']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['optparse']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$list']
+         $right: #TrueExpr['true']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$gcprof']
+         $right: #TrueExpr['true']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['opt']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['OptionParser']
+            $recv: #NameExpr['new']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['opt']
+         $recv: #NameExpr['on']
+         $param: #List[
+            $expression: #StringExpr['-q']
+         ]
+         $body: #Block[
+            $body: #AssignExpr[
+               $left: #NameExpr['$list']
+               $right: #FalseExpr['false']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['opt']
+         $recv: #NameExpr['on']
+         $param: #List[
+            $expression: #StringExpr['-d']
+         ]
+         $body: #Block[
+            $body: #AssignExpr[
+               $left: #NameExpr['$gcprof']
+               $right: #FalseExpr['false']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['opt']
+         $recv: #NameExpr['parse!']
+         $param: #List[
+            $expression: #NameExpr['ARGV']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['script']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['File']
+            $recv: #NameExpr['join']
+            $param: #List[
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['File']
+                  $recv: #NameExpr['dirname']
+                  $param: #List[
+                     $expression: #File['__FILE__']
+                  ]
+               ]
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['ARGV']
+                  $recv: #NameExpr['shift']
+               ]
+            ]
+         ]
+      ]
+      $statement: #Unless[
+         $then: #AddAssign[
+            $left: #NameExpr['script']
+            $right: #StringExpr['.rb']
+         ]
+         $cond: #ApplyExpr[
+            $recv: #NameExpr['FileTest']
+            $recv: #NameExpr['exist?']
+            $param: #List[
+               $expression: #NameExpr['script']
+            ]
+         ]
+      ]
+      $statement: #Unless[
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['raise']
+            $param: #List[
+               $expression: #StringExpr[
+                  $inner: #NameExpr['script']
+               ]
+            ]
+         ]
+         $cond: #ApplyExpr[
+            $recv: #NameExpr['FileTest']
+            $recv: #NameExpr['exist?']
+            $param: #List[
+               $expression: #NameExpr['script']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #StringExpr[
+               $inner: #NameExpr['script']
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #NameExpr['$gcprof']
+         $then: #ApplyExpr[
+            $recv: #Field[
+               $recv: #NameExpr['GC']
+               $name: #NameExpr['Profiler']
+            ]
+            $recv: #NameExpr['enable']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['tms']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['Benchmark']
+            $recv: #NameExpr['measure']
+            $body: #Block[
+               $param: #NameExpr['x']
+               $body: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['load']
+                  $param: #List[
+                     $expression: #NameExpr['script']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['gc_time']
+         $right: #IntExpr['0']
+      ]
+      $statement: #IfExpr[
+         $cond: #NameExpr['$gcprof']
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['gc_time']
+               $right: #ApplyExpr[
+                  $recv: #Field[
+                     $recv: #NameExpr['GC']
+                     $name: #NameExpr['Profiler']
+                  ]
+                  $recv: #NameExpr['total_time']
+               ]
+            ]
+            $statement: #IfExpr[
+               $then: #ApplyExpr[
+                  $recv: #Field[
+                     $recv: #NameExpr['GC']
+                     $name: #NameExpr['Profiler']
+                  ]
+                  $recv: #NameExpr['report']
+               ]
+               $cond: #AndExpr[
+                  $left: #NameExpr['$list']
+                  $right: #GteExpt[
+                     $left: #NameExpr['RUBY_VERSION']
+                     $right: #StringExpr['2.0.0']
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #Field[
+                  $recv: #NameExpr['GC']
+                  $name: #NameExpr['Profiler']
+               ]
+               $recv: #NameExpr['disable']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['pp']
+         $param: #List[
+            $expression: #ApplyExpr[
+               $recv: #NameExpr['GC']
+               $recv: #NameExpr['stat']
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['puts']
+            $param: #List[
+               $expression: #StringExpr[
+                  $inner: #NameExpr['RUBY_DESCRIPTION']
+                  $inner: #ApplyExpr[
+                     $recv: #Field[
+                        $recv: #NameExpr['GC']
+                        $name: #NameExpr['OPTS']
+                     ]
+                     $recv: #NameExpr['inspect']
+                  ]
+               ]
+            ]
+         ]
+         $cond: #Defined[
+            $base: #Field[
+               $recv: #NameExpr['GC']
+               $name: #NameExpr['OPTS']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['desc']
+         $right: #StringExpr[
+            $inner: #NameExpr['RUBY_VERSION']
+            $inner: #Conditional[
+               $cond: #GteExpt[
+                  $left: #NameExpr['RUBY_PATCHLEVEL']
+                  $right: #IntExpr['0']
+               ]
+               $then: #StringExpr[
+                  $inner: #NameExpr['RUBY_PATCHLEVEL']
+               ]
+               $else: #StringExpr['dev']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['name']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['File']
+            $recv: #NameExpr['basename']
+            $param: #List[
+               $expression: #NameExpr['script']
+               $expression: #StringExpr['.rb']
+            ]
+         ]
+      ]
+      $statement: #NameExpr['puts']
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #NameExpr['script']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #Field[
+               $recv: #NameExpr['Benchmark']
+               $name: #NameExpr['CAPTION']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #NameExpr['tms']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #StringExpr[
+               $inner: #NameExpr['gc_time']
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #ApplyExpr[
+            $base: #ApplyExpr[
+               $recv: #NameExpr['File']
+               $recv: #NameExpr['exist?']
+               $param: #List[
+                  $expression: #StringExpr['/proc/self/status']
+               ]
+            ]
+            $recv: #NameExpr['&']
+            $param: #List[
+               $expression: #Match[
+                  $left: #Regex['/VmHWM:\\s*(\\d+.+)/']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['read']
+                     $param: #List[
+                        $expression: #StringExpr['/proc/self/status']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+         $then: #List[
+            $statement: #NameExpr['puts']
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['puts']
+               $param: #List[
+                  $expression: #StringExpr[
+                     $inner: #ApplyExpr[
+                        $recv: #MatchedRegex['$1']
+                        $recv: #NameExpr['chomp']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #NameExpr['puts']
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #StringExpr[
+               $inner: #NameExpr['name']
+               $inner: #NameExpr['desc']
+               $inner: #ApplyExpr[
+                  $recv: #NameExpr['tms']
+                  $recv: #NameExpr['real']
+               ]
+               $inner: #NameExpr['gc_time']
+               $inner: #ApplyExpr[
+                  $recv: #NameExpr['GC']
+                  $recv: #NameExpr['count']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #StringExpr['         (real time in sec, GC time in sec, GC count)']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

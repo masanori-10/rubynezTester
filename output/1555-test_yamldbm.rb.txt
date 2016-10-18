@@ -1,0 +1,1534 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require_relative']
+         $param: #List[
+            $expression: #StringExpr['helper']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['tmpdir']
+         ]
+      ]
+      $statement: #ExceptionBlock[
+         $main: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['require']
+            $param: #List[
+               $expression: #StringExpr['yaml/dbm']
+            ]
+         ]
+         $rescue: #List[
+            $rescue: #Rescue[
+               $class: #NameExpr['LoadError']
+               $then: #Empty['']
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #Module[
+            $name: #NameExpr['Psych']
+            $body: #BlockExpr[
+               $main: #List[
+                  $statement: #Unless[
+                     $then: #AssignExpr[
+                        $left: #Field[
+                           $base: #NameExpr['Psych']
+                           $name: #NameExpr['DBM']
+                        ]
+                        $right: #Field[
+                           $recv: #NameExpr['YAML']
+                           $name: #NameExpr['DBM']
+                        ]
+                     ]
+                     $cond: #Defined[
+                        $base: #Field[
+                           $recv: #NameExpr['Psych']
+                           $name: #NameExpr['DBM']
+                        ]
+                     ]
+                  ]
+                  $statement: #Class[
+                     $name: #NameExpr['YAMLDBMTest']
+                     $super: #NameExpr['TestCase']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['setup']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@dir']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['Dir']
+                                          $recv: #NameExpr['mktmpdir']
+                                          $param: #List[
+                                             $expression: #StringExpr['rubytest-file']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['chown']
+                                       $param: #List[
+                                          $expression: #MinusExpr[
+                                             $expr: #IntExpr['1']
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['Process']
+                                             $recv: #NameExpr['gid']
+                                          ]
+                                          $expression: #NameExpr['@dir']
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@yamldbm_file']
+                                       $right: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['make_tmp_filename']
+                                          $param: #List[
+                                             $expression: #StringExpr['yamldbm']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@yamldbm']
+                                       $right: #ApplyExpr[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['YAML']
+                                             $name: #NameExpr['DBM']
+                                          ]
+                                          $recv: #NameExpr['new']
+                                          $param: #List[
+                                             $expression: #NameExpr['@yamldbm_file']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['teardown']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamldbm']
+                                       $recv: #NameExpr['clear']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamldbm']
+                                       $recv: #NameExpr['close']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $base: #NameExpr['FileUtils']
+                                       $recv: #NameExpr['remove_entry_secure']
+                                       $param: #List[
+                                          $expression: #NameExpr['@dir']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['make_tmp_filename']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['prefix']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #AddExpr[
+                                    $left: #AddExpr[
+                                       $left: #AddExpr[
+                                          $left: #AddExpr[
+                                             $left: #NameExpr['@dir']
+                                             $right: #StringExpr['/']
+                                          ]
+                                          $right: #NameExpr['prefix']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['File']
+                                          $recv: #NameExpr['basename']
+                                          $param: #List[
+                                             $expression: #File['__FILE__']
+                                          ]
+                                       ]
+                                    ]
+                                    $right: #StringExpr[
+                                       $inner: #BuiltInVariable['$$']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_store']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamldbm']
+                                       $recv: #NameExpr['store']
+                                       $param: #List[
+                                          $expression: #StringExpr['a']
+                                          $expression: #StringExpr['b']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamldbm']
+                                       $recv: #NameExpr['store']
+                                       $param: #List[
+                                          $expression: #StringExpr['c']
+                                          $expression: #StringExpr['d']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['b']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['a']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['d']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['c']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_nil']
+                                       $param: #List[
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['e']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_store_using_carret']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['b']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['a']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['d']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['c']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_nil']
+                                       $param: #List[
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['e']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_to_a']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #Array[
+                                             $index: #List[
+                                                $expression: #Array[
+                                                   $index: #List[
+                                                      $expression: #StringExpr['a']
+                                                      $expression: #StringExpr['b']
+                                                   ]
+                                                ]
+                                                $expression: #Array[
+                                                   $index: #List[
+                                                      $expression: #StringExpr['c']
+                                                      $expression: #StringExpr['d']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['@yamldbm']
+                                                $recv: #NameExpr['to_a']
+                                             ]
+                                             $recv: #NameExpr['sort']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_to_hash']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #List[
+                                             $hash: #Hash[
+                                                $key: #StringExpr['a']
+                                                $value: #StringExpr['b']
+                                             ]
+                                             $hash: #Hash[
+                                                $key: #StringExpr['c']
+                                                $value: #StringExpr['d']
+                                             ]
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['to_hash']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_has_value?']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #TrueExpr['true']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['has_value?']
+                                             $param: #List[
+                                                $expression: #StringExpr['b']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #TrueExpr['true']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['has_value?']
+                                             $param: #List[
+                                                $expression: #StringExpr['d']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #FalseExpr['false']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['has_value?']
+                                             $param: #List[
+                                                $expression: #StringExpr['f']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_key']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['a']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['key']
+                                             $param: #List[
+                                                $expression: #StringExpr['b']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['c']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['key']
+                                             $param: #List[
+                                                $expression: #StringExpr['d']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_nil']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['key']
+                                             $param: #List[
+                                                $expression: #StringExpr['f']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_fetch']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['bar']
+                                          $expression: #AssignExpr[
+                                             $left: #Indexer[
+                                                $base: #NameExpr['@yamldbm']
+                                                $index: #List[
+                                                   $expression: #StringExpr['foo']
+                                                ]
+                                             ]
+                                             $right: #StringExpr['bar']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['bar']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['fetch']
+                                             $param: #List[
+                                                $expression: #StringExpr['foo']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_nil']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['fetch']
+                                             $param: #List[
+                                                $expression: #StringExpr['bar']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['baz']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['fetch']
+                                             $param: #List[
+                                                $expression: #StringExpr['bar']
+                                                $expression: #StringExpr['baz']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['foobar']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['fetch']
+                                             $param: #List[
+                                                $expression: #StringExpr['bar']
+                                             ]
+                                             $body: #Block[
+                                                $param: #NameExpr['key']
+                                                $body: #AddExpr[
+                                                   $left: #StringExpr['foo']
+                                                   $right: #NameExpr['key']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_shift']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #Array[
+                                             $index: #List[
+                                                $expression: #Array[
+                                                   $index: #List[
+                                                      $expression: #StringExpr['a']
+                                                      $expression: #StringExpr['b']
+                                                   ]
+                                                ]
+                                                $expression: #Array[
+                                                   $index: #List[
+                                                      $expression: #StringExpr['c']
+                                                      $expression: #StringExpr['d']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #Array[
+                                                $index: #List[
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['@yamldbm']
+                                                      $recv: #NameExpr['shift']
+                                                   ]
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['@yamldbm']
+                                                      $recv: #NameExpr['shift']
+                                                   ]
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['sort']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_nil']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['shift']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_invert']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #List[
+                                             $hash: #Hash[
+                                                $key: #StringExpr['b']
+                                                $value: #StringExpr['a']
+                                             ]
+                                             $hash: #Hash[
+                                                $key: #StringExpr['d']
+                                                $value: #StringExpr['c']
+                                             ]
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['invert']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_update']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamldbm']
+                                       $recv: #NameExpr['update']
+                                       $param: #List[
+                                          $expression: #List[
+                                             $hash: #Hash[
+                                                $key: #StringExpr['c']
+                                                $value: #StringExpr['d']
+                                             ]
+                                             $hash: #Hash[
+                                                $key: #StringExpr['e']
+                                                $value: #StringExpr['f']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['b']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['a']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['d']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['c']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['f']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['e']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_replace']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamldbm']
+                                       $recv: #NameExpr['replace']
+                                       $param: #List[
+                                          $expression: #List[
+                                             $hash: #Hash[
+                                                $key: #StringExpr['c']
+                                                $value: #StringExpr['d']
+                                             ]
+                                             $hash: #Hash[
+                                                $key: #StringExpr['e']
+                                                $value: #StringExpr['f']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_nil']
+                                       $param: #List[
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['a']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['d']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['c']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['f']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['e']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_delete']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['b']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['delete']
+                                             $param: #List[
+                                                $expression: #StringExpr['a']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_nil']
+                                       $param: #List[
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['a']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['d']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['c']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_nil']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['delete']
+                                             $param: #List[
+                                                $expression: #StringExpr['e']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_delete_if']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['e']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['f']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamldbm']
+                                       $recv: #NameExpr['delete_if']
+                                       $body: #Block[
+                                          $param: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['k']
+                                             $item: #NameExpr['v']
+                                          ]
+                                          $body: #EqExpr[
+                                             $left: #NameExpr['k']
+                                             $right: #StringExpr['a']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_nil']
+                                       $param: #List[
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['a']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['d']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['c']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['f']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['e']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamldbm']
+                                       $recv: #NameExpr['delete_if']
+                                       $body: #Block[
+                                          $param: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['k']
+                                             $item: #NameExpr['v']
+                                          ]
+                                          $body: #EqExpr[
+                                             $left: #NameExpr['v']
+                                             $right: #StringExpr['d']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_nil']
+                                       $param: #List[
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['c']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['f']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['e']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@yamldbm']
+                                       $recv: #NameExpr['delete_if']
+                                       $body: #Block[
+                                          $param: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['k']
+                                             $item: #NameExpr['v']
+                                          ]
+                                          $body: #FalseExpr['false']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #StringExpr['f']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $index: #List[
+                                                $expression: #StringExpr['e']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_reject']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['e']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['f']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #List[
+                                             $hash: #Hash[
+                                                $key: #StringExpr['c']
+                                                $value: #StringExpr['d']
+                                             ]
+                                             $hash: #Hash[
+                                                $key: #StringExpr['e']
+                                                $value: #StringExpr['f']
+                                             ]
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['reject']
+                                             $body: #Block[
+                                                $param: #MultipleLeftHandSideExpression[
+                                                   $item: #NameExpr['k']
+                                                   $item: #NameExpr['v']
+                                                ]
+                                                $body: #EqExpr[
+                                                   $left: #NameExpr['k']
+                                                   $right: #StringExpr['a']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #List[
+                                             $hash: #Hash[
+                                                $key: #StringExpr['a']
+                                                $value: #StringExpr['b']
+                                             ]
+                                             $hash: #Hash[
+                                                $key: #StringExpr['e']
+                                                $value: #StringExpr['f']
+                                             ]
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['reject']
+                                             $body: #Block[
+                                                $param: #MultipleLeftHandSideExpression[
+                                                   $item: #NameExpr['k']
+                                                   $item: #NameExpr['v']
+                                                ]
+                                                $body: #EqExpr[
+                                                   $left: #NameExpr['v']
+                                                   $right: #StringExpr['d']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #List[
+                                             $hash: #Hash[
+                                                $key: #StringExpr['a']
+                                                $value: #StringExpr['b']
+                                             ]
+                                             $hash: #Hash[
+                                                $key: #StringExpr['c']
+                                                $value: #StringExpr['d']
+                                             ]
+                                             $hash: #Hash[
+                                                $key: #StringExpr['e']
+                                                $value: #StringExpr['f']
+                                             ]
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['reject']
+                                             $body: #Block[
+                                                $body: #FalseExpr['false']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_values']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #Array['[]']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['values']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #Array[
+                                             $index: #List[
+                                                $expression: #StringExpr['b']
+                                                $expression: #StringExpr['d']
+                                             ]
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['@yamldbm']
+                                                $recv: #NameExpr['values']
+                                             ]
+                                             $recv: #NameExpr['sort']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_values_at']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #Array[
+                                             $index: #List[
+                                                $expression: #StringExpr['b']
+                                                $expression: #StringExpr['d']
+                                             ]
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['values_at']
+                                             $param: #List[
+                                                $expression: #StringExpr['a']
+                                                $expression: #StringExpr['c']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_selsct']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['e']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['f']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #Array[
+                                             $index: #List[
+                                                $expression: #StringExpr['b']
+                                                $expression: #StringExpr['d']
+                                             ]
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['select']
+                                             $param: #List[
+                                                $expression: #StringExpr['a']
+                                                $expression: #StringExpr['c']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['test_selsct_with_block']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['a']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['b']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['c']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['d']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['@yamldbm']
+                                          $index: #List[
+                                             $expression: #StringExpr['e']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['f']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #Array[
+                                             $index: #List[
+                                                $expression: #Array[
+                                                   $index: #List[
+                                                      $expression: #StringExpr['a']
+                                                      $expression: #StringExpr['b']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['select']
+                                             $body: #Block[
+                                                $param: #MultipleLeftHandSideExpression[
+                                                   $item: #NameExpr['k']
+                                                   $item: #NameExpr['v']
+                                                ]
+                                                $body: #EqExpr[
+                                                   $left: #NameExpr['k']
+                                                   $right: #StringExpr['a']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #Array[
+                                             $index: #List[
+                                                $expression: #Array[
+                                                   $index: #List[
+                                                      $expression: #StringExpr['c']
+                                                      $expression: #StringExpr['d']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['select']
+                                             $body: #Block[
+                                                $param: #MultipleLeftHandSideExpression[
+                                                   $item: #NameExpr['k']
+                                                   $item: #NameExpr['v']
+                                                ]
+                                                $body: #EqExpr[
+                                                   $left: #NameExpr['v']
+                                                   $right: #StringExpr['d']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #Array['[]']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@yamldbm']
+                                             $recv: #NameExpr['select']
+                                             $body: #Block[
+                                                $body: #FalseExpr['false']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+         $cond: #Defined[
+            $base: #LAnd[
+               $left: #Field[
+                  $recv: #NameExpr['YAML']
+                  $name: #NameExpr['DBM']
+               ]
+               $right: #Defined[
+                  $base: #NameExpr['Psych']
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

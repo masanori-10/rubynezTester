@@ -1,0 +1,187 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['openssl']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['optparse']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['include']
+         $param: #List[
+            $expression: #NameExpr['OpenSSL']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['options']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['ARGV']
+            $recv: #NameExpr['getopts']
+            $param: #List[
+               $expression: #StringExpr['c:k:r:']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['cert_file']
+         $right: #Indexer[
+            $recv: #NameExpr['options']
+            $index: #List[
+               $expression: #StringExpr['c']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['key_file']
+         $right: #Indexer[
+            $recv: #NameExpr['options']
+            $index: #List[
+               $expression: #StringExpr['k']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['rcpt_file']
+         $right: #Indexer[
+            $recv: #NameExpr['options']
+            $index: #List[
+               $expression: #StringExpr['r']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['cert']
+         $right: #ApplyExpr[
+            $recv: #Field[
+               $recv: #NameExpr['X509']
+               $name: #NameExpr['Certificate']
+            ]
+            $recv: #NameExpr['new']
+            $param: #List[
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['File']
+                  $recv: #NameExpr['read']
+                  $param: #List[
+                     $expression: #NameExpr['cert_file']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['key']
+         $right: #ApplyExpr[
+            $recv: #Field[
+               $recv: #NameExpr['PKey']
+               $name: #NameExpr['RSA']
+            ]
+            $recv: #NameExpr['new']
+            $param: #List[
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['File']
+                  $recv: #NameExpr['read']
+                  $param: #List[
+                     $expression: #NameExpr['key_file']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['data']
+         $right: #StringExpr['Content-Type: text/plain\\r\\n']
+      ]
+      $statement: #LShiftExpr[
+         $left: #NameExpr['data']
+         $right: #StringExpr['\\r\\n']
+      ]
+      $statement: #LShiftExpr[
+         $left: #NameExpr['data']
+         $right: #StringExpr['This is a clear-signed message.\\r\\n']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['p7sig']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['PKCS7']
+            $recv: #NameExpr['sign']
+            $param: #List[
+               $expression: #NameExpr['cert']
+               $expression: #NameExpr['key']
+               $expression: #NameExpr['data']
+               $expression: #Array['[]']
+               $expression: #Field[
+                  $recv: #NameExpr['PKCS7']
+                  $name: #NameExpr['DETACHED']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['smime0']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['PKCS7']
+            $recv: #NameExpr['write_smime']
+            $param: #List[
+               $expression: #NameExpr['p7sig']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['rcpt']
+         $right: #ApplyExpr[
+            $recv: #Field[
+               $recv: #NameExpr['X509']
+               $name: #NameExpr['Certificate']
+            ]
+            $recv: #NameExpr['new']
+            $param: #List[
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['File']
+                  $recv: #NameExpr['read']
+                  $param: #List[
+                     $expression: #NameExpr['rcpt_file']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['p7enc']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['PKCS7']
+            $recv: #NameExpr['encrypt']
+            $param: #List[
+               $expression: #Array[
+                  $index: #List[
+                     $expression: #NameExpr['rcpt']
+                  ]
+               ]
+               $expression: #NameExpr['smime0']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #ApplyExpr[
+               $recv: #NameExpr['PKCS7']
+               $recv: #NameExpr['write_smime']
+               $param: #List[
+                  $expression: #NameExpr['p7enc']
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

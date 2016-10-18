@@ -1,0 +1,287 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['yarvutil']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['benchmark']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rbconfig']
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['exec_command']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['type']
+            ]
+            $param: #Param[
+               $param: #NameExpr['file']
+            ]
+            $param: #Param[
+               $param: #NameExpr['w']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #HereDocument['  $DRIVER_PATH = \'#{File.dirname($0)}\'\n  $LOAD_PATH.replace $LOAD_PATH | #{$LOAD_PATH.inspect}\n  require \'benchmark\'\n  require \'yarvutil\'\n#  print \'#{type}\'\n  begin\n    puts Benchmark.measure{\n      #{w}(\'#{file}\')\n    }.utime\n  rescue Exception => exec_command_error_variable\n    puts "\\t" + exec_command_error_variable.message\n  end\n']
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['benchmark']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['cmd']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['rubybin']
+                  $right: #LOr[
+                     $left: #Indexer[
+                        $recv: #NameExpr['ENV']
+                        $index: #List[
+                           $expression: #StringExpr['RUBY']
+                        ]
+                     ]
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['RbConfig']
+                        $recv: #NameExpr['ruby']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['IO']
+                  $recv: #NameExpr['popen']
+                  $param: #List[
+                     $expression: #NameExpr['rubybin']
+                     $expression: #StringExpr['r+']
+                  ]
+                  $body: #Block[
+                     $param: #NameExpr['io']
+                     $body: #List[
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['io']
+                           $recv: #NameExpr['write']
+                           $param: #List[
+                              $expression: #NameExpr['cmd']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['io']
+                           $recv: #NameExpr['close_write']
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['io']
+                                 $recv: #NameExpr['gets']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['ruby_exec']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['file']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['prog']
+                  $right: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['exec_command']
+                     $param: #List[
+                        $expression: #StringExpr['ruby']
+                        $expression: #NameExpr['file']
+                        $expression: #StringExpr['load']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['benchmark']
+                  $param: #List[
+                     $expression: #NameExpr['prog']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['yarv_exec']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['file']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['prog']
+                  $right: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['exec_command']
+                     $param: #List[
+                        $expression: #StringExpr['yarv']
+                        $expression: #NameExpr['file']
+                        $expression: #StringExpr['YARVUtil.load_bm']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['benchmark']
+                  $param: #List[
+                     $expression: #NameExpr['prog']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$wr']
+         $right: #AssignExpr[
+            $left: #NameExpr['$wy']
+            $right: #Nil['nil']
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['measure']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['bench']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['file']
+                  $right: #AddExpr[
+                     $left: #ApplyExpr[
+                        $recv: #NameExpr['File']
+                        $recv: #NameExpr['dirname']
+                        $param: #List[
+                           $expression: #BuiltInVariable['$0']
+                        ]
+                     ]
+                     $right: #StringExpr[
+                        $inner: #NameExpr['bench']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['r']
+                  $right: #ApplyExpr[
+                     $recv: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['ruby_exec']
+                        $param: #List[
+                           $expression: #NameExpr['file']
+                        ]
+                     ]
+                     $recv: #NameExpr['to_f']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['y']
+                  $right: #ApplyExpr[
+                     $recv: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['yarv_exec']
+                        $param: #List[
+                           $expression: #NameExpr['file']
+                        ]
+                     ]
+                     $recv: #NameExpr['to_f']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #StringExpr[
+                        $inner: #NameExpr['bench']
+                        $inner: #NameExpr['r']
+                        $inner: #NameExpr['y']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['measure2']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['r']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['ruby_exec']
+                     $recv: #NameExpr['to_f']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['y']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['yarv_exec']
+                     $recv: #NameExpr['to_f']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #DivExpr[
+                        $left: #NameExpr['r']
+                        $right: #NameExpr['y']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #EqExpr[
+            $left: #BuiltInVariable['$0']
+            $right: #File['__FILE__']
+         ]
+         $then: #ApplyExpr[
+            $recv: #ParcentNotation['%w{\n    whileloop\n    whileloop2\n    times\n    const\n    method\n    poly_method\n    block\n    rescue\n    rescue2\n  }']
+            $recv: #NameExpr['each']
+            $body: #Block[
+               $param: #NameExpr['bench']
+               $body: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['measure']
+                  $param: #List[
+                     $expression: #NameExpr['bench']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

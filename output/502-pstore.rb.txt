@@ -1,0 +1,276 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['cgi/session']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['pstore']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['CGI']
+         $body: #BlockExpr[
+            $main: #Class[
+               $name: #NameExpr['Session']
+               $body: #BlockExpr[
+                  $main: #Class[
+                     $name: #NameExpr['PStore']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['initialize']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['session']
+                                 ]
+                                 $param: #OptionalParam[
+                                    $name: #NameExpr['option']
+                                    $default: #List['{}']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['dir']
+                                       $right: #LOr[
+                                          $left: #Indexer[
+                                             $recv: #NameExpr['option']
+                                             $index: #List[
+                                                $expression: #StringExpr['tmpdir']
+                                             ]
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['Dir']
+                                             $recv: #NameExpr['tmpdir']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['prefix']
+                                       $right: #LOr[
+                                          $left: #Indexer[
+                                             $recv: #NameExpr['option']
+                                             $index: #List[
+                                                $expression: #StringExpr['prefix']
+                                             ]
+                                          ]
+                                          $right: #StringExpr['']
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['id']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['session']
+                                          $recv: #NameExpr['session_id']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['require']
+                                       $param: #List[
+                                          $expression: #StringExpr['digest/md5']
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['md5']
+                                       $right: #Indexer[
+                                          $recv: #ApplyExpr[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['Digest']
+                                                $name: #NameExpr['MD5']
+                                             ]
+                                             $recv: #NameExpr['hexdigest']
+                                             $param: #List[
+                                                $expression: #NameExpr['id']
+                                             ]
+                                          ]
+                                          $index: #List[
+                                             $expression: #IntExpr['0']
+                                             $expression: #IntExpr['16']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['path']
+                                       $right: #AddExpr[
+                                          $left: #AddExpr[
+                                             $left: #AddExpr[
+                                                $left: #NameExpr['dir']
+                                                $right: #StringExpr['/']
+                                             ]
+                                             $right: #NameExpr['prefix']
+                                          ]
+                                          $right: #NameExpr['md5']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['path']
+                                       $recv: #NameExpr['untaint']
+                                    ]
+                                    $statement: #IfExpr[
+                                       $cond: #ApplyExpr[
+                                          $recv: #NameExpr['File']
+                                          $recv: #NameExpr['exist?']
+                                          $param: #List[
+                                             $expression: #NameExpr['path']
+                                          ]
+                                       ]
+                                       $then: #AssignExpr[
+                                          $left: #NameExpr['@hash']
+                                          $right: #Nil['nil']
+                                       ]
+                                       $else: #List[
+                                          $statement: #Unless[
+                                             $cond: #ApplyExpr[
+                                                $recv: #NameExpr['session']
+                                                $recv: #NameExpr['new_session']
+                                             ]
+                                             $then: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['raise']
+                                                $param: #List[
+                                                   $expression: #Field[
+                                                      $recv: #Field[
+                                                         $recv: #NameExpr['CGI']
+                                                         $name: #NameExpr['Session']
+                                                      ]
+                                                      $name: #NameExpr['NoSession']
+                                                   ]
+                                                   $expression: #StringExpr['uninitialized session']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['@hash']
+                                             $right: #List['{}']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@p']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['PStore']
+                                          $recv: #NameExpr['new']
+                                          $param: #List[
+                                             $expression: #NameExpr['path']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@p']
+                                       $recv: #NameExpr['transaction']
+                                       $body: #Block[
+                                          $param: #NameExpr['p']
+                                          $body: #ApplyExpr[
+                                             $recv: #NameExpr['File']
+                                             $recv: #NameExpr['chmod']
+                                             $param: #List[
+                                                $expression: #OctalInteger['0600']
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['p']
+                                                   $recv: #NameExpr['path']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['restore']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #Unless[
+                                       $cond: #NameExpr['@hash']
+                                       $then: #ApplyExpr[
+                                          $recv: #NameExpr['@p']
+                                          $recv: #NameExpr['transaction']
+                                          $body: #Block[
+                                             $body: #AssignExpr[
+                                                $left: #NameExpr['@hash']
+                                                $right: #LOr[
+                                                   $left: #Indexer[
+                                                      $recv: #NameExpr['@p']
+                                                      $index: #List[
+                                                         $expression: #StringExpr['hash']
+                                                      ]
+                                                   ]
+                                                   $right: #List['{}']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #NameExpr['@hash']
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['update']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #ApplyExpr[
+                                    $recv: #NameExpr['@p']
+                                    $recv: #NameExpr['transaction']
+                                    $body: #Block[
+                                       $body: #AssignExpr[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['@p']
+                                             $index: #List[
+                                                $expression: #StringExpr['hash']
+                                             ]
+                                          ]
+                                          $right: #NameExpr['@hash']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['close']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #NameExpr['update']
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['delete']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['path']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['@p']
+                                          $recv: #NameExpr['path']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $base: #NameExpr['File']
+                                       $recv: #NameExpr['unlink']
+                                       $param: #List[
+                                          $expression: #NameExpr['path']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

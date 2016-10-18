@@ -1,0 +1,196 @@
+#Source[
+   #List[
+      $statement: #Module[
+         $name: #NameExpr['Gem']
+         $body: #BlockExpr[
+            $main: #AndExpr[
+               $left: #AssignExpr[
+                  $left: #NameExpr['GEM_PRELUDE_SUCKAGE']
+                  $right: #AssignExpr[
+                     $left: #NameExpr['RUBY_VERSION']
+                     $right: #ComplExpr[
+                        $expr: #Regex['/^1\\.9\\.2/']
+                     ]
+                  ]
+               ]
+               $right: #EqExpr[
+                  $left: #NameExpr['RUBY_ENGINE']
+                  $right: #StringExpr['ruby']
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #AndExpr[
+            $left: #Field[
+               $recv: #NameExpr['Gem']
+               $name: #NameExpr['GEM_PRELUDE_SUCKAGE']
+            ]
+            $right: #Defined[
+               $base: #Field[
+                  $recv: #NameExpr['Gem']
+                  $name: #NameExpr['QuickLoader']
+               ]
+            ]
+         ]
+         $then: #List[
+            $statement: #ApplyExpr[
+               $recv: #Field[
+                  $recv: #NameExpr['Gem']
+                  $name: #NameExpr['QuickLoader']
+               ]
+               $recv: #NameExpr['remove']
+            ]
+            $statement: #ApplyExpr[
+               $base: #NameExpr['$LOADED_FEATURES']
+               $recv: #NameExpr['delete']
+               $param: #List[
+                  $expression: #ApplyExpr[
+                     $recv: #Field[
+                        $recv: #NameExpr['Gem']
+                        $name: #NameExpr['QuickLoader']
+                     ]
+                     $recv: #NameExpr['path_to_full_rubygems_library']
+                  ]
+               ]
+            ]
+            $statement: #IfExpr[
+               $cond: #AssignExpr[
+                  $left: #NameExpr['path']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['$LOADED_FEATURES']
+                     $recv: #NameExpr['find']
+                     $body: #Block[
+                        $param: #NameExpr['n']
+                        $body: #ApplyExpr[
+                           $base: #NameExpr['n']
+                           $recv: #NameExpr['end_with?']
+                           $param: #List[
+                              $expression: #StringExpr['/rubygems.rb']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $then: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['raise']
+                  $param: #List[
+                     $expression: #NameExpr['LoadError']
+                     $expression: #StringExpr[
+                        $inner: #NameExpr['path']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #SClass[
+               $path: #NameExpr['Gem']
+               $body: #BlockExpr[
+                  $main: #IfExpr[
+                     $then: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['remove_method']
+                        $param: #List[
+                           $expression: #NameExpr['try_activate']
+                        ]
+                     ]
+                     $cond: #ApplyExpr[
+                        $recv: #NameExpr['Gem']
+                        $recv: #NameExpr['respond_to?']
+                        $param: #List[
+                           $expression: #NameExpr['try_activate']
+                           $expression: #TrueExpr['true']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['Gem']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['RubyGemsVersion']
+                  $right: #NameExpr['VERSION']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['RbConfigPriorities']
+                  $right: #ParcentNotation['%w[\n    MAJOR\n    MINOR\n    TEENY\n    EXEEXT RUBY_SO_NAME arch bindir datadir libdir ruby_install_name\n    ruby_version rubylibprefix sitedir sitelibdir vendordir vendorlibdir\n    rubylibdir\n  ]']
+               ]
+               $statement: #Unless[
+                  $cond: #Defined[
+                     $base: #NameExpr['ConfigMap']
+                  ]
+                  $then: #AssignExpr[
+                     $left: #NameExpr['ConfigMap']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['Hash']
+                        $recv: #NameExpr['new']
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['cm']
+                              $item: #NameExpr['key']
+                           ]
+                           $body: #AssignExpr[
+                              $left: #Indexer[
+                                 $base: #NameExpr['cm']
+                                 $index: #List[
+                                    $expression: #NameExpr['key']
+                                 ]
+                              ]
+                              $right: #Indexer[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['RbConfig']
+                                    $name: #NameExpr['CONFIG']
+                                 ]
+                                 $index: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['key']
+                                       $recv: #NameExpr['to_s']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $else: #ApplyExpr[
+                     $recv: #NameExpr['RbConfigPriorities']
+                     $recv: #NameExpr['each']
+                     $body: #Block[
+                        $param: #NameExpr['key']
+                        $body: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['ConfigMap']
+                              $index: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['key']
+                                    $recv: #NameExpr['to_sym']
+                                 ]
+                              ]
+                           ]
+                           $right: #Indexer[
+                              $recv: #Field[
+                                 $recv: #NameExpr['RbConfig']
+                                 $name: #NameExpr['CONFIG']
+                              ]
+                              $index: #List[
+                                 $expression: #NameExpr['key']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['RubyGemsPackageVersion']
+                  $right: #NameExpr['VERSION']
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

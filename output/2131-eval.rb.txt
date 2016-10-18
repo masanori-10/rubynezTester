@@ -1,0 +1,736 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['./rbconfig']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['fileutils']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['pp']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['Ruby']
+         $right: #LOr[
+            $left: #Indexer[
+               $recv: #NameExpr['ENV']
+               $index: #List[
+                  $expression: #StringExpr['RUBY']
+               ]
+            ]
+            $right: #ApplyExpr[
+               $recv: #NameExpr['RbConfig']
+               $recv: #NameExpr['ruby']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['OPTIONS']
+         $right: #ApplyExpr[
+            $recv: #ParcentNotation['%w{\n opt-direct-threaded-code\n opt-basic-operations\n opt-operands-unification\n opt-instructions-unification\n opt-inline-method-cache\n opt-stack-caching\n}']
+            $recv: #NameExpr['map']
+            $body: #Block[
+               $param: #NameExpr['opt']
+               $body: #AddExpr[
+                  $left: #StringExpr['--disable-']
+                  $right: #NameExpr['opt']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['opts']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['OPTIONS']
+            $recv: #NameExpr['dup']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['Configs']
+         $right: #AddExpr[
+            $left: #ApplyExpr[
+               $recv: #NameExpr['OPTIONS']
+               $recv: #NameExpr['map']
+               $body: #Block[
+                  $param: #NameExpr['opt']
+                  $body: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['o']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['opts']
+                           $recv: #NameExpr['dup']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['opts']
+                        $recv: #NameExpr['delete']
+                        $param: #List[
+                           $expression: #NameExpr['opt']
+                        ]
+                     ]
+                     $statement: #NameExpr['o']
+                  ]
+               ]
+            ]
+            $right: #Array[
+               $index: #List[
+                  $expression: #Array['[]']
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['pp']
+            $param: #List[
+               $expression: #NameExpr['Configs']
+            ]
+         ]
+         $cond: #NameExpr['$DEBUG']
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['exec_cmd']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['cmd']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #NameExpr['cmd']
+                  ]
+               ]
+               $statement: #Unless[
+                  $cond: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['system']
+                     $param: #List[
+                        $expression: #NameExpr['cmd']
+                     ]
+                  ]
+                  $then: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['p']
+                        $param: #List[
+                           $expression: #NameExpr['cmd']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['raise']
+                        $param: #List[
+                           $expression: #StringExpr['error']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['dirname']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['idx']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #StringExpr[
+               $inner: #NameExpr['idx']
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['build']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #ApplyExpr[
+               $recv: #NameExpr['Configs']
+               $recv: #NameExpr['each_with_index']
+               $body: #Block[
+                  $param: #MultipleLeftHandSideExpression[
+                     $item: #NameExpr['config']
+                     $item: #NameExpr['idx']
+                  ]
+                  $body: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['dir']
+                        $right: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['dirname']
+                           $param: #List[
+                              $expression: #NameExpr['idx']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #ApplyExpr[
+                           $recv: #NameExpr['FileUtils']
+                           $recv: #NameExpr['rm_rf']
+                           $param: #List[
+                              $expression: #NameExpr['dir']
+                           ]
+                        ]
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['FileTest']
+                           $recv: #NameExpr['exist?']
+                           $param: #List[
+                              $expression: #NameExpr['dir']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['Dir']
+                        $recv: #NameExpr['mkdir']
+                        $param: #List[
+                           $expression: #NameExpr['dir']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['FileUtils']
+                        $recv: #NameExpr['cd']
+                        $param: #List[
+                           $expression: #NameExpr['dir']
+                        ]
+                        $body: #Block[
+                           $body: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['exec_cmd']
+                                 $param: #List[
+                                    $expression: #AddExpr[
+                                       $left: #StringExpr[
+                                          $inner: #NameExpr['Ruby']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['config']
+                                          $recv: #NameExpr['join']
+                                          $param: #List[
+                                             $expression: #StringExpr[' ']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['exec_cmd']
+                                 $param: #List[
+                                    $expression: #StringExpr['make clean test-all']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['check']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #ApplyExpr[
+               $recv: #NameExpr['Configs']
+               $recv: #NameExpr['each_with_index']
+               $body: #Block[
+                  $param: #MultipleLeftHandSideExpression[
+                     $item: #NameExpr['c']
+                     $item: #NameExpr['idx']
+                  ]
+                  $body: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['puts']
+                        $param: #List[
+                           $expression: #StringExpr[
+                              $inner: #NameExpr['idx']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['system']
+                        $param: #List[
+                           $expression: #StringExpr[
+                              $inner: #NameExpr['Ruby']
+                              $inner: #NameExpr['idx']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['bench_each']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['idx']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #StringExpr[
+                        $inner: #NameExpr['idx']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #IntExpr['5']
+                  $recv: #NameExpr['times']
+                  $body: #Block[
+                     $param: #NameExpr['count']
+                     $body: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['print']
+                           $param: #List[
+                              $expression: #NameExpr['count']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['FileUtils']
+                           $recv: #NameExpr['cd']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['dirname']
+                                 $param: #List[
+                                    $expression: #NameExpr['idx']
+                                 ]
+                              ]
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['exec_cmd']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #Indexer[
+                                          $recv: #NameExpr['ENV']
+                                          $index: #List[
+                                             $expression: #StringExpr['ITEMS']
+                                          ]
+                                       ]
+                                       $inner: #NameExpr['idx']
+                                       $inner: #NameExpr['count']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['puts']
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['bench']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #ApplyExpr[
+               $recv: #NameExpr['Configs']
+               $recv: #NameExpr['each_with_index']
+               $body: #Block[
+                  $param: #MultipleLeftHandSideExpression[
+                     $item: #NameExpr['c']
+                     $item: #NameExpr['idx']
+                  ]
+                  $body: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['bench_each']
+                     $param: #List[
+                        $expression: #NameExpr['idx']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['parse_result']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['data']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['flag']
+                  $right: #FalseExpr['false']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['stat']
+                  $right: #Array['[]']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['data']
+                  $recv: #NameExpr['each']
+                  $body: #Block[
+                     $param: #NameExpr['line']
+                     $body: #List[
+                        $statement: #IfExpr[
+                           $cond: #NameExpr['flag']
+                           $then: #IfExpr[
+                              $cond: #Match[
+                                 $left: #Regex['/(\\w+)\\t([\\d\\.]+)/']
+                                 $right: #NameExpr['line']
+                              ]
+                              $then: #LShiftExpr[
+                                 $left: #NameExpr['stat']
+                                 $right: #Array[
+                                    $index: #List[
+                                       $expression: #MatchedRegex['$1']
+                                       $expression: #ApplyExpr[
+                                          $recv: #MatchedRegex['$2']
+                                          $recv: #NameExpr['to_f']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $else: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #StringExpr['not a data']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #Match[
+                              $left: #Regex['/benchmark summary/']
+                              $right: #NameExpr['line']
+                           ]
+                           $then: #AssignExpr[
+                              $left: #NameExpr['flag']
+                              $right: #TrueExpr['true']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['stat']
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['calc_each']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['data']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['data']
+                  $recv: #NameExpr['sort!']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['data']
+                  $recv: #NameExpr['pop']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['data']
+                  $recv: #NameExpr['shift']
+               ]
+               $statement: #DivExpr[
+                  $left: #ApplyExpr[
+                     $recv: #NameExpr['data']
+                     $recv: #NameExpr['inject']
+                     $param: #List[
+                        $expression: #FloatExpr['0.0']
+                     ]
+                     $body: #Block[
+                        $param: #MultipleLeftHandSideExpression[
+                           $item: #NameExpr['res']
+                           $item: #NameExpr['e']
+                        ]
+                        $body: #AddAssign[
+                           $left: #NameExpr['res']
+                           $right: #NameExpr['e']
+                        ]
+                     ]
+                  ]
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['data']
+                     $recv: #NameExpr['size']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['calc_stat']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['stats']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['stat']
+                  $right: #Array['[]']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #Indexer[
+                     $recv: #NameExpr['stats']
+                     $index: #List[
+                        $expression: #IntExpr['0']
+                     ]
+                  ]
+                  $recv: #NameExpr['each_with_index']
+                  $body: #Block[
+                     $param: #MultipleLeftHandSideExpression[
+                        $item: #NameExpr['e']
+                        $item: #NameExpr['idx']
+                     ]
+                     $body: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['bm']
+                           $right: #Indexer[
+                              $recv: #NameExpr['e']
+                              $index: #List[
+                                 $expression: #IntExpr['0']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['vals']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['stats']
+                              $recv: #NameExpr['map']
+                              $body: #Block[
+                                 $param: #NameExpr['st']
+                                 $body: #Indexer[
+                                    $recv: #Indexer[
+                                       $recv: #NameExpr['st']
+                                       $index: #List[
+                                          $expression: #NameExpr['idx']
+                                       ]
+                                    ]
+                                    $index: #List[
+                                       $expression: #IntExpr['1']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Array[
+                           $index: #List[
+                              $expression: #NameExpr['bm']
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['calc_each']
+                                 $param: #List[
+                                    $expression: #NameExpr['vals']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['stat']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['total']
+                  $right: #Array['[]']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['Configs']
+                  $recv: #NameExpr['each_with_index']
+                  $body: #Block[
+                     $param: #MultipleLeftHandSideExpression[
+                        $item: #NameExpr['c']
+                        $item: #NameExpr['idx']
+                     ]
+                     $body: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['stats']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #IntExpr['5']
+                           $recv: #NameExpr['times']
+                           $body: #Block[
+                              $param: #NameExpr['count']
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['file']
+                                    $right: #StringExpr[
+                                       $inner: #NameExpr['idx']
+                                       $inner: #NameExpr['count']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['open']
+                                    $param: #List[
+                                       $expression: #NameExpr['file']
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['f']
+                                       $body: #LShiftExpr[
+                                          $left: #NameExpr['stats']
+                                          $right: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['parse_result']
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['f']
+                                                   $recv: #NameExpr['read']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['total']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['calc_stat']
+                              $param: #List[
+                                 $expression: #NameExpr['stats']
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['total']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #Indexer[
+                     $recv: #NameExpr['total']
+                     $index: #List[
+                        $expression: #IntExpr['0']
+                     ]
+                  ]
+                  $recv: #NameExpr['each_with_index']
+                  $body: #Block[
+                     $param: #MultipleLeftHandSideExpression[
+                        $item: #NameExpr['e']
+                        $item: #NameExpr['idx']
+                     ]
+                     $body: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['bm']
+                           $right: #Indexer[
+                              $recv: #NameExpr['e']
+                              $index: #List[
+                                 $expression: #IntExpr['0']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['total']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['st']
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['print']
+                                 $param: #List[
+                                    $expression: #Indexer[
+                                       $recv: #Indexer[
+                                          $recv: #NameExpr['st']
+                                          $index: #List[
+                                             $expression: #NameExpr['idx']
+                                          ]
+                                       ]
+                                       $index: #List[
+                                          $expression: #IntExpr['1']
+                                       ]
+                                    ]
+                                    $expression: #StringExpr['\\t']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['puts']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['ARGV']
+         $recv: #NameExpr['each']
+         $body: #Block[
+            $param: #NameExpr['cmd']
+            $body: #Case[
+               $cond: #NameExpr['cmd']
+               $body: #List[
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #StringExpr['build']
+                     ]
+                     $then: #NameExpr['build']
+                  ]
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #StringExpr['check']
+                     ]
+                     $then: #NameExpr['check']
+                  ]
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #StringExpr['bench']
+                     ]
+                     $then: #NameExpr['bench']
+                  ]
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #StringExpr['stat']
+                     ]
+                     $then: #NameExpr['stat']
+                  ]
+               ]
+               $else: #NameExpr['raise']
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

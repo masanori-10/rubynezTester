@@ -1,0 +1,298 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['tmpdir']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestTracer']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['include']
+                  $param: #List[
+                     $expression: #NameExpr['EnvUtil']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_tracer_with_option_r']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_in_out_err']
+                        $param: #List[
+                           $expression: #ParcentNotation['%w[-rtracer -e 1]']
+                        ]
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #Grouping[
+                                 $item: #Variadic[
+                                    $item: #NameExpr['lines']
+                                 ]
+                              ]
+                           ]
+                           $body: #List[
+                              $statement: #Case[
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['lines']
+                                    $recv: #NameExpr['size']
+                                 ]
+                                 $body: #List[
+                                    $when: #When[
+                                       $cond: #List[
+                                          $expression: #IntExpr['1']
+                                       ]
+                                       $then: #Empty['']
+                                    ]
+                                 ]
+                                 $else: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_match']
+                                    $param: #List[
+                                       $expression: #Regex['%r{rubygems/core_ext/kernel_require\\.rb:\\d+:Kernel:<:}']
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['lines']
+                                          $index: #List[
+                                             $expression: #IntExpr['0']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['#0:-e:1::-: 1']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['lines']
+                                       $recv: #NameExpr['last']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_tracer_with_option_r_without_gems']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_in_out_err']
+                        $param: #List[
+                           $expression: #ParcentNotation['%w[--disable-gems -rtracer -e 1]']
+                        ]
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #Grouping[
+                                 $item: #Variadic[
+                                    $item: #NameExpr['lines']
+                                 ]
+                              ]
+                           ]
+                           $body: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #IntExpr['1']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['lines']
+                                       $recv: #NameExpr['size']
+                                    ]
+                                    $expression: #StringExpr['unexpected output from `ruby --disable-gems -rtracer -e 1`']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['#0:-e:1::-: 1']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['lines']
+                                       $recv: #NameExpr['last']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_tracer_with_require']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['Dir']
+                        $recv: #NameExpr['mktmpdir']
+                        $param: #List[
+                           $expression: #StringExpr['test_ruby_tracer']
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['dir']
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['script']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['join']
+                                    $param: #List[
+                                       $expression: #NameExpr['dir']
+                                       $expression: #StringExpr['require_tracer.rb']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['script']
+                                    $expression: #StringExpr['w']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #ApplyExpr[
+                                       $base: #NameExpr['f']
+                                       $recv: #NameExpr['print']
+                                       $param: #List[
+                                          $expression: #HereDocument['require \'tracer\'\n1\n']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_in_out_err']
+                                 $param: #List[
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['script']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $param: #MultipleLeftHandSideExpression[
+                                       $item: #Grouping[
+                                          $item: #Variadic[
+                                             $item: #NameExpr['lines']
+                                          ]
+                                       ]
+                                    ]
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_empty']
+                                       $param: #List[
+                                          $expression: #NameExpr['lines']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_tracer_with_require_without_gems']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['Dir']
+                        $recv: #NameExpr['mktmpdir']
+                        $param: #List[
+                           $expression: #StringExpr['test_ruby_tracer']
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['dir']
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['script']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['join']
+                                    $param: #List[
+                                       $expression: #NameExpr['dir']
+                                       $expression: #StringExpr['require_tracer.rb']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['script']
+                                    $expression: #StringExpr['w']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #ApplyExpr[
+                                       $base: #NameExpr['f']
+                                       $recv: #NameExpr['print']
+                                       $param: #List[
+                                          $expression: #HereDocument['require \'tracer\'\n1\n']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_in_out_err']
+                                 $param: #List[
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #StringExpr['--disable-gems']
+                                          $expression: #NameExpr['script']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $param: #MultipleLeftHandSideExpression[
+                                       $item: #Grouping[
+                                          $item: #Variadic[
+                                             $item: #NameExpr['lines']
+                                          ]
+                                       ]
+                                    ]
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_empty']
+                                       $param: #List[
+                                          $expression: #NameExpr['lines']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

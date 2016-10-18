@@ -1,0 +1,283 @@
+#Source[
+   #List[
+      $statement: #FuncDecl[
+         $name: #NameExpr['sysread']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['io']
+            ]
+            $param: #Param[
+               $param: #NameExpr['size']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['buf']
+                  $right: #StringExpr['']
+               ]
+               $statement: #While[
+                  $cond: #GtExpr[
+                     $left: #NameExpr['size']
+                     $right: #IntExpr['0']
+                  ]
+                  $body: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['tmp']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['io']
+                           $recv: #NameExpr['sysread']
+                           $param: #List[
+                              $expression: #NameExpr['size']
+                           ]
+                        ]
+                     ]
+                     $statement: #LShiftExpr[
+                        $left: #NameExpr['buf']
+                        $right: #NameExpr['tmp']
+                     ]
+                     $statement: #SubAssign[
+                        $left: #NameExpr['size']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['tmp']
+                           $recv: #NameExpr['bytesize']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #RReturnStmt[
+                  $expr: #List[
+                     $expression: #NameExpr['buf']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['STDIN']
+         $recv: #NameExpr['binmode']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['len']
+         $right: #ApplyExpr[
+            $recv: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['sysread']
+               $param: #List[
+                  $expression: #NameExpr['STDIN']
+                  $expression: #IntExpr['8']
+               ]
+            ]
+            $recv: #NameExpr['to_i']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['out']
+         $right: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['sysread']
+            $param: #List[
+               $expression: #NameExpr['STDIN']
+               $expression: #NameExpr['len']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['STDOUT']
+         $recv: #NameExpr['reopen']
+         $param: #List[
+            $expression: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['open']
+               $param: #List[
+                  $expression: #NameExpr['out']
+                  $expression: #StringExpr['w']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['len']
+         $right: #ApplyExpr[
+            $recv: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['sysread']
+               $param: #List[
+                  $expression: #NameExpr['STDIN']
+                  $expression: #IntExpr['8']
+               ]
+            ]
+            $recv: #NameExpr['to_i']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['err']
+         $right: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['sysread']
+            $param: #List[
+               $expression: #NameExpr['STDIN']
+               $expression: #NameExpr['len']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['STDERR']
+         $recv: #NameExpr['reopen']
+         $param: #List[
+            $expression: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['open']
+               $param: #List[
+                  $expression: #NameExpr['err']
+                  $expression: #StringExpr['w']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['len']
+         $right: #ApplyExpr[
+            $recv: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['sysread']
+               $param: #List[
+                  $expression: #NameExpr['STDIN']
+                  $expression: #IntExpr['8']
+               ]
+            ]
+            $recv: #NameExpr['to_i']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['dump']
+         $right: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['sysread']
+            $param: #List[
+               $expression: #NameExpr['STDIN']
+               $expression: #NameExpr['len']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['hash']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['Marshal']
+            $recv: #NameExpr['restore']
+            $param: #List[
+               $expression: #NameExpr['dump']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #ApplyExpr[
+            $recv: #NameExpr['ENV']
+            $recv: #NameExpr['keys']
+         ]
+         $recv: #NameExpr['each']
+         $body: #Block[
+            $param: #NameExpr['name']
+            $body: #ApplyExpr[
+               $recv: #NameExpr['ENV']
+               $recv: #NameExpr['delete']
+               $param: #List[
+                  $expression: #NameExpr['name']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['hash']
+         $recv: #NameExpr['each']
+         $body: #Block[
+            $param: #MultipleLeftHandSideExpression[
+               $item: #NameExpr['k']
+               $item: #NameExpr['v']
+            ]
+            $body: #IfExpr[
+               $then: #AssignExpr[
+                  $left: #Indexer[
+                     $base: #NameExpr['ENV']
+                     $index: #List[
+                        $expression: #NameExpr['k']
+                     ]
+                  ]
+                  $right: #NameExpr['v']
+               ]
+               $cond: #NameExpr['v']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['dir']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['File']
+            $recv: #NameExpr['dirname']
+            $param: #List[
+               $expression: #Indexer[
+                  $recv: #NameExpr['ENV']
+                  $index: #List[
+                     $expression: #StringExpr['SCRIPT_FILENAME']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $base: #NameExpr['Dir']
+         $recv: #NameExpr['chdir']
+         $param: #List[
+            $expression: #NameExpr['dir']
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #Indexer[
+            $recv: #NameExpr['ARGV']
+            $index: #List[
+               $expression: #IntExpr['0']
+            ]
+         ]
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['argv']
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['ARGV']
+                  $recv: #NameExpr['dup']
+               ]
+            ]
+            $statement: #LShiftExpr[
+               $left: #NameExpr['argv']
+               $right: #Indexer[
+                  $recv: #NameExpr['ENV']
+                  $index: #List[
+                     $expression: #StringExpr['SCRIPT_FILENAME']
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['exec']
+               $param: #List[
+                  $variadic: #Variadic[
+                     $base: #NameExpr['argv']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['exec']
+         $param: #List[
+            $expression: #Indexer[
+               $recv: #NameExpr['ENV']
+               $index: #List[
+                  $expression: #StringExpr['SCRIPT_FILENAME']
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

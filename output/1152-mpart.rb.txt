@@ -1,0 +1,222 @@
+#Source[
+   #List[
+      $statement: #AssignExpr[
+         $left: #NameExpr['lines']
+         $right: #IntExpr['1000']
+      ]
+      $statement: #IfExpr[
+         $cond: #AssignExpr[
+            $left: #Indexer[
+               $base: #NameExpr['ARGV']
+               $index: #List[
+                  $expression: #IntExpr['0']
+               ]
+            ]
+            $right: #ComplExpr[
+               $expr: #Regex['/^-(\\d+)$/']
+            ]
+         ]
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['lines']
+               $right: #ApplyExpr[
+                  $recv: #MatchedRegex['$1']
+                  $recv: #NameExpr['to_i']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['ARGV']
+               $recv: #NameExpr['shift']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['basename']
+         $right: #Indexer[
+            $recv: #NameExpr['ARGV']
+            $index: #List[
+               $expression: #IntExpr['0']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['extname']
+         $right: #StringExpr['part']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['part']
+         $right: #IntExpr['1']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['line']
+         $right: #IntExpr['0']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['fline']
+         $right: #IntExpr['0']
+      ]
+      $statement: #For[
+         $iter: #NameExpr['i']
+         $range: #AssignExpr[
+            $left: #NameExpr['ifp']
+            $right: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['open']
+               $param: #List[
+                  $expression: #NameExpr['basename']
+               ]
+            ]
+         ]
+         $body: #AssignExpr[
+            $left: #NameExpr['fline']
+            $right: #AddExpr[
+               $left: #NameExpr['fline']
+               $right: #IntExpr['1']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['ifp']
+         $recv: #NameExpr['close']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['parts']
+         $right: #AddExpr[
+            $left: #DivExpr[
+               $left: #NameExpr['fline']
+               $right: #NameExpr['lines']
+            ]
+            $right: #IntExpr['1']
+         ]
+      ]
+      $statement: #For[
+         $iter: #NameExpr['i']
+         $range: #AssignExpr[
+            $left: #NameExpr['ifp']
+            $right: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['open']
+               $param: #List[
+                  $expression: #NameExpr['basename']
+               ]
+            ]
+         ]
+         $body: #List[
+            $statement: #IfExpr[
+               $cond: #EqExpr[
+                  $left: #NameExpr['line']
+                  $right: #IntExpr['0']
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['ofp']
+                     $right: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['open']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['sprintf']
+                              $param: #List[
+                                 $expression: #StringExpr['%s.%s%02d']
+                                 $expression: #NameExpr['basename']
+                                 $expression: #NameExpr['extname']
+                                 $expression: #NameExpr['part']
+                              ]
+                           ]
+                           $expression: #StringExpr['w']
+                        ]
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['printf']
+                     $param: #List[
+                        $expression: #NameExpr['ofp']
+                        $expression: #StringExpr['%s part%02d/%02d\\n']
+                        $expression: #NameExpr['basename']
+                        $expression: #NameExpr['part']
+                        $expression: #NameExpr['parts']
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #NameExpr['ofp']
+                     $recv: #NameExpr['write']
+                     $param: #List[
+                        $expression: #StringExpr['BEGIN--cut here--cut here\\n']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['ofp']
+               $recv: #NameExpr['write']
+               $param: #List[
+                  $expression: #NameExpr['i']
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['line']
+               $right: #AddExpr[
+                  $left: #NameExpr['line']
+                  $right: #IntExpr['1']
+               ]
+            ]
+            $statement: #IfExpr[
+               $cond: #AndExpr[
+                  $left: #GteExpt[
+                     $left: #NameExpr['line']
+                     $right: #NameExpr['lines']
+                  ]
+                  $right: #NotExpr[
+                     $expr: #ApplyExpr[
+                        $recv: #NameExpr['ifp']
+                        $recv: #NameExpr['eof?']
+                     ]
+                  ]
+               ]
+               $then: #List[
+                  $statement: #ApplyExpr[
+                     $recv: #NameExpr['ofp']
+                     $recv: #NameExpr['write']
+                     $param: #List[
+                        $expression: #StringExpr['END--cut here--cut here\\n']
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #NameExpr['ofp']
+                     $recv: #NameExpr['close']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['part']
+                     $right: #AddExpr[
+                        $left: #NameExpr['part']
+                        $right: #IntExpr['1']
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['line']
+                     $right: #IntExpr['0']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['ofp']
+         $recv: #NameExpr['write']
+         $param: #List[
+            $expression: #StringExpr['END--cut here--cut here\\n']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['ofp']
+         $recv: #NameExpr['close']
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['ifp']
+         $recv: #NameExpr['close']
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,484 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['coverage.so']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['Coverage']
+         $recv: #NameExpr['start']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['ext']
+         $right: #LOr[
+            $left: #Indexer[
+               $recv: #NameExpr['ENV']
+               $index: #List[
+                  $expression: #StringExpr['COVERUBY_EXT']
+               ]
+            ]
+            $right: #StringExpr['.cov']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['accum']
+         $right: #Indexer[
+            $recv: #NameExpr['ENV']
+            $index: #List[
+               $expression: #StringExpr['COVERUBY_ACCUM']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['accum']
+         $right: #LOr[
+            $left: #LOr[
+               $left: #NotExpr[
+                  $expr: #NameExpr['accum']
+               ]
+               $right: #EqExpr[
+                  $left: #NameExpr['accum']
+                  $right: #StringExpr['']
+               ]
+            ]
+            $right: #NotExpr[
+               $expr: #ApplyExpr[
+                  $recv: #ParcentNotation['%w(f n 0)']
+                  $recv: #NameExpr['include?']
+                  $param: #List[
+                     $expression: #Indexer[
+                        $recv: #NameExpr['accum']
+                        $index: #List[
+                           $expression: #IntExpr['0']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['pwd']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['Dir']
+            $recv: #NameExpr['pwd']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['at_exit']
+         $body: #Block[
+            $body: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['exit_exc']
+                  $right: #BuiltInVariable['$!']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['Dir']
+                  $recv: #NameExpr['chdir']
+                  $param: #List[
+                     $expression: #NameExpr['pwd']
+                  ]
+                  $body: #Block[
+                     $body: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #NameExpr['Coverage']
+                           $recv: #NameExpr['result']
+                        ]
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['sfile']
+                              $item: #NameExpr['covs']
+                           ]
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['cfile']
+                                 $right: #AddExpr[
+                                    $left: #NameExpr['sfile']
+                                    $right: #NameExpr['ext']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['writable']
+                                 $right: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['proc']
+                                    $body: #Block[
+                                       $param: #NameExpr['f']
+                                       $body: #LOr[
+                                          $left: #ApplyExpr[
+                                             $recv: #NameExpr['File']
+                                             $recv: #NameExpr['writable?']
+                                             $param: #List[
+                                                $expression: #NameExpr['f']
+                                             ]
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['File']
+                                             $recv: #NameExpr['writable?']
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['File']
+                                                   $recv: #NameExpr['dirname']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['f']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $cond: #Indexer[
+                                    $recv: #NameExpr['writable']
+                                    $index: #List[
+                                       $expression: #NameExpr['cfile']
+                                    ]
+                                 ]
+                                 $then: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['cfile']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['cfile']
+                                          $recv: #NameExpr['gsub']
+                                          $param: #List[
+                                             $expression: #Field[
+                                                $recv: #NameExpr['File']
+                                                $name: #NameExpr['PATH_SEPARATOR']
+                                             ]
+                                             $expression: #StringExpr['#']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #Unless[
+                                       $then: #Next['next']
+                                       $cond: #Indexer[
+                                          $recv: #NameExpr['writable']
+                                          $index: #List[
+                                             $expression: #NameExpr['cfile']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['readlines']
+                                 $right: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['proc']
+                                    $body: #Block[
+                                       $param: #NameExpr['f']
+                                       $body: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #NameExpr['File']
+                                                   $recv: #NameExpr['read']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['f']
+                                                   ]
+                                                ]
+                                                $recv: #NameExpr['force_encoding']
+                                                $param: #List[
+                                                   $expression: #StringExpr['ASCII-8BIT']
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['lines']
+                                          ]
+                                          $recv: #NameExpr['to_a']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['sources']
+                                 $right: #Rescue[
+                                    $body: #Indexer[
+                                       $recv: #NameExpr['readlines']
+                                       $index: #List[
+                                          $expression: #NameExpr['sfile']
+                                       ]
+                                    ]
+                                    $rescue: #Array['[]']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['pcovs']
+                                 $right: #Array['[]']
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #NameExpr['accum']
+                                 $then: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['pcovs']
+                                       $right: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #Rescue[
+                                                $body: #Indexer[
+                                                   $recv: #NameExpr['readlines']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['cfile']
+                                                   ]
+                                                ]
+                                                $rescue: #Array['[]']
+                                             ]
+                                             $recv: #NameExpr['map']
+                                          ]
+                                          $recv: #NameExpr['with_index']
+                                          $body: #Block[
+                                             $param: #MultipleLeftHandSideExpression[
+                                                $item: #NameExpr['line']
+                                                $item: #NameExpr['idx']
+                                             ]
+                                             $body: #IfExpr[
+                                                $cond: #Indexer[
+                                                   $recv: #NameExpr['line']
+                                                   $index: #List[
+                                                      $expression: #Regex['/^\\s*(?:(#####)|(\\d+)|-):\\s*\\d+:(.*)$/n']
+                                                   ]
+                                                ]
+                                                $then: #List[
+                                                   $statement: #MultipleAssign[
+                                                      $left: #MultipleLeftHandSideExpression[
+                                                         $item: #NameExpr['cov']
+                                                         $item: #NameExpr['line']
+                                                      ]
+                                                      $right: #MultipleRightHandSideExpression[
+                                                         $expression: #Conditional[
+                                                            $cond: #MatchedRegex['$1']
+                                                            $then: #IntExpr['0']
+                                                            $else: #Conditional[
+                                                               $cond: #MatchedRegex['$2']
+                                                               $then: #ApplyExpr[
+                                                                  $recv: #MatchedRegex['$2']
+                                                                  $recv: #NameExpr['to_i']
+                                                               ]
+                                                               $else: #Nil['nil']
+                                                            ]
+                                                         ]
+                                                         $expression: #MatchedRegex['$3']
+                                                      ]
+                                                   ]
+                                                   $statement: #IfExpr[
+                                                      $cond: #LOr[
+                                                         $left: #NotExpr[
+                                                            $expr: #Indexer[
+                                                               $recv: #NameExpr['sources']
+                                                               $index: #List[
+                                                                  $expression: #NameExpr['idx']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                         $right: #NeExpr[
+                                                            $left: #ApplyExpr[
+                                                               $recv: #Indexer[
+                                                                  $recv: #NameExpr['sources']
+                                                                  $index: #List[
+                                                                     $expression: #NameExpr['idx']
+                                                                  ]
+                                                               ]
+                                                               $recv: #NameExpr['chomp']
+                                                            ]
+                                                            $right: #ApplyExpr[
+                                                               $recv: #NameExpr['line']
+                                                               $recv: #NameExpr['chomp']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                      $then: #List[
+                                                         $statement: #ApplyExpr[
+                                                            #Self['self']
+                                                            $recv: #NameExpr['warn']
+                                                            $param: #List[
+                                                               $expression: #StringExpr[
+                                                                  $inner: #NameExpr['cfile']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                         $statement: #Break[
+                                                            $expr: #List[
+                                                               $expression: #Array['[]']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #NameExpr['cov']
+                                                ]
+                                                $else: #List[
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['p']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['line']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['warn']
+                                                      $param: #List[
+                                                         $expression: #StringExpr[
+                                                            $inner: #NameExpr['cfile']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #Break[
+                                                      $expr: #List[
+                                                         $expression: #Array['[]']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #Unless[
+                                       $cond: #LOr[
+                                          $left: #ApplyExpr[
+                                             $recv: #NameExpr['pcovs']
+                                             $recv: #NameExpr['empty?']
+                                          ]
+                                          $right: #EqExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['pcovs']
+                                                $recv: #NameExpr['size']
+                                             ]
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['covs']
+                                                $recv: #NameExpr['size']
+                                             ]
+                                          ]
+                                       ]
+                                       $then: #List[
+                                          $statement: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['warn']
+                                             $param: #List[
+                                                $expression: #StringExpr[
+                                                   $inner: #NameExpr['cfile']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['pcovs']
+                                             $right: #Array['[]']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['cfile']
+                                    $expression: #StringExpr['w']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['out']
+                                    $body: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['covs']
+                                          $recv: #NameExpr['zip']
+                                          $param: #List[
+                                             $expression: #NameExpr['sources']
+                                             $expression: #NameExpr['pcovs']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['each_with_index']
+                                       $body: #Block[
+                                          $param: #MultipleLeftHandSideExpression[
+                                             $item: #Grouping[
+                                                $item: #MultipleLeftHandSideExpression[
+                                                   $item: #NameExpr['cov']
+                                                   $item: #NameExpr['line']
+                                                   $item: #NameExpr['pcov']
+                                                ]
+                                             ]
+                                             $item: #NameExpr['idx']
+                                          ]
+                                          $body: #List[
+                                             $statement: #IfExpr[
+                                                $then: #AddAssign[
+                                                   $left: #NameExpr['cov']
+                                                   $right: #LOr[
+                                                      $left: #NameExpr['pcov']
+                                                      $right: #IntExpr['0']
+                                                   ]
+                                                ]
+                                                $cond: #NameExpr['cov']
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['cov']
+                                                $right: #ApplyExpr[
+                                                   $recv: #Conditional[
+                                                      $cond: #NameExpr['cov']
+                                                      $then: #Conditional[
+                                                         $cond: #EqExpr[
+                                                            $left: #NameExpr['cov']
+                                                            $right: #IntExpr['0']
+                                                         ]
+                                                         $then: #StringExpr['#####']
+                                                         $else: #ApplyExpr[
+                                                            $recv: #NameExpr['cov']
+                                                            $recv: #NameExpr['to_s']
+                                                         ]
+                                                      ]
+                                                      $else: #StringExpr['-']
+                                                   ]
+                                                   $recv: #NameExpr['rjust']
+                                                   $param: #List[
+                                                      $expression: #IntExpr['9']
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                $recv: #NameExpr['out']
+                                                $recv: #NameExpr['puts']
+                                                $param: #List[
+                                                   $expression: #ModExpr[
+                                                      $left: #StringExpr['%s:% 5d:%s']
+                                                      $right: #Array[
+                                                         $index: #List[
+                                                            $expression: #NameExpr['cov']
+                                                            $expression: #AddExpr[
+                                                               $left: #NameExpr['idx']
+                                                               $right: #IntExpr['1']
+                                                            ]
+                                                            $expression: #NameExpr['line']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #IfExpr[
+                  $then: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['raise']
+                     $param: #List[
+                        $expression: #NameExpr['exit_exc']
+                     ]
+                  ]
+                  $cond: #NameExpr['exit_exc']
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,98 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['tmpdir']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestBugReporter']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #FuncDecl[
+               $name: #NameExpr['test_bug_reporter_add']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['expected_stderr']
+                        $right: #Array[
+                           $index: #List[
+                              $expression: #NameExpr['*']
+                              $expression: #Regex['/\\[BUG\\]\\sSegmentation\\sfault.*\\n/']
+                              $expression: #Regex['/#{ Regexp.quote(RUBY_DESCRIPTION) }\\n\\n/']
+                              $expression: #NameExpr['*']
+                              $expression: #Regex['/Sample bug reporter: 12345/']
+                              $expression: #NameExpr['*']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['tmpdir']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['Dir']
+                           $recv: #NameExpr['mktmpdir']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['args']
+                        $right: #Array[
+                           $index: #List[
+                              $expression: #StringExpr['--disable-gems']
+                              $expression: #StringExpr['-r-test-/bug_reporter']
+                              $expression: #StringExpr['-C']
+                              $expression: #NameExpr['tmpdir']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['stdin']
+                        $right: #StringExpr['register_sample_bug_reporter(12345); Process.kill :SEGV, $$']
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_in_out_err']
+                        $param: #List[
+                           $expression: #NameExpr['args']
+                           $expression: #NameExpr['stdin']
+                           $expression: #Array['[]']
+                           $expression: #NameExpr['expected_stderr']
+                           $hash: #Hash[
+                              $key: #NameExpr['encoding']
+                              $value: #StringExpr['ASCII-8BIT']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $ensure: #IfExpr[
+                     $then: #ApplyExpr[
+                        $recv: #NameExpr['FileUtils']
+                        $recv: #NameExpr['rm_rf']
+                        $param: #List[
+                           $expression: #NameExpr['tmpdir']
+                        ]
+                     ]
+                     $cond: #NameExpr['tmpdir']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

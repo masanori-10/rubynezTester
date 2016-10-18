@@ -1,0 +1,307 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['psych/handler']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['Psych']
+         $body: #BlockExpr[
+            $main: #Class[
+               $name: #NameExpr['TreeBuilder']
+               $super: #Field[
+                  $recv: #NameExpr['Psych']
+                  $name: #NameExpr['Handler']
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['attr_reader']
+                        $param: #List[
+                           $expression: #NameExpr['root']
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['initialize']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@stack']
+                                 $right: #Array['[]']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@last']
+                                 $right: #Nil['nil']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@root']
+                                 $right: #Nil['nil']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #ParcentNotation['%w{\n      Sequence\n      Mapping\n    }']
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['node']
+                           $body: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['class_eval']
+                              $param: #List[
+                                 $expression: #ParcentNotation['%{\n        def start_#{node.downcase}(anchor, tag, implicit, style)\n          n = Nodes::#{node}.new(anchor, tag, implicit, style)\n          @last.children << n\n          push n\n        end\n\n        def end_#{node.downcase}\n          pop\n        end\n      }']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['start_document']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['version']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['tag_directives']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['implicit']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['n']
+                                 $right: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #NameExpr['Nodes']
+                                       $name: #NameExpr['Document']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #NameExpr['version']
+                                       $expression: #NameExpr['tag_directives']
+                                       $expression: #NameExpr['implicit']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #LShiftExpr[
+                                 $left: #ApplyExpr[
+                                    $recv: #NameExpr['@last']
+                                    $recv: #NameExpr['children']
+                                 ]
+                                 $right: #NameExpr['n']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['push']
+                                 $param: #List[
+                                    $expression: #NameExpr['n']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['end_document']
+                        $param: #List[
+                           $param: #OptionalParam[
+                              $name: #NameExpr['implicit_end']
+                              $default: #NotExpr[
+                                 $expr: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['streaming?']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #Field[
+                                    $base: #NameExpr['@last']
+                                    $name: #NameExpr['implicit_end']
+                                 ]
+                                 $right: #NameExpr['implicit_end']
+                              ]
+                              $statement: #NameExpr['pop']
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['start_stream']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['encoding']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@root']
+                                 $right: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Nodes']
+                                       $name: #NameExpr['Stream']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #NameExpr['encoding']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['push']
+                                 $param: #List[
+                                    $expression: #NameExpr['@root']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['end_stream']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #NameExpr['pop']
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['scalar']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['value']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['anchor']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['tag']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['plain']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['quoted']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['style']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['s']
+                                 $right: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Nodes']
+                                       $name: #NameExpr['Scalar']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #NameExpr['value']
+                                       $expression: #NameExpr['anchor']
+                                       $expression: #NameExpr['tag']
+                                       $expression: #NameExpr['plain']
+                                       $expression: #NameExpr['quoted']
+                                       $expression: #NameExpr['style']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #LShiftExpr[
+                                 $left: #ApplyExpr[
+                                    $recv: #NameExpr['@last']
+                                    $recv: #NameExpr['children']
+                                 ]
+                                 $right: #NameExpr['s']
+                              ]
+                              $statement: #NameExpr['s']
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['alias']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['anchor']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #LShiftExpr[
+                              $left: #ApplyExpr[
+                                 $recv: #NameExpr['@last']
+                                 $recv: #NameExpr['children']
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Nodes']
+                                    $name: #NameExpr['Alias']
+                                 ]
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #NameExpr['anchor']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #NameExpr['private']
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['push']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['value']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #ApplyExpr[
+                                 $base: #NameExpr['@stack']
+                                 $recv: #NameExpr['push']
+                                 $param: #List[
+                                    $expression: #NameExpr['value']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@last']
+                                 $right: #NameExpr['value']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['pop']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['x']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['@stack']
+                                    $recv: #NameExpr['pop']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@last']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['@stack']
+                                    $recv: #NameExpr['last']
+                                 ]
+                              ]
+                              $statement: #NameExpr['x']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

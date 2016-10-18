@@ -1,0 +1,300 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  def m\n    a = :ok\n    $b = binding\n  end\n  m\n  eval(\'a\', $b)\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[:ok, :ok2]}']
+            $expression: #ParcentNotation['%q{\n  def m\n    a = :ok\n    $b = binding\n  end\n  m\n  eval(\'b = :ok2\', $b)\n  eval(\'[a, b]\', $b)\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[nil, 1]}']
+            $expression: #ParcentNotation['%q{\n  $ans = []\n  def m\n    $b = binding\n  end\n  m\n  $ans << eval(%q{\n    $ans << eval(%q{\n      a\n    }, $b)\n    a = 1\n  }, $b)\n  $ans\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{C}']
+            $expression: #ParcentNotation['%q{\n  Const = :top\n  class C\n    Const = :C\n    def m\n      binding\n    end\n  end\n  eval(\'Const\', C.new.m)\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{top}']
+            $expression: #ParcentNotation['%q{\n  Const = :top\n  a = 1\n  class C\n    Const = :C\n    def m\n      eval(\'Const\', TOPLEVEL_BINDING)\n    end\n  end\n  C.new.m\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{:ok\nok}']
+            $expression: #ParcentNotation['%q{\n  class C\n    $b = binding\n  end\n  eval %q{\n    def m\n      :ok\n    end\n  }, $b\n  p C.new.m\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  b = proc{\n    a = :ok\n    binding\n  }.call\n  a = :ng\n  eval("a", b)\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{C}']
+            $expression: #ParcentNotation['%q{\n  class C\n    def foo\n      binding\n    end\n  end\n  C.new.foo.eval("self.class.to_s")\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{1}']
+            $expression: #ParcentNotation['%q{\n  eval(\'1\')\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{1}']
+            $expression: #ParcentNotation['%q{\n  eval(\'a=1; a\')\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{1}']
+            $expression: #ParcentNotation['%q{\n  a = 1\n  eval(\'a\')\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  __send__ :eval, %{\n    :ok\n  }\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  1.__send__ :instance_eval, %{\n    :ok\n  }\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{1}']
+            $expression: #ParcentNotation['%q{\n  1.instance_eval{\n    self\n  }\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{foo}']
+            $expression: #ParcentNotation['%q{\n  \'foo\'.instance_eval{\n    self\n  }\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{1}']
+            $expression: #ParcentNotation['%q{\n  class Integer\n    Const = 1\n  end\n  1.instance_eval %{\n    Const\n  }\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{top}']
+            $expression: #ParcentNotation['%q{\n  Const = :top\n  class C\n    Const = :C\n  end\n  C.module_eval{\n    Const\n  }\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{C}']
+            $expression: #ParcentNotation['%q{\n  Const = :top\n  class C\n    Const = :C\n  end\n  C.class_eval %{\n    def m\n      Const\n    end\n  }\n  C.new.m\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{top}']
+            $expression: #ParcentNotation['%q{\n  Const = :top\n  class C\n    Const = :C\n  end\n  C.class_eval{\n    def m\n      Const\n    end\n  }\n  C.new.m\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[:top, :C, :top, :C]}']
+            $expression: #ParcentNotation['%q{\n  Const = :top\n  class C\n    Const = :C\n  end\n  $nest = false\n  $ans = []\n  def m\n    $ans << Const\n    C.module_eval %{\n      $ans << Const\n      Boo = false unless defined? Boo\n      unless $nest\n        $nest = true\n        m\n      end\n    }\n  end\n  m\n  $ans\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[10, main]}']
+            $expression: #ParcentNotation['%q{\n  $nested = false\n  $ans = []\n  $pr = proc{\n    $ans << self\n    unless $nested\n      $nested = true\n      $pr.call\n    end\n  }\n  class C\n    def initialize &b\n      10.instance_eval(&b)\n    end\n  end\n  C.new(&$pr)\n  $ans\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #ParcentNotation['%w[break next redo]']
+         $recv: #NameExpr['each']
+         $body: #Block[
+            $param: #NameExpr['keyword']
+            $body: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['assert_match']
+               $param: #List[
+                  $expression: #Regex['%r"Can\'t escape from eval with #{keyword}\\z"']
+                  $expression: #ParcentNotation['%{\n    begin\n      eval "0 rescue #{keyword}"\n    rescue SyntaxError => e\n      e.message\n    end\n  }']
+                  $expression: #StringExpr['[ruby-dev:31372]']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  STDERR.reopen(STDOUT)\n  class Foo\n     def self.add_method\n       class_eval("def some-bad-name; puts \'hello\' unless @some_variable.some_function(\'\'); end")\n     end\n  end\n  Foo.add_method\n}']
+            $expression: #StringExpr['[ruby-core:14556] reported by Frederick Cheung']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  class Module\n    def my_module_eval(&block)\n      module_eval(&block)\n    end\n  end\n  class String\n    Integer.my_module_eval do\n      def hoge; end\n    end\n  end\n  if Integer.instance_methods(false).map{|m|m.to_sym}.include?(:hoge) &&\n     !String.instance_methods(false).map{|m|m.to_sym}.include?(:hoge)\n    :ok\n  else\n    :ng\n  end\n}']
+            $expression: #StringExpr['[ruby-dev:34236]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  begin\n    eval("class nil::Foo; end")\n    :ng\n  rescue Exception\n    :ok\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  begin\n    0.instance_eval { def m() :m end }\n    1.m\n    :ng\n  rescue Exception\n    :ok\n  end\n}']
+            $expression: #StringExpr['[ruby-dev:34579]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  begin\n    12.instance_eval { @@a }\n  rescue NameError\n    :ok\n  end\n}']
+            $expression: #StringExpr['[ruby-core:16794]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  begin\n    12.instance_exec { @@a }\n  rescue NameError\n    :ok\n  end\n}']
+            $expression: #StringExpr['[ruby-core:16794]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  nil.instance_eval {\n    def defd_using_instance_eval() :ok end\n  }\n  nil.defd_using_instance_eval\n}']
+            $expression: #StringExpr['[ruby-core:28324]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  nil.instance_exec {\n    def defd_using_instance_exec() :ok end\n  }\n  nil.defd_using_instance_exec\n}']
+            $expression: #StringExpr['[ruby-core:28324]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  eval("", method(:proc).call {}.binding)\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['']
+            $expression: #ParcentNotation['%q{\n  b = binding\n  10.times{\n    eval(\'\', b)\n  }\n  begin\n    eval(\'1.times{raise}\', b)\n  rescue => e\n    e.message\n  end\n}']
+            $expression: #StringExpr['[ruby-dev:35392]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['[:x]']
+            $expression: #ParcentNotation['%q{\n  def kaboom!\n    yield.eval("local_variables")\n  end\n\n  for x in enum_for(:kaboom!)\n    binding\n  end\n}']
+            $expression: #StringExpr['[ruby-core:25125]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  hash = {}\n  ("aaaa".."matz").each_with_index do |s, i|\n    hash[s] = i\n  end\n  begin\n    eval "class C; @@h = #{hash.inspect}; end"\n  end\n}']
+            $expression: #StringExpr['[ruby-core:25714]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  begin\n    eval("# encoding:utf-16le\\nfoo")\n  rescue Exception => e\n    p e\n    RubyVM::InstructionSequence.compile("p:hello")\n  end\n}']
+            $expression: #StringExpr['check escaping the internal value th->base_block']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,23 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  open("require-lock-test.rb", "w") {|f|\n    f.puts "sleep 0.1"\n    f.puts "module M"\n    f.puts "end"\n  }\n  $:.unshift Dir.pwd\n  vs = (1..2).map {|i|\n    Thread.start {\n      require "require-lock-test"\n      M\n    }\n  }.map {|t| t.value }\n  vs[0] == M && vs[1] == M ? :ok : :ng\n}']
+            $expression: #StringExpr['[ruby-dev:32048]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  %w[a a/foo b].each {|d| Dir.mkdir(d)}\n  open("b/foo", "w") {|f| f.puts "$ok = :ok"}\n  $:.replace(%w[a b])\n  begin\n    load "foo"\n    $ok\n  rescue => e\n    e.message\n  end\n}']
+            $expression: #StringExpr['[ruby-dev:38097]']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

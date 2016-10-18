@@ -1,0 +1,392 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['observer']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestObserver']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #Class[
+                  $name: #NameExpr['TestObservable']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['include']
+                           $param: #List[
+                              $expression: #NameExpr['Observable']
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['notify']
+                           $param: #List[
+                              $param: #VariadicParam[
+                                 $name: #NameExpr['args']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #NameExpr['changed']
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['notify_observers']
+                                    $param: #List[
+                                       $variadic: #Variadic[
+                                          $base: #NameExpr['args']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['TestWatcher']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['observable']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@notifications']
+                                    $right: #Array['[]']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['observable']
+                                    $recv: #NameExpr['add_observer']
+                                    $param: #List[
+                                       $expression: #Self['self']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['attr_reader']
+                           $param: #List[
+                              $expression: #NameExpr['notifications']
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['update']
+                           $param: #List[
+                              $param: #VariadicParam[
+                                 $name: #NameExpr['args']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #LShiftExpr[
+                                 $left: #NameExpr['@notifications']
+                                 $right: #NameExpr['args']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_observers']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['observable']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['TestObservable']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #IntExpr['0']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['observable']
+                                 $recv: #NameExpr['count_observers']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['watcher1']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['TestWatcher']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #NameExpr['observable']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #IntExpr['1']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['observable']
+                                 $recv: #NameExpr['count_observers']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['observable']
+                           $recv: #NameExpr['notify']
+                           $param: #List[
+                              $expression: #StringExpr['test']
+                              $expression: #IntExpr['123']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['watcher2']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['TestWatcher']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #NameExpr['observable']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #IntExpr['2']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['observable']
+                                 $recv: #NameExpr['count_observers']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['observable']
+                           $recv: #NameExpr['notify']
+                           $param: #List[
+                              $expression: #IntExpr['42']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #StringExpr['test']
+                                          $expression: #IntExpr['123']
+                                       ]
+                                    ]
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #IntExpr['42']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['watcher1']
+                                 $recv: #NameExpr['notifications']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #IntExpr['42']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['watcher2']
+                                 $recv: #NameExpr['notifications']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['observable']
+                           $recv: #NameExpr['delete_observer']
+                           $param: #List[
+                              $expression: #NameExpr['watcher1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #IntExpr['1']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['observable']
+                                 $recv: #NameExpr['count_observers']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['observable']
+                           $recv: #NameExpr['notify']
+                           $param: #List[
+                              $expression: #NameExpr['cats']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #StringExpr['test']
+                                          $expression: #IntExpr['123']
+                                       ]
+                                    ]
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #IntExpr['42']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['watcher1']
+                                 $recv: #NameExpr['notifications']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #IntExpr['42']
+                                       ]
+                                    ]
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['cats']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['watcher2']
+                                 $recv: #NameExpr['notifications']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['observable']
+                           $recv: #NameExpr['delete_observers']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #IntExpr['0']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['observable']
+                                 $recv: #NameExpr['count_observers']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['observable']
+                           $recv: #NameExpr['notify']
+                           $param: #List[
+                              $expression: #StringExpr['nope']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #StringExpr['test']
+                                          $expression: #IntExpr['123']
+                                       ]
+                                    ]
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #IntExpr['42']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['watcher1']
+                                 $recv: #NameExpr['notifications']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #IntExpr['42']
+                                       ]
+                                    ]
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['cats']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['watcher2']
+                                 $recv: #NameExpr['notifications']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

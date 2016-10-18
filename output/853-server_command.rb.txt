@@ -1,0 +1,361 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/command']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/server']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #Field[
+               $recv: #NameExpr['Gem']
+               $name: #NameExpr['Commands']
+            ]
+            $name: #NameExpr['ServerCommand']
+         ]
+         $super: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['Command']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Super[
+                           $param: #List[
+                              $expression: #StringExpr['server']
+                              $expression: #StringExpr['Documentation and gem repository HTTP server']
+                              $hash: #Hash[
+                                 $key: #NameExpr['port']
+                                 $value: #IntExpr['8808']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['gemdir']
+                                 $value: #Array['[]']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['daemon']
+                                 $value: #FalseExpr['false']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['OptionParser']
+                           $recv: #NameExpr['accept']
+                           $param: #List[
+                              $expression: #NameExpr['Port']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['port']
+                              $body: #IfExpr[
+                                 $cond: #AssignExpr[
+                                    $left: #NameExpr['port']
+                                    $right: #ComplExpr[
+                                       $expr: #Regex['/\\A\\d+\\z/']
+                                    ]
+                                 ]
+                                 $then: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['port']
+                                       $right: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['Integer']
+                                          $param: #List[
+                                             $expression: #NameExpr['port']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #IfExpr[
+                                       $then: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['raise']
+                                          $param: #List[
+                                             $expression: #Field[
+                                                $recv: #NameExpr['OptionParser']
+                                                $name: #NameExpr['InvalidArgument']
+                                             ]
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['port']
+                                             ]
+                                          ]
+                                       ]
+                                       $cond: #GtExpr[
+                                          $left: #NameExpr['port']
+                                          $right: #IntExpr['65535']
+                                       ]
+                                    ]
+                                    $statement: #NameExpr['port']
+                                 ]
+                                 $else: #ExceptionBlock[
+                                    $main: #ApplyExpr[
+                                       $base: #NameExpr['Socket']
+                                       $recv: #NameExpr['getservbyname']
+                                       $param: #List[
+                                          $expression: #NameExpr['port']
+                                       ]
+                                    ]
+                                    $rescue: #List[
+                                       $rescue: #Rescue[
+                                          $class: #NameExpr['SocketError']
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['raise']
+                                             $param: #List[
+                                                $expression: #Field[
+                                                   $recv: #NameExpr['OptionParser']
+                                                   $name: #NameExpr['InvalidArgument']
+                                                ]
+                                                $expression: #StringExpr[
+                                                   $inner: #NameExpr['port']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_option']
+                           $param: #List[
+                              $expression: #StringExpr['-p']
+                              $expression: #StringExpr['--port=PORT']
+                              $expression: #NameExpr['Port']
+                              $expression: #StringExpr['port to listen on']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['port']
+                                 $item: #NameExpr['options']
+                              ]
+                              $body: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['port']
+                                    ]
+                                 ]
+                                 $right: #NameExpr['port']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_option']
+                           $param: #List[
+                              $expression: #StringExpr['-d']
+                              $expression: #StringExpr['--dir=GEMDIR']
+                              $expression: #StringExpr['directories from which to serve gems']
+                              $expression: #StringExpr['multiple directories may be provided']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['gemdir']
+                                 $item: #NameExpr['options']
+                              ]
+                              $body: #LShiftExpr[
+                                 $left: #Indexer[
+                                    $recv: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['gemdir']
+                                    ]
+                                 ]
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['expand_path']
+                                    $param: #List[
+                                       $expression: #NameExpr['gemdir']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_option']
+                           $param: #List[
+                              $expression: #StringExpr['--[no-]daemon']
+                              $expression: #StringExpr['run as a daemon']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['daemon']
+                                 $item: #NameExpr['options']
+                              ]
+                              $body: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['daemon']
+                                    ]
+                                 ]
+                                 $right: #NameExpr['daemon']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_option']
+                           $param: #List[
+                              $expression: #StringExpr['-b']
+                              $expression: #StringExpr['--bind=HOST,HOST']
+                              $expression: #StringExpr['addresses to bind']
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['Array']
+                                 $body: #Block[
+                                    $param: #MultipleLeftHandSideExpression[
+                                       $item: #NameExpr['address']
+                                       $item: #NameExpr['options']
+                                    ]
+                                    $body: #List[
+                                       $statement: #LOrAssign[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['options']
+                                             $index: #List[
+                                                $expression: #NameExpr['addresses']
+                                             ]
+                                          ]
+                                          $right: #Array['[]']
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #Indexer[
+                                             $recv: #NameExpr['options']
+                                             $index: #List[
+                                                $expression: #NameExpr['addresses']
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['push']
+                                          $param: #List[
+                                             $variadic: #Variadic[
+                                                $base: #NameExpr['address']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_option']
+                           $param: #List[
+                              $expression: #StringExpr['-l']
+                              $expression: #StringExpr['--launch[=COMMAND]']
+                              $expression: #StringExpr['launches a browser window']
+                              $expression: #StringExpr['COMMAND defaults to \'start\' on Windows']
+                              $expression: #StringExpr['and \'open\' on all other platforms']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['launch']
+                                 $item: #NameExpr['options']
+                              ]
+                              $body: #List[
+                                 $statement: #LOrAssign[
+                                    $left: #NameExpr['launch']
+                                    $right: #Conditional[
+                                       $cond: #ApplyExpr[
+                                          $recv: #NameExpr['Gem']
+                                          $recv: #NameExpr['win_platform?']
+                                       ]
+                                       $then: #StringExpr['start']
+                                       $else: #StringExpr['open']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Indexer[
+                                       $base: #NameExpr['options']
+                                       $index: #List[
+                                          $expression: #NameExpr['launch']
+                                       ]
+                                    ]
+                                    $right: #NameExpr['launch']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['defaults_str']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr[
+                        $inner: #ApplyExpr[
+                           $recv: #NameExpr['Gem']
+                           $recv: #NameExpr['dir']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['description']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #HereDocument['The server command starts up a web server that hosts the RDoc for your\ninstalled gems and can operate as a server for installation of gems on other\nmachines.\n\nThe cache files for installed gems must exist to use the server as a source\nfor gem installation.\n\nTo install gems from a running server, use `gem install GEMNAME --source\nhttp://gem_server_host:8808`\n\nYou can set up a shortcut to gem server documentation using the URL:\n\n  http://localhost:8808/rdoc?q=%s - Firefox\n  http://localhost:8808/rdoc?q=* - LaunchBar\n\n']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['execute']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $then: #AssignExpr[
+                              $left: #Indexer[
+                                 $base: #NameExpr['options']
+                                 $index: #List[
+                                    $expression: #NameExpr['gemdir']
+                                 ]
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['path']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #Indexer[
+                                 $recv: #NameExpr['options']
+                                 $index: #List[
+                                    $expression: #NameExpr['gemdir']
+                                 ]
+                              ]
+                              $recv: #NameExpr['empty?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #Field[
+                              $recv: #NameExpr['Gem']
+                              $name: #NameExpr['Server']
+                           ]
+                           $recv: #NameExpr['run']
+                           $param: #List[
+                              $expression: #NameExpr['options']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

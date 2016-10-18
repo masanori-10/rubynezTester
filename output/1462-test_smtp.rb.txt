@@ -1,0 +1,621 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['net/smtp']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['stringio']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['Net']
+         $body: #BlockExpr[
+            $main: #Class[
+               $name: #NameExpr['TestSMTP']
+               $super: #Field[
+                  $recv: #Field[
+                     $recv: #NameExpr['Test']
+                     $name: #NameExpr['Unit']
+                  ]
+                  $name: #NameExpr['TestCase']
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #Class[
+                        $name: #NameExpr['FakeSocket']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['attr_reader']
+                                 $param: #List[
+                                    $expression: #NameExpr['write_io']
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['initialize']
+                                 $param: #List[
+                                    $param: #OptionalParam[
+                                       $name: #NameExpr['out']
+                                       $default: #StringExpr['250 OK\\n']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@write_io']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['StringIO']
+                                             $recv: #NameExpr['new']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@read_io']
+                                          $right: #ApplyExpr[
+                                             $base: #NameExpr['StringIO']
+                                             $recv: #NameExpr['new']
+                                             $param: #List[
+                                                $expression: #NameExpr['out']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['writeline']
+                                 $param: #List[
+                                    $param: #Param[
+                                       $param: #NameExpr['line']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $base: #NameExpr['@write_io']
+                                       $recv: #NameExpr['write']
+                                       $param: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #NameExpr['line']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['readline']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['line']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['@read_io']
+                                             $recv: #NameExpr['gets']
+                                          ]
+                                       ]
+                                       $statement: #Unless[
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['raise']
+                                             $param: #List[
+                                                $expression: #StringExpr['ran out of input']
+                                             ]
+                                          ]
+                                          $cond: #NameExpr['line']
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['line']
+                                          $recv: #NameExpr['chop']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_critical']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['smtp']
+                                 $right: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #NameExpr['Net']
+                                       $name: #NameExpr['SMTP']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #StringExpr['localhost']
+                                       $expression: #IntExpr['25']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_raise']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['RuntimeError']
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             $base: #NameExpr['smtp']
+                                             $recv: #NameExpr['send']
+                                             $param: #List[
+                                                $expression: #NameExpr['critical']
+                                             ]
+                                             $body: #Block[
+                                                $body: #ApplyExpr[
+                                                   #Self['self']
+                                                   $recv: #NameExpr['raise']
+                                                   $param: #List[
+                                                      $expression: #StringExpr['fail on purpose']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_kind_of']
+                                 $param: #List[
+                                    $expression: #Field[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['Net']
+                                          $name: #NameExpr['SMTP']
+                                       ]
+                                       $name: #NameExpr['Response']
+                                    ]
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['smtp']
+                                       $recv: #NameExpr['send']
+                                       $param: #List[
+                                          $expression: #NameExpr['critical']
+                                       ]
+                                    ]
+                                    $expression: #StringExpr['[Bug #9125]']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_esmtp']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['smtp']
+                                 $right: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #NameExpr['Net']
+                                       $name: #NameExpr['SMTP']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #StringExpr['localhost']
+                                       $expression: #IntExpr['25']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['smtp']
+                                       $recv: #NameExpr['esmtp']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['smtp']
+                                       $recv: #NameExpr['esmtp?']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #Field[
+                                    $base: #NameExpr['smtp']
+                                    $name: #NameExpr['esmtp']
+                                 ]
+                                 $right: #StringExpr['omg']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['omg']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['smtp']
+                                       $recv: #NameExpr['esmtp']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['omg']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['smtp']
+                                       $recv: #NameExpr['esmtp?']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_rset']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['smtp']
+                                 $right: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #NameExpr['Net']
+                                       $name: #NameExpr['SMTP']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #StringExpr['localhost']
+                                       $expression: #IntExpr['25']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $base: #NameExpr['smtp']
+                                 $recv: #NameExpr['instance_variable_set']
+                                 $param: #List[
+                                    $expression: #NameExpr['@socket']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['FakeSocket']
+                                       $recv: #NameExpr['new']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['smtp']
+                                       $recv: #NameExpr['rset']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_mailfrom']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['sock']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['FakeSocket']
+                                    $recv: #NameExpr['new']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['smtp']
+                                 $right: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #NameExpr['Net']
+                                       $name: #NameExpr['SMTP']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #StringExpr['localhost']
+                                       $expression: #IntExpr['25']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $base: #NameExpr['smtp']
+                                 $recv: #NameExpr['instance_variable_set']
+                                 $param: #List[
+                                    $expression: #NameExpr['@socket']
+                                    $expression: #NameExpr['sock']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['smtp']
+                                          $recv: #NameExpr['mailfrom']
+                                          $param: #List[
+                                             $expression: #StringExpr['foo@example.com']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['success?']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['MAIL FROM:<foo@example.com>\\r\\n']
+                                    $expression: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['sock']
+                                          $recv: #NameExpr['write_io']
+                                       ]
+                                       $recv: #NameExpr['string']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_rcptto']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['sock']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['FakeSocket']
+                                    $recv: #NameExpr['new']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['smtp']
+                                 $right: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #NameExpr['Net']
+                                       $name: #NameExpr['SMTP']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #StringExpr['localhost']
+                                       $expression: #IntExpr['25']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $base: #NameExpr['smtp']
+                                 $recv: #NameExpr['instance_variable_set']
+                                 $param: #List[
+                                    $expression: #NameExpr['@socket']
+                                    $expression: #NameExpr['sock']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['smtp']
+                                          $recv: #NameExpr['rcptto']
+                                          $param: #List[
+                                             $expression: #StringExpr['foo@example.com']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['success?']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['RCPT TO:<foo@example.com>\\r\\n']
+                                    $expression: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['sock']
+                                          $recv: #NameExpr['write_io']
+                                       ]
+                                       $recv: #NameExpr['string']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_auth_plain']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['sock']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['FakeSocket']
+                                    $recv: #NameExpr['new']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['smtp']
+                                 $right: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #NameExpr['Net']
+                                       $name: #NameExpr['SMTP']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #StringExpr['localhost']
+                                       $expression: #IntExpr['25']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $base: #NameExpr['smtp']
+                                 $recv: #NameExpr['instance_variable_set']
+                                 $param: #List[
+                                    $expression: #NameExpr['@socket']
+                                    $expression: #NameExpr['sock']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['smtp']
+                                          $recv: #NameExpr['auth_plain']
+                                          $param: #List[
+                                             $expression: #StringExpr['foo']
+                                             $expression: #StringExpr['bar']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['success?']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['AUTH PLAIN AGZvbwBiYXI=\\r\\n']
+                                    $expression: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['sock']
+                                          $recv: #NameExpr['write_io']
+                                       ]
+                                       $recv: #NameExpr['string']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['test_crlf_injection']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['smtp']
+                                 $right: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #NameExpr['Net']
+                                       $name: #NameExpr['SMTP']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #StringExpr['localhost']
+                                       $expression: #IntExpr['25']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $base: #NameExpr['smtp']
+                                 $recv: #NameExpr['instance_variable_set']
+                                 $param: #List[
+                                    $expression: #NameExpr['@socket']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['FakeSocket']
+                                       $recv: #NameExpr['new']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['ArgumentError']
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['smtp']
+                                       $recv: #NameExpr['mailfrom']
+                                       $param: #List[
+                                          $expression: #StringExpr['foo\\r\\nbar']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['ArgumentError']
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['smtp']
+                                       $recv: #NameExpr['mailfrom']
+                                       $param: #List[
+                                          $expression: #StringExpr['foo\\rbar']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['ArgumentError']
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['smtp']
+                                       $recv: #NameExpr['mailfrom']
+                                       $param: #List[
+                                          $expression: #StringExpr['foo\\nbar']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['ArgumentError']
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['smtp']
+                                       $recv: #NameExpr['rcptto']
+                                       $param: #List[
+                                          $expression: #StringExpr['foo\\r\\nbar']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

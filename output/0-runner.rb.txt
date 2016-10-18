@@ -1,0 +1,237 @@
+#Source[
+   #List[
+      $statement: #IfExpr[
+         $then: #NameExpr['exit']
+         $cond: #AndExpr[
+            $left: #Defined[
+               $base: #NameExpr['CROSS_COMPILING']
+            ]
+            $right: #NameExpr['CROSS_COMPILING']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['ruby']
+         $right: #Indexer[
+            $recv: #NameExpr['ENV']
+            $index: #List[
+               $expression: #StringExpr['RUBY']
+            ]
+         ]
+      ]
+      $statement: #Unless[
+         $cond: #NameExpr['ruby']
+         $then: #List[
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['load']
+               $param: #List[
+                  $expression: #StringExpr['./rbconfig.rb']
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['ruby']
+               $right: #StringExpr[
+                  $inner: #Indexer[
+                     $recv: #Field[
+                        $recv: #NameExpr['RbConfig']
+                        $name: #NameExpr['CONFIG']
+                     ]
+                     $index: #List[
+                        $expression: #StringExpr['ruby_install_name']
+                     ]
+                  ]
+                  $inner: #Indexer[
+                     $recv: #Field[
+                        $recv: #NameExpr['RbConfig']
+                        $name: #NameExpr['CONFIG']
+                     ]
+                     $index: #List[
+                        $expression: #StringExpr['EXEEXT']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Unless[
+         $cond: #ApplyExpr[
+            $base: #NameExpr['File']
+            $recv: #NameExpr['exist?']
+            $param: #List[
+               $expression: #NameExpr['ruby']
+            ]
+         ]
+         $then: #List[
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['print']
+               $param: #List[
+                  $expression: #StringExpr[
+                     $inner: #NameExpr['ruby']
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['print']
+               $param: #List[
+                  $expression: #StringExpr['Try `make\' first, then `make test\', please.\\n']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['exit']
+               $param: #List[
+                  $expression: #FalseExpr['false']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AndExpr[
+         $left: #AndExpr[
+            $left: #Indexer[
+               $recv: #NameExpr['ARGV']
+               $index: #List[
+                  $expression: #IntExpr['0']
+               ]
+            ]
+            $right: #AssignExpr[
+               $left: #NameExpr['opt']
+               $right: #Indexer[
+                  $recv: #Indexer[
+                     $recv: #NameExpr['ARGV']
+                     $index: #List[
+                        $expression: #IntExpr['0']
+                     ]
+                  ]
+                  $index: #List[
+                     $expression: #Regex['/\\A--run-opt=(.*)/']
+                     $expression: #IntExpr['1']
+                  ]
+               ]
+            ]
+         ]
+         $right: #ApplyExpr[
+            $recv: #NameExpr['ARGV']
+            $recv: #NameExpr['shift']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['$stderr']
+         $recv: #NameExpr['reopen']
+         $param: #List[
+            $expression: #NameExpr['$stdout']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['error']
+         $right: #StringExpr['']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['srcdir']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['File']
+            $recv: #NameExpr['expand_path']
+            $param: #List[
+               $expression: #StringExpr['..']
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['File']
+                  $recv: #NameExpr['dirname']
+                  $param: #List[
+                     $expression: #File['__FILE__']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #AssignExpr[
+            $left: #NameExpr['opt']
+            $right: #Indexer[
+               $recv: #NameExpr['ENV']
+               $index: #List[
+                  $expression: #StringExpr['RUBYOPT']
+               ]
+            ]
+         ]
+         $then: #AssignExpr[
+            $left: #Indexer[
+               $base: #NameExpr['ENV']
+               $index: #List[
+                  $expression: #StringExpr['RUBYOPT']
+               ]
+            ]
+            $right: #AddExpr[
+               $left: #NameExpr['opt']
+               $right: #StringExpr[' -W1']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #Command['#{ruby} #{opt} -W1 #{srcdir}/basictest/test.rb #{ARGV.join(\' \')}']
+         $recv: #NameExpr['each_line']
+         $body: #Block[
+            $param: #NameExpr['line']
+            $body: #List[
+               $statement: #IfExpr[
+                  $cond: #AssignExpr[
+                     $left: #NameExpr['line']
+                     $right: #ComplExpr[
+                        $expr: #Regex['/^end of test/']
+                     ]
+                  ]
+                  $then: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['print']
+                        $param: #List[
+                           $expression: #StringExpr['\\ntest succeeded\\n']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['exit']
+                        $param: #List[
+                           $expression: #TrueExpr['true']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #IfExpr[
+                  $then: #LShiftExpr[
+                     $left: #NameExpr['error']
+                     $right: #NameExpr['line']
+                  ]
+                  $cond: #Match[
+                     $left: #Regex['%r:^(basictest/test.rb|not):']
+                     $right: #NameExpr['line']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #NameExpr['puts']
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #NameExpr['error']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #StringExpr['test failed\\n']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['exit']
+         $param: #List[
+            $expression: #FalseExpr['false']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

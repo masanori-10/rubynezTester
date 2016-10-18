@@ -1,0 +1,528 @@
+#Source[
+   #Class[
+      $name: #NestedName[
+         $path: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['Resolver']
+         ]
+         $name: #NameExpr['APISet']
+      ]
+      $super: #Field[
+         $recv: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['Resolver']
+         ]
+         $name: #NameExpr['Set']
+      ]
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['attr_reader']
+               $param: #List[
+                  $expression: #NameExpr['dep_uri']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['attr_reader']
+               $param: #List[
+                  $expression: #NameExpr['source']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['attr_reader']
+               $param: #List[
+                  $expression: #NameExpr['uri']
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['initialize']
+               $param: #List[
+                  $param: #OptionalParam[
+                     $name: #NameExpr['dep_uri']
+                     $default: #StringExpr['https://rubygems.org/api/v1/dependencies']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #Super['super']
+                        $param: #Empty['']
+                     ]
+                     $statement: #Unless[
+                        $then: #AssignExpr[
+                           $left: #NameExpr['dep_uri']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['URI']
+                              $param: #List[
+                                 $expression: #NameExpr['dep_uri']
+                              ]
+                           ]
+                        ]
+                        $cond: #StrictEquals[
+                           $left: #NameExpr['URI']
+                           $right: #NameExpr['dep_uri']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@dep_uri']
+                        $right: #NameExpr['dep_uri']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@uri']
+                        $right: #AddExpr[
+                           $left: #NameExpr['dep_uri']
+                           $right: #StringExpr['../..']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@data']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['Hash']
+                           $recv: #NameExpr['new']
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['h']
+                                 $item: #NameExpr['k']
+                              ]
+                              $body: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['h']
+                                    $index: #List[
+                                       $expression: #NameExpr['k']
+                                    ]
+                                 ]
+                                 $right: #Array['[]']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@source']
+                        $right: #ApplyExpr[
+                           $base: #Field[
+                              $recv: #NameExpr['Gem']
+                              $name: #NameExpr['Source']
+                           ]
+                           $recv: #NameExpr['new']
+                           $param: #List[
+                              $expression: #NameExpr['@uri']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@to_fetch']
+                        $right: #Array['[]']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['find_all']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['req']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['res']
+                        $right: #Array['[]']
+                     ]
+                     $statement: #Unless[
+                        $then: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #NameExpr['res']
+                           ]
+                        ]
+                        $cond: #NameExpr['@remote']
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['@to_fetch']
+                           $recv: #NameExpr['include?']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['req']
+                                 $recv: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                        $then: #NameExpr['prefetch_now']
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['versions']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['req']
+                                 $recv: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['ver']
+                           $body: #IfExpr[
+                              $cond: #ApplyExpr[
+                                 $base: #ApplyExpr[
+                                    $recv: #NameExpr['req']
+                                    $recv: #NameExpr['dependency']
+                                 ]
+                                 $recv: #NameExpr['match?']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['req']
+                                       $recv: #NameExpr['name']
+                                    ]
+                                    $expression: #Indexer[
+                                       $recv: #NameExpr['ver']
+                                       $index: #List[
+                                          $expression: #NameExpr['number']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $then: #LShiftExpr[
+                                 $left: #NameExpr['res']
+                                 $right: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['Gem']
+                                          $name: #NameExpr['Resolver']
+                                       ]
+                                       $name: #NameExpr['APISpecification']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #Self['self']
+                                       $expression: #NameExpr['ver']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #NameExpr['res']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['prefetch']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['reqs']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #Unless[
+                        $then: #RReturnStmt['return']
+                        $cond: #NameExpr['@remote']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['names']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['reqs']
+                           $recv: #NameExpr['map']
+                           $body: #Block[
+                              $param: #NameExpr['r']
+                              $body: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['r']
+                                    $recv: #NameExpr['dependency']
+                                 ]
+                                 $recv: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['needed']
+                        $right: #SubExpr[
+                           $left: #SubExpr[
+                              $left: #NameExpr['names']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['@data']
+                                 $recv: #NameExpr['keys']
+                              ]
+                           ]
+                           $right: #NameExpr['@to_fetch']
+                        ]
+                     ]
+                     $statement: #AddAssign[
+                        $left: #NameExpr['@to_fetch']
+                        $right: #NameExpr['needed']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['prefetch_now']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #MultipleAssign[
+                        $left: #MultipleLeftHandSideExpression[
+                           $item: #NameExpr['needed']
+                           $item: #NameExpr['@to_fetch']
+                        ]
+                        $right: #MultipleRightHandSideExpression[
+                           $expression: #NameExpr['@to_fetch']
+                           $expression: #Array['[]']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['uri']
+                        $right: #AddExpr[
+                           $left: #NameExpr['@dep_uri']
+                           $right: #StringExpr[
+                              $inner: #ApplyExpr[
+                                 $base: #ApplyExpr[
+                                    $recv: #NameExpr['needed']
+                                    $recv: #NameExpr['sort']
+                                 ]
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #StringExpr[',']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['str']
+                        $right: #ApplyExpr[
+                           $base: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['RemoteFetcher']
+                              ]
+                              $recv: #NameExpr['fetcher']
+                           ]
+                           $recv: #NameExpr['fetch_path']
+                           $param: #List[
+                              $expression: #NameExpr['uri']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['loaded']
+                        $right: #Array['[]']
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #NameExpr['Marshal']
+                           $recv: #NameExpr['load']
+                           $param: #List[
+                              $expression: #NameExpr['str']
+                           ]
+                        ]
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['ver']
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['name']
+                                 $right: #Indexer[
+                                    $recv: #NameExpr['ver']
+                                    $index: #List[
+                                       $expression: #NameExpr['name']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #LShiftExpr[
+                                 $left: #Indexer[
+                                    $recv: #NameExpr['@data']
+                                    $index: #List[
+                                       $expression: #NameExpr['name']
+                                    ]
+                                 ]
+                                 $right: #NameExpr['ver']
+                              ]
+                              $statement: #LShiftExpr[
+                                 $left: #NameExpr['loaded']
+                                 $right: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #SubExpr[
+                           $left: #NameExpr['needed']
+                           $right: #NameExpr['loaded']
+                        ]
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['missing']
+                           $body: #AssignExpr[
+                              $left: #Indexer[
+                                 $base: #NameExpr['@data']
+                                 $index: #List[
+                                    $expression: #NameExpr['missing']
+                                 ]
+                              ]
+                              $right: #Array['[]']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['pretty_print']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['q']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     $base: #NameExpr['q']
+                     $recv: #NameExpr['group']
+                     $param: #List[
+                        $expression: #IntExpr['2']
+                        $expression: #StringExpr['[APISet']
+                        $expression: #StringExpr[']']
+                     ]
+                     $body: #Block[
+                        $body: #List[
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['q']
+                              $recv: #NameExpr['breakable']
+                           ]
+                           $statement: #ApplyExpr[
+                              $base: #NameExpr['q']
+                              $recv: #NameExpr['text']
+                              $param: #List[
+                                 $expression: #StringExpr[
+                                    $inner: #NameExpr['@dep_uri']
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['q']
+                              $recv: #NameExpr['breakable']
+                           ]
+                           $statement: #ApplyExpr[
+                              $base: #NameExpr['q']
+                              $recv: #NameExpr['text']
+                              $param: #List[
+                                 $expression: #StringExpr['gem names:']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $base: #NameExpr['q']
+                              $recv: #NameExpr['pp']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['@data']
+                                    $recv: #NameExpr['keys']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['versions']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['name']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['@data']
+                           $recv: #NameExpr['key?']
+                           $param: #List[
+                              $expression: #NameExpr['name']
+                           ]
+                        ]
+                        $then: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['@data']
+                                 $index: #List[
+                                    $expression: #NameExpr['name']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['uri']
+                        $right: #AddExpr[
+                           $left: #NameExpr['@dep_uri']
+                           $right: #StringExpr[
+                              $inner: #NameExpr['name']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['str']
+                        $right: #ApplyExpr[
+                           $base: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['RemoteFetcher']
+                              ]
+                              $recv: #NameExpr['fetcher']
+                           ]
+                           $recv: #NameExpr['fetch_path']
+                           $param: #List[
+                              $expression: #NameExpr['uri']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #NameExpr['Marshal']
+                           $recv: #NameExpr['load']
+                           $param: #List[
+                              $expression: #NameExpr['str']
+                           ]
+                        ]
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['ver']
+                           $body: #LShiftExpr[
+                              $left: #Indexer[
+                                 $recv: #NameExpr['@data']
+                                 $index: #List[
+                                    $expression: #Indexer[
+                                       $recv: #NameExpr['ver']
+                                       $index: #List[
+                                          $expression: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $right: #NameExpr['ver']
+                           ]
+                        ]
+                     ]
+                     $statement: #Indexer[
+                        $recv: #NameExpr['@data']
+                        $index: #List[
+                           $expression: #NameExpr['name']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,477 @@
+#Source[
+   #Class[
+      $name: #NestedName[
+         $path: #Field[
+            $recv: #NameExpr['RDoc']
+            $name: #NameExpr['I18n']
+         ]
+         $name: #NameExpr['Text']
+      ]
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #FuncDecl[
+               $name: #NameExpr['initialize']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['raw']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #AssignExpr[
+                     $left: #NameExpr['@raw']
+                     $right: #NameExpr['raw']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['extract_messages']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['parse']
+                     $body: #Block[
+                        $param: #NameExpr['part']
+                        $body: #Case[
+                           $cond: #Indexer[
+                              $recv: #NameExpr['part']
+                              $index: #List[
+                                 $expression: #NameExpr['type']
+                              ]
+                           ]
+                           $body: #List[
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #NameExpr['empty_line']
+                                 ]
+                                 $then: #Empty['']
+                              ]
+                              $when: #When[
+                                 $cond: #List[
+                                    $expression: #NameExpr['paragraph']
+                                 ]
+                                 $then: #Yield[
+                                    $param: #List[
+                                       $expression: #NameExpr['part']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['translate']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['locale']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['translated_text']
+                        $right: #StringExpr['']
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['parse']
+                        $body: #Block[
+                           $param: #NameExpr['part']
+                           $body: #Case[
+                              $cond: #Indexer[
+                                 $recv: #NameExpr['part']
+                                 $index: #List[
+                                    $expression: #NameExpr['type']
+                                 ]
+                              ]
+                              $body: #List[
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #NameExpr['paragraph']
+                                    ]
+                                    $then: #LShiftExpr[
+                                       $left: #NameExpr['translated_text']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['locale']
+                                          $recv: #NameExpr['translate']
+                                          $param: #List[
+                                             $expression: #Indexer[
+                                                $recv: #NameExpr['part']
+                                                $index: #List[
+                                                   $expression: #NameExpr['paragraph']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #NameExpr['empty_line']
+                                    ]
+                                    $then: #LShiftExpr[
+                                       $left: #NameExpr['translated_text']
+                                       $right: #Indexer[
+                                          $recv: #NameExpr['part']
+                                          $index: #List[
+                                             $expression: #NameExpr['line']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $else: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['type']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #NameExpr['translated_text']
+                  ]
+               ]
+            ]
+            $statement: #NameExpr['private']
+            $statement: #FuncDecl[
+               $name: #NameExpr['parse']
+               $param: #List[
+                  $param: #ProcedureParam[
+                     $name: #NameExpr['block']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['paragraph']
+                        $right: #StringExpr['']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['paragraph_start_line']
+                        $right: #IntExpr['0']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['line_no']
+                        $right: #IntExpr['0']
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['each_line']
+                        $param: #List[
+                           $expression: #NameExpr['@raw']
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['line']
+                           $body: #List[
+                              $statement: #AddAssign[
+                                 $left: #NameExpr['line_no']
+                                 $right: #IntExpr['1']
+                              ]
+                              $statement: #Case[
+                                 $cond: #NameExpr['line']
+                                 $body: #List[
+                                    $when: #When[
+                                       $cond: #List[
+                                          $expression: #Regex['/\\A\\s*\\z/']
+                                       ]
+                                       $then: #IfExpr[
+                                          $cond: #ApplyExpr[
+                                             $recv: #NameExpr['paragraph']
+                                             $recv: #NameExpr['empty?']
+                                          ]
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['emit_empty_line_event']
+                                             $param: #List[
+                                                $expression: #NameExpr['line']
+                                                $expression: #NameExpr['line_no']
+                                                $procedure: #Procedure[
+                                                   $base: #NameExpr['block']
+                                                ]
+                                             ]
+                                          ]
+                                          $else: #List[
+                                             $statement: #LShiftExpr[
+                                                $left: #NameExpr['paragraph']
+                                                $right: #NameExpr['line']
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['emit_paragraph_event']
+                                                $param: #List[
+                                                   $expression: #NameExpr['paragraph']
+                                                   $expression: #NameExpr['paragraph_start_line']
+                                                   $expression: #NameExpr['line_no']
+                                                   $procedure: #Procedure[
+                                                      $base: #NameExpr['block']
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['paragraph']
+                                                $right: #StringExpr['']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #List[
+                                    $statement: #IfExpr[
+                                       $then: #AssignExpr[
+                                          $left: #NameExpr['paragraph_start_line']
+                                          $right: #NameExpr['line_no']
+                                       ]
+                                       $cond: #ApplyExpr[
+                                          $recv: #NameExpr['paragraph']
+                                          $recv: #NameExpr['empty?']
+                                       ]
+                                    ]
+                                    $statement: #LShiftExpr[
+                                       $left: #NameExpr['paragraph']
+                                       $right: #NameExpr['line']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #Unless[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['paragraph']
+                           $recv: #NameExpr['empty?']
+                        ]
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['emit_paragraph_event']
+                           $param: #List[
+                              $expression: #NameExpr['paragraph']
+                              $expression: #NameExpr['paragraph_start_line']
+                              $expression: #NameExpr['line_no']
+                              $procedure: #Procedure[
+                                 $base: #NameExpr['block']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['each_line']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['raw']
+                  ]
+                  $param: #ProcedureParam[
+                     $name: #NameExpr['block']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #Case[
+                     $cond: #NameExpr['raw']
+                     $body: #List[
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['RDoc']
+                                 $name: #NameExpr['Comment']
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['raw']
+                                 $recv: #NameExpr['text']
+                              ]
+                              $recv: #NameExpr['each_line']
+                              $param: #List[
+                                 $procedure: #Procedure[
+                                    $base: #NameExpr['block']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #NameExpr['Array']
+                           ]
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['raw']
+                              $recv: #NameExpr['each']
+                              $body: #Block[
+                                 $param: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['comment']
+                                    $item: #NameExpr['location']
+                                 ]
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['each_line']
+                                    $param: #List[
+                                       $expression: #NameExpr['comment']
+                                       $procedure: #Procedure[
+                                          $base: #NameExpr['block']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $else: #ApplyExpr[
+                        $recv: #NameExpr['raw']
+                        $recv: #NameExpr['each_line']
+                        $param: #List[
+                           $procedure: #Procedure[
+                              $base: #NameExpr['block']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['emit_empty_line_event']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['line']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['line_no']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['part']
+                        $right: #List[
+                           $hash: #Hash[
+                              $key: #NameExpr['type']
+                              $value: #NameExpr['empty_line']
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['line']
+                              $value: #NameExpr['line']
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['line_no']
+                              $value: #NameExpr['line_no']
+                           ]
+                        ]
+                     ]
+                     $statement: #Yield[
+                        $param: #List[
+                           $expression: #NameExpr['part']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['emit_paragraph_event']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['paragraph']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['paragraph_start_line']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['line_no']
+                  ]
+                  $param: #ProcedureParam[
+                     $name: #NameExpr['block']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['paragraph_part']
+                        $right: #List[
+                           $hash: #Hash[
+                              $key: #NameExpr['type']
+                              $value: #NameExpr['paragraph']
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['line_no']
+                              $value: #NameExpr['paragraph_start_line']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['match_data']
+                        $right: #ApplyExpr[
+                           $recv: #Regex['/(\\s*)\\z/']
+                           $recv: #NameExpr['match']
+                           $param: #List[
+                              $expression: #NameExpr['paragraph']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #NameExpr['match_data']
+                        $then: #List[
+                           $statement: #AssignExpr[
+                              $left: #Indexer[
+                                 $base: #NameExpr['paragraph_part']
+                                 $index: #List[
+                                    $expression: #NameExpr['paragraph']
+                                 ]
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['match_data']
+                                 $recv: #NameExpr['pre_match']
+                              ]
+                           ]
+                           $statement: #Yield[
+                              $param: #List[
+                                 $expression: #NameExpr['paragraph_part']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['emit_empty_line_event']
+                              $param: #List[
+                                 $expression: #Indexer[
+                                    $recv: #NameExpr['match_data']
+                                    $index: #List[
+                                       $expression: #IntExpr['1']
+                                    ]
+                                 ]
+                                 $expression: #NameExpr['line_no']
+                                 $procedure: #Procedure[
+                                    $base: #NameExpr['block']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #List[
+                           $statement: #AssignExpr[
+                              $left: #Indexer[
+                                 $base: #NameExpr['paragraph_part']
+                                 $index: #List[
+                                    $expression: #NameExpr['paragraph']
+                                 ]
+                              ]
+                              $right: #NameExpr['paragraph']
+                           ]
+                           $statement: #Yield[
+                              $param: #List[
+                                 $expression: #NameExpr['paragraph_part']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

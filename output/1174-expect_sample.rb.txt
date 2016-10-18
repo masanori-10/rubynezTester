@@ -1,0 +1,221 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['pty']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['expect']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['fnames']
+         $right: #Array['[]']
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['PTY']
+         $recv: #NameExpr['spawn']
+         $param: #List[
+            $expression: #StringExpr['ftp ftp.ruby-lang.org']
+         ]
+         $body: #Block[
+            $param: #MultipleLeftHandSideExpression[
+               $item: #NameExpr['r_f']
+               $item: #NameExpr['w_f']
+               $item: #NameExpr['pid']
+            ]
+            $body: #List[
+               $statement: #AssignExpr[
+                  $left: #Field[
+                     $base: #NameExpr['w_f']
+                     $name: #NameExpr['sync']
+                  ]
+                  $right: #TrueExpr['true']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['$expect_verbose']
+                  $right: #FalseExpr['false']
+               ]
+               $statement: #IfExpr[
+                  $cond: #NotExpr[
+                     $expr: #ApplyExpr[
+                        $recv: #Indexer[
+                           $recv: #NameExpr['ENV']
+                           $index: #List[
+                              $expression: #StringExpr['USER']
+                           ]
+                        ]
+                        $recv: #NameExpr['nil?']
+                     ]
+                  ]
+                  $then: #AssignExpr[
+                     $left: #NameExpr['username']
+                     $right: #Indexer[
+                        $recv: #NameExpr['ENV']
+                        $index: #List[
+                           $expression: #StringExpr['USER']
+                        ]
+                     ]
+                  ]
+                  $else: #IfExpr[
+                     $cond: #NotExpr[
+                        $expr: #ApplyExpr[
+                           $recv: #Indexer[
+                              $recv: #NameExpr['ENV']
+                              $index: #List[
+                                 $expression: #StringExpr['LOGNAME']
+                              ]
+                           ]
+                           $recv: #NameExpr['nil?']
+                        ]
+                     ]
+                     $then: #AssignExpr[
+                        $left: #NameExpr['username']
+                        $right: #Indexer[
+                           $recv: #NameExpr['ENV']
+                           $index: #List[
+                              $expression: #StringExpr['LOGNAME']
+                           ]
+                        ]
+                     ]
+                     $else: #AssignExpr[
+                        $left: #NameExpr['username']
+                        $right: #StringExpr['guest']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['r_f']
+                  $recv: #NameExpr['expect']
+                  $param: #List[
+                     $expression: #Regex['/^(Name).*: |(word):|> /']
+                  ]
+                  $body: #Block[
+                     $body: #ApplyExpr[
+                        $recv: #NameExpr['w_f']
+                        $recv: #NameExpr['puts']
+                        $param: #List[
+                           $expression: #Conditional[
+                              $cond: #MatchedRegex['$1']
+                              $then: #StringExpr['ftp']
+                              $else: #Conditional[
+                                 $cond: #MatchedRegex['$2']
+                                 $then: #StringExpr[
+                                    $inner: #NameExpr['username']
+                                 ]
+                                 $else: #StringExpr['cd pub/ruby']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['r_f']
+                  $recv: #NameExpr['expect']
+                  $param: #List[
+                     $expression: #StringExpr['> ']
+                  ]
+                  $body: #Block[
+                     $body: #ApplyExpr[
+                        $base: #NameExpr['w_f']
+                        $recv: #NameExpr['print']
+                        $param: #List[
+                           $expression: #StringExpr['dir\\n']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['r_f']
+                  $recv: #NameExpr['expect']
+                  $param: #List[
+                     $expression: #Regex['/[^\\-]> /']
+                  ]
+                  $body: #Block[
+                     $param: #NameExpr['output']
+                     $body: #For[
+                        $iter: #NameExpr['x']
+                        $range: #ApplyExpr[
+                           $recv: #Indexer[
+                              $recv: #NameExpr['output']
+                              $index: #List[
+                                 $expression: #IntExpr['0']
+                              ]
+                           ]
+                           $recv: #NameExpr['split']
+                           $param: #List[
+                              $expression: #StringExpr['\\n']
+                           ]
+                        ]
+                        $body: #IfExpr[
+                           $cond: #AssignExpr[
+                              $left: #NameExpr['x']
+                              $right: #ComplExpr[
+                                 $expr: #Regex['/(ruby.*?\\.tar\\.gz)/']
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              $base: #NameExpr['fnames']
+                              $recv: #NameExpr['push']
+                              $param: #List[
+                                 $expression: #MatchedRegex['$1']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ExceptionBlock[
+                  $main: #ApplyExpr[
+                     $base: #NameExpr['w_f']
+                     $recv: #NameExpr['print']
+                     $param: #List[
+                        $expression: #StringExpr['quit\\n']
+                     ]
+                  ]
+                  $rescue: #List[
+                     $rescue: #Rescue[
+                        $then: #Empty['']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #StringExpr['The latest ruby interpreter is ']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #ApplyExpr[
+               $recv: #ApplyExpr[
+                  $recv: #NameExpr['fnames']
+                  $recv: #NameExpr['sort']
+               ]
+               $recv: #NameExpr['pop']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #StringExpr['\\n']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,1093 @@
+#Source[
+   #Module[
+      $name: #NameExpr['IRB']
+      $body: #BlockExpr[
+         $main: #Class[
+            $name: #NameExpr['Locale']
+            $body: #BlockExpr[
+               $main: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['LOCALE_NAME_RE']
+                     $right: #Regex['%r[\n      (?<language>[[:alpha:]]{2,3})\n      (?:_  (?<territory>[[:alpha:]]{2,3}) )?\n      (?:\\. (?<codeset>[^@]+) )?\n      (?:@  (?<modifier>.*) )?\n    ]x']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['LOCALE_DIR']
+                     $right: #StringExpr['/lc/']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['@@legacy_encoding_alias_map']
+                     $right: #ApplyExpr[
+                        $recv: #List['{}']
+                        $recv: #NameExpr['freeze']
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['initialize']
+                     $param: #List[
+                        $param: #OptionalParam[
+                           $name: #NameExpr['locale']
+                           $default: #Nil['nil']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['@lang']
+                              $right: #AssignExpr[
+                                 $left: #NameExpr['@territory']
+                                 $right: #AssignExpr[
+                                    $left: #NameExpr['@encoding_name']
+                                    $right: #AssignExpr[
+                                       $left: #NameExpr['@modifier']
+                                       $right: #Nil['nil']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['@locale']
+                              $right: #LOr[
+                                 $left: #LOr[
+                                    $left: #LOr[
+                                       $left: #LOr[
+                                          $left: #LOr[
+                                             $left: #NameExpr['locale']
+                                             $right: #Indexer[
+                                                $recv: #NameExpr['ENV']
+                                                $index: #List[
+                                                   $expression: #StringExpr['IRB_LANG']
+                                                ]
+                                             ]
+                                          ]
+                                          $right: #Indexer[
+                                             $recv: #NameExpr['ENV']
+                                             $index: #List[
+                                                $expression: #StringExpr['LC_MESSAGES']
+                                             ]
+                                          ]
+                                       ]
+                                       $right: #Indexer[
+                                          $recv: #NameExpr['ENV']
+                                          $index: #List[
+                                             $expression: #StringExpr['LC_ALL']
+                                          ]
+                                       ]
+                                    ]
+                                    $right: #Indexer[
+                                       $recv: #NameExpr['ENV']
+                                       $index: #List[
+                                          $expression: #StringExpr['LANG']
+                                       ]
+                                    ]
+                                 ]
+                                 $right: #StringExpr['C']
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $cond: #AssignExpr[
+                                 $left: #NameExpr['m']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['LOCALE_NAME_RE']
+                                    $recv: #NameExpr['match']
+                                    $param: #List[
+                                       $expression: #NameExpr['@locale']
+                                    ]
+                                 ]
+                              ]
+                              $then: #List[
+                                 $statement: #MultipleAssign[
+                                    $left: #MultipleLeftHandSideExpression[
+                                       $item: #NameExpr['@lang']
+                                       $item: #NameExpr['@territory']
+                                       $item: #NameExpr['@encoding_name']
+                                       $item: #NameExpr['@modifier']
+                                    ]
+                                    $right: #MultipleRightHandSideExpression[
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['m']
+                                          $index: #List[
+                                             $expression: #NameExpr['language']
+                                          ]
+                                       ]
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['m']
+                                          $index: #List[
+                                             $expression: #NameExpr['territory']
+                                          ]
+                                       ]
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['m']
+                                          $index: #List[
+                                             $expression: #NameExpr['codeset']
+                                          ]
+                                       ]
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['m']
+                                          $index: #List[
+                                             $expression: #NameExpr['modifier']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #NameExpr['@encoding_name']
+                                    $then: #List[
+                                       $statement: #ExceptionBlock[
+                                          $main: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['load']
+                                             $param: #List[
+                                                $expression: #StringExpr['irb/encoding_aliases.rb']
+                                             ]
+                                          ]
+                                          $rescue: #List[
+                                             $rescue: #Rescue[
+                                                $class: #NameExpr['LoadError']
+                                                $then: #Empty['']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $cond: #AssignExpr[
+                                             $left: #NameExpr['@encoding']
+                                             $right: #Indexer[
+                                                $recv: #NameExpr['@@legacy_encoding_alias_map']
+                                                $index: #List[
+                                                   $expression: #NameExpr['@encoding_name']
+                                                ]
+                                             ]
+                                          ]
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['warn']
+                                             $param: #List[
+                                                $expression: #ModExpr[
+                                                   $left: #StringExpr['%s is obsolete. use %s']
+                                                   $right: #Array[
+                                                      $index: #List[
+                                                         $expression: #StringExpr[
+                                                            $inner: #NameExpr['@lang']
+                                                            $inner: #NameExpr['@territory']
+                                                            $inner: #NameExpr['@encoding_name']
+                                                         ]
+                                                         $expression: #StringExpr[
+                                                            $inner: #NameExpr['@lang']
+                                                            $inner: #NameExpr['@territory']
+                                                            $inner: #ApplyExpr[
+                                                               $recv: #NameExpr['@encoding']
+                                                               $recv: #NameExpr['name']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #Rescue[
+                                          $body: #AssignExpr[
+                                             $left: #NameExpr['@encoding']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['Encoding']
+                                                $recv: #NameExpr['find']
+                                                $param: #List[
+                                                   $expression: #NameExpr['@encoding_name']
+                                                ]
+                                             ]
+                                          ]
+                                          $rescue: #Nil['nil']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #LOrAssign[
+                              $left: #NameExpr['@encoding']
+                              $right: #Rescue[
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['Encoding']
+                                    $recv: #NameExpr['find']
+                                    $param: #List[
+                                       $expression: #StringExpr['locale']
+                                    ]
+                                 ]
+                                 $rescue: #Field[
+                                    $recv: #NameExpr['Encoding']
+                                    $name: #NameExpr['ASCII_8BIT']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['attr_reader']
+                     $param: #List[
+                        $expression: #NameExpr['lang']
+                        $expression: #NameExpr['territory']
+                        $expression: #NameExpr['encoding']
+                        $expression: #NameExpr['modifier']
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['String']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['mes']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['mes']
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #Super['super']
+                                 $param: #List[
+                                    $expression: #NameExpr['mes']
+                                 ]
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $cond: #NameExpr['@encoding']
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['mes']
+                                 $recv: #NameExpr['encode']
+                                 $param: #List[
+                                    $expression: #NameExpr['@encoding']
+                                    $hash: #Hash[
+                                       $key: #NameExpr['undef']
+                                       $value: #NameExpr['replace']
+                                    ]
+                                 ]
+                              ]
+                              $else: #NameExpr['mes']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['format']
+                     $param: #List[
+                        $param: #VariadicParam[
+                           $name: #NameExpr['opts']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['String']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #Super['super']
+                                 $param: #List[
+                                    $variadic: #Variadic[
+                                       $base: #NameExpr['opts']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['gets']
+                     $param: #List[
+                        $param: #VariadicParam[
+                           $name: #NameExpr['rs']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['String']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #Super['super']
+                                 $param: #List[
+                                    $variadic: #Variadic[
+                                       $base: #NameExpr['rs']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['readline']
+                     $param: #List[
+                        $param: #VariadicParam[
+                           $name: #NameExpr['rs']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['String']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #Super['super']
+                                 $param: #List[
+                                    $variadic: #Variadic[
+                                       $base: #NameExpr['rs']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['print']
+                     $param: #List[
+                        $param: #VariadicParam[
+                           $name: #NameExpr['opts']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['ary']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['opts']
+                                 $recv: #NameExpr['collect']
+                                 $body: #Block[
+                                    $param: #NameExpr['opt']
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['String']
+                                       $param: #List[
+                                          $expression: #NameExpr['opt']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #Super['super']
+                              $param: #List[
+                                 $variadic: #Variadic[
+                                    $base: #NameExpr['ary']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['printf']
+                     $param: #List[
+                        $param: #VariadicParam[
+                           $name: #NameExpr['opts']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['s']
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['format']
+                                 $param: #List[
+                                    $variadic: #Variadic[
+                                       $base: #NameExpr['opts']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['print']
+                              $param: #List[
+                                 $expression: #NameExpr['s']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['puts']
+                     $param: #List[
+                        $param: #VariadicParam[
+                           $name: #NameExpr['opts']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['ary']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['opts']
+                                 $recv: #NameExpr['collect']
+                                 $body: #Block[
+                                    $param: #NameExpr['opt']
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['String']
+                                       $param: #List[
+                                          $expression: #NameExpr['opt']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #Super['super']
+                              $param: #List[
+                                 $variadic: #Variadic[
+                                    $base: #NameExpr['ary']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['require']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['file']
+                        ]
+                        $param: #OptionalParam[
+                           $name: #NameExpr['priv']
+                           $default: #Nil['nil']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['rex']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['Regexp']
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['Regexp']
+                                          $recv: #NameExpr['quote']
+                                          $param: #List[
+                                             $expression: #NameExpr['file']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #FalseExpr['false']
+                                 ]
+                              ]
+                              $cond: #ApplyExpr[
+                                 $recv: #BuiltInVariable['$"']
+                                 $recv: #NameExpr['find']
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #AssignExpr[
+                                       $left: #NameExpr['f']
+                                       $right: #ComplExpr[
+                                          $expr: #NameExpr['rex']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #Case[
+                              $cond: #NameExpr['file']
+                              $body: #List[
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/\\.rb$/']
+                                    ]
+                                    $then: #ExceptionBlock[
+                                       $main: #List[
+                                          $statement: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['load']
+                                             $param: #List[
+                                                $expression: #NameExpr['file']
+                                                $expression: #NameExpr['priv']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $base: #BuiltInVariable['$"']
+                                             $recv: #NameExpr['push']
+                                             $param: #List[
+                                                $expression: #NameExpr['file']
+                                             ]
+                                          ]
+                                          $statement: #RReturnStmt[
+                                             $expr: #List[
+                                                $expression: #TrueExpr['true']
+                                             ]
+                                          ]
+                                       ]
+                                       $rescue: #List[
+                                          $rescue: #Rescue[
+                                             $class: #NameExpr['LoadError']
+                                             $then: #Empty['']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/\\.(so|o|sl)$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #Super['super']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ExceptionBlock[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['load']
+                                    $param: #List[
+                                       $expression: #AssignExpr[
+                                          $left: #NameExpr['f']
+                                          $right: #AddExpr[
+                                             $left: #NameExpr['file']
+                                             $right: #StringExpr['.rb']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #BuiltInVariable['$"']
+                                    $recv: #NameExpr['push']
+                                    $param: #List[
+                                       $expression: #NameExpr['f']
+                                    ]
+                                 ]
+                                 $statement: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #TrueExpr['true']
+                                    ]
+                                 ]
+                              ]
+                              $rescue: #List[
+                                 $rescue: #Rescue[
+                                    $class: #NameExpr['LoadError']
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['ruby_require']
+                                             $param: #List[
+                                                $expression: #NameExpr['file']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #Alias[
+                     $newname: #NameExpr['toplevel_load']
+                     $target: #NameExpr['load']
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['load']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['file']
+                        ]
+                        $param: #OptionalParam[
+                           $name: #NameExpr['priv']
+                           $default: #Nil['nil']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['found']
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['find']
+                                 $param: #List[
+                                    $expression: #NameExpr['file']
+                                 ]
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $cond: #NameExpr['found']
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['real_load']
+                                       $param: #List[
+                                          $expression: #NameExpr['found']
+                                          $expression: #NameExpr['priv']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $else: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['LoadError']
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['file']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['find']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['file']
+                        ]
+                        $param: #OptionalParam[
+                           $name: #NameExpr['paths']
+                           $default: #BuiltInVariable['$:']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['dir']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['dirname']
+                                 $param: #List[
+                                    $expression: #NameExpr['file']
+                                 ]
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['dir']
+                                 $right: #StringExpr['']
+                              ]
+                              $cond: #EqExpr[
+                                 $left: #NameExpr['dir']
+                                 $right: #StringExpr['.']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['base']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['basename']
+                                 $param: #List[
+                                    $expression: #NameExpr['file']
+                                 ]
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $cond: #ApplyExpr[
+                                 $recv: #NameExpr['dir']
+                                 $recv: #NameExpr['start_with?']
+                                 $param: #List[
+                                    $expression: #StringExpr['/']
+                                 ]
+                              ]
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['each_localized_path']
+                                          $param: #List[
+                                             $expression: #NameExpr['dir']
+                                             $expression: #NameExpr['base']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['find']
+                                       $body: #Block[
+                                          $param: #NameExpr['full_path']
+                                          $body: #ApplyExpr[
+                                             $base: #NameExpr['File']
+                                             $recv: #NameExpr['readable?']
+                                             $param: #List[
+                                                $expression: #NameExpr['full_path']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $else: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['search_file']
+                                       $param: #List[
+                                          $expression: #NameExpr['paths']
+                                          $expression: #NameExpr['dir']
+                                          $expression: #NameExpr['base']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #NameExpr['private']
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['real_load']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['path']
+                        ]
+                        $param: #Param[
+                           $param: #NameExpr['priv']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['src']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['MagicFile']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['path']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['f']
+                                       $recv: #NameExpr['read']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $cond: #NameExpr['priv']
+                              $then: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['eval']
+                                    $param: #List[
+                                       $expression: #StringExpr['self']
+                                       $expression: #NameExpr['TOPLEVEL_BINDING']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['extend']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['Module']
+                                       $recv: #NameExpr['new']
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['eval']
+                                             $param: #List[
+                                                $expression: #NameExpr['src']
+                                                $expression: #Nil['nil']
+                                                $expression: #NameExpr['path']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $else: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['eval']
+                                 $param: #List[
+                                    $expression: #NameExpr['src']
+                                    $expression: #NameExpr['TOPLEVEL_BINDING']
+                                    $expression: #NameExpr['path']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['search_file']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['lib_paths']
+                        ]
+                        $param: #Param[
+                           $param: #NameExpr['dir']
+                        ]
+                        $param: #Param[
+                           $param: #NameExpr['file']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['each_localized_path']
+                              $param: #List[
+                                 $expression: #NameExpr['dir']
+                                 $expression: #NameExpr['file']
+                              ]
+                              $body: #Block[
+                                 $param: #NameExpr['lc_path']
+                                 $body: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['lib_paths']
+                                       $recv: #NameExpr['each']
+                                       $body: #Block[
+                                          $param: #NameExpr['libpath']
+                                          $body: #List[
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['full_path']
+                                                $right: #ApplyExpr[
+                                                   $recv: #NameExpr['File']
+                                                   $recv: #NameExpr['join']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['libpath']
+                                                      $expression: #NameExpr['lc_path']
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #IfExpr[
+                                                $then: #RReturnStmt[
+                                                   $expr: #List[
+                                                      $expression: #NameExpr['full_path']
+                                                   ]
+                                                ]
+                                                $cond: #ApplyExpr[
+                                                   $recv: #NameExpr['File']
+                                                   $recv: #NameExpr['readable?']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['full_path']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #IfExpr[
+                                       $then: #Redo['redo']
+                                       $cond: #AndExpr[
+                                          $left: #Defined[
+                                             $base: #NameExpr['Gem']
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['Gem']
+                                             $recv: #NameExpr['try_activate']
+                                             $param: #List[
+                                                $expression: #NameExpr['lc_path']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #Nil['nil']
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['each_localized_path']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['dir']
+                        ]
+                        $param: #Param[
+                           $param: #NameExpr['file']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #Unless[
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['enum_for']
+                                       $param: #List[
+                                          $expression: #NameExpr['each_localized_path']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $cond: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['block_given?']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['each_sublocale']
+                              $body: #Block[
+                                 $param: #NameExpr['lc']
+                                 $body: #Yield[
+                                    $param: #List[
+                                       $expression: #Conditional[
+                                          $cond: #ApplyExpr[
+                                             $recv: #NameExpr['lc']
+                                             $recv: #NameExpr['nil?']
+                                          ]
+                                          $then: #ApplyExpr[
+                                             $recv: #NameExpr['File']
+                                             $recv: #NameExpr['join']
+                                             $param: #List[
+                                                $expression: #NameExpr['dir']
+                                                $expression: #NameExpr['LOCALE_DIR']
+                                                $expression: #NameExpr['file']
+                                             ]
+                                          ]
+                                          $else: #ApplyExpr[
+                                             $recv: #NameExpr['File']
+                                             $recv: #NameExpr['join']
+                                             $param: #List[
+                                                $expression: #NameExpr['dir']
+                                                $expression: #NameExpr['LOCALE_DIR']
+                                                $expression: #NameExpr['lc']
+                                                $expression: #NameExpr['file']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['each_sublocale']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #IfExpr[
+                              $cond: #NameExpr['@lang']
+                              $then: #List[
+                                 $statement: #IfExpr[
+                                    $cond: #NameExpr['@territory']
+                                    $then: #List[
+                                       $statement: #IfExpr[
+                                          $cond: #NameExpr['@encoding_name']
+                                          $then: #List[
+                                             $statement: #IfExpr[
+                                                $then: #Yield[
+                                                   $param: #List[
+                                                      $expression: #StringExpr[
+                                                         $inner: #NameExpr['@lang']
+                                                         $inner: #NameExpr['@territory']
+                                                         $inner: #NameExpr['@encoding_name']
+                                                         $inner: #NameExpr['@modifier']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $cond: #NameExpr['@modifier']
+                                             ]
+                                             $statement: #Yield[
+                                                $param: #List[
+                                                   $expression: #StringExpr[
+                                                      $inner: #NameExpr['@lang']
+                                                      $inner: #NameExpr['@territory']
+                                                      $inner: #NameExpr['@encoding_name']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $then: #Yield[
+                                             $param: #List[
+                                                $expression: #StringExpr[
+                                                   $inner: #NameExpr['@lang']
+                                                   $inner: #NameExpr['@territory']
+                                                   $inner: #NameExpr['@modifier']
+                                                ]
+                                             ]
+                                          ]
+                                          $cond: #NameExpr['@modifier']
+                                       ]
+                                       $statement: #Yield[
+                                          $param: #List[
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['@lang']
+                                                $inner: #NameExpr['@territory']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #NameExpr['@encoding_name']
+                                    $then: #List[
+                                       $statement: #IfExpr[
+                                          $then: #Yield[
+                                             $param: #List[
+                                                $expression: #StringExpr[
+                                                   $inner: #NameExpr['@lang']
+                                                   $inner: #NameExpr['@encoding_name']
+                                                   $inner: #NameExpr['@modifier']
+                                                ]
+                                             ]
+                                          ]
+                                          $cond: #NameExpr['@modifier']
+                                       ]
+                                       $statement: #Yield[
+                                          $param: #List[
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['@lang']
+                                                $inner: #NameExpr['@encoding_name']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #Yield[
+                                       $param: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #NameExpr['@lang']
+                                             $inner: #NameExpr['@modifier']
+                                          ]
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['@modifier']
+                                 ]
+                                 $statement: #Yield[
+                                    $param: #List[
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['@lang']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #Yield[
+                              $param: #List[
+                                 $expression: #Nil['nil']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

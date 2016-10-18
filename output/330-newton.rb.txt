@@ -1,0 +1,343 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['bigdecimal/ludcmp']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['bigdecimal/jacobian']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['Newton']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['include']
+                  $param: #List[
+                     $expression: #NameExpr['LUSolve']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['include']
+                  $param: #List[
+                     $expression: #NameExpr['Jacobian']
+                  ]
+               ]
+               $statement: #NameExpr['module_function']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['norm']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['fv']
+                     ]
+                     $param: #OptionalParam[
+                        $name: #NameExpr['zero']
+                        $default: #FloatExpr['0.0']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['s']
+                           $right: #NameExpr['zero']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['n']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['fv']
+                              $recv: #NameExpr['size']
+                           ]
+                        ]
+                        $statement: #For[
+                           $iter: #NameExpr['i']
+                           $range: #OpenRange[
+                              #IntExpr['0']
+                              #NameExpr['n']
+                           ]
+                           $body: #AddAssign[
+                              $left: #NameExpr['s']
+                              $right: #MulExpr[
+                                 $left: #Indexer[
+                                    $recv: #NameExpr['fv']
+                                    $index: #List[
+                                       $expression: #NameExpr['i']
+                                    ]
+                                 ]
+                                 $right: #Indexer[
+                                    $recv: #NameExpr['fv']
+                                    $index: #List[
+                                       $expression: #NameExpr['i']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['s']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['nlsolve']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['f']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['x']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['nRetry']
+                           $right: #IntExpr['0']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['n']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['x']
+                              $recv: #NameExpr['size']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['f0']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['f']
+                              $recv: #NameExpr['values']
+                              $param: #List[
+                                 $expression: #NameExpr['x']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['zero']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['f']
+                              $recv: #NameExpr['zero']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['one']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['f']
+                              $recv: #NameExpr['one']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['two']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['f']
+                              $recv: #NameExpr['two']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['p5']
+                           $right: #DivExpr[
+                              $left: #NameExpr['one']
+                              $right: #NameExpr['two']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['d']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['norm']
+                              $param: #List[
+                                 $expression: #NameExpr['f0']
+                                 $expression: #NameExpr['zero']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['minfact']
+                           $right: #MulExpr[
+                              $left: #MulExpr[
+                                 $left: #ApplyExpr[
+                                    $recv: #NameExpr['f']
+                                    $recv: #NameExpr['ten']
+                                 ]
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['f']
+                                    $recv: #NameExpr['ten']
+                                 ]
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['f']
+                                 $recv: #NameExpr['ten']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['minfact']
+                           $right: #DivExpr[
+                              $left: #NameExpr['one']
+                              $right: #NameExpr['minfact']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['e']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['f']
+                              $recv: #NameExpr['eps']
+                           ]
+                        ]
+                        $statement: #While[
+                           $cond: #GteExpt[
+                              $left: #NameExpr['d']
+                              $right: #NameExpr['e']
+                           ]
+                           $body: #List[
+                              $statement: #AddAssign[
+                                 $left: #NameExpr['nRetry']
+                                 $right: #IntExpr['1']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['dfdx']
+                                 $right: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['jacobian']
+                                    $param: #List[
+                                       $expression: #NameExpr['f']
+                                       $expression: #NameExpr['f0']
+                                       $expression: #NameExpr['x']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['dx']
+                                 $right: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['lusolve']
+                                    $param: #List[
+                                       $expression: #NameExpr['dfdx']
+                                       $expression: #NameExpr['f0']
+                                       $expression: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['ludecomp']
+                                          $param: #List[
+                                             $expression: #NameExpr['dfdx']
+                                             $expression: #NameExpr['n']
+                                             $expression: #NameExpr['zero']
+                                             $expression: #NameExpr['one']
+                                          ]
+                                       ]
+                                       $expression: #NameExpr['zero']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['fact']
+                                 $right: #NameExpr['two']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['xs']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['x']
+                                    $recv: #NameExpr['dup']
+                                 ]
+                              ]
+                              $statement: #While[
+                                 $body: #ExceptionBlock[
+                                    $main: #List[
+                                       $statement: #MulAssign[
+                                          $left: #NameExpr['fact']
+                                          $right: #NameExpr['p5']
+                                       ]
+                                       $statement: #IfExpr[
+                                          $cond: #LtExpr[
+                                             $left: #NameExpr['fact']
+                                             $right: #NameExpr['minfact']
+                                          ]
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['raise']
+                                             $param: #List[
+                                                $expression: #StringExpr['Failed to reduce function values.']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #For[
+                                          $iter: #NameExpr['i']
+                                          $range: #OpenRange[
+                                             #IntExpr['0']
+                                             #NameExpr['n']
+                                          ]
+                                          $body: #AssignExpr[
+                                             $left: #Indexer[
+                                                $base: #NameExpr['x']
+                                                $index: #List[
+                                                   $expression: #NameExpr['i']
+                                                ]
+                                             ]
+                                             $right: #SubExpr[
+                                                $left: #Indexer[
+                                                   $recv: #NameExpr['xs']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['i']
+                                                   ]
+                                                ]
+                                                $right: #MulExpr[
+                                                   $left: #Indexer[
+                                                      $recv: #NameExpr['dx']
+                                                      $index: #List[
+                                                         $expression: #NameExpr['i']
+                                                      ]
+                                                   ]
+                                                   $right: #NameExpr['fact']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['f0']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['f']
+                                             $recv: #NameExpr['values']
+                                             $param: #List[
+                                                $expression: #NameExpr['x']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['dn']
+                                          $right: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['norm']
+                                             $param: #List[
+                                                $expression: #NameExpr['f0']
+                                                $expression: #NameExpr['zero']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $cond: #GteExpt[
+                                    $left: #NameExpr['dn']
+                                    $right: #NameExpr['d']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['d']
+                                 $right: #NameExpr['dn']
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['nRetry']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

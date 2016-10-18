@@ -1,0 +1,351 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['webrick/config']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['webrick/httpstatus']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['webrick/httpauth/authenticator']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['WEBrick']
+         $body: #BlockExpr[
+            $main: #Module[
+               $name: #NameExpr['HTTPAuth']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #Class[
+                        $name: #NameExpr['BasicAuth']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['include']
+                                 $param: #List[
+                                    $expression: #NameExpr['Authenticator']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['AuthScheme']
+                                 $right: #StringExpr['Basic']
+                              ]
+                              $statement: #SFuncDecl[
+                                 $path: #Self['self']
+                                 $name: #NameExpr['make_passwd']
+                                 $param: #List[
+                                    $param: #Param[
+                                       $param: #NameExpr['realm']
+                                    ]
+                                    $param: #Param[
+                                       $param: #NameExpr['user']
+                                    ]
+                                    $param: #Param[
+                                       $param: #NameExpr['pass']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #List[
+                                       $statement: #LOrAssign[
+                                          $left: #NameExpr['pass']
+                                          $right: #StringExpr['']
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['pass']
+                                          $recv: #NameExpr['crypt']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['Utils']
+                                                $recv: #NameExpr['random_string']
+                                                $param: #List[
+                                                   $expression: #IntExpr['2']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['attr_reader']
+                                 $param: #List[
+                                    $expression: #NameExpr['realm']
+                                    $expression: #NameExpr['userdb']
+                                    $expression: #NameExpr['logger']
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['initialize']
+                                 $param: #List[
+                                    $param: #Param[
+                                       $param: #NameExpr['config']
+                                    ]
+                                    $param: #OptionalParam[
+                                       $name: #NameExpr['default']
+                                       $default: #Field[
+                                          $recv: #NameExpr['Config']
+                                          $name: #NameExpr['BasicAuth']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #List[
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['check_init']
+                                          $param: #List[
+                                             $expression: #NameExpr['config']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@config']
+                                          $right: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['default']
+                                                $recv: #NameExpr['dup']
+                                             ]
+                                             $recv: #NameExpr['update']
+                                             $param: #List[
+                                                $expression: #NameExpr['config']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['authenticate']
+                                 $param: #List[
+                                    $param: #Param[
+                                       $param: #NameExpr['req']
+                                    ]
+                                    $param: #Param[
+                                       $param: #NameExpr['res']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #List[
+                                       $statement: #Unless[
+                                          $cond: #AssignExpr[
+                                             $left: #NameExpr['basic_credentials']
+                                             $right: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['check_scheme']
+                                                $param: #List[
+                                                   $expression: #NameExpr['req']
+                                                ]
+                                             ]
+                                          ]
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['challenge']
+                                             $param: #List[
+                                                $expression: #NameExpr['req']
+                                                $expression: #NameExpr['res']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #MultipleAssign[
+                                          $left: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['userid']
+                                             $item: #NameExpr['password']
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #Indexer[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #NameExpr['basic_credentials']
+                                                   $recv: #NameExpr['unpack']
+                                                   $param: #List[
+                                                      $expression: #StringExpr['m*']
+                                                   ]
+                                                ]
+                                                $index: #List[
+                                                   $expression: #IntExpr['0']
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['split']
+                                             $param: #List[
+                                                $expression: #StringExpr[':']
+                                                $expression: #IntExpr['2']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #LOrAssign[
+                                          $left: #NameExpr['password']
+                                          $right: #StringExpr['']
+                                       ]
+                                       $statement: #IfExpr[
+                                          $cond: #ApplyExpr[
+                                             $recv: #NameExpr['userid']
+                                             $recv: #NameExpr['empty?']
+                                          ]
+                                          $then: #List[
+                                             $statement: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['error']
+                                                $param: #List[
+                                                   $expression: #StringExpr['user id was not given.']
+                                                ]
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['challenge']
+                                                $param: #List[
+                                                   $expression: #NameExpr['req']
+                                                   $expression: #NameExpr['res']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #Unless[
+                                          $cond: #AssignExpr[
+                                             $left: #NameExpr['encpass']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['@userdb']
+                                                $recv: #NameExpr['get_passwd']
+                                                $param: #List[
+                                                   $expression: #NameExpr['@realm']
+                                                   $expression: #NameExpr['userid']
+                                                   $expression: #NameExpr['@reload_db']
+                                                ]
+                                             ]
+                                          ]
+                                          $then: #List[
+                                             $statement: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['error']
+                                                $param: #List[
+                                                   $expression: #StringExpr['%s: the user is not allowed.']
+                                                   $expression: #NameExpr['userid']
+                                                ]
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['challenge']
+                                                $param: #List[
+                                                   $expression: #NameExpr['req']
+                                                   $expression: #NameExpr['res']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $cond: #NeExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['password']
+                                                $recv: #NameExpr['crypt']
+                                                $param: #List[
+                                                   $expression: #NameExpr['encpass']
+                                                ]
+                                             ]
+                                             $right: #NameExpr['encpass']
+                                          ]
+                                          $then: #List[
+                                             $statement: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['error']
+                                                $param: #List[
+                                                   $expression: #StringExpr['%s: password unmatch.']
+                                                   $expression: #NameExpr['userid']
+                                                ]
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['challenge']
+                                                $param: #List[
+                                                   $expression: #NameExpr['req']
+                                                   $expression: #NameExpr['res']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['info']
+                                          $param: #List[
+                                             $expression: #StringExpr['%s: authentication succeeded.']
+                                             $expression: #NameExpr['userid']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #Field[
+                                             $base: #NameExpr['req']
+                                             $name: #NameExpr['user']
+                                          ]
+                                          $right: #NameExpr['userid']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['challenge']
+                                 $param: #List[
+                                    $param: #Param[
+                                       $param: #NameExpr['req']
+                                    ]
+                                    $param: #Param[
+                                       $param: #NameExpr['res']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['res']
+                                             $index: #List[
+                                                $expression: #NameExpr['@response_field']
+                                             ]
+                                          ]
+                                          $right: #StringExpr[
+                                             $inner: #NameExpr['@auth_scheme']
+                                             $inner: #NameExpr['@realm']
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['raise']
+                                          $param: #List[
+                                             $expression: #NameExpr['@auth_exception']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #Class[
+                        $name: #NameExpr['ProxyBasicAuth']
+                        $super: #NameExpr['BasicAuth']
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['include']
+                              $param: #List[
+                                 $expression: #NameExpr['ProxyAuthenticator']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

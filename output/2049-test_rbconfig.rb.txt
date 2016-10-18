@@ -1,0 +1,331 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rbconfig']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['shellwords']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestRbConfig']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['@@with_config']
+                  $right: #List['{}']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #ApplyExpr[
+                     $recv: #NameExpr['Shellwords']
+                     $recv: #NameExpr['shellwords']
+                     $param: #List[
+                        $expression: #Indexer[
+                           $recv: #Field[
+                              $recv: #NameExpr['RbConfig']
+                              $name: #NameExpr['CONFIG']
+                           ]
+                           $index: #List[
+                              $expression: #StringExpr['configure_args']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $recv: #NameExpr['grep']
+                  $param: #List[
+                     $expression: #Regex['/\\A--with-([^=]*)=(.*)/']
+                  ]
+                  $body: #Block[
+                     $body: #AssignExpr[
+                        $left: #Indexer[
+                           $base: #NameExpr['@@with_config']
+                           $index: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #MatchedRegex['$1']
+                                 $recv: #NameExpr['tr']
+                                 $param: #List[
+                                    $expression: #StringExpr['_']
+                                    $expression: #StringExpr['-']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $right: #MatchedRegex['$2']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_sitedirs']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #Field[
+                           $recv: #NameExpr['RbConfig']
+                           $name: #NameExpr['MAKEFILE_CONFIG']
+                        ]
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['key']
+                              $item: #NameExpr['val']
+                           ]
+                           $body: #List[
+                              $statement: #Unless[
+                                 $then: #Next['next']
+                                 $cond: #Match[
+                                    $left: #Regex['/\\Asite(?!arch)/']
+                                    $right: #NameExpr['key']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #Next['next']
+                                 $cond: #Indexer[
+                                    $recv: #NameExpr['@@with_config']
+                                    $index: #List[
+                                       $expression: #NameExpr['key']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_match']
+                                 $param: #List[
+                                    $expression: #Regex['/(?:\\$\\(|\\/)site/']
+                                    $expression: #NameExpr['val']
+                                    $expression: #NameExpr['key']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_vendordirs']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #Field[
+                           $recv: #NameExpr['RbConfig']
+                           $name: #NameExpr['MAKEFILE_CONFIG']
+                        ]
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['key']
+                              $item: #NameExpr['val']
+                           ]
+                           $body: #List[
+                              $statement: #Unless[
+                                 $then: #Next['next']
+                                 $cond: #Match[
+                                    $left: #Regex['/\\Avendor(?!arch)/']
+                                    $right: #NameExpr['key']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #Next['next']
+                                 $cond: #Indexer[
+                                    $recv: #NameExpr['@@with_config']
+                                    $index: #List[
+                                       $expression: #NameExpr['key']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_match']
+                                 $param: #List[
+                                    $expression: #Regex['/(?:\\$\\(|\\/)vendor/']
+                                    $expression: #NameExpr['val']
+                                    $expression: #NameExpr['key']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_archdirs']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #Field[
+                           $recv: #NameExpr['RbConfig']
+                           $name: #NameExpr['MAKEFILE_CONFIG']
+                        ]
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['key']
+                              $item: #NameExpr['val']
+                           ]
+                           $body: #List[
+                              $statement: #Unless[
+                                 $then: #Next['next']
+                                 $cond: #Match[
+                                    $left: #Regex['/\\A(?!site|vendor|archdir\\z).*arch.*dir\\z/']
+                                    $right: #NameExpr['key']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #Next['next']
+                                 $cond: #Indexer[
+                                    $recv: #NameExpr['@@with_config']
+                                    $index: #List[
+                                       $expression: #NameExpr['key']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_match']
+                                 $param: #List[
+                                    $expression: #Regex['/\\$\\(arch|\\$\\(rubyarchprefix\\)/']
+                                    $expression: #NameExpr['val']
+                                    $expression: #NameExpr['key']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_sitearchdirs']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['bug7823']
+                           $right: #StringExpr['[ruby-dev:46964] [Bug #7823]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['RbConfig']
+                              $name: #NameExpr['MAKEFILE_CONFIG']
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['key']
+                                 $item: #NameExpr['val']
+                              ]
+                              $body: #List[
+                                 $statement: #Unless[
+                                    $then: #Next['next']
+                                    $cond: #Match[
+                                       $left: #Regex['/\\Asite.*arch.*dir\\z/']
+                                       $right: #NameExpr['key']
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #Next['next']
+                                    $cond: #Indexer[
+                                       $recv: #NameExpr['@@with_config']
+                                       $index: #List[
+                                          $expression: #NameExpr['key']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_match']
+                                    $param: #List[
+                                       $expression: #Regex['/\\$\\(sitearch|\\$\\(rubysitearchprefix\\)/']
+                                       $expression: #NameExpr['val']
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['key']
+                                          $inner: #NameExpr['bug7823']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_vendorarchdirs']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['bug7823']
+                           $right: #StringExpr['[ruby-dev:46964] [Bug #7823]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['RbConfig']
+                              $name: #NameExpr['MAKEFILE_CONFIG']
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['key']
+                                 $item: #NameExpr['val']
+                              ]
+                              $body: #List[
+                                 $statement: #Unless[
+                                    $then: #Next['next']
+                                    $cond: #Match[
+                                       $left: #Regex['/\\Avendor.*arch.*dir\\z/']
+                                       $right: #NameExpr['key']
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #Next['next']
+                                    $cond: #Indexer[
+                                       $recv: #NameExpr['@@with_config']
+                                       $index: #List[
+                                          $expression: #NameExpr['key']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_match']
+                                    $param: #List[
+                                       $expression: #Regex['/\\$\\(sitearch|\\$\\(rubysitearchprefix\\)/']
+                                       $expression: #NameExpr['val']
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['key']
+                                          $inner: #NameExpr['bug7823']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

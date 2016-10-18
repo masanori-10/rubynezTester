@@ -1,0 +1,210 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/command']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/package']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #Field[
+               $recv: #NameExpr['Gem']
+               $name: #NameExpr['Commands']
+            ]
+            $name: #NameExpr['BuildCommand']
+         ]
+         $super: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['Command']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Super[
+                           $param: #List[
+                              $expression: #StringExpr['build']
+                              $expression: #StringExpr['Build a gem from a gemspec']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_option']
+                           $param: #List[
+                              $expression: #StringExpr['--force']
+                              $expression: #StringExpr['skip validation of the spec']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['value']
+                                 $item: #NameExpr['options']
+                              ]
+                              $body: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['force']
+                                    ]
+                                 ]
+                                 $right: #TrueExpr['true']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['arguments']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr['GEMSPEC_FILE  gemspec file name to build a gem for']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['description']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #HereDocument['The build command allows you to create a gem from a ruby gemspec.\n\nThe best way to build a gem is to use a Rakefile and the Gem::PackageTask\nwhich ships with RubyGems.\n\nThe gemspec can either be created by hand or extracted from an existing gem\nwith gem spec:\n\n  $ gem unpack my_gem-1.0.gem\n  Unpacked gem: \'.../my_gem-1.0\'\n  $ gem spec my_gem-1.0.gem --ruby > my_gem-1.0/my_gem-1.0.gemspec\n  $ cd my_gem-1.0\n  [edit gem contents]\n  $ gem build my_gem-1.0.gemspec\n']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['usage']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr[
+                        $inner: #NameExpr['program_name']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['execute']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['gemspec']
+                           $right: #NameExpr['get_one_gem_name']
+                        ]
+                        $statement: #Unless[
+                           $cond: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['exist?']
+                              $param: #List[
+                                 $expression: #NameExpr['gemspec']
+                              ]
+                           ]
+                           $then: #IfExpr[
+                              $then: #AddAssign[
+                                 $left: #NameExpr['gemspec']
+                                 $right: #StringExpr['.gemspec']
+                              ]
+                              $cond: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['exist?']
+                                 $param: #List[
+                                    $expression: #AddExpr[
+                                       $left: #NameExpr['gemspec']
+                                       $right: #StringExpr['.gemspec']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['exist?']
+                              $param: #List[
+                                 $expression: #NameExpr['gemspec']
+                              ]
+                           ]
+                           $then: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['spec']
+                                 $right: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['Specification']
+                                    ]
+                                    $recv: #NameExpr['load']
+                                    $param: #List[
+                                       $expression: #NameExpr['gemspec']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #NameExpr['spec']
+                                 $then: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['Package']
+                                    ]
+                                    $recv: #NameExpr['build']
+                                    $param: #List[
+                                       $expression: #NameExpr['spec']
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['options']
+                                          $index: #List[
+                                             $expression: #NameExpr['force']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #List[
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['alert_error']
+                                       $param: #List[
+                                          $expression: #StringExpr['Error loading gemspec. Aborting.']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['terminate_interaction']
+                                       $param: #List[
+                                          $expression: #IntExpr['1']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['alert_error']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['gemspec']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['terminate_interaction']
+                                 $param: #List[
+                                    $expression: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

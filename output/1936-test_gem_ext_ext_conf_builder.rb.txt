@@ -1,0 +1,1237 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/test_case']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/ext']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestGemExtExtConfBuilder']
+         $super: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@ext']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['@tempdir']
+                                 $expression: #StringExpr['ext']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@dest_path']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['@tempdir']
+                                 $expression: #StringExpr['prefix']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #NameExpr['@ext']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #NameExpr['@dest_path']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_class_build']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $base: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['vc_windows?']
+                              ]
+                              $recv: #NameExpr['&']
+                              $param: #List[
+                                 $expression: #NotExpr[
+                                    $expr: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['nmake_found?']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['skip']
+                              $param: #List[
+                                 $expression: #StringExpr['test_class_build skipped - nmake not found']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['@ext']
+                                    $expression: #StringExpr['extconf.rb']
+                                 ]
+                              ]
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['extconf']
+                              $body: #ApplyExpr[
+                                 $base: #NameExpr['extconf']
+                                 $recv: #NameExpr['puts']
+                                 $param: #List[
+                                    $expression: #StringExpr['require \'mkmf\'\\ncreate_makefile \'foo\'']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['output']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['Dir']
+                           $recv: #NameExpr['chdir']
+                           $param: #List[
+                              $expression: #NameExpr['@ext']
+                           ]
+                           $body: #Block[
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['result']
+                                    $right: #ApplyExpr[
+                                       $base: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['Gem']
+                                             $name: #NameExpr['Ext']
+                                          ]
+                                          $name: #NameExpr['ExtConfBuilder']
+                                       ]
+                                       $recv: #NameExpr['build']
+                                       $param: #List[
+                                          $expression: #StringExpr['extconf.rb']
+                                          $expression: #Nil['nil']
+                                          $expression: #NameExpr['@dest_path']
+                                          $expression: #NameExpr['output']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_same']
+                                    $param: #List[
+                                       $expression: #NameExpr['result']
+                                       $expression: #NameExpr['output']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['/^current directory:/']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['0']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['/^#{Gem.ruby}.* extconf.rb/']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['creating Makefile\\n']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['2']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['/^current directory:/']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['3']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_contains_make_command']
+                           $param: #List[
+                              $expression: #StringExpr['clean']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['4']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_contains_make_command']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['7']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_contains_make_command']
+                           $param: #List[
+                              $expression: #StringExpr['install']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['10']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_empty']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['Dir']
+                                 $recv: #NameExpr['glob']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #NameExpr['@ext']
+                                          $expression: #StringExpr['siteconf*.rb']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_class_build_rbconfig_make_prog']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['configure_args']
+                        $body: #Block[
+                           $body: #List[
+                              $statement: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #NameExpr['@ext']
+                                          $expression: #StringExpr['extconf.rb']
+                                       ]
+                                    ]
+                                    $expression: #StringExpr['w']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['extconf']
+                                    $body: #ApplyExpr[
+                                       $base: #NameExpr['extconf']
+                                       $recv: #NameExpr['puts']
+                                       $param: #List[
+                                          $expression: #StringExpr['require \'mkmf\'\\ncreate_makefile \'foo\'']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['output']
+                                 $right: #Array['[]']
+                              ]
+                              $statement: #ApplyExpr[
+                                 $base: #NameExpr['Dir']
+                                 $recv: #NameExpr['chdir']
+                                 $param: #List[
+                                    $expression: #NameExpr['@ext']
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $base: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['Gem']
+                                             $name: #NameExpr['Ext']
+                                          ]
+                                          $name: #NameExpr['ExtConfBuilder']
+                                       ]
+                                       $recv: #NameExpr['build']
+                                       $param: #List[
+                                          $expression: #StringExpr['extconf.rb']
+                                          $expression: #Nil['nil']
+                                          $expression: #NameExpr['@dest_path']
+                                          $expression: #NameExpr['output']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #StringExpr['creating Makefile\\n']
+                                    $expression: #Indexer[
+                                       $recv: #NameExpr['output']
+                                       $index: #List[
+                                          $expression: #IntExpr['2']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_contains_make_command']
+                                 $param: #List[
+                                    $expression: #StringExpr['clean']
+                                    $expression: #Indexer[
+                                       $recv: #NameExpr['output']
+                                       $index: #List[
+                                          $expression: #IntExpr['4']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_contains_make_command']
+                                 $param: #List[
+                                    $expression: #StringExpr['']
+                                    $expression: #Indexer[
+                                       $recv: #NameExpr['output']
+                                       $index: #List[
+                                          $expression: #IntExpr['7']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_contains_make_command']
+                                 $param: #List[
+                                    $expression: #StringExpr['install']
+                                    $expression: #Indexer[
+                                       $recv: #NameExpr['output']
+                                       $index: #List[
+                                          $expression: #IntExpr['10']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_class_build_env_make']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['env_make']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['ENV']
+                              $recv: #NameExpr['delete']
+                              $param: #List[
+                                 $expression: #StringExpr['MAKE']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['ENV']
+                              $index: #List[
+                                 $expression: #StringExpr['MAKE']
+                              ]
+                           ]
+                           $right: #StringExpr['anothermake']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['configure_args']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                           ]
+                           $body: #Block[
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['File']
+                                    $recv: #NameExpr['open']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['File']
+                                          $recv: #NameExpr['join']
+                                          $param: #List[
+                                             $expression: #NameExpr['@ext']
+                                             $expression: #StringExpr['extconf.rb']
+                                          ]
+                                       ]
+                                       $expression: #StringExpr['w']
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['extconf']
+                                       $body: #ApplyExpr[
+                                          $base: #NameExpr['extconf']
+                                          $recv: #NameExpr['puts']
+                                          $param: #List[
+                                             $expression: #StringExpr['require \'mkmf\'\\ncreate_makefile \'foo\'']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['output']
+                                    $right: #Array['[]']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_raises']
+                                    $param: #List[
+                                       $expression: #Field[
+                                          $recv: #NameExpr['Gem']
+                                          $name: #NameExpr['InstallError']
+                                       ]
+                                    ]
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $base: #NameExpr['Dir']
+                                          $recv: #NameExpr['chdir']
+                                          $param: #List[
+                                             $expression: #NameExpr['@ext']
+                                          ]
+                                          $body: #Block[
+                                             $body: #ApplyExpr[
+                                                $base: #Field[
+                                                   $recv: #Field[
+                                                      $recv: #NameExpr['Gem']
+                                                      $name: #NameExpr['Ext']
+                                                   ]
+                                                   $name: #NameExpr['ExtConfBuilder']
+                                                ]
+                                                $recv: #NameExpr['build']
+                                                $param: #List[
+                                                   $expression: #StringExpr['extconf.rb']
+                                                   $expression: #Nil['nil']
+                                                   $expression: #NameExpr['@dest_path']
+                                                   $expression: #NameExpr['output']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #StringExpr['creating Makefile\\n']
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['output']
+                                          $index: #List[
+                                             $expression: #IntExpr['2']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_contains_make_command']
+                                    $param: #List[
+                                       $expression: #StringExpr['clean']
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['output']
+                                          $index: #List[
+                                             $expression: #IntExpr['4']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $ensure: #AssignExpr[
+                        $left: #Indexer[
+                           $base: #NameExpr['ENV']
+                           $index: #List[
+                              $expression: #StringExpr['MAKE']
+                           ]
+                        ]
+                        $right: #NameExpr['env_make']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_class_build_extconf_fail']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $base: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['vc_windows?']
+                              ]
+                              $recv: #NameExpr['&']
+                              $param: #List[
+                                 $expression: #NotExpr[
+                                    $expr: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['nmake_found?']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['skip']
+                              $param: #List[
+                                 $expression: #StringExpr['test_class_build_extconf_fail skipped - nmake not found']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['@ext']
+                                    $expression: #StringExpr['extconf.rb']
+                                 ]
+                              ]
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['extconf']
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['extconf']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr['require \'mkmf\'']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['extconf']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr['have_library \'nonexistent\' or abort \'need libnonexistent\'']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['extconf']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr['create_makefile \'foo\'']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['output']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['error']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_raises']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['InstallError']
+                                 ]
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $base: #NameExpr['Dir']
+                                    $recv: #NameExpr['chdir']
+                                    $param: #List[
+                                       $expression: #NameExpr['@ext']
+                                    ]
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $base: #Field[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['Gem']
+                                                $name: #NameExpr['Ext']
+                                             ]
+                                             $name: #NameExpr['ExtConfBuilder']
+                                          ]
+                                          $recv: #NameExpr['build']
+                                          $param: #List[
+                                             $expression: #StringExpr['extconf.rb']
+                                             $expression: #Nil['nil']
+                                             $expression: #NameExpr['@dest_path']
+                                             $expression: #NameExpr['output']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['extconf failed, exit code 1']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['error']
+                                 $recv: #NameExpr['message']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['/^#{Gem.ruby}.* extconf.rb/']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['@dest_path']
+                                    $expression: #StringExpr['mkmf.log']
+                                 ]
+                              ]
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['4']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_path_exists']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['@dest_path']
+                                    $expression: #StringExpr['mkmf.log']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_class_build_unconventional']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $base: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['vc_windows?']
+                              ]
+                              $recv: #NameExpr['&']
+                              $param: #List[
+                                 $expression: #NotExpr[
+                                    $expr: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['nmake_found?']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['skip']
+                              $param: #List[
+                                 $expression: #StringExpr['test_class_build skipped - nmake not found']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['@ext']
+                                    $expression: #StringExpr['extconf.rb']
+                                 ]
+                              ]
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['extconf']
+                              $body: #List[
+                                 $statement: #LShiftExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['extconf']
+                                       $recv: #NameExpr['puts']
+                                    ]
+                                    $right: #MinusExpr[
+                                       $expr: #StringExpr['EXTCONF']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['include']
+                                    $param: #List[
+                                       $expression: #NameExpr['RbConfig']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['ruby']
+                                    $right: #IfExpr[
+                                       $cond: #Indexer[
+                                          $recv: #NameExpr['ENV']
+                                          $index: #List[
+                                             $expression: #StringExpr['RUBY']
+                                          ]
+                                       ]
+                                       $then: #Indexer[
+                                          $recv: #NameExpr['ENV']
+                                          $index: #List[
+                                             $expression: #StringExpr['RUBY']
+                                          ]
+                                       ]
+                                       $else: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['ruby_exe']
+                                             $right: #StringExpr[
+                                                $inner: #Indexer[
+                                                   $recv: #NameExpr['CONFIG']
+                                                   $index: #List[
+                                                      $expression: #StringExpr['RUBY_INSTALL_NAME']
+                                                   ]
+                                                ]
+                                                $inner: #Indexer[
+                                                   $recv: #NameExpr['CONFIG']
+                                                   $index: #List[
+                                                      $expression: #StringExpr['EXEEXT']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $base: #NameExpr['File']
+                                             $recv: #NameExpr['join']
+                                             $param: #List[
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['CONFIG']
+                                                   $index: #List[
+                                                      $expression: #StringExpr['bindir']
+                                                   ]
+                                                ]
+                                                $expression: #NameExpr['ruby_exe']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['open']
+                                    $param: #List[
+                                       $expression: #StringExpr['Makefile']
+                                       $expression: #StringExpr['w']
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['io']
+                                       $body: #ApplyExpr[
+                                          $base: #NameExpr['io']
+                                          $recv: #NameExpr['write']
+                                          $param: #List[
+                                             $expression: #HereDocument['clean: ruby\nall: ruby\ninstall: ruby\n\nruby:\n\\t#{ruby} -e0\n\n']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #NameExpr['EXTCONF']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['output']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['Dir']
+                           $recv: #NameExpr['chdir']
+                           $param: #List[
+                              $expression: #NameExpr['@ext']
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $base: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['Ext']
+                                    ]
+                                    $name: #NameExpr['ExtConfBuilder']
+                                 ]
+                                 $recv: #NameExpr['build']
+                                 $param: #List[
+                                    $expression: #StringExpr['extconf.rb']
+                                    $expression: #Nil['nil']
+                                    $expression: #NameExpr['@dest_path']
+                                    $expression: #NameExpr['output']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_contains_make_command']
+                           $param: #List[
+                              $expression: #StringExpr['clean']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['4']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_contains_make_command']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['7']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_contains_make_command']
+                           $param: #List[
+                              $expression: #StringExpr['install']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['10']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_empty']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['Dir']
+                                 $recv: #NameExpr['glob']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #NameExpr['@ext']
+                                          $expression: #StringExpr['siteconf*.rb']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_class_make']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $base: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['vc_windows?']
+                              ]
+                              $recv: #NameExpr['&']
+                              $param: #List[
+                                 $expression: #NotExpr[
+                                    $expr: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['nmake_found?']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['skip']
+                              $param: #List[
+                                 $expression: #StringExpr['test_class_make skipped - nmake not found']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['output']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['makefile_path']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['@ext']
+                                 $expression: #StringExpr['Makefile']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['makefile_path']
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['makefile']
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['makefile']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr['# π']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['makefile']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr['RUBYARCHDIR = $(foo)$(target_prefix)']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['makefile']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr['RUBYLIBDIR = $(bar)$(target_prefix)']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['makefile']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr['clean:']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['makefile']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr['all:']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['makefile']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr['install:']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['Dir']
+                           $recv: #NameExpr['chdir']
+                           $param: #List[
+                              $expression: #NameExpr['@ext']
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $base: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['Ext']
+                                    ]
+                                    $name: #NameExpr['ExtConfBuilder']
+                                 ]
+                                 $recv: #NameExpr['make']
+                                 $param: #List[
+                                    $expression: #NameExpr['@ext']
+                                    $expression: #NameExpr['output']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_contains_make_command']
+                           $param: #List[
+                              $expression: #StringExpr['clean']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_contains_make_command']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['4']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_contains_make_command']
+                           $param: #List[
+                              $expression: #StringExpr['install']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['output']
+                                 $index: #List[
+                                    $expression: #IntExpr['7']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_class_make_no_Makefile']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['error']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_raises']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['InstallError']
+                                 ]
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $base: #NameExpr['Dir']
+                                    $recv: #NameExpr['chdir']
+                                    $param: #List[
+                                       $expression: #NameExpr['@ext']
+                                    ]
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $base: #Field[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['Gem']
+                                                $name: #NameExpr['Ext']
+                                             ]
+                                             $name: #NameExpr['ExtConfBuilder']
+                                          ]
+                                          $recv: #NameExpr['make']
+                                          $param: #List[
+                                             $expression: #NameExpr['@ext']
+                                             $expression: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr['output']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['Makefile not found']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['error']
+                                 $recv: #NameExpr['message']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['configure_args']
+                  $param: #List[
+                     $param: #OptionalParam[
+                        $name: #NameExpr['args']
+                        $default: #Nil['nil']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['configure_args']
+                           $right: #Indexer[
+                              $recv: #Field[
+                                 $recv: #NameExpr['RbConfig']
+                                 $name: #NameExpr['CONFIG']
+                              ]
+                              $index: #List[
+                                 $expression: #StringExpr['configure_args']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #AssignExpr[
+                              $left: #Indexer[
+                                 $base: #Field[
+                                    $recv: #NameExpr['RbConfig']
+                                    $name: #NameExpr['CONFIG']
+                                 ]
+                                 $index: #List[
+                                    $expression: #StringExpr['configure_args']
+                                 ]
+                              ]
+                              $right: #NameExpr['args']
+                           ]
+                           $cond: #NameExpr['args']
+                        ]
+                        $statement: #Yield['yield']
+                     ]
+                     $ensure: #IfExpr[
+                        $cond: #NameExpr['configure_args']
+                        $then: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #Field[
+                                 $recv: #NameExpr['RbConfig']
+                                 $name: #NameExpr['CONFIG']
+                              ]
+                              $index: #List[
+                                 $expression: #StringExpr['configure_args']
+                              ]
+                           ]
+                           $right: #NameExpr['configure_args']
+                        ]
+                        $else: #ApplyExpr[
+                           $base: #Field[
+                              $recv: #NameExpr['RbConfig']
+                              $name: #NameExpr['CONFIG']
+                           ]
+                           $recv: #NameExpr['delete']
+                           $param: #List[
+                              $expression: #StringExpr['configure_args']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

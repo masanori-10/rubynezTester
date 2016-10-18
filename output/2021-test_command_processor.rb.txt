@@ -1,0 +1,404 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['shell']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['tmpdir']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestShell']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #Empty['']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #NameExpr['TestShell']
+            $name: #NameExpr['CommandProcessor']
+         ]
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@tmpdir']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Dir']
+                              $recv: #NameExpr['mktmpdir']
+                              $param: #List[
+                                 $expression: #StringExpr['test_shell']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@shell']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Shell']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Field[
+                              $base: #NameExpr['@shell']
+                              $name: #NameExpr['system_path']
+                           ]
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #NameExpr['@tmpdir']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['teardown']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['Dir']
+                        $recv: #NameExpr['rmdir']
+                        $param: #List[
+                           $expression: #NameExpr['@tmpdir']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['catch_command_start']
+                  $param: #List[
+                     $param: #OptionalParam[
+                        $name: #NameExpr['tc']
+                        $default: #ApplyExpr[
+                           $recv: #NameExpr['Object']
+                           $recv: #NameExpr['new']
+                        ]
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['@shell']
+                                 $recv: #NameExpr['process_controller']
+                              ]
+                              $recv: #NameExpr['singleton_class']
+                           ]
+                           $recv: #NameExpr['class_eval']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['define_method']
+                                 $param: #List[
+                                    $expression: #NameExpr['add_schedule']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['cmd']
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['throw']
+                                       $param: #List[
+                                          $expression: #NameExpr['tc']
+                                          $expression: #NameExpr['cmd']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['tc']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['exeext']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #Indexer[
+                        $recv: #Indexer[
+                           $recv: #Field[
+                              $recv: #NameExpr['RbConfig']
+                              $name: #NameExpr['CONFIG']
+                           ]
+                           $index: #List[
+                              $expression: #StringExpr['EXECUTABLE_EXTS']
+                           ]
+                        ]
+                        $index: #List[
+                           $expression: #Regex['/\\S+\\z/']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_system_external']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['name']
+                           $right: #StringExpr[
+                              $inner: #NameExpr['exeext']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['path']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['@tmpdir']
+                                 $expression: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['path']
+                              $expression: #StringExpr['w']
+                              $expression: #OctalInteger['0755']
+                           ]
+                           $body: #Block[
+                              $body: #Empty['']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cmd']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_throw']
+                              $param: #List[
+                                 $expression: #NameExpr['catch_command_start']
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['@shell']
+                                    $recv: #NameExpr['system']
+                                    $param: #List[
+                                       $expression: #NameExpr['name']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['path']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cmd']
+                                 $recv: #NameExpr['command']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $ensure: #ApplyExpr[
+                        $recv: #NameExpr['File']
+                        $recv: #NameExpr['unlink']
+                        $param: #List[
+                           $expression: #NameExpr['path']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_system_not_found']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['bug8918']
+                           $right: #StringExpr['[ruby-core:57235] [Bug #8918]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['name']
+                           $right: #StringExpr['foo']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['path']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['@tmpdir']
+                                 $expression: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['path']
+                              $expression: #StringExpr['w']
+                              $expression: #OctalInteger['0644']
+                           ]
+                           $body: #Block[
+                              $body: #Empty['']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_raise']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Shell']
+                                    $name: #NameExpr['Error']
+                                 ]
+                                 $name: #NameExpr['CommandNotFound']
+                              ]
+                              $expression: #NameExpr['bug8918']
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['catch']
+                                 $param: #List[
+                                    $expression: #NameExpr['catch_command_start']
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['@shell']
+                                       $recv: #NameExpr['system']
+                                       $param: #List[
+                                          $expression: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $ensure: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['Process']
+                           $recv: #NameExpr['waitall']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['unlink']
+                           $param: #List[
+                              $expression: #NameExpr['path']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_system_directory']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['bug8918']
+                           $right: #StringExpr['[ruby-core:57235] [Bug #8918]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['name']
+                           $right: #StringExpr[
+                              $inner: #NameExpr['exeext']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['path']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['@tmpdir']
+                                 $expression: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['Dir']
+                           $recv: #NameExpr['mkdir']
+                           $param: #List[
+                              $expression: #NameExpr['path']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_raise']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Shell']
+                                    $name: #NameExpr['Error']
+                                 ]
+                                 $name: #NameExpr['CommandNotFound']
+                              ]
+                              $expression: #NameExpr['bug8918']
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['catch']
+                                 $param: #List[
+                                    $expression: #NameExpr['catch_command_start']
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['@shell']
+                                       $recv: #NameExpr['system']
+                                       $param: #List[
+                                          $expression: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $ensure: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['Process']
+                           $recv: #NameExpr['waitall']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['Dir']
+                           $recv: #NameExpr['rmdir']
+                           $param: #List[
+                              $expression: #NameExpr['path']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

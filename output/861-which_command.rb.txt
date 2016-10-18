@@ -1,0 +1,355 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/command']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #Field[
+               $recv: #NameExpr['Gem']
+               $name: #NameExpr['Commands']
+            ]
+            $name: #NameExpr['WhichCommand']
+         ]
+         $super: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['Command']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Super[
+                           $param: #List[
+                              $expression: #StringExpr['which']
+                              $expression: #StringExpr['Find the location of a library file you can require']
+                              $hash: #Hash[
+                                 $key: #NameExpr['search_gems_first']
+                                 $value: #FalseExpr['false']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['show_all']
+                                 $value: #FalseExpr['false']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_option']
+                           $param: #List[
+                              $expression: #StringExpr['-a']
+                              $expression: #StringExpr['--[no-]all']
+                              $expression: #StringExpr['show all matching files']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['show_all']
+                                 $item: #NameExpr['options']
+                              ]
+                              $body: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['show_all']
+                                    ]
+                                 ]
+                                 $right: #NameExpr['show_all']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_option']
+                           $param: #List[
+                              $expression: #StringExpr['-g']
+                              $expression: #StringExpr['--[no-]gems-first']
+                              $expression: #StringExpr['search gems before non-gems']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['gems_first']
+                                 $item: #NameExpr['options']
+                              ]
+                              $body: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['search_gems_first']
+                                    ]
+                                 ]
+                                 $right: #NameExpr['gems_first']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['arguments']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr['FILE          name of file to find']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['defaults_str']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr['--no-gems-first --no-all']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['description']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #HereDocument['The which command is like the shell which command and shows you where\nthe file you wish to require lives.\n\nYou can use the which command to help determine why you are requiring a\nversion you did not expect or to look at the content of a file you are\nrequiring to see why it does not behave as you expect.\n']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['execute']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['found']
+                           $right: #TrueExpr['true']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #Indexer[
+                              $recv: #NameExpr['options']
+                              $index: #List[
+                                 $expression: #NameExpr['args']
+                              ]
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['arg']
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['arg']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['arg']
+                                       $recv: #NameExpr['sub']
+                                       $param: #List[
+                                          $expression: #Regex['/#{Regexp.union(*Gem.suffixes)}$/']
+                                          $expression: #StringExpr['']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['dirs']
+                                    $right: #NameExpr['$LOAD_PATH']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['spec']
+                                    $right: #ApplyExpr[
+                                       $base: #Field[
+                                          $recv: #NameExpr['Gem']
+                                          $name: #NameExpr['Specification']
+                                       ]
+                                       $recv: #NameExpr['find_by_path']
+                                       $param: #List[
+                                          $expression: #NameExpr['arg']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #NameExpr['spec']
+                                    $then: #IfExpr[
+                                       $cond: #Indexer[
+                                          $recv: #NameExpr['options']
+                                          $index: #List[
+                                             $expression: #NameExpr['search_gems_first']
+                                          ]
+                                       ]
+                                       $then: #AssignExpr[
+                                          $left: #NameExpr['dirs']
+                                          $right: #AddExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['spec']
+                                                $recv: #NameExpr['full_require_paths']
+                                             ]
+                                             $right: #NameExpr['$LOAD_PATH']
+                                          ]
+                                       ]
+                                       $else: #AssignExpr[
+                                          $left: #NameExpr['dirs']
+                                          $right: #AddExpr[
+                                             $left: #NameExpr['$LOAD_PATH']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['spec']
+                                                $recv: #NameExpr['full_require_paths']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['paths']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['find_paths']
+                                       $param: #List[
+                                          $expression: #NameExpr['arg']
+                                          $expression: #NameExpr['dirs']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['paths']
+                                       $recv: #NameExpr['empty?']
+                                    ]
+                                    $then: #List[
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['alert_error']
+                                          $param: #List[
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['arg']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #LAndAssign[
+                                          $left: #NameExpr['found']
+                                          $right: #FalseExpr['false']
+                                       ]
+                                    ]
+                                    $else: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['say']
+                                       $param: #List[
+                                          $expression: #NameExpr['paths']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Unless[
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['terminate_interaction']
+                              $param: #List[
+                                 $expression: #IntExpr['1']
+                              ]
+                           ]
+                           $cond: #NameExpr['found']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['find_paths']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['package_name']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['dirs']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['result']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['dirs']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['dir']
+                              $body: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['Gem']
+                                    $recv: #NameExpr['suffixes']
+                                 ]
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['ext']
+                                    $body: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['full_path']
+                                          $right: #ApplyExpr[
+                                             $base: #NameExpr['File']
+                                             $recv: #NameExpr['join']
+                                             $param: #List[
+                                                $expression: #NameExpr['dir']
+                                                $expression: #StringExpr[
+                                                   $inner: #NameExpr['package_name']
+                                                   $inner: #NameExpr['ext']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $cond: #AndExpr[
+                                             $left: #ApplyExpr[
+                                                $base: #NameExpr['File']
+                                                $recv: #NameExpr['exist?']
+                                                $param: #List[
+                                                   $expression: #NameExpr['full_path']
+                                                ]
+                                             ]
+                                             $right: #[
+                                                $base: #ApplyExpr[
+                                                   $base: #NameExpr['File']
+                                                   $recv: #NameExpr['directory?']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['full_path']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $then: #List[
+                                             $statement: #LShiftExpr[
+                                                $left: #NameExpr['result']
+                                                $right: #NameExpr['full_path']
+                                             ]
+                                             $statement: #Unless[
+                                                $then: #RReturnStmt[
+                                                   $expr: #List[
+                                                      $expression: #NameExpr['result']
+                                                   ]
+                                                ]
+                                                $cond: #Indexer[
+                                                   $recv: #NameExpr['options']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['show_all']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['result']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['usage']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr[
+                        $inner: #NameExpr['program_name']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

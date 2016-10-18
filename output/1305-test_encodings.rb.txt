@@ -1,0 +1,2296 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require_relative']
+         $param: #List[
+            $expression: #StringExpr['base']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #NameExpr['TestCSV']
+            $name: #NameExpr['Encodings']
+         ]
+         $super: #NameExpr['TestCSV']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['extend']
+                  $param: #List[
+                     $expression: #NameExpr['DifferentOFS']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['require']
+                           $param: #List[
+                              $expression: #StringExpr['tempfile']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@temp_csv_file']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Tempfile']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #ParcentNotation['%w"test_csv. .csv"']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@temp_csv_path']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['@temp_csv_file']
+                              $recv: #NameExpr['path']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@temp_csv_file']
+                           $recv: #NameExpr['close']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['teardown']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@temp_csv_file']
+                           $recv: #NameExpr['close!']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_parses_utf8_encoding']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_parses']
+                        $param: #List[
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #ParcentNotation['%w[ one two … ]']
+                                 $expression: #ParcentNotation['%w[ 1   …   3 ]']
+                                 $expression: #ParcentNotation['%w[ …   5   6 ]']
+                              ]
+                           ]
+                           $expression: #StringExpr['UTF-8']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_parses_latin1_encoding']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_parses']
+                        $param: #List[
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #ParcentNotation['%w[ one    two    Résumé ]']
+                                 $expression: #ParcentNotation['%w[ 1      Résumé 3      ]']
+                                 $expression: #ParcentNotation['%w[ Résumé 5      6      ]']
+                              ]
+                           ]
+                           $expression: #StringExpr['ISO-8859-1']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_parses_utf16be_encoding']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_parses']
+                        $param: #List[
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #ParcentNotation['%w[ one two … ]']
+                                 $expression: #ParcentNotation['%w[ 1   …   3 ]']
+                                 $expression: #ParcentNotation['%w[ …   5   6 ]']
+                              ]
+                           ]
+                           $expression: #StringExpr['UTF-16BE']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_parses_shift_jis_encoding']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_parses']
+                        $param: #List[
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #ParcentNotation['%w[ 一 二 三 ]']
+                                 $expression: #ParcentNotation['%w[ 四 五 六 ]']
+                                 $expression: #ParcentNotation['%w[ 七 八 九 ]']
+                              ]
+                           ]
+                           $expression: #StringExpr['Shift_JIS']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_reading_with_most_encodings']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['each_encoding']
+                        $body: #Block[
+                           $param: #NameExpr['encoding']
+                           $body: #ExceptionBlock[
+                              $main: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_parses']
+                                 $param: #List[
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #ParcentNotation['%w[ abc def ]']
+                                          $expression: #ParcentNotation['%w[ ghi jkl ]']
+                                       ]
+                                    ]
+                                    $expression: #NameExpr['encoding']
+                                 ]
+                              ]
+                              $rescue: #List[
+                                 $rescue: #Rescue[
+                                    $class: #Field[
+                                       $recv: #NameExpr['Encoding']
+                                       $name: #NameExpr['ConverterNotFoundError']
+                                    ]
+                                    $then: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['fail']
+                                       $param: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #ApplyExpr[
+                                                $recv: #NameExpr['encoding']
+                                                $recv: #NameExpr['name']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_regular_expression_escaping']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['each_encoding']
+                        $body: #Block[
+                           $param: #NameExpr['encoding']
+                           $body: #ExceptionBlock[
+                              $main: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_parses']
+                                 $param: #List[
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #ParcentNotation['%w[ abc def ]']
+                                          $expression: #ParcentNotation['%w[ ghi jkl ]']
+                                       ]
+                                    ]
+                                    $expression: #NameExpr['encoding']
+                                    $hash: #Hash[
+                                       $key: #NameExpr['col_sep']
+                                       $value: #StringExpr['|']
+                                    ]
+                                 ]
+                              ]
+                              $rescue: #List[
+                                 $rescue: #Rescue[
+                                    $class: #Field[
+                                       $recv: #NameExpr['Encoding']
+                                       $name: #NameExpr['ConverterNotFoundError']
+                                    ]
+                                    $then: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['fail']
+                                       $param: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #ApplyExpr[
+                                                $recv: #NameExpr['encoding']
+                                                $recv: #NameExpr['name']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_read_with_default_encoding']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['data']
+                           $right: #StringExpr['abc']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['default_external']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Encoding']
+                              $recv: #NameExpr['default_external']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['each_encoding']
+                           $body: #Block[
+                              $param: #NameExpr['encoding']
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['open']
+                                    $param: #List[
+                                       $expression: #NameExpr['@temp_csv_path']
+                                       $expression: #StringExpr['wb']
+                                       $hash: #Hash[
+                                          $key: #NameExpr['encoding']
+                                          $value: #NameExpr['encoding']
+                                       ]
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['f']
+                                       $body: #LShiftExpr[
+                                          $left: #NameExpr['f']
+                                          $right: #NameExpr['data']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ExceptionBlock[
+                                    $main: #List[
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['no_warnings']
+                                          $body: #Block[
+                                             $body: #AssignExpr[
+                                                $left: #Field[
+                                                   $base: #NameExpr['Encoding']
+                                                   $name: #NameExpr['default_external']
+                                                ]
+                                                $right: #NameExpr['encoding']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['result']
+                                          $right: #Indexer[
+                                             $recv: #Indexer[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #NameExpr['CSV']
+                                                   $recv: #NameExpr['read']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['@temp_csv_path']
+                                                   ]
+                                                ]
+                                                $index: #List[
+                                                   $expression: #IntExpr['0']
+                                                ]
+                                             ]
+                                             $index: #List[
+                                                $expression: #IntExpr['0']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $ensure: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['no_warnings']
+                                       $body: #Block[
+                                          $body: #AssignExpr[
+                                             $left: #Field[
+                                                $base: #NameExpr['Encoding']
+                                                $name: #NameExpr['default_external']
+                                             ]
+                                             $right: #NameExpr['default_external']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #NameExpr['encoding']
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['result']
+                                          $recv: #NameExpr['encoding']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_auto_line_ending_detection']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['encode_for_tests']
+                        $param: #List[
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #Array[
+                                    $index: #List[
+                                       $expression: #MulExpr[
+                                          $left: #StringExpr['a']
+                                          $right: #IntExpr['509']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $hash: #Hash[
+                              $key: #NameExpr['row_sep']
+                              $value: #StringExpr['\\r\\n']
+                           ]
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['data']
+                           $body: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #StringExpr['\\r\\n']
+                                    $recv: #NameExpr['encode']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['data']
+                                          $recv: #NameExpr['encoding']
+                                       ]
+                                    ]
+                                 ]
+                                 $expression: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['CSV']
+                                       $recv: #NameExpr['new']
+                                       $param: #List[
+                                          $expression: #NameExpr['data']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['row_sep']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_csv_chars_are_transcoded']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['encode_for_tests']
+                        $param: #List[
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #ParcentNotation['%w[abc def]']
+                              ]
+                           ]
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['data']
+                           $body: #ApplyExpr[
+                              $recv: #ParcentNotation['%w[col_sep row_sep quote_char]']
+                              $recv: #NameExpr['each']
+                              $body: #Block[
+                                 $param: #NameExpr['csv_char']
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #StringExpr['|']
+                                          $recv: #NameExpr['encode']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['data']
+                                                $recv: #NameExpr['encoding']
+                                             ]
+                                          ]
+                                       ]
+                                       $expression: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['CSV']
+                                             $recv: #NameExpr['new']
+                                             $param: #List[
+                                                $expression: #NameExpr['data']
+                                                $hash: #Hash[
+                                                   $key: #ApplyExpr[
+                                                      $recv: #NameExpr['csv_char']
+                                                      $recv: #NameExpr['to_sym']
+                                                   ]
+                                                   $value: #StringExpr['|']
+                                                ]
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['send']
+                                          $param: #List[
+                                             $expression: #NameExpr['csv_char']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_parser_works_with_encoded_headers']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['encode_for_tests']
+                        $param: #List[
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #ParcentNotation['%w[one two three]']
+                                 $expression: #ParcentNotation['%w[1 2 3]']
+                              ]
+                           ]
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['data']
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['parsed']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['CSV']
+                                    $recv: #NameExpr['parse']
+                                    $param: #List[
+                                       $expression: #NameExpr['data']
+                                       $hash: #Hash[
+                                          $key: #NameExpr['headers']
+                                          $value: #TrueExpr['true']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_all?']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['parsed']
+                                       $recv: #NameExpr['headers']
+                                    ]
+                                    $expression: #StringExpr['Wrong data encoding.']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['h']
+                                    $body: #EqExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['h']
+                                          $recv: #NameExpr['encoding']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['data']
+                                          $recv: #NameExpr['encoding']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['parsed']
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['row']
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_all?']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['row']
+                                             $recv: #NameExpr['fields']
+                                          ]
+                                          $expression: #StringExpr['Wrong data encoding.']
+                                       ]
+                                       $body: #Block[
+                                          $param: #NameExpr['f']
+                                          $body: #EqExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['f']
+                                                $recv: #NameExpr['encoding']
+                                             ]
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['data']
+                                                $recv: #NameExpr['encoding']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_built_in_converters_transcode_to_utf_8_then_convert']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['encode_for_tests']
+                        $param: #List[
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #ParcentNotation['%w[one two three]']
+                                 $expression: #ParcentNotation['%w[1 2 3]']
+                              ]
+                           ]
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['data']
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['parsed']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['CSV']
+                                    $recv: #NameExpr['parse']
+                                    $param: #List[
+                                       $expression: #NameExpr['data']
+                                       $hash: #Hash[
+                                          $key: #NameExpr['converters']
+                                          $value: #NameExpr['integer']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_all?']
+                                 $param: #List[
+                                    $expression: #Indexer[
+                                       $recv: #NameExpr['parsed']
+                                       $index: #List[
+                                          $expression: #IntExpr['0']
+                                       ]
+                                    ]
+                                    $expression: #StringExpr['Wrong data encoding.']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #EqExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['f']
+                                          $recv: #NameExpr['encoding']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['data']
+                                          $recv: #NameExpr['encoding']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #IntExpr['1']
+                                          $expression: #IntExpr['2']
+                                          $expression: #IntExpr['3']
+                                       ]
+                                    ]
+                                    $expression: #Indexer[
+                                       $recv: #NameExpr['parsed']
+                                       $index: #List[
+                                          $expression: #IntExpr['1']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_built_in_header_converters_transcode_to_utf_8_then_convert']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['encode_for_tests']
+                        $param: #List[
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #ParcentNotation['%w[one two three]']
+                                 $expression: #ParcentNotation['%w[1 2 3]']
+                              ]
+                           ]
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['data']
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['parsed']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['CSV']
+                                    $recv: #NameExpr['parse']
+                                    $param: #List[
+                                       $expression: #NameExpr['data']
+                                       $hash: #Hash[
+                                          $key: #NameExpr['headers']
+                                          $value: #TrueExpr['true']
+                                       ]
+                                       $hash: #Hash[
+                                          $key: #NameExpr['header_converters']
+                                          $value: #NameExpr['downcase']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_all?']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['parsed']
+                                       $recv: #NameExpr['headers']
+                                    ]
+                                    $expression: #StringExpr['Wrong data encoding.']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['h']
+                                    $body: #EqExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['h']
+                                             $recv: #NameExpr['encoding']
+                                          ]
+                                          $recv: #NameExpr['name']
+                                       ]
+                                       $right: #StringExpr['UTF-8']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_all?']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #Indexer[
+                                          $recv: #NameExpr['parsed']
+                                          $index: #List[
+                                             $expression: #IntExpr['0']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['fields']
+                                    ]
+                                    $expression: #StringExpr['Wrong data encoding.']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #EqExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['f']
+                                          $recv: #NameExpr['encoding']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['data']
+                                          $recv: #NameExpr['encoding']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_open_allows_you_to_set_encodings']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['encode_for_tests']
+                        $param: #List[
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #ParcentNotation['%w[abc def]']
+                              ]
+                           ]
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['data']
+                           $body: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['@temp_csv_path']
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['data']
+                                             $recv: #NameExpr['encoding']
+                                          ]
+                                          $recv: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #LShiftExpr[
+                                       $left: #NameExpr['f']
+                                       $right: #NameExpr['data']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['@temp_csv_path']
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['data']
+                                             $recv: #NameExpr['encoding']
+                                          ]
+                                          $recv: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['csv']
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['csv']
+                                       $recv: #NameExpr['each']
+                                       $body: #Block[
+                                          $param: #NameExpr['row']
+                                          $body: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_all?']
+                                             $param: #List[
+                                                $expression: #NameExpr['row']
+                                                $expression: #StringExpr['Wrong data encoding.']
+                                             ]
+                                             $body: #Block[
+                                                $param: #NameExpr['f']
+                                                $body: #EqExpr[
+                                                   $left: #ApplyExpr[
+                                                      $recv: #NameExpr['f']
+                                                      $recv: #NameExpr['encoding']
+                                                   ]
+                                                   $right: #ApplyExpr[
+                                                      $recv: #NameExpr['data']
+                                                      $recv: #NameExpr['encoding']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['@temp_csv_path']
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['data']
+                                             $recv: #NameExpr['encoding']
+                                          ]
+                                          $recv: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #LShiftExpr[
+                                       $left: #NameExpr['f']
+                                       $right: #NameExpr['data']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['@temp_csv_path']
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['data']
+                                             $recv: #NameExpr['encoding']
+                                          ]
+                                          $recv: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['csv']
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['csv']
+                                       $recv: #NameExpr['each']
+                                       $body: #Block[
+                                          $param: #NameExpr['row']
+                                          $body: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_all?']
+                                             $param: #List[
+                                                $expression: #NameExpr['row']
+                                                $expression: #StringExpr['Wrong data encoding.']
+                                             ]
+                                             $body: #Block[
+                                                $param: #NameExpr['f']
+                                                $body: #EqExpr[
+                                                   $left: #ApplyExpr[
+                                                      $recv: #NameExpr['f']
+                                                      $recv: #NameExpr['encoding']
+                                                   ]
+                                                   $right: #ApplyExpr[
+                                                      $recv: #NameExpr['data']
+                                                      $recv: #NameExpr['encoding']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_foreach_allows_you_to_set_encodings']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['encode_for_tests']
+                        $param: #List[
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #ParcentNotation['%w[abc def]']
+                              ]
+                           ]
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['data']
+                           $body: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['@temp_csv_path']
+                                    $expression: #StringExpr['wb']
+                                    $hash: #Hash[
+                                       $key: #NameExpr['encoding']
+                                       $value: #ApplyExpr[
+                                          $recv: #NameExpr['data']
+                                          $recv: #NameExpr['encoding']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #LShiftExpr[
+                                       $left: #NameExpr['f']
+                                       $right: #NameExpr['data']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['foreach']
+                                 $param: #List[
+                                    $expression: #NameExpr['@temp_csv_path']
+                                    $hash: #Hash[
+                                       $key: #NameExpr['encoding']
+                                       $value: #ApplyExpr[
+                                          $recv: #NameExpr['data']
+                                          $recv: #NameExpr['encoding']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['row']
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['row']
+                                       $recv: #NameExpr['each']
+                                       $body: #Block[
+                                          $param: #NameExpr['f']
+                                          $body: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_equal']
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['f']
+                                                   $recv: #NameExpr['encoding']
+                                                ]
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['data']
+                                                   $recv: #NameExpr['encoding']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['@temp_csv_path']
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['data']
+                                             $recv: #NameExpr['encoding']
+                                          ]
+                                          $recv: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #LShiftExpr[
+                                       $left: #NameExpr['f']
+                                       $right: #NameExpr['data']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['foreach']
+                                 $param: #List[
+                                    $expression: #NameExpr['@temp_csv_path']
+                                    $hash: #Hash[
+                                       $key: #NameExpr['encoding']
+                                       $value: #StringExpr[
+                                          $inner: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['data']
+                                                $recv: #NameExpr['encoding']
+                                             ]
+                                             $recv: #NameExpr['name']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['row']
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_all?']
+                                       $param: #List[
+                                          $expression: #NameExpr['row']
+                                          $expression: #StringExpr['Wrong data encoding.']
+                                       ]
+                                       $body: #Block[
+                                          $param: #NameExpr['f']
+                                          $body: #EqExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['f']
+                                                $recv: #NameExpr['encoding']
+                                             ]
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['data']
+                                                $recv: #NameExpr['encoding']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_read_allows_you_to_set_encodings']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['encode_for_tests']
+                        $param: #List[
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #ParcentNotation['%w[abc def]']
+                              ]
+                           ]
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['data']
+                           $body: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['@temp_csv_path']
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['data']
+                                             $recv: #NameExpr['encoding']
+                                          ]
+                                          $recv: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #LShiftExpr[
+                                       $left: #NameExpr['f']
+                                       $right: #NameExpr['data']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['rows']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['CSV']
+                                    $recv: #NameExpr['read']
+                                    $param: #List[
+                                       $expression: #NameExpr['@temp_csv_path']
+                                       $hash: #Hash[
+                                          $key: #NameExpr['encoding']
+                                          $value: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['data']
+                                                $recv: #NameExpr['encoding']
+                                             ]
+                                             $recv: #NameExpr['name']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_all?']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['rows']
+                                       $recv: #NameExpr['flatten']
+                                    ]
+                                    $expression: #StringExpr['Wrong data encoding.']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #EqExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['f']
+                                          $recv: #NameExpr['encoding']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['data']
+                                          $recv: #NameExpr['encoding']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['@temp_csv_path']
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['data']
+                                             $recv: #NameExpr['encoding']
+                                          ]
+                                          $recv: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #LShiftExpr[
+                                       $left: #NameExpr['f']
+                                       $right: #NameExpr['data']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['rows']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['CSV']
+                                    $recv: #NameExpr['read']
+                                    $param: #List[
+                                       $expression: #NameExpr['@temp_csv_path']
+                                       $hash: #Hash[
+                                          $key: #NameExpr['encoding']
+                                          $value: #StringExpr[
+                                             $inner: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #NameExpr['data']
+                                                   $recv: #NameExpr['encoding']
+                                                ]
+                                                $recv: #NameExpr['name']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_all?']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['rows']
+                                       $recv: #NameExpr['flatten']
+                                    ]
+                                    $expression: #StringExpr['Wrong data encoding.']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #EqExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['f']
+                                          $recv: #NameExpr['encoding']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['data']
+                                          $recv: #NameExpr['encoding']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_can_write_csv_in_any_encoding']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['each_encoding']
+                        $body: #Block[
+                           $param: #NameExpr['encoding']
+                           $body: #List[
+                              $statement: #ExceptionBlock[
+                                 $main: #AssignExpr[
+                                    $left: #NameExpr['csv']
+                                    $right: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #ParcentNotation['%w[abc d|ef]']
+                                          $recv: #NameExpr['map']
+                                          $body: #Block[
+                                             $param: #NameExpr['f']
+                                             $body: #ApplyExpr[
+                                                $recv: #NameExpr['f']
+                                                $recv: #NameExpr['encode']
+                                                $param: #List[
+                                                   $expression: #NameExpr['encoding']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['to_csv']
+                                       $param: #List[
+                                          $hash: #Hash[
+                                             $key: #NameExpr['col_sep']
+                                             $value: #StringExpr['|']
+                                          ]
+                                          $hash: #Hash[
+                                             $key: #NameExpr['encoding']
+                                             $value: #ApplyExpr[
+                                                $recv: #NameExpr['encoding']
+                                                $recv: #NameExpr['name']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $rescue: #List[
+                                    $rescue: #Rescue[
+                                       $class: #Field[
+                                          $recv: #NameExpr['Encoding']
+                                          $name: #NameExpr['ConverterNotFoundError']
+                                       ]
+                                       $then: #Next['next']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #NameExpr['encoding']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['csv']
+                                       $recv: #NameExpr['encoding']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['csv']
+                                 $right: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #ParcentNotation['%w[abc d|ef]']
+                                       $recv: #NameExpr['map']
+                                       $body: #Block[
+                                          $param: #NameExpr['f']
+                                          $body: #ApplyExpr[
+                                             $recv: #NameExpr['f']
+                                             $recv: #NameExpr['encode']
+                                             $param: #List[
+                                                $expression: #NameExpr['encoding']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['to_csv']
+                                    $param: #List[
+                                       $hash: #Hash[
+                                          $key: #NameExpr['col_sep']
+                                          $value: #StringExpr['|']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #NameExpr['encoding']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['csv']
+                                       $recv: #NameExpr['encoding']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['data']
+                                 $right: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['encode_ary']
+                                    $param: #List[
+                                       $expression: #Array[
+                                          $index: #List[
+                                             $expression: #ParcentNotation['%w[abc d,ef]']
+                                             $expression: #ParcentNotation['%w[123 456 ]']
+                                          ]
+                                       ]
+                                       $expression: #NameExpr['encoding']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['@temp_csv_path']
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['encoding']
+                                          $recv: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['data']
+                                       $recv: #NameExpr['each']
+                                       $body: #Block[
+                                          $param: #NameExpr['row']
+                                          $body: #LShiftExpr[
+                                             $left: #NameExpr['f']
+                                             $right: #NameExpr['row']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #NameExpr['data']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['CSV']
+                                       $recv: #NameExpr['read']
+                                       $param: #List[
+                                          $expression: #NameExpr['@temp_csv_path']
+                                          $hash: #Hash[
+                                             $key: #NameExpr['encoding']
+                                             $value: #ApplyExpr[
+                                                $recv: #NameExpr['encoding']
+                                                $recv: #NameExpr['name']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_encoding_is_upgraded_during_writing_as_needed']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['data']
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #StringExpr['foo']
+                                    $recv: #NameExpr['force_encoding']
+                                    $param: #List[
+                                       $expression: #StringExpr['US-ASCII']
+                                    ]
+                                 ]
+                                 $expression: #StringExpr['\\u3042']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['US-ASCII']
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['data']
+                                       $recv: #NameExpr['first']
+                                    ]
+                                    $recv: #NameExpr['encoding']
+                                 ]
+                                 $recv: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['UTF-8']
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['data']
+                                       $recv: #NameExpr['last']
+                                    ]
+                                    $recv: #NameExpr['encoding']
+                                 ]
+                                 $recv: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['UTF-8']
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['data']
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #StringExpr['']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['encoding']
+                                 ]
+                                 $recv: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['UTF-8']
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['data']
+                                       $recv: #NameExpr['to_csv']
+                                    ]
+                                    $recv: #NameExpr['encoding']
+                                 ]
+                                 $recv: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_encoding_is_upgraded_for_ascii_content_during_writing_as_needed']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['data']
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #StringExpr['foo']
+                                    $recv: #NameExpr['force_encoding']
+                                    $param: #List[
+                                       $expression: #StringExpr['ISO-8859-1']
+                                    ]
+                                 ]
+                                 $expression: #StringExpr['\\u3042']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['ISO-8859-1']
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['data']
+                                       $recv: #NameExpr['first']
+                                    ]
+                                    $recv: #NameExpr['encoding']
+                                 ]
+                                 $recv: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['UTF-8']
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['data']
+                                       $recv: #NameExpr['last']
+                                    ]
+                                    $recv: #NameExpr['encoding']
+                                 ]
+                                 $recv: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['UTF-8']
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['data']
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #StringExpr['']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['encoding']
+                                 ]
+                                 $recv: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['UTF-8']
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['data']
+                                       $recv: #NameExpr['to_csv']
+                                    ]
+                                    $recv: #NameExpr['encoding']
+                                 ]
+                                 $recv: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_explicit_encoding']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['bug9766']
+                           $right: #StringExpr['[ruby-core:62113] [Bug #9766]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['s']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CSV']
+                              $recv: #NameExpr['generate']
+                              $param: #List[
+                                 $hash: #Hash[
+                                    $key: #NameExpr['encoding']
+                                    $value: #StringExpr['Windows-31J']
+                                 ]
+                              ]
+                              $body: #Block[
+                                 $param: #NameExpr['csv']
+                                 $body: #LShiftExpr[
+                                    $left: #NameExpr['csv']
+                                    $right: #Array[
+                                       $index: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #StringExpr['foo']
+                                             $recv: #NameExpr['force_encoding']
+                                             $param: #List[
+                                                $expression: #StringExpr['ISO-8859-1']
+                                             ]
+                                          ]
+                                          $expression: #StringExpr['\\u3042']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #StringExpr['foo,\\u3042\\n']
+                                       $recv: #NameExpr['encode']
+                                       $param: #List[
+                                          $expression: #Field[
+                                             $recv: #NameExpr['Encoding']
+                                             $name: #NameExpr['Windows_31J']
+                                          ]
+                                       ]
+                                    ]
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Encoding']
+                                       $name: #NameExpr['Windows_31J']
+                                    ]
+                                 ]
+                              ]
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #NameExpr['s']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['s']
+                                       $recv: #NameExpr['encoding']
+                                    ]
+                                 ]
+                              ]
+                              $expression: #NameExpr['bug9766']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['private']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['assert_parses']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['fields']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['encoding']
+                     ]
+                     $param: #OptionalParam[
+                        $name: #NameExpr['options']
+                        $default: #List['{ }']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Unless[
+                           $then: #AssignExpr[
+                              $left: #NameExpr['encoding']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['Encoding']
+                                 $recv: #NameExpr['find']
+                                 $param: #List[
+                                    $expression: #NameExpr['encoding']
+                                 ]
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $base: #NameExpr['encoding']
+                              $recv: #NameExpr['is_a?']
+                              $param: #List[
+                                 $expression: #NameExpr['Encoding']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['orig_fields']
+                           $right: #NameExpr['fields']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['fields']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['encode_ary']
+                              $param: #List[
+                                 $expression: #NameExpr['fields']
+                                 $expression: #NameExpr['encoding']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['data']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['ary_to_data']
+                              $param: #List[
+                                 $expression: #NameExpr['fields']
+                                 $expression: #NameExpr['options']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['parsed']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CSV']
+                              $recv: #NameExpr['parse']
+                              $param: #List[
+                                 $expression: #NameExpr['data']
+                                 $expression: #NameExpr['options']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['fields']
+                              $expression: #NameExpr['parsed']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['parsed']
+                              $recv: #NameExpr['flatten']
+                           ]
+                           $recv: #NameExpr['each_with_index']
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['field']
+                                 $item: #NameExpr['i']
+                              ]
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #NameExpr['encoding']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['field']
+                                       $recv: #NameExpr['encoding']
+                                    ]
+                                    $expression: #StringExpr[
+                                       $inner: #AddExpr[
+                                          $left: #NameExpr['i']
+                                          $right: #IntExpr['1']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@temp_csv_path']
+                              $expression: #StringExpr['wb']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['f']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['f']
+                                 $recv: #NameExpr['print']
+                                 $param: #List[
+                                    $expression: #NameExpr['data']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@temp_csv_path']
+                              $expression: #StringExpr[
+                                 $inner: #NameExpr['encoding']
+                              ]
+                              $expression: #NameExpr['options']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['csv']
+                                 $recv: #NameExpr['each_with_index']
+                                 $body: #Block[
+                                    $param: #MultipleLeftHandSideExpression[
+                                       $item: #NameExpr['row']
+                                       $item: #NameExpr['i']
+                                    ]
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['fields']
+                                             $index: #List[
+                                                $expression: #NameExpr['i']
+                                             ]
+                                          ]
+                                          $expression: #NameExpr['row']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ExceptionBlock[
+                           $main: #Unless[
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['@temp_csv_path']
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['encoding']
+                                       $inner: #Encoding['__ENCODING__']
+                                    ]
+                                    $expression: #NameExpr['options']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['csv']
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['csv']
+                                       $recv: #NameExpr['each_with_index']
+                                       $body: #Block[
+                                          $param: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['row']
+                                             $item: #NameExpr['i']
+                                          ]
+                                          $body: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_equal']
+                                             $param: #List[
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['orig_fields']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['i']
+                                                   ]
+                                                ]
+                                                $expression: #NameExpr['row']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $cond: #EqExpr[
+                                 $left: #NameExpr['encoding']
+                                 $right: #Encoding['__ENCODING__']
+                              ]
+                           ]
+                           $rescue: #List[
+                              $rescue: #Rescue[
+                                 $class: #Field[
+                                    $recv: #NameExpr['Encoding']
+                                    $name: #NameExpr['ConverterNotFoundError']
+                                 ]
+                                 $then: #Empty['']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['options']
+                              $index: #List[
+                                 $expression: #NameExpr['encoding']
+                              ]
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['encoding']
+                              $recv: #NameExpr['name']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['CSV']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['@temp_csv_path']
+                              $expression: #NameExpr['options']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['csv']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['csv']
+                                 $recv: #NameExpr['each_with_index']
+                                 $body: #Block[
+                                    $param: #MultipleLeftHandSideExpression[
+                                       $item: #NameExpr['row']
+                                       $item: #NameExpr['i']
+                                    ]
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['fields']
+                                             $index: #List[
+                                                $expression: #NameExpr['i']
+                                             ]
+                                          ]
+                                          $expression: #NameExpr['row']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['options']
+                           $recv: #NameExpr['delete']
+                           $param: #List[
+                              $expression: #NameExpr['encoding']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['options']
+                              $index: #List[
+                                 $expression: #NameExpr['external_encoding']
+                              ]
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['encoding']
+                              $recv: #NameExpr['name']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['options']
+                              $index: #List[
+                                 $expression: #NameExpr['internal_encoding']
+                              ]
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #Encoding['__ENCODING__']
+                              $recv: #NameExpr['name']
+                           ]
+                        ]
+                        $statement: #ExceptionBlock[
+                           $main: #Unless[
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['CSV']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['@temp_csv_path']
+                                    $expression: #NameExpr['options']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['csv']
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['csv']
+                                       $recv: #NameExpr['each_with_index']
+                                       $body: #Block[
+                                          $param: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['row']
+                                             $item: #NameExpr['i']
+                                          ]
+                                          $body: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert_equal']
+                                             $param: #List[
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['orig_fields']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['i']
+                                                   ]
+                                                ]
+                                                $expression: #NameExpr['row']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $cond: #EqExpr[
+                                 $left: #NameExpr['encoding']
+                                 $right: #Encoding['__ENCODING__']
+                              ]
+                           ]
+                           $rescue: #List[
+                              $rescue: #Rescue[
+                                 $class: #Field[
+                                    $recv: #NameExpr['Encoding']
+                                    $name: #NameExpr['ConverterNotFoundError']
+                                 ]
+                                 $then: #Empty['']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['encode_ary']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['ary']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['encoding']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['ary']
+                        $recv: #NameExpr['map']
+                        $body: #Block[
+                           $param: #NameExpr['row']
+                           $body: #ApplyExpr[
+                              $recv: #NameExpr['row']
+                              $recv: #NameExpr['map']
+                              $body: #Block[
+                                 $param: #NameExpr['field']
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['field']
+                                    $recv: #NameExpr['encode']
+                                    $param: #List[
+                                       $expression: #NameExpr['encoding']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['ary_to_data']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['ary']
+                     ]
+                     $param: #OptionalParam[
+                        $name: #NameExpr['options']
+                        $default: #List['{ }']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['encoding']
+                           $right: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['ary']
+                                    $recv: #NameExpr['flatten']
+                                 ]
+                                 $recv: #NameExpr['first']
+                              ]
+                              $recv: #NameExpr['encoding']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['quote_char']
+                           $right: #ApplyExpr[
+                              $recv: #LOr[
+                                 $left: #Indexer[
+                                    $recv: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['quote_char']
+                                    ]
+                                 ]
+                                 $right: #StringExpr['"']
+                              ]
+                              $recv: #NameExpr['encode']
+                              $param: #List[
+                                 $expression: #NameExpr['encoding']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['col_sep']
+                           $right: #ApplyExpr[
+                              $recv: #LOr[
+                                 $left: #Indexer[
+                                    $recv: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['col_sep']
+                                    ]
+                                 ]
+                                 $right: #StringExpr[',']
+                              ]
+                              $recv: #NameExpr['encode']
+                              $param: #List[
+                                 $expression: #NameExpr['encoding']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['row_sep']
+                           $right: #ApplyExpr[
+                              $recv: #LOr[
+                                 $left: #Indexer[
+                                    $recv: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['row_sep']
+                                    ]
+                                 ]
+                                 $right: #StringExpr['\\n']
+                              ]
+                              $recv: #NameExpr['encode']
+                              $param: #List[
+                                 $expression: #NameExpr['encoding']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['ary']
+                                 $recv: #NameExpr['map']
+                                 $body: #Block[
+                                    $param: #NameExpr['row']
+                                    $body: #AddExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['row']
+                                             $recv: #NameExpr['map']
+                                             $body: #Block[
+                                                $param: #NameExpr['field']
+                                                $body: #ApplyExpr[
+                                                   $recv: #Array[
+                                                      $index: #List[
+                                                         $expression: #NameExpr['quote_char']
+                                                         $expression: #ApplyExpr[
+                                                            $recv: #NameExpr['field']
+                                                            $recv: #NameExpr['encode']
+                                                            $param: #List[
+                                                               $expression: #NameExpr['encoding']
+                                                            ]
+                                                         ]
+                                                         $expression: #NameExpr['quote_char']
+                                                      ]
+                                                   ]
+                                                   $recv: #NameExpr['join']
+                                                   $param: #List[
+                                                      $expression: #StringExpr['']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['join']
+                                          $param: #List[
+                                             $expression: #NameExpr['col_sep']
+                                          ]
+                                       ]
+                                       $right: #NameExpr['row_sep']
+                                    ]
+                                 ]
+                              ]
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #StringExpr['']
+                              ]
+                           ]
+                           $recv: #NameExpr['encode']
+                           $param: #List[
+                              $expression: #NameExpr['encoding']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['encode_for_tests']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['data']
+                     ]
+                     $param: #OptionalParam[
+                        $name: #NameExpr['options']
+                        $default: #List['{ }']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Yield[
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['ary_to_data']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['encode_ary']
+                                       $param: #List[
+                                          $expression: #NameExpr['data']
+                                          $expression: #StringExpr['UTF-8']
+                                       ]
+                                    ]
+                                    $expression: #NameExpr['options']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Yield[
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['ary_to_data']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['encode_ary']
+                                       $param: #List[
+                                          $expression: #NameExpr['data']
+                                          $expression: #StringExpr['UTF-16BE']
+                                       ]
+                                    ]
+                                    $expression: #NameExpr['options']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['each_encoding']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #NameExpr['Encoding']
+                           $recv: #NameExpr['list']
+                        ]
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['encoding']
+                           $body: #List[
+                              $statement: #IfExpr[
+                                 $then: #Next['next']
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['encoding']
+                                    $recv: #NameExpr['dummy?']
+                                 ]
+                              ]
+                              $statement: #Yield[
+                                 $param: #List[
+                                    $expression: #NameExpr['encoding']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['no_warnings']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #MultipleAssign[
+                           $left: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['old_verbose']
+                              $item: #NameExpr['$VERBOSE']
+                           ]
+                           $right: #MultipleRightHandSideExpression[
+                              $expression: #NameExpr['$VERBOSE']
+                              $expression: #Nil['nil']
+                           ]
+                        ]
+                        $statement: #Yield['yield']
+                     ]
+                     $ensure: #AssignExpr[
+                        $left: #NameExpr['$VERBOSE']
+                        $right: #NameExpr['old_verbose']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

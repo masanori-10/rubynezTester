@@ -1,0 +1,243 @@
+#Source[
+   #List[
+      $statement: #AssignExpr[
+         $left: #NameExpr['config']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['File']
+            $recv: #NameExpr['read']
+            $param: #List[
+               $expression: #AssignExpr[
+                  $left: #NameExpr['conffile']
+                  $right: #NameExpr['$config']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['config']
+         $recv: #NameExpr['sub!']
+         $param: #List[
+            $expression: #Regex['/^(\\s*)RUBY_VERSION\\b.*(\\sor\\s*)$/']
+            $expression: #StringExpr['\\1true\\2']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['rbconfig']
+         $right: #Field[
+            $recv: #ApplyExpr[
+               $recv: #NameExpr['Module']
+               $recv: #NameExpr['new']
+               $body: #Block[
+                  $body: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['module_eval']
+                     $param: #List[
+                        $expression: #NameExpr['config']
+                        $expression: #NameExpr['conffile']
+                     ]
+                  ]
+               ]
+            ]
+            $name: #NameExpr['RbConfig']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['config']
+         $right: #Conditional[
+            $cond: #NameExpr['$expand']
+            $then: #Field[
+               $recv: #NameExpr['rbconfig']
+               $name: #NameExpr['CONFIG']
+            ]
+            $else: #Field[
+               $recv: #NameExpr['rbconfig']
+               $name: #NameExpr['MAKEFILE_CONFIG']
+            ]
+         ]
+      ]
+      $statement: #LOrAssign[
+         $left: #Indexer[
+            $base: #NameExpr['config']
+            $index: #List[
+               $expression: #StringExpr['RUBY_RELEASE_DATE']
+            ]
+         ]
+         $right: #Indexer[
+            $recv: #ApplyExpr[
+               $recv: #NameExpr['File']
+               $recv: #NameExpr['read']
+               $param: #List[
+                  $expression: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['expand_path']
+                     $param: #List[
+                        $expression: #StringExpr['../../version.h']
+                        $expression: #File['__FILE__']
+                     ]
+                  ]
+               ]
+            ]
+            $index: #List[
+               $expression: #Regex['/^\\s*#\\s*define\\s+RUBY_RELEASE_DATE\\s+"(.*)"/']
+               $expression: #IntExpr['1']
+            ]
+         ]
+      ]
+      $statement: #While[
+         $cond: #Match[
+            $left: #Regex['/\\A(\\w+)=(.*)/']
+            $right: #Indexer[
+               $recv: #NameExpr['ARGV']
+               $index: #List[
+                  $expression: #IntExpr['0']
+               ]
+            ]
+         ]
+         $body: #List[
+            $statement: #AssignExpr[
+               $left: #Indexer[
+                  $base: #NameExpr['config']
+                  $index: #List[
+                     $expression: #MatchedRegex['$1']
+                  ]
+               ]
+               $right: #MatchedRegex['$2']
+            ]
+            $statement: #IfExpr[
+               $then: #ApplyExpr[
+                  $recv: #Indexer[
+                     $recv: #NameExpr['config']
+                     $index: #List[
+                        $expression: #MatchedRegex['$1']
+                     ]
+                  ]
+                  $recv: #NameExpr['tr!']
+                  $param: #List[
+                     $expression: #Field[
+                        $recv: #NameExpr['File']
+                        $name: #NameExpr['ALT_SEPARATOR']
+                     ]
+                     $expression: #Field[
+                        $recv: #NameExpr['File']
+                        $name: #NameExpr['SEPARATOR']
+                     ]
+                  ]
+               ]
+               $cond: #Field[
+                  $recv: #NameExpr['File']
+                  $name: #NameExpr['ALT_SEPARATOR']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['ARGV']
+               $recv: #NameExpr['shift']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['re']
+         $right: #Regex['/@(#{config.keys.map {|k| Regexp.quote(k)}.join(\'|\')})@/']
+      ]
+      $statement: #IfExpr[
+         $cond: #NameExpr['$output']
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['output']
+               $right: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['open']
+                  $param: #List[
+                     $expression: #NameExpr['$output']
+                     $expression: #StringExpr['wb']
+                     $expression: #LAndAssign[
+                        $left: #NameExpr['$mode']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['$mode']
+                           $recv: #NameExpr['oct']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #IfExpr[
+               $then: #ApplyExpr[
+                  $recv: #NameExpr['output']
+                  $recv: #NameExpr['chmod']
+                  $param: #List[
+                     $expression: #NameExpr['$mode']
+                  ]
+               ]
+               $cond: #NameExpr['$mode']
+            ]
+         ]
+         $else: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['output']
+               $right: #NameExpr['STDOUT']
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['output']
+               $recv: #NameExpr['binmode']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['ARGF']
+         $recv: #NameExpr['each']
+         $body: #Block[
+            $param: #NameExpr['line']
+            $body: #List[
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['line']
+                  $recv: #NameExpr['gsub!']
+                  $param: #List[
+                     $expression: #Regex['/@([a-z_]\\w*)@/i']
+                  ]
+                  $body: #Block[
+                     $body: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['s']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['config']
+                              $recv: #NameExpr['fetch']
+                              $param: #List[
+                                 $expression: #MatchedRegex['$1']
+                                 $expression: #Conditional[
+                                    $cond: #NameExpr['$expand']
+                                    $then: #BuiltInVariable['$&']
+                                    $else: #StringExpr['']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Unless[
+                           $then: #AssignExpr[
+                              $left: #NameExpr['s']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['s']
+                                 $recv: #NameExpr['gsub']
+                                 $param: #List[
+                                    $expression: #Regex['/\\$\\((.+?)\\)/']
+                                    $expression: #ParcentNotation['%Q[${\\\\1}]']
+                                 ]
+                              ]
+                           ]
+                           $cond: #NameExpr['$expand']
+                        ]
+                        $statement: #NameExpr['s']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $base: #NameExpr['output']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #NameExpr['line']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

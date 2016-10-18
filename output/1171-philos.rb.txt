@@ -1,0 +1,333 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['thread']
+         ]
+      ]
+      $statement: #NameExpr['srand']
+      $statement: #AssignExpr[
+         $left: #NameExpr['N']
+         $right: #IntExpr['9']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$forks']
+         $right: #Array['[]']
+      ]
+      $statement: #For[
+         $iter: #NameExpr['i']
+         $range: #ClosedRange[
+            #IntExpr['0']
+            #SubExpr[
+               $left: #NameExpr['N']
+               $right: #IntExpr['1']
+            ]
+         ]
+         $body: #AssignExpr[
+            $left: #Indexer[
+               $base: #NameExpr['$forks']
+               $index: #List[
+                  $expression: #NameExpr['i']
+               ]
+            ]
+            $right: #ApplyExpr[
+               $recv: #Field[
+                  $recv: #NameExpr['Thread']
+                  $name: #NameExpr['Mutex']
+               ]
+               $recv: #NameExpr['new']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$state']
+         $right: #MulExpr[
+            $left: #StringExpr['-o']
+            $right: #NameExpr['N']
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['wait']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['sleep']
+               $param: #List[
+                  $expression: #DivExpr[
+                     $left: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['rand']
+                        $param: #List[
+                           $expression: #IntExpr['20']
+                        ]
+                     ]
+                     $right: #FloatExpr['10.0']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['think']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['n']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #NameExpr['wait']
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['eat']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['n']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #NameExpr['wait']
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['philosopher']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['n']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #While[
+               $cond: #TrueExpr['true']
+               $body: #List[
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['think']
+                     $param: #List[
+                        $expression: #NameExpr['n']
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #Indexer[
+                        $recv: #NameExpr['$forks']
+                        $index: #List[
+                           $expression: #NameExpr['n']
+                        ]
+                     ]
+                     $recv: #NameExpr['lock']
+                  ]
+                  $statement: #IfExpr[
+                     $cond: #[
+                        $base: #ApplyExpr[
+                           $recv: #Indexer[
+                              $recv: #NameExpr['$forks']
+                              $index: #List[
+                                 $expression: #ModExpr[
+                                    $left: #AddExpr[
+                                       $left: #NameExpr['n']
+                                       $right: #IntExpr['1']
+                                    ]
+                                    $right: #NameExpr['N']
+                                 ]
+                              ]
+                           ]
+                           $recv: #NameExpr['try_lock']
+                        ]
+                     ]
+                     $then: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #Indexer[
+                              $recv: #NameExpr['$forks']
+                              $index: #List[
+                                 $expression: #NameExpr['n']
+                              ]
+                           ]
+                           $recv: #NameExpr['unlock']
+                        ]
+                        $statement: #Next['next']
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #Indexer[
+                        $base: #NameExpr['$state']
+                        $index: #List[
+                           $expression: #MulExpr[
+                              $left: #NameExpr['n']
+                              $right: #IntExpr['2']
+                           ]
+                        ]
+                     ]
+                     $right: #StringExpr['|']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #Indexer[
+                        $base: #NameExpr['$state']
+                        $index: #List[
+                           $expression: #MulExpr[
+                              $left: #ModExpr[
+                                 $left: #AddExpr[
+                                    $left: #NameExpr['n']
+                                    $right: #IntExpr['1']
+                                 ]
+                                 $right: #NameExpr['N']
+                              ]
+                              $right: #IntExpr['2']
+                           ]
+                        ]
+                     ]
+                     $right: #StringExpr['|']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #Indexer[
+                        $base: #NameExpr['$state']
+                        $index: #List[
+                           $expression: #AddExpr[
+                              $left: #MulExpr[
+                                 $left: #NameExpr['n']
+                                 $right: #IntExpr['2']
+                              ]
+                              $right: #IntExpr['1']
+                           ]
+                        ]
+                     ]
+                     $right: #StringExpr['*']
+                  ]
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['print']
+                     $param: #List[
+                        $expression: #NameExpr['$state']
+                        $expression: #StringExpr['\\n']
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['eat']
+                     $param: #List[
+                        $expression: #NameExpr['n']
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #Indexer[
+                        $base: #NameExpr['$state']
+                        $index: #List[
+                           $expression: #MulExpr[
+                              $left: #NameExpr['n']
+                              $right: #IntExpr['2']
+                           ]
+                        ]
+                     ]
+                     $right: #StringExpr['-']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #Indexer[
+                        $base: #NameExpr['$state']
+                        $index: #List[
+                           $expression: #MulExpr[
+                              $left: #ModExpr[
+                                 $left: #AddExpr[
+                                    $left: #NameExpr['n']
+                                    $right: #IntExpr['1']
+                                 ]
+                                 $right: #NameExpr['N']
+                              ]
+                              $right: #IntExpr['2']
+                           ]
+                        ]
+                     ]
+                     $right: #StringExpr['-']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #Indexer[
+                        $base: #NameExpr['$state']
+                        $index: #List[
+                           $expression: #AddExpr[
+                              $left: #MulExpr[
+                                 $left: #NameExpr['n']
+                                 $right: #IntExpr['2']
+                              ]
+                              $right: #IntExpr['1']
+                           ]
+                        ]
+                     ]
+                     $right: #StringExpr['o']
+                  ]
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['print']
+                     $param: #List[
+                        $expression: #NameExpr['$state']
+                        $expression: #StringExpr['\\n']
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #Indexer[
+                        $recv: #NameExpr['$forks']
+                        $index: #List[
+                           $expression: #NameExpr['n']
+                        ]
+                     ]
+                     $recv: #NameExpr['unlock']
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #Indexer[
+                        $recv: #NameExpr['$forks']
+                        $index: #List[
+                           $expression: #ModExpr[
+                              $left: #AddExpr[
+                                 $left: #NameExpr['n']
+                                 $right: #IntExpr['1']
+                              ]
+                              $right: #NameExpr['N']
+                           ]
+                        ]
+                     ]
+                     $recv: #NameExpr['unlock']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #For[
+         $iter: #NameExpr['n']
+         $range: #ClosedRange[
+            #IntExpr['0']
+            #SubExpr[
+               $left: #NameExpr['N']
+               $right: #IntExpr['1']
+            ]
+         ]
+         $body: #List[
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['Thread']
+               $recv: #NameExpr['start']
+               $param: #List[
+                  $expression: #NameExpr['n']
+               ]
+               $body: #Block[
+                  $param: #NameExpr['i']
+                  $body: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['philosopher']
+                     $param: #List[
+                        $expression: #NameExpr['i']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['sleep']
+               $param: #List[
+                  $expression: #FloatExpr['0.1']
+               ]
+            ]
+         ]
+      ]
+      $statement: #NameExpr['sleep']
+   ]
+   #Comsumed['comsumed']
+]

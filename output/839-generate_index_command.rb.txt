@@ -1,0 +1,255 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/command']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/indexer']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #Field[
+               $recv: #NameExpr['Gem']
+               $name: #NameExpr['Commands']
+            ]
+            $name: #NameExpr['GenerateIndexCommand']
+         ]
+         $super: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['Command']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Super[
+                           $param: #List[
+                              $expression: #StringExpr['generate_index']
+                              $expression: #StringExpr['Generates the index files for a gem server directory']
+                              $hash: #Hash[
+                                 $key: #NameExpr['directory']
+                                 $value: #StringExpr['.']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['build_modern']
+                                 $value: #TrueExpr['true']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_option']
+                           $param: #List[
+                              $expression: #StringExpr['-d']
+                              $expression: #StringExpr['--directory=DIRNAME']
+                              $expression: #StringExpr['repository base dir containing gems subdir']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['dir']
+                                 $item: #NameExpr['options']
+                              ]
+                              $body: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['directory']
+                                    ]
+                                 ]
+                                 $right: #ApplyExpr[
+                                    $base: #NameExpr['File']
+                                    $recv: #NameExpr['expand_path']
+                                    $param: #List[
+                                       $expression: #NameExpr['dir']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_option']
+                           $param: #List[
+                              $expression: #StringExpr['--[no-]modern']
+                              $expression: #StringExpr['Generate indexes for RubyGems']
+                              $expression: #StringExpr['(always true)']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['value']
+                                 $item: #NameExpr['options']
+                              ]
+                              $body: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['build_modern']
+                                    ]
+                                 ]
+                                 $right: #NameExpr['value']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_option']
+                           $param: #List[
+                              $expression: #StringExpr['--update']
+                              $expression: #StringExpr['Update modern indexes with gems added']
+                              $expression: #StringExpr['since the last update']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['value']
+                                 $item: #NameExpr['options']
+                              ]
+                              $body: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['update']
+                                    ]
+                                 ]
+                                 $right: #NameExpr['value']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['defaults_str']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr['--directory . --modern']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['description']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #HereDocument['The generate_index command creates a set of indexes for serving gems\nstatically.  The command expects a \'gems\' directory under the path given to\nthe --directory option.  The given directory will be the directory you serve\nas the gem repository.\n\nFor `gem generate_index --directory /path/to/repo`, expose /path/to/repo via\nyour HTTP server configuration (not /path/to/repo/gems).\n\nWhen done, it will generate a set of files like this:\n\n  gems/*.gem                                   # .gem files you want to\n                                               # index\n\n  specs.<version>.gz                           # specs index\n  latest_specs.<version>.gz                    # latest specs index\n  prerelease_specs.<version>.gz                # prerelease specs index\n  quick/Marshal.<version>/<gemname>.gemspec.rz # Marshal quick index file\n\nThe .rz extension files are compressed with the inflate algorithm.\nThe Marshal version number comes from ruby\'s Marshal::MAJOR_VERSION and\nMarshal::MINOR_VERSION constants.  It is used to ensure compatibility.\n']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['execute']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['options']
+                              $index: #List[
+                                 $expression: #NameExpr['build_modern']
+                              ]
+                           ]
+                           $right: #TrueExpr['true']
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #OrExpr[
+                              $left: #[
+                                 $base: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['exist?']
+                                    $param: #List[
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['options']
+                                          $index: #List[
+                                             $expression: #NameExpr['directory']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $right: #[
+                                 $base: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['directory?']
+                                    $param: #List[
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['options']
+                                          $index: #List[
+                                             $expression: #NameExpr['directory']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['alert_error']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['directory']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['terminate_interaction']
+                                 $param: #List[
+                                    $expression: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                           $else: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['indexer']
+                                 $right: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['Indexer']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['options']
+                                          $recv: #NameExpr['delete']
+                                          $param: #List[
+                                             $expression: #NameExpr['directory']
+                                          ]
+                                       ]
+                                       $expression: #NameExpr['options']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #Indexer[
+                                    $recv: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['update']
+                                    ]
+                                 ]
+                                 $then: #ApplyExpr[
+                                    $recv: #NameExpr['indexer']
+                                    $recv: #NameExpr['update_index']
+                                 ]
+                                 $else: #ApplyExpr[
+                                    $recv: #NameExpr['indexer']
+                                    $recv: #NameExpr['generate_index']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

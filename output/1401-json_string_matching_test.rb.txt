@@ -1,0 +1,186 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test_helper']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['time']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['JSONStringMatchingTest']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['include']
+                  $param: #List[
+                     $expression: #NameExpr['JSON']
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['TestTime']
+                  $super: #NameExpr['Time']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #SFuncDecl[
+                           $path: #Self['self']
+                           $name: #NameExpr['json_create']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['string']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 $recv: #NameExpr['Time']
+                                 $recv: #NameExpr['parse']
+                                 $param: #List[
+                                    $expression: #NameExpr['string']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['to_json']
+                           $param: #List[
+                              $param: #VariadicParam['*']
+                           ]
+                           $body: #BlockExpr[
+                              $main: #ParcentNotation['%{"#{strftime(\'%FT%T%z\')}"}']
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['==']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['other']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #EqExpr[
+                                 $left: #NameExpr['to_i']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['other']
+                                    $recv: #NameExpr['to_i']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_match_date']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['t']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['TestTime']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['t_json']
+                           $right: #ApplyExpr[
+                              $recv: #Array[
+                                 $index: #List[
+                                    $expression: #NameExpr['t']
+                                 ]
+                              ]
+                              $recv: #NameExpr['to_json']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['time_regexp']
+                           $right: #Regex['/\\A\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}[+-]\\d{4}\\z/']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #NameExpr['t']
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['parse']
+                                 $param: #List[
+                                    $expression: #NameExpr['t_json']
+                                    $hash: #Hash[
+                                       $key: #NameExpr['create_additions']
+                                       $value: #TrueExpr['true']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['match_string']
+                                       $value: #List[
+                                          $hash: #Hash[
+                                             $key: #NameExpr['time_regexp']
+                                             $value: #NameExpr['TestTime']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['t']
+                                       $recv: #NameExpr['strftime']
+                                       $param: #List[
+                                          $expression: #StringExpr['%FT%T%z']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['parse']
+                                 $param: #List[
+                                    $expression: #NameExpr['t_json']
+                                    $hash: #Hash[
+                                       $key: #NameExpr['match_string']
+                                       $value: #List[
+                                          $hash: #Hash[
+                                             $key: #NameExpr['time_regexp']
+                                             $value: #NameExpr['TestTime']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

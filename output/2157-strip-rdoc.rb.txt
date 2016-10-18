@@ -1,0 +1,102 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['ARGF']
+         $recv: #NameExpr['binmode']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['source']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['ARGF']
+            $recv: #NameExpr['read']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['source']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['source']
+            $recv: #NameExpr['gsub']
+            $param: #List[
+               $expression: #Regex['%r{/\\*([!*])((?!\\*/).+?)\\*/}m']
+            ]
+            $body: #Block[
+               $param: #NameExpr['comment']
+               $body: #List[
+                  $statement: #MultipleAssign[
+                     $left: #MultipleLeftHandSideExpression[
+                        $item: #NameExpr['marker']
+                        $item: #NameExpr['comment']
+                     ]
+                     $right: #MultipleRightHandSideExpression[
+                        $expression: #MatchedRegex['$1']
+                        $expression: #MatchedRegex['$2']
+                     ]
+                  ]
+                  $statement: #Unless[
+                     $then: #Next[
+                        $expr: #List[
+                           $expression: #StringExpr[
+                              $inner: #NameExpr['comment']
+                           ]
+                        ]
+                     ]
+                     $cond: #Match[
+                        $left: #Regex['/^\\s*\\*\\s?\\-\\-\\s*$/']
+                        $right: #NameExpr['comment']
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['doxybody']
+                     $right: #Nil['nil']
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #NameExpr['comment']
+                     $recv: #NameExpr['each_line']
+                     $body: #Block[
+                        $param: #NameExpr['line']
+                        $body: #IfExpr[
+                           $cond: #NameExpr['doxybody']
+                           $then: #List[
+                              $statement: #IfExpr[
+                                 $cond: #Match[
+                                    $left: #Regex['/^\\s*\\*\\s?\\+\\+\\s*$/']
+                                    $right: #NameExpr['line']
+                                 ]
+                                 $then: #Break['break']
+                              ]
+                              $statement: #LShiftExpr[
+                                 $left: #NameExpr['doxybody']
+                                 $right: #NameExpr['line']
+                              ]
+                           ]
+                           $else: #IfExpr[
+                              $cond: #Match[
+                                 $left: #Regex['/^\\s*\\*\\s?--\\s*$/']
+                                 $right: #NameExpr['line']
+                              ]
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['doxybody']
+                                 $right: #StringExpr['\\n']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #StringExpr[
+                     $inner: #NameExpr['marker']
+                     $inner: #NameExpr['doxybody']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #NameExpr['source']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

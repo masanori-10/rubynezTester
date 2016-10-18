@@ -1,0 +1,517 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['optparse']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #ApplyExpr[
+               $recv: #NameExpr['File']
+               $recv: #NameExpr['expand_path']
+               $param: #List[
+                  $expression: #StringExpr['../vcs']
+                  $expression: #File['__FILE__']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['Program']
+         $right: #BuiltInVariable['$0']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['@output']
+         $right: #Nil['nil']
+      ]
+      $statement: #SFuncDecl[
+         $path: #Self['self']
+         $name: #NameExpr['output=']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['output']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #IfExpr[
+                  $cond: #AndExpr[
+                     $left: #NameExpr['@output']
+                     $right: #NeExpr[
+                        $left: #NameExpr['@output']
+                        $right: #NameExpr['output']
+                     ]
+                  ]
+                  $then: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['raise']
+                     $param: #List[
+                        $expression: #StringExpr['you can specify only one of --changed, --revision.h and --doxygen']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['@output']
+                  $right: #NameExpr['output']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['@suppress_not_found']
+         $right: #FalseExpr['false']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['format']
+         $right: #StringExpr['%Y-%m-%dT%H:%M:%S%z']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['srcdir']
+         $right: #Nil['nil']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['parser']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['OptionParser']
+            $recv: #NameExpr['new']
+            $body: #Block[
+               $param: #NameExpr['opts']
+               $body: #List[
+                  $statement: #ApplyExpr[
+                     $recv: #NameExpr['opts']
+                     $recv: #NameExpr['on']
+                     $param: #List[
+                        $expression: #StringExpr['--srcdir=PATH']
+                        $expression: #StringExpr['use PATH as source directory']
+                     ]
+                     $body: #Block[
+                        $param: #NameExpr['path']
+                        $body: #AssignExpr[
+                           $left: #NameExpr['srcdir']
+                           $right: #NameExpr['path']
+                        ]
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #NameExpr['opts']
+                     $recv: #NameExpr['on']
+                     $param: #List[
+                        $expression: #StringExpr['--changed']
+                        $expression: #StringExpr['changed rev']
+                     ]
+                     $body: #Block[
+                        $body: #AssignExpr[
+                           $left: #Field[
+                              $base: #Self['self']
+                              $name: #NameExpr['output']
+                           ]
+                           $right: #NameExpr['changed']
+                        ]
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #NameExpr['opts']
+                     $recv: #NameExpr['on']
+                     $param: #List[
+                        $expression: #StringExpr['--revision.h']
+                        $expression: #StringExpr['RUBY_REVISION macro']
+                     ]
+                     $body: #Block[
+                        $body: #AssignExpr[
+                           $left: #Field[
+                              $base: #Self['self']
+                              $name: #NameExpr['output']
+                           ]
+                           $right: #NameExpr['revision_h']
+                        ]
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #NameExpr['opts']
+                     $recv: #NameExpr['on']
+                     $param: #List[
+                        $expression: #StringExpr['--doxygen']
+                        $expression: #StringExpr['Doxygen format']
+                     ]
+                     $body: #Block[
+                        $body: #AssignExpr[
+                           $left: #Field[
+                              $base: #Self['self']
+                              $name: #NameExpr['output']
+                           ]
+                           $right: #NameExpr['doxygen']
+                        ]
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #NameExpr['opts']
+                     $recv: #NameExpr['on']
+                     $param: #List[
+                        $expression: #StringExpr['--modified[=FORMAT]']
+                        $expression: #StringExpr['modified time']
+                     ]
+                     $body: #Block[
+                        $param: #NameExpr['fmt']
+                        $body: #List[
+                           $statement: #AssignExpr[
+                              $left: #Field[
+                                 $base: #Self['self']
+                                 $name: #NameExpr['output']
+                              ]
+                              $right: #NameExpr['modified']
+                           ]
+                           $statement: #IfExpr[
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['format']
+                                 $right: #NameExpr['fmt']
+                              ]
+                              $cond: #NameExpr['fmt']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #NameExpr['opts']
+                     $recv: #NameExpr['on']
+                     $param: #List[
+                        $expression: #StringExpr['-q']
+                        $expression: #StringExpr['--suppress_not_found']
+                     ]
+                     $body: #Block[
+                        $body: #AssignExpr[
+                           $left: #NameExpr['@suppress_not_found']
+                           $right: #TrueExpr['true']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Rescue[
+         $body: #ApplyExpr[
+            $recv: #NameExpr['parser']
+            $recv: #NameExpr['parse!']
+         ]
+         $rescue: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['abort']
+            $param: #List[
+               $expression: #StringExpr[
+                  $inner: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['basename']
+                     $param: #List[
+                        $expression: #NameExpr['Program']
+                     ]
+                  ]
+                  $inner: #BuiltInVariable['$!']
+                  $inner: #NameExpr['parser']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['@output']
+         $right: #Case[
+            $cond: #NameExpr['@output']
+            $body: #List[
+               $when: #When[
+                  $cond: #List[
+                     $expression: #NameExpr['changed']
+                     $expression: #Nil['nil']
+                  ]
+                  $then: #ApplyExpr[
+                     $recv: #NameExpr['Proc']
+                     $recv: #NameExpr['new']
+                     $body: #Block[
+                        $param: #MultipleLeftHandSideExpression[
+                           $item: #NameExpr['last']
+                           $item: #NameExpr['changed']
+                        ]
+                        $body: #NameExpr['changed']
+                     ]
+                  ]
+               ]
+               $when: #When[
+                  $cond: #List[
+                     $expression: #NameExpr['revision_h']
+                  ]
+                  $then: #ApplyExpr[
+                     $recv: #NameExpr['Proc']
+                     $recv: #NameExpr['new']
+                     $body: #Block[
+                        $param: #MultipleLeftHandSideExpression[
+                           $item: #NameExpr['last']
+                           $item: #NameExpr['changed']
+                           $item: #NameExpr['modified']
+                           $item: #NameExpr['branch']
+                           $item: #NameExpr['title']
+                        ]
+                        $body: #ApplyExpr[
+                           $recv: #Array[
+                              $index: #List[
+                                 $expression: #StringExpr[
+                                    $inner: #LOr[
+                                       $left: #NameExpr['changed']
+                                       $right: #IntExpr['0']
+                                    ]
+                                 ]
+                                 $expression: #IfExpr[
+                                    $cond: #NameExpr['branch']
+                                    $then: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['e']
+                                          $right: #StringExpr['..']
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['limit']
+                                          $right: #IntExpr['16']
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['name']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['branch']
+                                             $recv: #NameExpr['sub']
+                                             $param: #List[
+                                                $expression: #Regex['/\\A(.{#{limit-e.size}}).{#{e.size+1},}/o']
+                                             ]
+                                             $body: #Block[
+                                                $body: #AddExpr[
+                                                   $left: #MatchedRegex['$1']
+                                                   $right: #NameExpr['e']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #StringExpr[
+                                          $inner: #ApplyExpr[
+                                             $recv: #NameExpr['name']
+                                             $recv: #NameExpr['dump']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $expression: #IfExpr[
+                                    $cond: #NameExpr['title']
+                                    $then: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['title']
+                                          $recv: #NameExpr['dump']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $recv: #NameExpr['compact']
+                        ]
+                     ]
+                  ]
+               ]
+               $when: #When[
+                  $cond: #List[
+                     $expression: #NameExpr['doxygen']
+                  ]
+                  $then: #ApplyExpr[
+                     $recv: #NameExpr['Proc']
+                     $recv: #NameExpr['new']
+                     $body: #Block[
+                        $param: #MultipleLeftHandSideExpression[
+                           $item: #NameExpr['last']
+                           $item: #NameExpr['changed']
+                        ]
+                        $body: #StringExpr[
+                           $inner: #NameExpr['changed']
+                           $inner: #NameExpr['last']
+                        ]
+                     ]
+                  ]
+               ]
+               $when: #When[
+                  $cond: #List[
+                     $expression: #NameExpr['modified']
+                  ]
+                  $then: #ApplyExpr[
+                     $recv: #NameExpr['Proc']
+                     $recv: #NameExpr['new']
+                     $body: #Block[
+                        $param: #MultipleLeftHandSideExpression[
+                           $item: #NameExpr['last']
+                           $item: #NameExpr['changed']
+                           $item: #NameExpr['modified']
+                        ]
+                        $body: #ApplyExpr[
+                           $recv: #NameExpr['modified']
+                           $recv: #NameExpr['strftime']
+                           $param: #List[
+                              $expression: #NameExpr['format']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $else: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['raise']
+               $param: #List[
+                  $expression: #StringExpr[
+                     $inner: #NameExpr['@output']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #LOrAssign[
+         $left: #NameExpr['srcdir']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['File']
+            $recv: #NameExpr['dirname']
+            $param: #List[
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['File']
+                  $recv: #NameExpr['dirname']
+                  $param: #List[
+                     $expression: #NameExpr['Program']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ExceptionBlock[
+         $main: #AssignExpr[
+            $left: #NameExpr['vcs']
+            $right: #ApplyExpr[
+               $recv: #NameExpr['VCS']
+               $recv: #NameExpr['detect']
+               $param: #List[
+                  $expression: #NameExpr['srcdir']
+               ]
+            ]
+         ]
+         $rescue: #List[
+            $rescue: #Rescue[
+               $class: #Field[
+                  $recv: #NameExpr['VCS']
+                  $name: #NameExpr['NotFoundError']
+               ]
+               $target: #NameExpr['e']
+               $then: #Unless[
+                  $then: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['abort']
+                     $param: #List[
+                        $expression: #StringExpr[
+                           $inner: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['basename']
+                              $param: #List[
+                                 $expression: #NameExpr['Program']
+                              ]
+                           ]
+                           $inner: #ApplyExpr[
+                              $recv: #NameExpr['e']
+                              $recv: #NameExpr['message']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $cond: #NameExpr['@suppress_not_found']
+               ]
+            ]
+         ]
+         $else: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['ok']
+               $right: #TrueExpr['true']
+            ]
+            $statement: #ApplyExpr[
+               $recv: #Conditional[
+                  $cond: #ApplyExpr[
+                     $recv: #NameExpr['ARGV']
+                     $recv: #NameExpr['empty?']
+                  ]
+                  $then: #Array[
+                     $index: #List[
+                        $expression: #Nil['nil']
+                     ]
+                  ]
+                  $else: #NameExpr['ARGV']
+               ]
+               $recv: #NameExpr['each']
+               $body: #Block[
+                  $param: #NameExpr['arg']
+                  $body: #ExceptionBlock[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['puts']
+                        $param: #List[
+                           $expression: #Indexer[
+                              $recv: #NameExpr['@output']
+                              $index: #List[
+                                 $variadic: #Variadic[
+                                    $base: #ApplyExpr[
+                                       $recv: #NameExpr['vcs']
+                                       $recv: #NameExpr['get_revisions']
+                                       $param: #List[
+                                          $expression: #NameExpr['arg']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $rescue: #List[
+                        $rescue: #Rescue[
+                           $target: #NameExpr['e']
+                           $then: #List[
+                              $statement: #Unless[
+                                 $then: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['warn']
+                                    $param: #List[
+                                       $expression: #StringExpr[
+                                          $inner: #ApplyExpr[
+                                             $recv: #NameExpr['File']
+                                             $recv: #NameExpr['basename']
+                                             $param: #List[
+                                                $expression: #NameExpr['Program']
+                                             ]
+                                          ]
+                                          $inner: #ApplyExpr[
+                                             $recv: #NameExpr['e']
+                                             $recv: #NameExpr['message']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $cond: #NameExpr['@suppress_not_found']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['ok']
+                                 $right: #FalseExpr['false']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['exit']
+               $param: #List[
+                  $expression: #NameExpr['ok']
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

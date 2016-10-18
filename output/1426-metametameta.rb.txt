@@ -1,0 +1,319 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['tempfile']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['stringio']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['minitest/autorun']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #Field[
+               $recv: #NameExpr['MiniTest']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #FuncDecl[
+               $name: #NameExpr['clean']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['s']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     $recv: #NameExpr['s']
+                     $recv: #NameExpr['gsub']
+                     $param: #List[
+                        $expression: #Regex['/^ {6}/']
+                        $expression: #StringExpr['']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['MetaMetaMetaTestCase']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['MiniTest']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['assert_report']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['expected']
+                     ]
+                     $param: #OptionalParam[
+                        $name: #NameExpr['flags']
+                        $default: #ParcentNotation['%w[--seed 42]']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['header']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['clean']
+                              $param: #List[
+                                 $expression: #HereDocument['      Run options: #{flags.map { |s| s =~ /\\|/ ? s.inspect : s }.join " "}\n\n      # Running tests:\n\n']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['with_output']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $base: #NameExpr['@tu']
+                                 $recv: #NameExpr['run']
+                                 $param: #List[
+                                    $expression: #NameExpr['flags']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['output']
+                           $right: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['@output']
+                                 $recv: #NameExpr['string']
+                              ]
+                              $recv: #NameExpr['dup']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['output']
+                           $recv: #NameExpr['sub!']
+                           $param: #List[
+                              $expression: #Regex['/Finished tests in .*/']
+                              $expression: #StringExpr['Finished tests in 0.00']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['output']
+                           $recv: #NameExpr['sub!']
+                           $param: #List[
+                              $expression: #Regex['/Loaded suite .*/']
+                              $expression: #StringExpr['Loaded suite blah']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['output']
+                           $recv: #NameExpr['gsub!']
+                           $param: #List[
+                              $expression: #Regex['/ = \\d+.\\d\\d s = /']
+                              $expression: #StringExpr[' = 0.00 s = ']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['output']
+                           $recv: #NameExpr['gsub!']
+                           $param: #List[
+                              $expression: #Regex['/0x[A-Fa-f0-9]+/']
+                              $expression: #StringExpr['0xXXX']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['windows?']
+                           ]
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['output']
+                                 $recv: #NameExpr['gsub!']
+                                 $param: #List[
+                                    $expression: #Regex['/\\[(?:[A-Za-z]:)?[^\\]:]+:\\d+\\]/']
+                                    $expression: #StringExpr['[FILE:LINE]']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['output']
+                                 $recv: #NameExpr['gsub!']
+                                 $param: #List[
+                                    $expression: #Regex['/^(\\s+)(?:[A-Za-z]:)?[^:]+:\\d+:in/']
+                                    $expression: #StringExpr['\\1FILE:LINE:in']
+                                 ]
+                              ]
+                           ]
+                           $else: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['output']
+                                 $recv: #NameExpr['gsub!']
+                                 $param: #List[
+                                    $expression: #Regex['/\\[[^\\]:]+:\\d+\\]/']
+                                    $expression: #StringExpr['[FILE:LINE]']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['output']
+                                 $recv: #NameExpr['gsub!']
+                                 $param: #List[
+                                    $expression: #Regex['/^(\\s+)[^:]+:\\d+:in/']
+                                    $expression: #StringExpr['\\1FILE:LINE:in']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #AddExpr[
+                                 $left: #NameExpr['header']
+                                 $right: #NameExpr['expected']
+                              ]
+                              $expression: #NameExpr['output']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['srand']
+                           $param: #List[
+                              $expression: #IntExpr['42']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #Field[
+                                 $recv: #NameExpr['MiniTest']
+                                 $name: #NameExpr['Unit']
+                              ]
+                              $name: #NameExpr['TestCase']
+                           ]
+                           $recv: #NameExpr['reset']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@tu']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['MiniTest']
+                                 $name: #NameExpr['Unit']
+                              ]
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Field[
+                              $base: #Field[
+                                 $recv: #NameExpr['MiniTest']
+                                 $name: #NameExpr['Unit']
+                              ]
+                              $name: #NameExpr['runner']
+                           ]
+                           $right: #Nil['nil']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['teardown']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #Super['super']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['with_output']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['synchronize']
+                        $body: #Block[
+                           $body: #ExceptionBlock[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['save']
+                                    $right: #ApplyExpr[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['MiniTest']
+                                          $name: #NameExpr['Unit']
+                                       ]
+                                       $recv: #NameExpr['output']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@output']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['StringIO']
+                                       $recv: #NameExpr['new']
+                                       $param: #List[
+                                          $expression: #StringExpr['']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #Field[
+                                          $recv: #NameExpr['MiniTest']
+                                          $name: #NameExpr['Unit']
+                                       ]
+                                       $name: #NameExpr['output']
+                                    ]
+                                    $right: #NameExpr['@output']
+                                 ]
+                                 $statement: #Yield['yield']
+                              ]
+                              $ensure: #AssignExpr[
+                                 $left: #Field[
+                                    $base: #Field[
+                                       $recv: #NameExpr['MiniTest']
+                                       $name: #NameExpr['Unit']
+                                    ]
+                                    $name: #NameExpr['output']
+                                 ]
+                                 $right: #NameExpr['save']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

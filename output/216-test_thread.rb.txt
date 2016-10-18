@@ -1,0 +1,405 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  Thread.new{\n  }.join\n  :ok\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  Thread.new{\n    :ok\n  }.value\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\nbegin\n  v = 0\n  (1..200).map{|i|\n    Thread.new{\n      i\n    }\n  }.each{|t|\n    v += t.value\n  }\n  v == 20100 ? :ok : v\nrescue ThreadError => e\n  :ok if /can\'t create Thread/ =~ e.message\nend\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\nbegin\n  :ok if 5000 == 5000.times{|e|\n    (1..2).map{\n      Thread.new{\n      }\n    }.each{|e|\n      e.join()\n    }\n  }\nrescue ThreadError => e\n  :ok if /can\'t create Thread/ =~ e.message\nend\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\nbegin\n  :ok if 5000 == 5000.times{|e|\n    (1..2).map{\n      Thread.new{\n      }\n    }.each{|e|\n      e.join(1000000000)\n    }\n  }\nrescue ThreadError => e\n  :ok if /can\'t create Thread/ =~ e.message\nend\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\nbegin\n  :ok if 5000 == 5000.times{\n    t = Thread.new{}\n    while t.alive?\n      Thread.pass\n    end\n  }\nrescue NoMemoryError\n  :ok\nend\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{100}']
+            $expression: #ParcentNotation['%q{\n  100.times{\n    Thread.new{loop{Thread.pass}}\n  }\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  Thread.new{\n    :ok\n  }.join.value\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  begin\n    Thread.new{\n      raise "ok"\n    }.join\n  rescue => e\n    e\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  ans = nil\n  t = Thread.new{\n    begin\n      sleep 0.5\n    ensure\n      ans = :ok\n    end\n  }\n  Thread.pass until t.stop?\n  t.kill\n  t.join\n  ans\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  t = Thread.new{\n    sleep\n  }\n  sleep 0.1\n  t.raise\n  begin\n    t.join\n    :ng\n  rescue\n    :ok\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  t = Thread.new{\n    loop{}\n  }\n  Thread.pass\n  t.raise\n  begin\n    t.join\n    :ng\n  rescue\n    :ok\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  t = Thread.new{\n  }\n  Thread.pass\n  t.join\n  t.raise # raise to exited thread\n  begin\n    t.join\n    :ok\n  rescue\n    :ng\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{run}']
+            $expression: #ParcentNotation['%q{\n  t = Thread.new{\n    loop{}\n  }\n  st = t.status\n  t.kill\n  st\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{sleep}']
+            $expression: #ParcentNotation['%q{\n  t = Thread.new{\n    sleep\n  }\n  sleep 0.1\n  st = t.status\n  t.kill\n  st\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{false}']
+            $expression: #ParcentNotation['%q{\n  t = Thread.new{\n  }\n  t.kill\n  sleep 0.1\n  t.status\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[ThreadGroup, true]}']
+            $expression: #ParcentNotation['%q{\n  ptg = Thread.current.group\n  Thread.new{\n    ctg = Thread.current.group\n    [ctg.class, ctg == ptg]\n  }.value\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[1, 1]}']
+            $expression: #ParcentNotation['%q{\n  thg = ThreadGroup.new\n\n  t = Thread.new{\n    thg.add Thread.current\n    sleep\n  }\n  sleep 0.1\n  [thg.list.size, ThreadGroup::Default.list.size]\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{true}']
+            $expression: #ParcentNotation['%q{\n  thg = ThreadGroup.new\n\n  t = Thread.new{sleep 5}\n  thg.add t\n  thg.list.include?(t)\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[true, nil, true]}']
+            $expression: #ParcentNotation['%q{\n  /a/ =~ \'a\'\n  $a = $~\n  Thread.new{\n    $b = $~\n    /b/ =~ \'b\'\n    $c = $~\n  }.join\n  $d = $~\n  [$a == $d, $b, $c != $d]\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{11}']
+            $expression: #ParcentNotation['%q{\n  Thread.current[:a] = 1\n  Thread.new{\n    Thread.current[:a] = 10\n    Thread.pass\n    Thread.current[:a]\n  }.value + Thread.current[:a]\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  begin\n    100.times do |i|\n      begin\n        th = Thread.start(Thread.current) {|u| u.raise }\n        raise\n      rescue\n      ensure\n        th.join\n      end\n    end\n  rescue\n  end\n}']
+            $expression: #StringExpr['[ruby-dev:31371]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['true']
+            $expression: #ParcentNotation['%{\n  t = Thread.new { loop {} }\n  begin\n    pid = fork {\n      exit t.status != "run"\n    }\n    Process.wait pid\n    $?.success?\n  rescue NotImplementedError\n    true\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%{\n  open("zzz.rb", "w") do |f|\n    f.puts <<-END\n      begin\n        Thread.new { fork { GC.start } }.join\n        pid, status = Process.wait2\n        $result = status.success? ? :ok : :ng\n      rescue NotImplementedError\n        $result = :ok\n      end\n    END\n  end\n  require "./zzz.rb"\n  $result\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_finish']
+         $param: #List[
+            $expression: #IntExpr['3']
+            $expression: #ParcentNotation['%{\n  th = Thread.new {sleep 0.2}\n  th.join(0.1)\n  th.join\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_finish']
+         $param: #List[
+            $expression: #IntExpr['3']
+            $expression: #ParcentNotation['%{\n  require \'timeout\'\n  th = Thread.new {sleep 0.2}\n  begin\n    Timeout.timeout(0.1) {th.join}\n  rescue Timeout::Error\n  end\n  th.join\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  STDERR.reopen(STDOUT)\n  exec "/"\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  (0..10).map {\n    Thread.new {\n     10000.times {\n        Object.new.to_s\n      }\n    }\n  }.each {|t|\n    t.join\n  }\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  def m\n    t = Thread.new { while true; // =~ "" end }\n    sleep 0.01\n    10.times {\n      if /((ab)*(ab)*)*(b)/ =~ "ab"*7\n        return :ng if !$4\n        return :ng if $~.size != 5\n      end\n    }\n    :ok\n  ensure\n    Thread.kill t\n  end\n  m\n}']
+            $expression: #StringExpr['[ruby-dev:34492]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  at_exit { Fiber.new{}.resume }\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  g = enum_for(:local_variables)\n  loop { g.next }\n}']
+            $expression: #StringExpr['[ruby-dev:34128]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  g = enum_for(:block_given?)\n  loop { g.next }\n}']
+            $expression: #StringExpr['[ruby-dev:34128]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  g = enum_for(:binding)\n  loop { g.next }\n}']
+            $expression: #StringExpr['[ruby-dev:34128]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  g = "abc".enum_for(:scan, /./)\n  loop { g.next }\n}']
+            $expression: #StringExpr['[ruby-dev:34128]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  g = Module.enum_for(:new)\n  loop { g.next }\n}']
+            $expression: #StringExpr['[ruby-dev:34128]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  Fiber.new(&Object.method(:class_eval)).resume("foo")\n}']
+            $expression: #StringExpr['[ruby-dev:34128]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  Thread.new("foo", &Object.method(:class_eval)).join\n}']
+            $expression: #StringExpr['[ruby-dev:34128]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  begin\n    Thread.new { Thread.stop }\n    Thread.stop\n    :ng\n  rescue Exception\n    :ok\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  begin\n    m1, m2 = Thread::Mutex.new, Thread::Mutex.new\n    f1 = f2 = false\n    Thread.new { m1.lock; f2 = true; sleep 0.001 until f1; m2.lock }\n    m2.lock; f1 = true; sleep 0.001 until f2; m1.lock\n    :ng\n  rescue Exception\n    :ok\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  m = Thread::Mutex.new\n  Thread.new { m.lock }; sleep 0.1; m.lock\n  :ok\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  m = Thread::Mutex.new\n  Thread.new { m.lock }; m.lock\n  :ok\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  m = Thread::Mutex.new\n  Thread.new { m.lock }.join; m.lock\n  :ok\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  m = Thread::Mutex.new\n  Thread.new { m.lock; sleep 0.2 }\n  sleep 0.1; m.lock\n  :ok\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  m = Thread::Mutex.new\n  Thread.new { m.lock; sleep 0.2; m.unlock }\n  sleep 0.1; m.lock\n  :ok\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  t = Thread.new {`echo`}\n  t.join\n  $? ? :ng : :ok\n}']
+            $expression: #StringExpr['[ruby-dev:35414]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  begin\n    100.times{\n      (1..100).map{ Thread.new(true) {|x| x == false } }.each{|th| th.join}\n    }\n  rescue NoMemoryError, StandardError\n  end\n  :ok\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%{\n  open("zzz.rb", "w") do |f|\n    f.puts <<-\'end;\' # do\n      begin\n        m = Thread::Mutex.new\n        parent = Thread.current\n        th1 = Thread.new { m.lock; sleep }\n        sleep 0.01 until th1.stop?\n        Thread.new do\n          sleep 0.01 until parent.stop?\n          begin\n            fork { GC.start }\n          rescue Exception\n            parent.raise $!\n          end\n          th1.run\n        end\n        m.lock\n        pid, status = Process.wait2\n        $result = status.success? ? :ok : :ng\n      rescue NotImplementedError\n        $result = :ok\n      end\n    end;\n  end\n  require "./zzz.rb"\n  $result\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_finish']
+         $param: #List[
+            $expression: #IntExpr['3']
+            $expression: #ParcentNotation['%q{\n  require \'thread\'\n\n  lock = Thread::Mutex.new\n  cond = Thread::ConditionVariable.new\n  t = Thread.new do\n    lock.synchronize do\n      cond.wait(lock)\n    end\n  end\n\n  begin\n    pid = fork do\n      # Child\n      STDOUT.write "This is the child process.\\n"\n      STDOUT.write "Child process exiting.\\n"\n    end\n    Process.waitpid(pid)\n  rescue NotImplementedError\n  end\n}']
+            $expression: #StringExpr['[ruby-core:23572]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  begin\n    Process.waitpid2(fork {})[1].success? ? \'ok\' : \'ng\'\n  rescue NotImplementedError\n    \'ok\'\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['foo']
+            $expression: #ParcentNotation['%q{\n  i = 0\n  Thread.start {sleep 1; exit!}\n  f = proc {|s, c| /#{c.call; s}/o }\n  th2 = Thread.new {\n    sleep 0.01 until i == 1\n    i = 2\n    f.call("bar", proc {sleep 2});\n    nil\n  }\n  th1 = Thread.new {\n    f.call("foo", proc {i = 1; sleep 0.01 until i == 2; sleep 0.01})\n    nil\n  }\n  [th1, th2].each {|t| t.join }\n  GC.start\n  f.call.source\n}']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

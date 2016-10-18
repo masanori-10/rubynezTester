@@ -1,0 +1,208 @@
+#Source[
+   #List[
+      $statement: #Unless[
+         $cond: #AndExpr[
+            $left: #Defined[
+               $base: #Field[
+                  $recv: #NameExpr['JSON']
+                  $name: #NameExpr['JSON_LOADED']
+               ]
+            ]
+            $right: #Field[
+               $recv: #NameExpr['JSON']
+               $name: #NameExpr['JSON_LOADED']
+            ]
+         ]
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['require']
+            $param: #List[
+               $expression: #StringExpr['json']
+            ]
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['Time']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #SFuncDecl[
+                  $path: #Self['self']
+                  $name: #NameExpr['json_create']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['object']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #AssignExpr[
+                              $left: #NameExpr['usec']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['object']
+                                 $recv: #NameExpr['delete']
+                                 $param: #List[
+                                    $expression: #StringExpr['u']
+                                 ]
+                              ]
+                           ]
+                           $then: #AssignExpr[
+                              $left: #Indexer[
+                                 $base: #NameExpr['object']
+                                 $index: #List[
+                                    $expression: #StringExpr['n']
+                                 ]
+                              ]
+                              $right: #MulExpr[
+                                 $left: #NameExpr['usec']
+                                 $right: #IntExpr['1000']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['method_defined?']
+                              $param: #List[
+                                 $expression: #NameExpr['tv_nsec']
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['at']
+                              $param: #List[
+                                 $expression: #Indexer[
+                                    $recv: #NameExpr['object']
+                                    $index: #List[
+                                       $expression: #StringExpr['s']
+                                    ]
+                                 ]
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['Rational']
+                                    $param: #List[
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['object']
+                                          $index: #List[
+                                             $expression: #StringExpr['n']
+                                          ]
+                                       ]
+                                       $expression: #IntExpr['1000']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['at']
+                              $param: #List[
+                                 $expression: #Indexer[
+                                    $recv: #NameExpr['object']
+                                    $index: #List[
+                                       $expression: #StringExpr['s']
+                                    ]
+                                 ]
+                                 $expression: #DivExpr[
+                                    $left: #Indexer[
+                                       $recv: #NameExpr['object']
+                                       $index: #List[
+                                          $expression: #StringExpr['n']
+                                       ]
+                                    ]
+                                    $right: #IntExpr['1000']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['as_json']
+                  $param: #List[
+                     $param: #VariadicParam['*']
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['nanoseconds']
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #MulExpr[
+                                    $left: #NameExpr['tv_usec']
+                                    $right: #IntExpr['1000']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AndExpr[
+                           $left: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['respond_to?']
+                              $param: #List[
+                                 $expression: #NameExpr['tv_nsec']
+                              ]
+                           ]
+                           $right: #LShiftExpr[
+                              $left: #NameExpr['nanoseconds']
+                              $right: #NameExpr['tv_nsec']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['nanoseconds']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['nanoseconds']
+                              $recv: #NameExpr['max']
+                           ]
+                        ]
+                        $statement: #List[
+                           $hash: #Hash[
+                              $key: #ApplyExpr[
+                                 $recv: #NameExpr['JSON']
+                                 $recv: #NameExpr['create_id']
+                              ]
+                              $value: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #Self['self']
+                                    $recv: #NameExpr['class']
+                                 ]
+                                 $recv: #NameExpr['name']
+                              ]
+                           ]
+                           $hash: #Hash[
+                              $key: #StringExpr['s']
+                              $value: #NameExpr['tv_sec']
+                           ]
+                           $hash: #Hash[
+                              $key: #StringExpr['n']
+                              $value: #NameExpr['nanoseconds']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['to_json']
+                  $param: #List[
+                     $param: #VariadicParam[
+                        $name: #NameExpr['args']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['as_json']
+                        $recv: #NameExpr['to_json']
+                        $param: #List[
+                           $variadic: #Variadic[
+                              $base: #NameExpr['args']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

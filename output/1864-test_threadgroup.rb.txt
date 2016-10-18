@@ -1,0 +1,341 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['thread']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestThreadGroup']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_thread_init']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['thgrp']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['ThreadGroup']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['th']
+                           $right: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['Thread']
+                                 $recv: #NameExpr['new']
+                                 $body: #Block[
+                                    $body: #List[
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['thgrp']
+                                          $recv: #NameExpr['add']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['Thread']
+                                                $recv: #NameExpr['current']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['Thread']
+                                          $recv: #NameExpr['new']
+                                          $body: #Block[
+                                             $body: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['sleep']
+                                                $param: #List[
+                                                   $expression: #IntExpr['1']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $recv: #NameExpr['value']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['thgrp']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['th']
+                                 $recv: #NameExpr['group']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $ensure: #ApplyExpr[
+                        $recv: #NameExpr['th']
+                        $recv: #NameExpr['join']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_frozen_thgroup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['thgrp']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['ThreadGroup']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['t']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['new']
+                              $body: #Block[
+                                 $body: #IntExpr['1']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['new']
+                              $body: #Block[
+                                 $body: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['thgrp']
+                                       $recv: #NameExpr['add']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['Thread']
+                                             $recv: #NameExpr['current']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['thgrp']
+                                       $recv: #NameExpr['freeze']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['ThreadError']
+                                       ]
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['Thread']
+                                                $recv: #NameExpr['new']
+                                                $body: #Block[
+                                                   $body: #IntExpr['1']
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['join']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['ThreadError']
+                                       ]
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             $recv: #NameExpr['thgrp']
+                                             $recv: #NameExpr['add']
+                                             $param: #List[
+                                                $expression: #NameExpr['t']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['ThreadError']
+                                       ]
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             $base: #ApplyExpr[
+                                                $recv: #NameExpr['ThreadGroup']
+                                                $recv: #NameExpr['new']
+                                             ]
+                                             $recv: #NameExpr['add']
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['Thread']
+                                                   $recv: #NameExpr['current']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $recv: #NameExpr['join']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['t']
+                           $recv: #NameExpr['join']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_enclosed_thgroup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['thgrp']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['ThreadGroup']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #FalseExpr['false']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['thgrp']
+                                 $recv: #NameExpr['enclosed?']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['t']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['new']
+                              $body: #Block[
+                                 $body: #IntExpr['1']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['new']
+                              $body: #Block[
+                                 $body: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['thgrp']
+                                       $recv: #NameExpr['add']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['Thread']
+                                             $recv: #NameExpr['current']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['thgrp']
+                                       $recv: #NameExpr['enclose']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #TrueExpr['true']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['thgrp']
+                                             $recv: #NameExpr['enclosed?']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_nothing_raised']
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['Thread']
+                                                $recv: #NameExpr['new']
+                                                $body: #Block[
+                                                   $body: #IntExpr['1']
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['join']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['ThreadError']
+                                       ]
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             $base: #NameExpr['thgrp']
+                                             $recv: #NameExpr['add']
+                                             $param: #List[
+                                                $expression: #NameExpr['t']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['ThreadError']
+                                       ]
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             $base: #ApplyExpr[
+                                                $recv: #NameExpr['ThreadGroup']
+                                                $recv: #NameExpr['new']
+                                             ]
+                                             $recv: #NameExpr['add']
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['Thread']
+                                                   $recv: #NameExpr['current']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $recv: #NameExpr['join']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['t']
+                           $recv: #NameExpr['join']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

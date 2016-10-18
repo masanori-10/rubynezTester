@@ -1,0 +1,167 @@
+#Source[
+   #List[
+      $statement: #Initializer[
+         $body: #List[
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['require']
+               $param: #List[
+                  $expression: #StringExpr['optparse']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #BuiltInVariable['$:']
+               $recv: #NameExpr['unshift']
+               $param: #List[
+                  $expression: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['dirname']
+                     $param: #List[
+                        $expression: #File['__FILE__']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['require']
+               $param: #List[
+                  $expression: #StringExpr['vpath']
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['vpath']
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['VPath']
+                  $recv: #NameExpr['new']
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['header']
+               $right: #Nil['nil']
+            ]
+            $statement: #OrExpr[
+               $left: #AssignExpr[
+                  $left: #NameExpr['opt']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['OptionParser']
+                     $recv: #NameExpr['new']
+                     $body: #Block[
+                        $param: #NameExpr['o']
+                        $body: #List[
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['vpath']
+                              $recv: #NameExpr['def_options']
+                              $param: #List[
+                                 $expression: #NameExpr['o']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['header']
+                              $right: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['o']
+                                    $recv: #NameExpr['order!']
+                                    $param: #List[
+                                       $expression: #NameExpr['ARGV']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['shift']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $right: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['abort']
+                  $param: #List[
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['opt']
+                        $recv: #NameExpr['opt_s']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['TOKENS']
+               $right: #List['{}']
+            ]
+            $statement: #Rescue[
+               $body: #AssignExpr[
+                  $left: #NameExpr['h']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['vpath']
+                     $recv: #NameExpr['read']
+                     $param: #List[
+                        $expression: #NameExpr['header']
+                     ]
+                  ]
+               ]
+               $rescue: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['abort']
+                  $param: #List[
+                     $expression: #StringExpr[
+                        $inner: #NameExpr['header']
+                        $inner: #ApplyExpr[
+                           $recv: #NameExpr['vpath']
+                           $recv: #NameExpr['inspect']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['h']
+               $recv: #NameExpr['scan']
+               $param: #List[
+                  $expression: #Regex['/^#define\\s+RUBY_TOKEN_(\\w+)\\s+(\\d+)/']
+               ]
+               $body: #Block[
+                  $param: #MultipleLeftHandSideExpression[
+                     $item: #NameExpr['token']
+                     $item: #NameExpr['id']
+                  ]
+                  $body: #AssignExpr[
+                     $left: #Indexer[
+                        $base: #NameExpr['TOKENS']
+                        $index: #List[
+                           $expression: #NameExpr['token']
+                        ]
+                     ]
+                     $right: #NameExpr['id']
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['TOKENS_RE']
+               $right: #Regex['/\\bRUBY_TOKEN\\((#{TOKENS.keys.join(\'|\')})\\)\\s*(?=\\s)/']
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #ApplyExpr[
+            $recv: #NameExpr['$_']
+            $recv: #NameExpr['gsub!']
+            $param: #List[
+               $expression: #NameExpr['TOKENS_RE']
+            ]
+            $body: #Block[
+               $body: #Indexer[
+                  $recv: #NameExpr['TOKENS']
+                  $index: #List[
+                     $expression: #MatchedRegex['$1']
+                  ]
+               ]
+            ]
+         ]
+         $cond: #Match[
+            $left: #Regex['/^%token/']
+            $right: #NameExpr['$_']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

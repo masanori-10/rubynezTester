@@ -1,0 +1,677 @@
+#Source[
+   #List[
+      $statement: #ExceptionBlock[
+         $main: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['require']
+            $param: #List[
+               $expression: #StringExpr['http-access2']
+            ]
+         ]
+         $rescue: #List[
+            $rescue: #Rescue[
+               $class: #NameExpr['LoadError']
+               $then: #ApplyExpr[
+                  $recv: #NameExpr['STDERR']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #StringExpr['Cannot load http-access2.  CRL might not be fetched.']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['c_rehash']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['CrlStore']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['c_store']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@c_store']
+                           $right: #NameExpr['c_store']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@c_store']
+                           $recv: #NameExpr['hash_dir']
+                           $param: #List[
+                              $expression: #TrueExpr['true']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['find_crl']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['cert']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['do_find_crl']
+                        $param: #List[
+                           $expression: #NameExpr['cert']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['private']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['do_find_crl']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['cert']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Unless[
+                           $cond: #AssignExpr[
+                              $left: #NameExpr['ca']
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['find_ca']
+                                 $param: #List[
+                                    $expression: #NameExpr['cert']
+                                 ]
+                              ]
+                           ]
+                           $then: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #Nil['nil']
+                              ]
+                           ]
+                        ]
+                        $statement: #Unless[
+                           $cond: #AssignExpr[
+                              $left: #NameExpr['crlfiles']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['@c_store']
+                                 $recv: #NameExpr['get_crls']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['ca']
+                                       $recv: #NameExpr['subject']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $then: #List[
+                              $statement: #IfExpr[
+                                 $cond: #AssignExpr[
+                                    $left: #NameExpr['crl']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['renew_crl']
+                                       $param: #List[
+                                          $expression: #NameExpr['cert']
+                                          $expression: #NameExpr['ca']
+                                       ]
+                                    ]
+                                 ]
+                                 $then: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@c_store']
+                                       $recv: #NameExpr['add_crl']
+                                       $param: #List[
+                                          $expression: #NameExpr['crl']
+                                       ]
+                                    ]
+                                    $statement: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['crl']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #Nil['nil']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['crlfiles']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['crlfile']
+                              $body: #List[
+                                 $statement: #Unless[
+                                    $then: #Next['next']
+                                    $cond: #AssignExpr[
+                                       $left: #NameExpr['crl']
+                                       $right: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['load_crl']
+                                          $param: #List[
+                                             $expression: #NameExpr['crlfile']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #LtExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['crl']
+                                          $recv: #NameExpr['next_update']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['Time']
+                                          $recv: #NameExpr['now']
+                                       ]
+                                    ]
+                                    $then: #IfExpr[
+                                       $cond: #AssignExpr[
+                                          $left: #NameExpr['new_crl']
+                                          $right: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['renew_crl']
+                                             $param: #List[
+                                                $expression: #NameExpr['cert']
+                                                $expression: #NameExpr['ca']
+                                             ]
+                                          ]
+                                       ]
+                                       $then: #List[
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['@c_store']
+                                             $recv: #NameExpr['delete_crl']
+                                             $param: #List[
+                                                $expression: #NameExpr['crl']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['@c_store']
+                                             $recv: #NameExpr['add_crl']
+                                             $param: #List[
+                                                $expression: #NameExpr['new_crl']
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['crl']
+                                             $right: #NameExpr['new_crl']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['check_valid']
+                                       $param: #List[
+                                          $expression: #NameExpr['crl']
+                                          $expression: #NameExpr['ca']
+                                       ]
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['crl']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Nil['nil']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['find_ca']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['cert']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['@c_store']
+                              $recv: #NameExpr['get_certs']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['cert']
+                                    $recv: #NameExpr['issuer']
+                                 ]
+                              ]
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['cafile']
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['ca']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['load_cert']
+                                       $param: #List[
+                                          $expression: #NameExpr['cafile']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['cert']
+                                       $recv: #NameExpr['verify']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['ca']
+                                             $recv: #NameExpr['public_key']
+                                          ]
+                                       ]
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['ca']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Nil['nil']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['fetch']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['location']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #IfExpr[
+                        $cond: #Match[
+                           $left: #Regex['/\\AURI:(.*)\\z/']
+                           $right: #NameExpr['location']
+                        ]
+                        $then: #ExceptionBlock[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['c']
+                                 $right: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['HTTPAccess2']
+                                       $name: #NameExpr['Client']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #LOr[
+                                          $left: #Indexer[
+                                             $recv: #NameExpr['ENV']
+                                             $index: #List[
+                                                $expression: #StringExpr['http_proxy']
+                                             ]
+                                          ]
+                                          $right: #Indexer[
+                                             $recv: #NameExpr['ENV']
+                                             $index: #List[
+                                                $expression: #StringExpr['HTTP_PROXY']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['c']
+                                 $recv: #NameExpr['get_content']
+                                 $param: #List[
+                                    $expression: #MatchedRegex['$1']
+                                 ]
+                              ]
+                           ]
+                           $rescue: #List[
+                              $rescue: #Rescue[
+                                 $class: #MultipleRightHandSideExpression[
+                                    $expression: #NameExpr['NameError']
+                                    $expression: #NameExpr['StandardError']
+                                 ]
+                                 $then: #Nil['nil']
+                              ]
+                           ]
+                        ]
+                        $else: #Nil['nil']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['load_cert']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['certfile']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['load_cert_str']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['read']
+                              $param: #List[
+                                 $expression: #NameExpr['certfile']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['load_crl']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['crlfile']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['load_crl_str']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['read']
+                              $param: #List[
+                                 $expression: #NameExpr['crlfile']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['load_cert_str']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['cert_str']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #Field[
+                           $recv: #Field[
+                              $recv: #NameExpr['OpenSSL']
+                              $name: #NameExpr['X509']
+                           ]
+                           $name: #NameExpr['Certificate']
+                        ]
+                        $recv: #NameExpr['new']
+                        $param: #List[
+                           $expression: #NameExpr['cert_str']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['load_crl_str']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['crl_str']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #Field[
+                           $recv: #Field[
+                              $recv: #NameExpr['OpenSSL']
+                              $name: #NameExpr['X509']
+                           ]
+                           $name: #NameExpr['CRL']
+                        ]
+                        $recv: #NameExpr['new']
+                        $param: #List[
+                           $expression: #NameExpr['crl_str']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['check_valid']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['crl']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['ca']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Unless[
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['crl']
+                              $recv: #NameExpr['verify']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['ca']
+                                    $recv: #NameExpr['public_key']
+                                 ]
+                              ]
+                           ]
+                           $then: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #FalseExpr['false']
+                              ]
+                           ]
+                        ]
+                        $statement: #LteExpr[
+                           $left: #ApplyExpr[
+                              $recv: #NameExpr['crl']
+                              $recv: #NameExpr['last_update']
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Time']
+                              $recv: #NameExpr['now']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['RE_CDP']
+                  $right: #Regex['/\\AcrlDistributionPoints\\z/']
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['get_cdp']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['cert']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #IfExpr[
+                        $cond: #AssignExpr[
+                           $left: #NameExpr['cdp_ext']
+                           $right: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['cert']
+                                 $recv: #NameExpr['extensions']
+                              ]
+                              $recv: #NameExpr['find']
+                              $body: #Block[
+                                 $param: #NameExpr['ext']
+                                 $body: #AssignExpr[
+                                    $left: #NameExpr['RE_CDP']
+                                    $right: #ComplExpr[
+                                       $expr: #ApplyExpr[
+                                          $recv: #NameExpr['ext']
+                                          $recv: #NameExpr['oid']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $then: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['cdp_ext']
+                              $recv: #NameExpr['value']
+                           ]
+                           $recv: #NameExpr['chomp']
+                        ]
+                        $else: #FalseExpr['false']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['renew_crl']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['cert']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['ca']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #AssignExpr[
+                              $left: #NameExpr['cdp']
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['get_cdp']
+                                 $param: #List[
+                                    $expression: #NameExpr['cert']
+                                 ]
+                              ]
+                           ]
+                           $then: #IfExpr[
+                              $cond: #AssignExpr[
+                                 $left: #NameExpr['new_crl_str']
+                                 $right: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['fetch']
+                                    $param: #List[
+                                       $expression: #NameExpr['cdp']
+                                    ]
+                                 ]
+                              ]
+                              $then: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['new_crl']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['load_crl_str']
+                                       $param: #List[
+                                          $expression: #NameExpr['new_crl_str']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['check_valid']
+                                       $param: #List[
+                                          $expression: #NameExpr['new_crl']
+                                          $expression: #NameExpr['ca']
+                                       ]
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['new_crl']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FalseExpr['false']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #EqExpr[
+            $left: #BuiltInVariable['$0']
+            $right: #File['__FILE__']
+         ]
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['dir']
+               $right: #StringExpr['trust_certs']
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['c_store']
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['CHashDir']
+                  $recv: #NameExpr['new']
+                  $param: #List[
+                     $expression: #NameExpr['dir']
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['s']
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['CrlStore']
+                  $recv: #NameExpr['new']
+                  $param: #List[
+                     $expression: #NameExpr['c_store']
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['c']
+               $right: #ApplyExpr[
+                  $recv: #Field[
+                     $recv: #Field[
+                        $recv: #NameExpr['OpenSSL']
+                        $name: #NameExpr['X509']
+                     ]
+                     $name: #NameExpr['Certificate']
+                  ]
+                  $recv: #NameExpr['new']
+                  $param: #List[
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['File']
+                        $recv: #NameExpr['read']
+                        $param: #List[
+                           $expression: #StringExpr['cert_store/google_codesign.pem']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['p']
+               $param: #List[
+                  $expression: #ApplyExpr[
+                     $recv: #NameExpr['s']
+                     $recv: #NameExpr['find_crl']
+                     $param: #List[
+                        $expression: #NameExpr['c']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,814 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['mkmf']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #ApplyExpr[
+               $recv: #NameExpr['File']
+               $recv: #NameExpr['expand_path']
+               $param: #List[
+                  $expression: #StringExpr['../deprecation']
+                  $expression: #File['__FILE__']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['dir_config']
+         $param: #List[
+            $expression: #StringExpr['openssl']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['dir_config']
+         $param: #List[
+            $expression: #StringExpr['kerberos']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $base: #NameExpr['Logging']
+         $recv: #NameExpr['message']
+         $param: #List[
+            $expression: #StringExpr['=== OpenSSL for Ruby configurator ===\\n']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['OpenSSL']
+         $recv: #NameExpr['deprecated_warning_flag']
+      ]
+      $statement: #IfExpr[
+         $cond: #OrExpr[
+            $left: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['with_config']
+               $param: #List[
+                  $expression: #StringExpr['debug']
+               ]
+            ]
+            $right: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['enable_config']
+               $param: #List[
+                  $expression: #StringExpr['debug']
+               ]
+            ]
+         ]
+         $then: #ApplyExpr[
+            $recv: #NameExpr['$defs']
+            $recv: #NameExpr['push']
+            $param: #List[
+               $expression: #StringExpr['-DOSSL_DEBUG']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $base: #NameExpr['Logging']
+         $recv: #NameExpr['message']
+         $param: #List[
+            $expression: #StringExpr['=== Checking for system dependent stuff... ===\\n']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_library']
+         $param: #List[
+            $expression: #StringExpr['nsl']
+            $expression: #StringExpr['t_open']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_library']
+         $param: #List[
+            $expression: #StringExpr['socket']
+            $expression: #StringExpr['socket']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_header']
+         $param: #List[
+            $expression: #StringExpr['assert.h']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $base: #NameExpr['Logging']
+         $recv: #NameExpr['message']
+         $param: #List[
+            $expression: #StringExpr['=== Checking for required stuff... ===\\n']
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #NameExpr['$mingw']
+         $then: #List[
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['have_library']
+               $param: #List[
+                  $expression: #StringExpr['wsock32']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['have_library']
+               $param: #List[
+                  $expression: #StringExpr['gdi32']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['result']
+         $right: #ApplyExpr[
+            $base: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['pkg_config']
+               $param: #List[
+                  $expression: #StringExpr['openssl']
+               ]
+            ]
+            $recv: #NameExpr['&']
+            $param: #List[
+               $expression: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['have_header']
+                  $param: #List[
+                     $expression: #StringExpr['openssl/ssl.h']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Unless[
+         $cond: #NameExpr['result']
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['result']
+               $right: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['have_header']
+                  $param: #List[
+                     $expression: #StringExpr['openssl/ssl.h']
+                  ]
+               ]
+            ]
+            $statement: #LAndAssign[
+               $left: #NameExpr['result']
+               $right: #ApplyExpr[
+                  $recv: #ParcentNotation['%w[crypto libeay32]']
+                  $recv: #NameExpr['any?']
+                  $body: #Block[
+                     $param: #NameExpr['lib']
+                     $body: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['have_library']
+                        $param: #List[
+                           $expression: #NameExpr['lib']
+                           $expression: #StringExpr['CRYPTO_malloc']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #LAndAssign[
+               $left: #NameExpr['result']
+               $right: #ApplyExpr[
+                  $recv: #ParcentNotation['%w[ssl ssleay32]']
+                  $recv: #NameExpr['any?']
+                  $body: #Block[
+                     $param: #NameExpr['lib']
+                     $body: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['have_library']
+                        $param: #List[
+                           $expression: #NameExpr['lib']
+                           $expression: #StringExpr['SSL_new']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #Unless[
+               $cond: #NameExpr['result']
+               $then: #List[
+                  $statement: #ApplyExpr[
+                     $base: #NameExpr['Logging']
+                     $recv: #NameExpr['message']
+                     $param: #List[
+                        $expression: #StringExpr['=== Checking for required stuff failed. ===\\n']
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     $base: #NameExpr['Logging']
+                     $recv: #NameExpr['message']
+                     $param: #List[
+                        $expression: #StringExpr['Makefile wasn\'t created. Fix the errors above.\\n']
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['exit']
+                     $param: #List[
+                        $expression: #IntExpr['1']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['result']
+         $right: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['checking_for']
+            $param: #List[
+               $expression: #StringExpr['OpenSSL version is 0.9.8 or later']
+            ]
+            $body: #Block[
+               $body: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['try_static_assert']
+                  $param: #List[
+                     $expression: #StringExpr['OPENSSL_VERSION_NUMBER >= 0x00908000L']
+                     $expression: #StringExpr['openssl/opensslv.h']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Unless[
+         $cond: #NameExpr['result']
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['raise']
+            $param: #List[
+               $expression: #StringExpr['OpenSSL 0.9.8 or later required.']
+            ]
+         ]
+      ]
+      $statement: #Unless[
+         $cond: #ApplyExpr[
+            $recv: #NameExpr['OpenSSL']
+            $recv: #NameExpr['check_func']
+            $param: #List[
+               $expression: #StringExpr['SSL_library_init()']
+               $expression: #StringExpr['openssl/ssl.h']
+            ]
+         ]
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['raise']
+            $param: #List[
+               $expression: #StringExpr['Ignore OpenSSL broken by Apple.\\nPlease use another openssl. (e.g. using `configure --with-openssl-dir=/path/to/openssl\')']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $base: #NameExpr['Logging']
+         $recv: #NameExpr['message']
+         $param: #List[
+            $expression: #StringExpr['=== Checking for OpenSSL features... ===\\n']
+         ]
+      ]
+      $statement: #Unless[
+         $cond: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['have_macro']
+            $param: #List[
+               $expression: #StringExpr['OPENSSL_NO_SSL2']
+               $expression: #StringExpr['openssl/opensslconf.h']
+            ]
+         ]
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['have_func']
+            $param: #List[
+               $expression: #StringExpr['SSLv2_method']
+            ]
+         ]
+      ]
+      $statement: #Unless[
+         $cond: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['have_macro']
+            $param: #List[
+               $expression: #StringExpr['OPENSSL_NO_SSL3_METHOD']
+               $expression: #StringExpr['openssl/opensslconf.h']
+            ]
+         ]
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['have_func']
+            $param: #List[
+               $expression: #StringExpr['SSLv3_method']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['TLSv1_1_method']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['TLSv1_2_method']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['RAND_egd']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['engines']
+         $right: #ParcentNotation['%w{builtin_engines openbsd_dev_crypto dynamic 4758cca aep atalla chil\n             cswift nuron sureware ubsec padlock capi gmp gost cryptodev aesni}']
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['engines']
+         $recv: #NameExpr['each']
+         $body: #Block[
+            $param: #NameExpr['name']
+            $body: #ApplyExpr[
+               $recv: #NameExpr['OpenSSL']
+               $recv: #NameExpr['check_func_or_macro']
+               $param: #List[
+                  $expression: #StringExpr[
+                     $inner: #NameExpr['name']
+                  ]
+                  $expression: #StringExpr['openssl/engine.h']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['EVP_CIPHER_CTX_new']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['EVP_CIPHER_CTX_free']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['ASN1_TIME_adj']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['EVP_CIPHER_CTX_copy']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['EVP_PKEY_base_id']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['HMAC_CTX_copy']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['PKCS5_PBKDF2_HMAC']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_NAME_hash_old']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_STORE_CTX_get0_current_crl']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_STORE_set_verify_cb']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['i2d_ASN1_SET_ANY']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['SSL_SESSION_cmp']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['OpenSSL']
+         $recv: #NameExpr['check_func_or_macro']
+         $param: #List[
+            $expression: #StringExpr['SSL_set_tlsext_host_name']
+            $expression: #StringExpr['openssl/ssl.h']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_struct_member']
+         $param: #List[
+            $expression: #StringExpr['CRYPTO_THREADID']
+            $expression: #StringExpr['ptr']
+            $expression: #StringExpr['openssl/crypto.h']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['SSL_CTX_set_next_proto_select_cb']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $base: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['have_macro']
+            $param: #List[
+               $expression: #StringExpr['EVP_CTRL_GCM_GET_TAG']
+               $expression: #Array[
+                  $index: #List[
+                     $expression: #StringExpr['openssl/evp.h']
+                  ]
+               ]
+            ]
+         ]
+         $recv: #NameExpr['&']
+         $param: #List[
+            $expression: #ApplyExpr[
+               $recv: #NameExpr['$defs']
+               $recv: #NameExpr['push']
+               $param: #List[
+                  $expression: #StringExpr['-DHAVE_AUTHENTICATED_ENCRYPTION']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['EC_curve_nist2nid']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_REVOKED_dup']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_STORE_CTX_get0_store']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['SSL_CTX_set_alpn_select_cb']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['OpenSSL']
+         $recv: #NameExpr['check_func_or_macro']
+         $param: #List[
+            $expression: #StringExpr['SSL_CTX_set1_curves_list']
+            $expression: #StringExpr['openssl/ssl.h']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['OpenSSL']
+         $recv: #NameExpr['check_func_or_macro']
+         $param: #List[
+            $expression: #StringExpr['SSL_CTX_set_ecdh_auto']
+            $expression: #StringExpr['openssl/ssl.h']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['OpenSSL']
+         $recv: #NameExpr['check_func_or_macro']
+         $param: #List[
+            $expression: #StringExpr['SSL_get_server_tmp_key']
+            $expression: #StringExpr['openssl/ssl.h']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['SSL_is_server']
+         ]
+      ]
+      $statement: #LOr[
+         $left: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['have_func']
+            $param: #List[
+               $expression: #StringExpr['CRYPTO_lock']
+            ]
+         ]
+         $right: #ApplyExpr[
+            $recv: #NameExpr['$defs']
+            $recv: #NameExpr['push']
+            $param: #List[
+               $expression: #StringExpr['-DHAVE_OPENSSL_110_THREADING_API']
+            ]
+         ]
+      ]
+      $statement: #LOr[
+         $left: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['have_struct_member']
+            $param: #List[
+               $expression: #StringExpr['SSL']
+               $expression: #StringExpr['ctx']
+               $expression: #StringExpr['openssl/ssl.h']
+            ]
+         ]
+         $right: #ApplyExpr[
+            $recv: #NameExpr['$defs']
+            $recv: #NameExpr['push']
+            $param: #List[
+               $expression: #StringExpr['-DHAVE_OPAQUE_OPENSSL']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['BN_GENCB_new']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['BN_GENCB_free']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['BN_GENCB_get_arg']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['EVP_MD_CTX_new']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['EVP_MD_CTX_free']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['HMAC_CTX_new']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['HMAC_CTX_free']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['OpenSSL']
+         $recv: #NameExpr['check_func']
+         $param: #List[
+            $expression: #StringExpr['RAND_pseudo_bytes']
+            $expression: #StringExpr['openssl/rand.h']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_STORE_get_ex_data']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_STORE_set_ex_data']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_CRL_get0_signature']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_REQ_get0_signature']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_REVOKED_get0_serialNumber']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_REVOKED_get0_revocationDate']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_get0_tbs_sigalg']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_STORE_CTX_get0_untrusted']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_STORE_CTX_get0_cert']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_STORE_CTX_get0_chain']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['OCSP_SINGLERESP_get0_id']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['SSL_CTX_get_ciphers']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_up_ref']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_CRL_up_ref']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_STORE_up_ref']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['SSL_SESSION_up_ref']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['EVP_PKEY_up_ref']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['OpenSSL']
+         $recv: #NameExpr['check_func_or_macro']
+         $param: #List[
+            $expression: #StringExpr['SSL_CTX_set_tmp_ecdh_callback']
+            $expression: #StringExpr['openssl/ssl.h']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['OpenSSL']
+         $recv: #NameExpr['check_func_or_macro']
+         $param: #List[
+            $expression: #StringExpr['SSL_CTX_set_min_proto_version']
+            $expression: #StringExpr['openssl/ssl.h']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['SSL_CTX_get_security_level']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['have_func']
+         $param: #List[
+            $expression: #StringExpr['X509_get0_notBefore']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $base: #NameExpr['Logging']
+         $recv: #NameExpr['message']
+         $param: #List[
+            $expression: #StringExpr['=== Checking done. ===\\n']
+         ]
+      ]
+      $statement: #NameExpr['create_header']
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['create_makefile']
+         $param: #List[
+            $expression: #StringExpr['openssl']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $base: #NameExpr['Logging']
+         $recv: #NameExpr['message']
+         $param: #List[
+            $expression: #StringExpr['Done.\\n']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

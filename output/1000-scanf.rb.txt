@@ -1,0 +1,1988 @@
+#Source[
+   #List[
+      $statement: #Module[
+         $name: #NameExpr['Scanf']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #Class[
+                  $name: #NameExpr['FormatSpecifier']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['attr_reader']
+                           $param: #List[
+                              $expression: #NameExpr['re_string']
+                              $expression: #NameExpr['matched_string']
+                              $expression: #NameExpr['conversion']
+                              $expression: #NameExpr['matched']
+                           ]
+                        ]
+                        $statement: #NameExpr['private']
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['skip']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 $recv: #Regex['/^\\s*%\\*/']
+                                 $recv: #NameExpr['match']
+                                 $param: #List[
+                                    $expression: #NameExpr['@spec_string']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['extract_float']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['s']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #Unless[
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #Nil['nil']
+                                       ]
+                                    ]
+                                    $cond: #ApplyExpr[
+                                       $base: #NameExpr['s']
+                                       $recv: #NameExpr['&']
+                                       $param: #List[
+                                          $expression: #NotExpr[
+                                             $expr: #NameExpr['skip']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #Match[
+                                       $left: #Regex['/\\A(?<sign>[-+]?)0[xX](?<frac>\\.\\h+|\\h+(?:\\.\\h*)?)[pP](?<exp>[-+]\\d+)/']
+                                       $right: #NameExpr['s']
+                                    ]
+                                    $then: #List[
+                                       $statement: #MultipleAssign[
+                                          $left: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['f1']
+                                             $item: #NameExpr['f2']
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['frac']
+                                             $recv: #NameExpr['split']
+                                             $param: #List[
+                                                $expression: #StringExpr['.']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['f']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['f1']
+                                             $recv: #NameExpr['hex']
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $cond: #NameExpr['f2']
+                                          $then: #List[
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['len']
+                                                $right: #ApplyExpr[
+                                                   $recv: #NameExpr['f2']
+                                                   $recv: #NameExpr['length']
+                                                ]
+                                             ]
+                                             $statement: #IfExpr[
+                                                $cond: #GtExpr[
+                                                   $left: #NameExpr['len']
+                                                   $right: #IntExpr['0']
+                                                ]
+                                                $then: #AddAssign[
+                                                   $left: #NameExpr['f']
+                                                   $right: #DivExpr[
+                                                      $left: #ApplyExpr[
+                                                         $recv: #NameExpr['f2']
+                                                         $recv: #NameExpr['hex']
+                                                      ]
+                                                      $right: #PowerExpr[
+                                                         $left: #FloatExpr['16.0']
+                                                         $right: #NameExpr['len']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #MulExpr[
+                                          $left: #Conditional[
+                                             $cond: #EqExpr[
+                                                $left: #NameExpr['sign']
+                                                $right: #StringExpr['-']
+                                             ]
+                                             $then: #MinusExpr[
+                                                $expr: #IntExpr['1']
+                                             ]
+                                             $else: #IntExpr['1']
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['Math']
+                                             $recv: #NameExpr['ldexp']
+                                             $param: #List[
+                                                $expression: #NameExpr['f']
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['exp']
+                                                   $recv: #NameExpr['to_i']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $else: #IfExpr[
+                                       $cond: #Match[
+                                          $left: #Regex['/\\A([-+]?\\d+)\\.([eE][-+]\\d+)/']
+                                          $right: #NameExpr['s']
+                                       ]
+                                       $then: #ApplyExpr[
+                                          $recv: #LShiftExpr[
+                                             $left: #MatchedRegex['$1']
+                                             $right: #MatchedRegex['$2']
+                                          ]
+                                          $recv: #NameExpr['to_f']
+                                       ]
+                                       $else: #ApplyExpr[
+                                          $recv: #NameExpr['s']
+                                          $recv: #NameExpr['to_f']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['extract_decimal']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['s']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #IfExpr[
+                                 $then: #ApplyExpr[
+                                    $recv: #NameExpr['s']
+                                    $recv: #NameExpr['to_i']
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    $base: #NameExpr['s']
+                                    $recv: #NameExpr['&']
+                                    $param: #List[
+                                       $expression: #NotExpr[
+                                          $expr: #NameExpr['skip']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['extract_hex']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['s']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #IfExpr[
+                                 $then: #ApplyExpr[
+                                    $recv: #NameExpr['s']
+                                    $recv: #NameExpr['hex']
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    $base: #NameExpr['s']
+                                    $recv: #NameExpr['&']
+                                    $param: #List[
+                                       $expression: #NotExpr[
+                                          $expr: #NameExpr['skip']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['extract_octal']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['s']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #IfExpr[
+                                 $then: #ApplyExpr[
+                                    $recv: #NameExpr['s']
+                                    $recv: #NameExpr['oct']
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    $base: #NameExpr['s']
+                                    $recv: #NameExpr['&']
+                                    $param: #List[
+                                       $expression: #NotExpr[
+                                          $expr: #NameExpr['skip']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['extract_integer']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['s']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #IfExpr[
+                                 $then: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['Integer']
+                                    $param: #List[
+                                       $expression: #NameExpr['s']
+                                    ]
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    $base: #NameExpr['s']
+                                    $recv: #NameExpr['&']
+                                    $param: #List[
+                                       $expression: #NotExpr[
+                                          $expr: #NameExpr['skip']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['extract_plain']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['s']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #Unless[
+                                 $then: #NameExpr['s']
+                                 $cond: #NameExpr['skip']
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['nil_proc']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['s']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #Nil['nil']
+                           ]
+                        ]
+                        $statement: #NameExpr['public']
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['to_s']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #NameExpr['@spec_string']
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['count_space?']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 $recv: #Regex['/(?:\\A|\\S)%\\*?\\d*c|%\\d*\\[/']
+                                 $recv: #NameExpr['match']
+                                 $param: #List[
+                                    $expression: #NameExpr['@spec_string']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['str']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@spec_string']
+                                    $right: #NameExpr['str']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['h']
+                                    $right: #StringExpr['[A-Fa-f0-9]']
+                                 ]
+                                 $statement: #MultipleAssign[
+                                    $left: #MultipleLeftHandSideExpression[
+                                       $item: #NameExpr['@re_string']
+                                       $item: #NameExpr['@handler']
+                                    ]
+                                    $right: #Case[
+                                       $cond: #NameExpr['@spec_string']
+                                       $body: #List[
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?(\\[\\[:[a-z]+:\\]\\])/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr[
+                                                      $inner: #MatchedRegex['$1']
+                                                   ]
+                                                   $expression: #NameExpr['extract_plain']
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?(\\d+)(\\[\\[:[a-z]+:\\]\\])/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr[
+                                                      $inner: #MatchedRegex['$2']
+                                                      $inner: #MatchedRegex['$1']
+                                                   ]
+                                                   $expression: #NameExpr['extract_plain']
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?\\[([^\\]]*)\\]/']
+                                             ]
+                                             $then: #List[
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['yes']
+                                                   $right: #MatchedRegex['$1']
+                                                ]
+                                                $statement: #IfExpr[
+                                                   $cond: #ApplyExpr[
+                                                      $recv: #Regex['/^\\^/']
+                                                      $recv: #NameExpr['match']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['yes']
+                                                      ]
+                                                   ]
+                                                   $then: #AssignExpr[
+                                                      $left: #NameExpr['no']
+                                                      $right: #Indexer[
+                                                         $recv: #NameExpr['yes']
+                                                         $index: #List[
+                                                            $expression: #ClosedRange[
+                                                               #IntExpr['1']
+                                                               #MinusExpr[
+                                                                  $expr: #IntExpr['1']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $else: #AssignExpr[
+                                                      $left: #NameExpr['no']
+                                                      $right: #AddExpr[
+                                                         $left: #StringExpr['^']
+                                                         $right: #NameExpr['yes']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #Array[
+                                                   $index: #List[
+                                                      $expression: #StringExpr[
+                                                         $inner: #NameExpr['yes']
+                                                         $inner: #NameExpr['no']
+                                                      ]
+                                                      $expression: #NameExpr['extract_plain']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?(\\d+)\\[([^\\]]*)\\]/']
+                                             ]
+                                             $then: #List[
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['yes']
+                                                   $right: #MatchedRegex['$2']
+                                                ]
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['w']
+                                                   $right: #MatchedRegex['$1']
+                                                ]
+                                                $statement: #Array[
+                                                   $index: #List[
+                                                      $expression: #StringExpr[
+                                                         $inner: #NameExpr['yes']
+                                                         $inner: #NameExpr['w']
+                                                      ]
+                                                      $expression: #NameExpr['extract_plain']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?i/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr[
+                                                      $inner: #NameExpr['h']
+                                                   ]
+                                                   $expression: #NameExpr['extract_integer']
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?(\\d+)i/']
+                                             ]
+                                             $then: #List[
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['n']
+                                                   $right: #ApplyExpr[
+                                                      $recv: #MatchedRegex['$1']
+                                                      $recv: #NameExpr['to_i']
+                                                   ]
+                                                ]
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['s']
+                                                   $right: #StringExpr['(']
+                                                ]
+                                                $statement: #IfExpr[
+                                                   $cond: #GtExpr[
+                                                      $left: #NameExpr['n']
+                                                      $right: #IntExpr['1']
+                                                   ]
+                                                   $then: #AddAssign[
+                                                      $left: #NameExpr['s']
+                                                      $right: #StringExpr[
+                                                         $inner: #SubExpr[
+                                                            $left: #NameExpr['n']
+                                                            $right: #IntExpr['1']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #IfExpr[
+                                                   $cond: #GtExpr[
+                                                      $left: #NameExpr['n']
+                                                      $right: #IntExpr['1']
+                                                   ]
+                                                   $then: #AddAssign[
+                                                      $left: #NameExpr['s']
+                                                      $right: #StringExpr[
+                                                         $inner: #SubExpr[
+                                                            $left: #NameExpr['n']
+                                                            $right: #IntExpr['1']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #IfExpr[
+                                                   $cond: #GtExpr[
+                                                      $left: #NameExpr['n']
+                                                      $right: #IntExpr['2']
+                                                   ]
+                                                   $then: #AddAssign[
+                                                      $left: #NameExpr['s']
+                                                      $right: #StringExpr[
+                                                         $inner: #SubExpr[
+                                                            $left: #NameExpr['n']
+                                                            $right: #IntExpr['2']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #IfExpr[
+                                                   $cond: #GtExpr[
+                                                      $left: #NameExpr['n']
+                                                      $right: #IntExpr['2']
+                                                   ]
+                                                   $then: #AddAssign[
+                                                      $left: #NameExpr['s']
+                                                      $right: #StringExpr[
+                                                         $inner: #SubExpr[
+                                                            $left: #NameExpr['n']
+                                                            $right: #IntExpr['2']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #IfExpr[
+                                                   $cond: #GtExpr[
+                                                      $left: #NameExpr['n']
+                                                      $right: #IntExpr['2']
+                                                   ]
+                                                   $then: #AddAssign[
+                                                      $left: #NameExpr['s']
+                                                      $right: #StringExpr[
+                                                         $inner: #NameExpr['h']
+                                                         $inner: #SubExpr[
+                                                            $left: #NameExpr['n']
+                                                            $right: #IntExpr['2']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #IfExpr[
+                                                   $cond: #GtExpr[
+                                                      $left: #NameExpr['n']
+                                                      $right: #IntExpr['3']
+                                                   ]
+                                                   $then: #AddAssign[
+                                                      $left: #NameExpr['s']
+                                                      $right: #StringExpr[
+                                                         $inner: #NameExpr['h']
+                                                         $inner: #SubExpr[
+                                                            $left: #NameExpr['n']
+                                                            $right: #IntExpr['3']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #AddAssign[
+                                                   $left: #NameExpr['s']
+                                                   $right: #StringExpr['\\\\d']
+                                                ]
+                                                $statement: #AddAssign[
+                                                   $left: #NameExpr['s']
+                                                   $right: #StringExpr[')']
+                                                ]
+                                                $statement: #Array[
+                                                   $index: #List[
+                                                      $expression: #NameExpr['s']
+                                                      $expression: #NameExpr['extract_integer']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?[du]/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr['([-+]?\\d+)']
+                                                   $expression: #NameExpr['extract_decimal']
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?(\\d+)[du]/']
+                                             ]
+                                             $then: #List[
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['n']
+                                                   $right: #ApplyExpr[
+                                                      $recv: #MatchedRegex['$1']
+                                                      $recv: #NameExpr['to_i']
+                                                   ]
+                                                ]
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['s']
+                                                   $right: #StringExpr['(']
+                                                ]
+                                                $statement: #IfExpr[
+                                                   $cond: #GtExpr[
+                                                      $left: #NameExpr['n']
+                                                      $right: #IntExpr['1']
+                                                   ]
+                                                   $then: #AddAssign[
+                                                      $left: #NameExpr['s']
+                                                      $right: #StringExpr[
+                                                         $inner: #SubExpr[
+                                                            $left: #NameExpr['n']
+                                                            $right: #IntExpr['1']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #AddAssign[
+                                                   $left: #NameExpr['s']
+                                                   $right: #StringExpr[
+                                                      $inner: #MatchedRegex['$1']
+                                                   ]
+                                                ]
+                                                $statement: #Array[
+                                                   $index: #List[
+                                                      $expression: #NameExpr['s']
+                                                      $expression: #NameExpr['extract_decimal']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?[Xx]/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr[
+                                                      $inner: #NameExpr['h']
+                                                   ]
+                                                   $expression: #NameExpr['extract_hex']
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?(\\d+)[Xx]/']
+                                             ]
+                                             $then: #List[
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['n']
+                                                   $right: #ApplyExpr[
+                                                      $recv: #MatchedRegex['$1']
+                                                      $recv: #NameExpr['to_i']
+                                                   ]
+                                                ]
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['s']
+                                                   $right: #StringExpr['(']
+                                                ]
+                                                $statement: #IfExpr[
+                                                   $cond: #GtExpr[
+                                                      $left: #NameExpr['n']
+                                                      $right: #IntExpr['3']
+                                                   ]
+                                                   $then: #AddAssign[
+                                                      $left: #NameExpr['s']
+                                                      $right: #StringExpr[
+                                                         $inner: #NameExpr['h']
+                                                         $inner: #SubExpr[
+                                                            $left: #NameExpr['n']
+                                                            $right: #IntExpr['3']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #IfExpr[
+                                                   $cond: #GtExpr[
+                                                      $left: #NameExpr['n']
+                                                      $right: #IntExpr['2']
+                                                   ]
+                                                   $then: #AddAssign[
+                                                      $left: #NameExpr['s']
+                                                      $right: #StringExpr[
+                                                         $inner: #NameExpr['h']
+                                                         $inner: #SubExpr[
+                                                            $left: #NameExpr['n']
+                                                            $right: #IntExpr['2']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #IfExpr[
+                                                   $cond: #GtExpr[
+                                                      $left: #NameExpr['n']
+                                                      $right: #IntExpr['1']
+                                                   ]
+                                                   $then: #AddAssign[
+                                                      $left: #NameExpr['s']
+                                                      $right: #StringExpr[
+                                                         $inner: #NameExpr['h']
+                                                         $inner: #SubExpr[
+                                                            $left: #NameExpr['n']
+                                                            $right: #IntExpr['1']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #AddAssign[
+                                                   $left: #NameExpr['s']
+                                                   $right: #StringExpr[
+                                                      $inner: #NameExpr['h']
+                                                      $inner: #NameExpr['n']
+                                                   ]
+                                                ]
+                                                $statement: #AddAssign[
+                                                   $left: #NameExpr['s']
+                                                   $right: #StringExpr[')']
+                                                ]
+                                                $statement: #Array[
+                                                   $index: #List[
+                                                      $expression: #NameExpr['s']
+                                                      $expression: #NameExpr['extract_hex']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?o/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr['([-+]?[0-7]+)']
+                                                   $expression: #NameExpr['extract_octal']
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?(\\d+)o/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr[
+                                                      $inner: #SubExpr[
+                                                         $left: #ApplyExpr[
+                                                            $recv: #MatchedRegex['$1']
+                                                            $recv: #NameExpr['to_i']
+                                                         ]
+                                                         $right: #IntExpr['1']
+                                                      ]
+                                                      $inner: #MatchedRegex['$1']
+                                                   ]
+                                                   $expression: #NameExpr['extract_octal']
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?[aefgAEFG]/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr['([-+]?(?:0[xX](?:\\.\\h+|\\h+(?:\\.\\h*)?)[pP][-+]\\d+|\\d+(?![\\d.])|\\d*\\.\\d*(?:[eE][-+]?\\d+)?))']
+                                                   $expression: #NameExpr['extract_float']
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?(\\d+)[aefgAEFG]/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #AddExpr[
+                                                      $left: #StringExpr['(?=[-+]?(?:0[xX](?:\\.\\h+|\\h+(?:\\.\\h*)?)[pP][-+]\\d+|\\d+(?![\\d.])|\\d*\\.\\d*(?:[eE][-+]?\\d+)?))']
+                                                      $right: #StringExpr[
+                                                         $inner: #MatchedRegex['$1']
+                                                      ]
+                                                   ]
+                                                   $expression: #NameExpr['extract_float']
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?(\\d+)s/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr[
+                                                      $inner: #MatchedRegex['$1']
+                                                   ]
+                                                   $expression: #NameExpr['extract_plain']
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?s/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr['(\\S+)']
+                                                   $expression: #NameExpr['extract_plain']
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/\\s%\\*?c/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr['\\\\s*(.)']
+                                                   $expression: #NameExpr['extract_plain']
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?c/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr['(.)']
+                                                   $expression: #NameExpr['extract_plain']
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%\\*?(\\d+)c/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr[
+                                                      $inner: #MatchedRegex['$1']
+                                                   ]
+                                                   $expression: #NameExpr['extract_plain']
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/%%/']
+                                             ]
+                                             $then: #Array[
+                                                $index: #List[
+                                                   $expression: #StringExpr['(\\s*%)']
+                                                   $expression: #NameExpr['nil_proc']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $else: #Array[
+                                          $index: #List[
+                                             $expression: #StringExpr[
+                                                $inner: #ApplyExpr[
+                                                   $recv: #NameExpr['Regexp']
+                                                   $recv: #NameExpr['escape']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['@spec_string']
+                                                   ]
+                                                ]
+                                             ]
+                                             $expression: #NameExpr['nil_proc']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@re_string']
+                                    $right: #AddExpr[
+                                       $left: #StringExpr['\\A']
+                                       $right: #NameExpr['@re_string']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['to_re']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 $recv: #NameExpr['Regexp']
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #NameExpr['@re_string']
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Regexp']
+                                       $name: #NameExpr['MULTILINE']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['match']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['str']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@matched']
+                                    $right: #FalseExpr['false']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['s']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['str']
+                                       $recv: #NameExpr['dup']
+                                    ]
+                                 ]
+                                 $statement: #Unless[
+                                    $then: #ApplyExpr[
+                                       $recv: #NameExpr['s']
+                                       $recv: #NameExpr['sub!']
+                                       $param: #List[
+                                          $expression: #Regex['/\\A\\s+/']
+                                          $expression: #StringExpr['']
+                                       ]
+                                    ]
+                                    $cond: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['count_space?']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['res']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['to_re']
+                                       $recv: #NameExpr['match']
+                                       $param: #List[
+                                          $expression: #NameExpr['s']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #NameExpr['res']
+                                    $then: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@conversion']
+                                          $right: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['send']
+                                             $param: #List[
+                                                $expression: #NameExpr['@handler']
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['res']
+                                                   $index: #List[
+                                                      $expression: #IntExpr['1']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@matched_string']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['@conversion']
+                                             $recv: #NameExpr['to_s']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@matched']
+                                          $right: #TrueExpr['true']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #NameExpr['res']
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['letter']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #Indexer[
+                                 $recv: #NameExpr['@spec_string']
+                                 $index: #List[
+                                    $expression: #Regex['/%\\*?\\d*([a-z\\[])/']
+                                    $expression: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['width']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 $recv: #Indexer[
+                                    $recv: #NameExpr['@spec_string']
+                                    $index: #List[
+                                       $expression: #Regex['/%\\*?(\\d+)/']
+                                       $expression: #IntExpr['1']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['to_i']
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['mid_match?']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #Unless[
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #FalseExpr['false']
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['@matched']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['cc_no_width']
+                                    $right: #LAnd[
+                                       $left: #EqExpr[
+                                          $left: #NameExpr['letter']
+                                          $right: #StringExpr['[']
+                                       ]
+                                       $right: #NotExpr[
+                                          $expr: #NameExpr['width']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['c_or_cc_width']
+                                    $right: #ApplyExpr[
+                                       $base: #LOr[
+                                          $left: #EqExpr[
+                                             $left: #NameExpr['letter']
+                                             $right: #StringExpr['c']
+                                          ]
+                                          $right: #EqExpr[
+                                             $left: #NameExpr['letter']
+                                             $right: #StringExpr['[']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['&']
+                                       $param: #List[
+                                          $expression: #NameExpr['width']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['width_left']
+                                    $right: #ApplyExpr[
+                                       $base: #NameExpr['c_or_cc_width']
+                                       $recv: #NameExpr['&']
+                                       $param: #List[
+                                          $expression: #LtExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['matched_string']
+                                                $recv: #NameExpr['size']
+                                             ]
+                                             $right: #NameExpr['width']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #LOr[
+                                          $left: #NameExpr['width_left']
+                                          $right: #NameExpr['cc_no_width']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['FormatString']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['attr_reader']
+                           $param: #List[
+                              $expression: #NameExpr['string_left']
+                              $expression: #NameExpr['last_spec_tried']
+                              $expression: #NameExpr['last_match_tried']
+                              $expression: #NameExpr['matched_count']
+                              $expression: #NameExpr['space']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['SPECIFIERS']
+                           $right: #StringExpr['diuXxofFeEgGscaA']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['REGEX']
+                           $right: #Regex['/\n        # possible space, followed by...\n          (?:\\s*\n          # percent sign, followed by...\n            %\n            # another percent sign, or...\n              (?:%|\n                 # optional assignment suppression flag\n                 \\*?\n                 # optional maximum field width\n                 \\d*\n                   # named character class, ...\n                   (?:\\[\\[:\\w+:\\]\\]|\n                   # traditional character class, or...\n                      \\[[^\\]]*\\]|\n                   # specifier letter.\n                      [#{SPECIFIERS}])))|\n            # or miscellaneous characters\n              [^%\\s]+/ix']
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['str']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@specs']
+                                    $right: #Array['[]']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@i']
+                                    $right: #IntExpr['1']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['s']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['str']
+                                       $recv: #NameExpr['to_s']
+                                    ]
+                                 ]
+                                 $statement: #Unless[
+                                    $then: #RReturnStmt['return']
+                                    $cond: #ApplyExpr[
+                                       $recv: #Regex['/\\S/']
+                                       $recv: #NameExpr['match']
+                                       $param: #List[
+                                          $expression: #NameExpr['s']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #AssignExpr[
+                                       $left: #NameExpr['@space']
+                                       $right: #TrueExpr['true']
+                                    ]
+                                    $cond: #ApplyExpr[
+                                       $recv: #Regex['/\\s\\z/']
+                                       $recv: #NameExpr['match']
+                                       $param: #List[
+                                          $expression: #NameExpr['s']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['@specs']
+                                    $recv: #NameExpr['replace']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['s']
+                                             $recv: #NameExpr['scan']
+                                             $param: #List[
+                                                $expression: #NameExpr['REGEX']
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['map']
+                                          $body: #Block[
+                                             $param: #NameExpr['spec']
+                                             $body: #ApplyExpr[
+                                                $recv: #NameExpr['FormatSpecifier']
+                                                $recv: #NameExpr['new']
+                                                $param: #List[
+                                                   $expression: #NameExpr['spec']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['to_s']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 $recv: #NameExpr['@specs']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #StringExpr['']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['prune']
+                           $param: #List[
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['n']
+                                 $default: #NameExpr['matched_count']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 $recv: #NameExpr['n']
+                                 $recv: #NameExpr['times']
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['@specs']
+                                       $recv: #NameExpr['shift']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['spec_count']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 $recv: #NameExpr['@specs']
+                                 $recv: #NameExpr['size']
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['last_spec']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #EqExpr[
+                                 $left: #NameExpr['@i']
+                                 $right: #SubExpr[
+                                    $left: #NameExpr['spec_count']
+                                    $right: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['match']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['str']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['accum']
+                                    $right: #Array['[]']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@string_left']
+                                    $right: #NameExpr['str']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@matched_count']
+                                    $right: #IntExpr['0']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['@specs']
+                                    $recv: #NameExpr['each_with_index']
+                                    $body: #Block[
+                                       $param: #MultipleLeftHandSideExpression[
+                                          $item: #NameExpr['spec']
+                                          $item: #NameExpr['i']
+                                       ]
+                                       $body: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['@i']
+                                             $right: #NameExpr['i']
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['@last_spec_tried']
+                                             $right: #NameExpr['spec']
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['@last_match_tried']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['spec']
+                                                $recv: #NameExpr['match']
+                                                $param: #List[
+                                                   $expression: #NameExpr['@string_left']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #Unless[
+                                             $then: #Break['break']
+                                             $cond: #NameExpr['@last_match_tried']
+                                          ]
+                                          $statement: #AddAssign[
+                                             $left: #NameExpr['@matched_count']
+                                             $right: #IntExpr['1']
+                                          ]
+                                          $statement: #LShiftExpr[
+                                             $left: #NameExpr['accum']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['spec']
+                                                $recv: #NameExpr['conversion']
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['@string_left']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['@last_match_tried']
+                                                $recv: #NameExpr['post_match']
+                                             ]
+                                          ]
+                                          $statement: #IfExpr[
+                                             $then: #Break['break']
+                                             $cond: #ApplyExpr[
+                                                $recv: #NameExpr['@string_left']
+                                                $recv: #NameExpr['empty?']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['accum']
+                                          $recv: #NameExpr['compact']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['IO']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['scanf']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['str']
+                     ]
+                     $param: #ProcedureParam[
+                        $name: #NameExpr['b']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $then: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['block_scanf']
+                                    $param: #List[
+                                       $expression: #NameExpr['str']
+                                       $procedure: #Procedure[
+                                          $base: #NameExpr['b']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $cond: #NameExpr['b']
+                        ]
+                        $statement: #Unless[
+                           $then: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #Array['[]']
+                              ]
+                           ]
+                           $cond: #GtExpr[
+                              $left: #ApplyExpr[
+                                 $recv: #NameExpr['str']
+                                 $recv: #NameExpr['size']
+                              ]
+                              $right: #IntExpr['0']
+                           ]
+                        ]
+                        $statement: #Rescue[
+                           $body: #AssignExpr[
+                              $left: #NameExpr['start_position']
+                              $right: #NameExpr['pos']
+                           ]
+                           $rescue: #IntExpr['0']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['matched_so_far']
+                           $right: #IntExpr['0']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['source_buffer']
+                           $right: #StringExpr['']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['result_buffer']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['final_result']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['fstr']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Scanf']
+                                 $name: #NameExpr['FormatString']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #NameExpr['str']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['loop']
+                           $body: #Block[
+                              $body: #List[
+                                 $statement: #IfExpr[
+                                    $cond: #LOr[
+                                       $left: #NameExpr['eof']
+                                       $right: #ApplyExpr[
+                                          $base: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['tty?']
+                                          ]
+                                          $recv: #NameExpr['&']
+                                          $param: #List[
+                                             $expression: #NotExpr[
+                                                $expr: #ApplyExpr[
+                                                   $recv: #NameExpr['fstr']
+                                                   $recv: #NameExpr['match']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['source_buffer']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $then: #List[
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['final_result']
+                                          $recv: #NameExpr['concat']
+                                          $param: #List[
+                                             $expression: #NameExpr['result_buffer']
+                                          ]
+                                       ]
+                                       $statement: #Break['break']
+                                    ]
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['source_buffer']
+                                    $right: #NameExpr['gets']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['current_match']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['fstr']
+                                       $recv: #NameExpr['match']
+                                       $param: #List[
+                                          $expression: #NameExpr['source_buffer']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['spec']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['fstr']
+                                       $recv: #NameExpr['last_spec_tried']
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['spec']
+                                       $recv: #NameExpr['matched']
+                                    ]
+                                    $then: #IfExpr[
+                                       $cond: #ApplyExpr[
+                                          $recv: #NameExpr['spec']
+                                          $recv: #NameExpr['mid_match?']
+                                       ]
+                                       $then: #List[
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['result_buffer']
+                                             $recv: #NameExpr['replace']
+                                             $param: #List[
+                                                $expression: #NameExpr['current_match']
+                                             ]
+                                          ]
+                                          $statement: #Next['next']
+                                       ]
+                                    ]
+                                    $else: #IfExpr[
+                                       $cond: #EqExpr[
+                                          $left: #ApplyExpr[
+                                             $recv: #NameExpr['fstr']
+                                             $recv: #NameExpr['matched_count']
+                                          ]
+                                          $right: #SubExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['fstr']
+                                                $recv: #NameExpr['spec_count']
+                                             ]
+                                             $right: #IntExpr['1']
+                                          ]
+                                       ]
+                                       $then: #IfExpr[
+                                          $cond: #ApplyExpr[
+                                             $recv: #Regex['/\\A\\s*\\z/']
+                                             $recv: #NameExpr['match']
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['fstr']
+                                                   $recv: #NameExpr['string_left']
+                                                ]
+                                             ]
+                                          ]
+                                          $then: #List[
+                                             $statement: #IfExpr[
+                                                $then: #Break['break']
+                                                $cond: #ApplyExpr[
+                                                   $recv: #NameExpr['spec']
+                                                   $recv: #NameExpr['count_space?']
+                                                ]
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                $recv: #NameExpr['result_buffer']
+                                                $recv: #NameExpr['replace']
+                                                $param: #List[
+                                                   $expression: #NameExpr['current_match']
+                                                ]
+                                             ]
+                                             $statement: #Next['next']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['final_result']
+                                    $recv: #NameExpr['concat']
+                                    $param: #List[
+                                       $expression: #NameExpr['current_match']
+                                    ]
+                                 ]
+                                 $statement: #AddAssign[
+                                    $left: #NameExpr['matched_so_far']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['source_buffer']
+                                       $recv: #NameExpr['size']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['source_buffer']
+                                    $recv: #NameExpr['replace']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['fstr']
+                                          $recv: #NameExpr['string_left']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #SubAssign[
+                                    $left: #NameExpr['matched_so_far']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['source_buffer']
+                                       $recv: #NameExpr['size']
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #Break['break']
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['fstr']
+                                       $recv: #NameExpr['last_spec']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['fstr']
+                                    $recv: #NameExpr['prune']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ExceptionBlock[
+                           $main: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['seek']
+                              $param: #List[
+                                 $expression: #AddExpr[
+                                    $left: #NameExpr['start_position']
+                                    $right: #NameExpr['matched_so_far']
+                                 ]
+                                 $expression: #Field[
+                                    $recv: #NameExpr['IO']
+                                    $name: #NameExpr['SEEK_SET']
+                                 ]
+                              ]
+                           ]
+                           $rescue: #List[
+                              $rescue: #Rescue[
+                                 $class: #Field[
+                                    $recv: #NameExpr['Errno']
+                                    $name: #NameExpr['ESPIPE']
+                                 ]
+                                 $then: #Empty['']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #NameExpr['soak_up_spaces']
+                           $cond: #ApplyExpr[
+                              $base: #ApplyExpr[
+                                 $recv: #NameExpr['fstr']
+                                 $recv: #NameExpr['last_spec']
+                              ]
+                              $recv: #NameExpr['&']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['fstr']
+                                    $recv: #NameExpr['space']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #NameExpr['final_result']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['private']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['soak_up_spaces']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['c']
+                           $right: #NameExpr['getc']
+                        ]
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['ungetc']
+                              $param: #List[
+                                 $expression: #NameExpr['c']
+                              ]
+                           ]
+                           $cond: #NameExpr['c']
+                        ]
+                        $statement: #Until[
+                           $cond: #LOr[
+                              $left: #LOr[
+                                 $left: #NameExpr['eof']
+                                 $right: #NotExpr[
+                                    $expr: #NameExpr['c']
+                                 ]
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #Regex['/\\S/']
+                                 $recv: #NameExpr['match']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['c']
+                                       $recv: #NameExpr['chr']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $body: #AssignExpr[
+                              $left: #NameExpr['c']
+                              $right: #NameExpr['getc']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['ungetc']
+                              $param: #List[
+                                 $expression: #NameExpr['c']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $base: #NameExpr['c']
+                              $recv: #NameExpr['&']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #Regex['/\\S/']
+                                    $recv: #NameExpr['match']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['c']
+                                          $recv: #NameExpr['chr']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['block_scanf']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['str']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['final']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['fstr']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Scanf']
+                                 $name: #NameExpr['FormatString']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #NameExpr['str']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['last_spec']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['fstr']
+                              $recv: #NameExpr['last_spec']
+                           ]
+                        ]
+                        $statement: #Until[
+                           $body: #ExceptionBlock[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['current']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['scanf']
+                                       $param: #List[
+                                          $expression: #NameExpr['str']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #Break['break']
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['current']
+                                       $recv: #NameExpr['empty?']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['final']
+                                    $recv: #NameExpr['push']
+                                    $param: #List[
+                                       $command: #Yield[
+                                          $param: #List[
+                                             $expression: #NameExpr['current']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $cond: #LOr[
+                              $left: #NameExpr['eof']
+                              $right: #EqExpr[
+                                 $left: #ApplyExpr[
+                                    $recv: #NameExpr['fstr']
+                                    $recv: #NameExpr['last_spec_tried']
+                                 ]
+                                 $right: #NameExpr['last_spec']
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #NameExpr['final']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['String']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['scanf']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['fstr']
+                     ]
+                     $param: #ProcedureParam[
+                        $name: #NameExpr['b']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #IfExpr[
+                        $cond: #NameExpr['b']
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['block_scanf']
+                           $param: #List[
+                              $expression: #NameExpr['fstr']
+                              $procedure: #Procedure[
+                                 $base: #NameExpr['b']
+                              ]
+                           ]
+                        ]
+                        $else: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['fs']
+                              $right: #IfExpr[
+                                 $cond: #ApplyExpr[
+                                    $base: #NameExpr['fstr']
+                                    $recv: #NameExpr['is_a?']
+                                    $param: #List[
+                                       $expression: #Field[
+                                          $recv: #NameExpr['Scanf']
+                                          $name: #NameExpr['FormatString']
+                                       ]
+                                    ]
+                                 ]
+                                 $then: #NameExpr['fstr']
+                                 $else: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Scanf']
+                                       $name: #NameExpr['FormatString']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #NameExpr['fstr']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['fs']
+                              $recv: #NameExpr['match']
+                              $param: #List[
+                                 $expression: #Self['self']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['block_scanf']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['fstr']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['fs']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Scanf']
+                                 $name: #NameExpr['FormatString']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #NameExpr['fstr']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['str']
+                           $right: #ApplyExpr[
+                              $recv: #Self['self']
+                              $recv: #NameExpr['dup']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['final']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #Until[
+                           $body: #ExceptionBlock[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['current']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['str']
+                                       $recv: #NameExpr['scanf']
+                                       $param: #List[
+                                          $expression: #NameExpr['fs']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #Unless[
+                                    $then: #ApplyExpr[
+                                       $recv: #NameExpr['final']
+                                       $recv: #NameExpr['push']
+                                       $param: #List[
+                                          $command: #Yield[
+                                             $param: #List[
+                                                $expression: #NameExpr['current']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['current']
+                                       $recv: #NameExpr['empty?']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['str']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['fs']
+                                       $recv: #NameExpr['string_left']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $cond: #LOr[
+                              $left: #ApplyExpr[
+                                 $recv: #NameExpr['current']
+                                 $recv: #NameExpr['empty?']
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['str']
+                                 $recv: #NameExpr['empty?']
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #NameExpr['final']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['Kernel']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #NameExpr['private']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['scanf']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['format']
+                     ]
+                     $param: #ProcedureParam[
+                        $name: #NameExpr['b']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['STDIN']
+                        $recv: #NameExpr['scanf']
+                        $param: #List[
+                           $expression: #NameExpr['format']
+                           $procedure: #Procedure[
+                              $base: #NameExpr['b']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

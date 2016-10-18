@@ -1,0 +1,189 @@
+#Source[
+   #Class[
+      $name: #NestedName[
+         $path: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['Request']
+         ]
+         $name: #NameExpr['HTTPPool']
+      ]
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['attr_reader']
+               $param: #List[
+                  $expression: #NameExpr['cert_files']
+                  $expression: #NameExpr['proxy_uri']
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['initialize']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['http_args']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['cert_files']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['proxy_uri']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@http_args']
+                        $right: #NameExpr['http_args']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@cert_files']
+                        $right: #NameExpr['cert_files']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@proxy_uri']
+                        $right: #NameExpr['proxy_uri']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@queue']
+                        $right: #ApplyExpr[
+                           $base: #NameExpr['SizedQueue']
+                           $recv: #NameExpr['new']
+                           $param: #List[
+                              $expression: #IntExpr['1']
+                           ]
+                        ]
+                     ]
+                     $statement: #LShiftExpr[
+                        $left: #NameExpr['@queue']
+                        $right: #Nil['nil']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['checkout']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #LOr[
+                     $left: #ApplyExpr[
+                        $recv: #NameExpr['@queue']
+                        $recv: #NameExpr['pop']
+                     ]
+                     $right: #NameExpr['make_connection']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['checkin']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['connection']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     $base: #NameExpr['@queue']
+                     $recv: #NameExpr['push']
+                     $param: #List[
+                        $expression: #NameExpr['connection']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['close_all']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #Until[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['@queue']
+                           $recv: #NameExpr['empty?']
+                        ]
+                        $body: #IfExpr[
+                           $cond: #AndExpr[
+                              $left: #AssignExpr[
+                                 $left: #NameExpr['connection']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['@queue']
+                                    $recv: #NameExpr['pop']
+                                    $param: #List[
+                                       $expression: #TrueExpr['true']
+                                    ]
+                                 ]
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['connection']
+                                 $recv: #NameExpr['started?']
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['connection']
+                              $recv: #NameExpr['finish']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['@queue']
+                        $recv: #NameExpr['push']
+                        $param: #List[
+                           $expression: #Nil['nil']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #NameExpr['private']
+            $statement: #FuncDecl[
+               $name: #NameExpr['make_connection']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['setup_connection']
+                     $param: #List[
+                        $expression: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Request']
+                                 ]
+                                 $name: #NameExpr['ConnectionPools']
+                              ]
+                              $recv: #NameExpr['client']
+                           ]
+                           $recv: #NameExpr['new']
+                           $param: #List[
+                              $variadic: #Variadic[
+                                 $base: #NameExpr['@http_args']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['setup_connection']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['connection']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['connection']
+                        $recv: #NameExpr['start']
+                     ]
+                     $statement: #NameExpr['connection']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

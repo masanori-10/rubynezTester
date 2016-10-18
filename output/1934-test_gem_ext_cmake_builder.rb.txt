@@ -1,0 +1,416 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/test_case']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/ext']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestGemExtCmakeBuilder']
+         $super: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['skip']
+                              $param: #List[
+                                 $expression: #StringExpr['CmakeBuilder doesn\'t work on Windows.']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['Gem']
+                              $recv: #NameExpr['win_platform?']
+                           ]
+                        ]
+                        $statement: #Command['cmake #{Gem::Ext::Builder.redirector}']
+                        $statement: #Unless[
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['skip']
+                              $param: #List[
+                                 $expression: #StringExpr['cmake not present']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #BuiltInVariable['$?']
+                              $recv: #NameExpr['success?']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@ext']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['@tempdir']
+                                 $expression: #StringExpr['ext']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@dest_path']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['@tempdir']
+                                 $expression: #StringExpr['prefix']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #NameExpr['@ext']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #NameExpr['@dest_path']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_self_build']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['@ext']
+                                    $expression: #StringExpr['CMakeLists.txt']
+                                 ]
+                              ]
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['cmakelists']
+                              $body: #ApplyExpr[
+                                 $base: #NameExpr['cmakelists']
+                                 $recv: #NameExpr['write']
+                                 $param: #List[
+                                    $expression: #HereDocument['cmake_minimum_required(VERSION 2.6)\ninstall (FILES test.txt DESTINATION bin)\n']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['touch']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['@ext']
+                                    $expression: #StringExpr['test.txt']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['output']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['Dir']
+                           $recv: #NameExpr['chdir']
+                           $param: #List[
+                              $expression: #NameExpr['@ext']
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $base: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['Ext']
+                                    ]
+                                    $name: #NameExpr['CmakeBuilder']
+                                 ]
+                                 $recv: #NameExpr['build']
+                                 $param: #List[
+                                    $expression: #Nil['nil']
+                                    $expression: #Nil['nil']
+                                    $expression: #NameExpr['@dest_path']
+                                    $expression: #NameExpr['output']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['output']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['output']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #StringExpr['\\n']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['%r%^cmake \\. -DCMAKE_INSTALL_PREFIX=#{Regexp.escape @dest_path}%']
+                              $expression: #NameExpr['output']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['%r%#{Regexp.escape @ext}%']
+                              $expression: #NameExpr['output']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_contains_make_command']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                              $expression: #NameExpr['output']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_contains_make_command']
+                           $param: #List[
+                              $expression: #StringExpr['install']
+                              $expression: #NameExpr['output']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['%r%test\\.txt%']
+                              $expression: #NameExpr['output']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_self_build_fail']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['output']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['error']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_raises']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['InstallError']
+                                 ]
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $base: #NameExpr['Dir']
+                                    $recv: #NameExpr['chdir']
+                                    $param: #List[
+                                       $expression: #NameExpr['@ext']
+                                    ]
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $base: #Field[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['Gem']
+                                                $name: #NameExpr['Ext']
+                                             ]
+                                             $name: #NameExpr['CmakeBuilder']
+                                          ]
+                                          $recv: #NameExpr['build']
+                                          $param: #List[
+                                             $expression: #Nil['nil']
+                                             $expression: #Nil['nil']
+                                             $expression: #NameExpr['@dest_path']
+                                             $expression: #NameExpr['output']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['output']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['output']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #StringExpr['\\n']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['shell_error_msg']
+                           $right: #Regex['%r{(CMake Error: .*)}']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['sh_prefix_cmake']
+                           $right: #StringExpr['cmake . -DCMAKE_INSTALL_PREFIX=']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #StringExpr['cmake failed']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['error']
+                                 $recv: #NameExpr['message']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['%r%^#{sh_prefix_cmake}#{Regexp.escape @dest_path}%']
+                              $expression: #NameExpr['output']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['%r%#{shell_error_msg}%']
+                              $expression: #NameExpr['output']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_self_build_has_makefile']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['@ext']
+                                    $expression: #StringExpr['Makefile']
+                                 ]
+                              ]
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['makefile']
+                              $body: #ApplyExpr[
+                                 $base: #NameExpr['makefile']
+                                 $recv: #NameExpr['puts']
+                                 $param: #List[
+                                    $expression: #StringExpr['all:\\n\\t@echo ok\\ninstall:\\n\\t@echo ok']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['output']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['Dir']
+                           $recv: #NameExpr['chdir']
+                           $param: #List[
+                              $expression: #NameExpr['@ext']
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $base: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['Ext']
+                                    ]
+                                    $name: #NameExpr['CmakeBuilder']
+                                 ]
+                                 $recv: #NameExpr['build']
+                                 $param: #List[
+                                    $expression: #Nil['nil']
+                                    $expression: #Nil['nil']
+                                    $expression: #NameExpr['@dest_path']
+                                    $expression: #NameExpr['output']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['output']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['output']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #StringExpr['\\n']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_contains_make_command']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                              $expression: #NameExpr['output']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_contains_make_command']
+                           $param: #List[
+                              $expression: #StringExpr['install']
+                              $expression: #NameExpr['output']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

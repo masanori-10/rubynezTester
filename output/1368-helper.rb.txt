@@ -1,0 +1,784 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['minitest/autorun']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['fiddle']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['libc_so']
+         $right: #AssignExpr[
+            $left: #NameExpr['libm_so']
+            $right: #Nil['nil']
+         ]
+      ]
+      $statement: #Case[
+         $cond: #NameExpr['RUBY_PLATFORM']
+         $body: #List[
+            $when: #When[
+               $cond: #List[
+                  $expression: #Regex['/cygwin/']
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libc_so']
+                     $right: #StringExpr['cygwin1.dll']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libm_so']
+                     $right: #StringExpr['cygwin1.dll']
+                  ]
+               ]
+            ]
+            $when: #When[
+               $cond: #List[
+                  $expression: #Regex['/x86_64-linux/']
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libc_so']
+                     $right: #StringExpr['/lib64/libc.so.6']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libm_so']
+                     $right: #StringExpr['/lib64/libm.so.6']
+                  ]
+               ]
+            ]
+            $when: #When[
+               $cond: #List[
+                  $expression: #Regex['/linux/']
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libdir']
+                     $right: #StringExpr['/lib']
+                  ]
+                  $statement: #Case[
+                     $cond: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #Array[
+                              $index: #List[
+                                 $expression: #IntExpr['0']
+                              ]
+                           ]
+                           $recv: #NameExpr['pack']
+                           $param: #List[
+                              $expression: #StringExpr['L!']
+                           ]
+                        ]
+                        $recv: #NameExpr['size']
+                     ]
+                     $body: #List[
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #IntExpr['4']
+                           ]
+                           $then: #IfExpr[
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['libdir']
+                                 $right: #StringExpr['/lib32']
+                              ]
+                              $cond: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['directory?']
+                                 $param: #List[
+                                    $expression: #StringExpr['/lib32']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #IntExpr['8']
+                           ]
+                           $then: #IfExpr[
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['libdir']
+                                 $right: #StringExpr['/lib64']
+                              ]
+                              $cond: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['directory?']
+                                 $param: #List[
+                                    $expression: #StringExpr['/lib64']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libc_so']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['File']
+                        $recv: #NameExpr['join']
+                        $param: #List[
+                           $expression: #NameExpr['libdir']
+                           $expression: #StringExpr['libc.so.6']
+                        ]
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libm_so']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['File']
+                        $recv: #NameExpr['join']
+                        $param: #List[
+                           $expression: #NameExpr['libdir']
+                           $expression: #StringExpr['libm.so.6']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $when: #When[
+               $cond: #List[
+                  $expression: #Regex['/mingw/']
+                  $expression: #Regex['/mswin/']
+               ]
+               $then: #List[
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['require']
+                     $param: #List[
+                        $expression: #StringExpr['rbconfig']
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['crtname']
+                     $right: #LOr[
+                        $left: #Indexer[
+                           $recv: #Indexer[
+                              $recv: #Field[
+                                 $recv: #NameExpr['RbConfig']
+                                 $name: #NameExpr['CONFIG']
+                              ]
+                              $index: #List[
+                                 $expression: #StringExpr['RUBY_SO_NAME']
+                              ]
+                           ]
+                           $index: #List[
+                              $expression: #Regex['/msvc\\w+/']
+                           ]
+                        ]
+                        $right: #StringExpr['ucrtbase']
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libc_so']
+                     $right: #AssignExpr[
+                        $left: #NameExpr['libm_so']
+                        $right: #StringExpr[
+                           $inner: #NameExpr['crtname']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $when: #When[
+               $cond: #List[
+                  $expression: #Regex['/darwin/']
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libc_so']
+                     $right: #StringExpr['/usr/lib/libc.dylib']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libm_so']
+                     $right: #StringExpr['/usr/lib/libm.dylib']
+                  ]
+               ]
+            ]
+            $when: #When[
+               $cond: #List[
+                  $expression: #Regex['/kfreebsd/']
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libc_so']
+                     $right: #StringExpr['/lib/libc.so.0.1']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libm_so']
+                     $right: #StringExpr['/lib/libm.so.1']
+                  ]
+               ]
+            ]
+            $when: #When[
+               $cond: #List[
+                  $expression: #Regex['/gnu/']
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libc_so']
+                     $right: #StringExpr['/lib/libc.so.0.3']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libm_so']
+                     $right: #StringExpr['/lib/libm.so.6']
+                  ]
+               ]
+            ]
+            $when: #When[
+               $cond: #List[
+                  $expression: #Regex['/mirbsd/']
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libc_so']
+                     $right: #StringExpr['/usr/lib/libc.so.41.10']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libm_so']
+                     $right: #StringExpr['/usr/lib/libm.so.7.0']
+                  ]
+               ]
+            ]
+            $when: #When[
+               $cond: #List[
+                  $expression: #Regex['/freebsd/']
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libc_so']
+                     $right: #StringExpr['/lib/libc.so.7']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libm_so']
+                     $right: #StringExpr['/lib/libm.so.5']
+                  ]
+               ]
+            ]
+            $when: #When[
+               $cond: #List[
+                  $expression: #Regex['/bsd|dragonfly/']
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libc_so']
+                     $right: #StringExpr['/usr/lib/libc.so']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libm_so']
+                     $right: #StringExpr['/usr/lib/libm.so']
+                  ]
+               ]
+            ]
+            $when: #When[
+               $cond: #List[
+                  $expression: #Regex['/solaris/']
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libdir']
+                     $right: #StringExpr['/lib']
+                  ]
+                  $statement: #Case[
+                     $cond: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #Array[
+                              $index: #List[
+                                 $expression: #IntExpr['0']
+                              ]
+                           ]
+                           $recv: #NameExpr['pack']
+                           $param: #List[
+                              $expression: #StringExpr['L!']
+                           ]
+                        ]
+                        $recv: #NameExpr['size']
+                     ]
+                     $body: #List[
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #IntExpr['4']
+                           ]
+                           $then: #IfExpr[
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['libdir']
+                                 $right: #StringExpr['/lib']
+                              ]
+                              $cond: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['directory?']
+                                 $param: #List[
+                                    $expression: #StringExpr['/lib']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #IntExpr['8']
+                           ]
+                           $then: #IfExpr[
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['libdir']
+                                 $right: #StringExpr['/lib/64']
+                              ]
+                              $cond: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['directory?']
+                                 $param: #List[
+                                    $expression: #StringExpr['/lib/64']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libc_so']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['File']
+                        $recv: #NameExpr['join']
+                        $param: #List[
+                           $expression: #NameExpr['libdir']
+                           $expression: #StringExpr['libc.so']
+                        ]
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libm_so']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['File']
+                        $recv: #NameExpr['join']
+                        $param: #List[
+                           $expression: #NameExpr['libdir']
+                           $expression: #StringExpr['libm.so']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $when: #When[
+               $cond: #List[
+                  $expression: #Regex['/aix/']
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['pwd']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['Dir']
+                        $recv: #NameExpr['pwd']
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['libc_so']
+                     $right: #AssignExpr[
+                        $left: #NameExpr['libm_so']
+                        $right: #StringExpr[
+                           $inner: #NameExpr['pwd']
+                        ]
+                     ]
+                  ]
+                  $statement: #Unless[
+                     $cond: #ApplyExpr[
+                        $base: #NameExpr['File']
+                        $recv: #NameExpr['exist?']
+                        $param: #List[
+                           $expression: #NameExpr['libc_so']
+                        ]
+                     ]
+                     $then: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cobjs']
+                           $right: #ParcentNotation['%w!strcpy.o!']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['mobjs']
+                           $right: #ParcentNotation['%w!floats.o sin.o!']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['funcs']
+                           $right: #ParcentNotation['%w!sin sinf strcpy strncpy!']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expfile']
+                           $right: #StringExpr['dltest.exp']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['require']
+                           $param: #List[
+                              $expression: #StringExpr['tmpdir']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['Dir']
+                           $recv: #NameExpr['mktmpdir']
+                           $body: #Block[
+                              $param: #NameExpr['dir']
+                              $body: #ExceptionBlock[
+                                 $main: #List[
+                                    $statement: #ApplyExpr[
+                                       $base: #NameExpr['Dir']
+                                       $recv: #NameExpr['chdir']
+                                       $param: #List[
+                                          $expression: #NameExpr['dir']
+                                       ]
+                                    ]
+                                    $statement: #ParcentNotation['%x!/usr/bin/ar x /usr/lib/libc.a #{cobjs.join(\' \')}!']
+                                    $statement: #ParcentNotation['%x!/usr/bin/ar x /usr/lib/libm.a #{mobjs.join(\' \')}!']
+                                    $statement: #ParcentNotation['%x!echo "#{funcs.join("\\n")}\\n" > #{expfile}!']
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['require']
+                                       $param: #List[
+                                          $expression: #StringExpr['rbconfig']
+                                       ]
+                                    ]
+                                    $statement: #IfExpr[
+                                       $cond: #AssignExpr[
+                                          $left: #Indexer[
+                                             $base: #Field[
+                                                $recv: #NameExpr['RbConfig']
+                                                $name: #NameExpr['CONFIG']
+                                             ]
+                                             $index: #List[
+                                                $expression: #StringExpr['GCC']
+                                             ]
+                                          ]
+                                          $right: #StringExpr['yes']
+                                       ]
+                                       $then: #AssignExpr[
+                                          $left: #NameExpr['lflag']
+                                          $right: #StringExpr['-Wl,']
+                                       ]
+                                       $else: #AssignExpr[
+                                          $left: #NameExpr['lflag']
+                                          $right: #StringExpr['']
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['flags']
+                                       $right: #StringExpr[
+                                          $inner: #NameExpr['lflag']
+                                          $inner: #NameExpr['expfile']
+                                          $inner: #NameExpr['lflag']
+                                       ]
+                                    ]
+                                    $statement: #ParcentNotation['%x!#{RbConfig::CONFIG["LDSHARED"]} -o #{libc_so} #{(cobjs+mobjs).join(\' \')} #{flags}!']
+                                 ]
+                                 $ensure: #ApplyExpr[
+                                    $base: #NameExpr['Dir']
+                                    $recv: #NameExpr['chdir']
+                                    $param: #List[
+                                       $expression: #NameExpr['pwd']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+         $else: #List[
+            $statement: #IfExpr[
+               $then: #AssignExpr[
+                  $left: #NameExpr['libc_so']
+                  $right: #Indexer[
+                     $recv: #NameExpr['ARGV']
+                     $index: #List[
+                        $expression: #IntExpr['0']
+                     ]
+                  ]
+               ]
+               $cond: #ApplyExpr[
+                  $base: #Indexer[
+                     $recv: #NameExpr['ARGV']
+                     $index: #List[
+                        $expression: #IntExpr['0']
+                     ]
+                  ]
+                  $recv: #NameExpr['&']
+                  $param: #List[
+                     $expression: #EqExpr[
+                        $left: #Indexer[
+                           $recv: #Indexer[
+                              $recv: #NameExpr['ARGV']
+                              $index: #List[
+                                 $expression: #IntExpr['0']
+                              ]
+                           ]
+                           $index: #List[
+                              $expression: #IntExpr['0']
+                           ]
+                        ]
+                        $right: #StringExpr['/']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #IfExpr[
+               $then: #AssignExpr[
+                  $left: #NameExpr['libm_so']
+                  $right: #Indexer[
+                     $recv: #NameExpr['ARGV']
+                     $index: #List[
+                        $expression: #IntExpr['1']
+                     ]
+                  ]
+               ]
+               $cond: #ApplyExpr[
+                  $base: #Indexer[
+                     $recv: #NameExpr['ARGV']
+                     $index: #List[
+                        $expression: #IntExpr['1']
+                     ]
+                  ]
+                  $recv: #NameExpr['&']
+                  $param: #List[
+                     $expression: #EqExpr[
+                        $left: #Indexer[
+                           $recv: #Indexer[
+                              $recv: #NameExpr['ARGV']
+                              $index: #List[
+                                 $expression: #IntExpr['1']
+                              ]
+                           ]
+                           $index: #List[
+                              $expression: #IntExpr['0']
+                           ]
+                        ]
+                        $right: #StringExpr['/']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #IfExpr[
+               $cond: #NotExpr[
+                  $expr: #ApplyExpr[
+                     $base: #NameExpr['libc_so']
+                     $recv: #NameExpr['&']
+                     $param: #List[
+                        $expression: #NameExpr['libm_so']
+                     ]
+                  ]
+               ]
+               $then: #ApplyExpr[
+                  $recv: #NameExpr['$stderr']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #StringExpr[
+                        $inner: #BuiltInVariable['$0']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #AssignExpr[
+            $left: #NameExpr['libc_so']
+            $right: #Nil['nil']
+         ]
+         $cond: #LOr[
+            $left: #NotExpr[
+               $expr: #NameExpr['libc_so']
+            ]
+            $right: #LAnd[
+               $left: #EqExpr[
+                  $left: #Indexer[
+                     $recv: #NameExpr['libc_so']
+                     $index: #List[
+                        $expression: #IntExpr['0']
+                     ]
+                  ]
+                  $right: #StringExpr['/']
+               ]
+               $right: #NotExpr[
+                  $expr: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['file?']
+                     $param: #List[
+                        $expression: #NameExpr['libc_so']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #AssignExpr[
+            $left: #NameExpr['libm_so']
+            $right: #Nil['nil']
+         ]
+         $cond: #LOr[
+            $left: #NotExpr[
+               $expr: #NameExpr['libm_so']
+            ]
+            $right: #LAnd[
+               $left: #EqExpr[
+                  $left: #Indexer[
+                     $recv: #NameExpr['libm_so']
+                     $index: #List[
+                        $expression: #IntExpr['0']
+                     ]
+                  ]
+                  $right: #StringExpr['/']
+               ]
+               $right: #NotExpr[
+                  $expr: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['file?']
+                     $param: #List[
+                        $expression: #NameExpr['libm_so']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #LOr[
+            $left: #NotExpr[
+               $expr: #NameExpr['libc_so']
+            ]
+            $right: #NotExpr[
+               $expr: #NameExpr['libm_so']
+            ]
+         ]
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['ruby']
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['EnvUtil']
+                  $recv: #NameExpr['rubybin']
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['ldd']
+               $right: #Command['ldd #{ruby}']
+            ]
+            $statement: #IfExpr[
+               $then: #AssignExpr[
+                  $left: #NameExpr['libc_so']
+                  $right: #BuiltInVariable['$&']
+               ]
+               $cond: #[
+                  $base: #ApplyExpr[
+                     $base: #NameExpr['libc_so']
+                     $recv: #NameExpr['&']
+                     $param: #List[
+                        $expression: #Match[
+                           $left: #Regex['%r{/\\S*/libc\\.so\\S*}']
+                           $right: #NameExpr['ldd']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #IfExpr[
+               $then: #AssignExpr[
+                  $left: #NameExpr['libm_so']
+                  $right: #BuiltInVariable['$&']
+               ]
+               $cond: #[
+                  $base: #ApplyExpr[
+                     $base: #NameExpr['libm_so']
+                     $recv: #NameExpr['&']
+                     $param: #List[
+                        $expression: #Match[
+                           $left: #Regex['%r{/\\S*/libm\\.so\\S*}']
+                           $right: #NameExpr['ldd']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #Field[
+            $base: #NameExpr['Fiddle']
+            $name: #NameExpr['LIBC_SO']
+         ]
+         $right: #NameExpr['libc_so']
+      ]
+      $statement: #AssignExpr[
+         $left: #Field[
+            $base: #NameExpr['Fiddle']
+            $name: #NameExpr['LIBM_SO']
+         ]
+         $right: #NameExpr['libm_so']
+      ]
+      $statement: #Module[
+         $name: #NameExpr['Fiddle']
+         $body: #BlockExpr[
+            $main: #Class[
+               $name: #NameExpr['TestCase']
+               $super: #Field[
+                  $recv: #Field[
+                     $recv: #NameExpr['MiniTest']
+                     $name: #NameExpr['Unit']
+                  ]
+                  $name: #NameExpr['TestCase']
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['setup']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@libc']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['Fiddle']
+                                    $recv: #NameExpr['dlopen']
+                                    $param: #List[
+                                       $expression: #NameExpr['LIBC_SO']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@libm']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['Fiddle']
+                                    $recv: #NameExpr['dlopen']
+                                    $param: #List[
+                                       $expression: #NameExpr['LIBM_SO']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['teardown']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #IfExpr[
+                              $cond: #Match[
+                                 $left: #Regex['/linux/']
+                                 $right: #NameExpr['RUBY_PLATFORM']
+                              ]
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['GC']
+                                 $recv: #NameExpr['start']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

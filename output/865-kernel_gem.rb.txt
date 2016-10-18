@@ -1,0 +1,217 @@
+#Source[
+   #Module[
+      $name: #NameExpr['Kernel']
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #IfExpr[
+               $then: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['remove_method']
+                  $param: #List[
+                     $expression: #NameExpr['gem']
+                  ]
+               ]
+               $cond: #EqExpr[
+                  $left: #StringExpr['method']
+                  $right: #Defined[
+                     $base: #NameExpr['gem']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['gem']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['gem_name']
+                  ]
+                  $param: #VariadicParam[
+                     $name: #NameExpr['requirements']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['skip_list']
+                        $right: #ApplyExpr[
+                           $recv: #LOr[
+                              $left: #Indexer[
+                                 $recv: #NameExpr['ENV']
+                                 $index: #List[
+                                    $expression: #StringExpr['GEM_SKIP']
+                                 ]
+                              ]
+                              $right: #StringExpr['']
+                           ]
+                           $recv: #NameExpr['split']
+                           $param: #List[
+                              $expression: #Regex['/:/']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['LoadError']
+                              ]
+                              $expression: #StringExpr[
+                                 $inner: #NameExpr['gem_name']
+                              ]
+                           ]
+                        ]
+                        $cond: #ApplyExpr[
+                           $base: #NameExpr['skip_list']
+                           $recv: #NameExpr['include?']
+                           $param: #List[
+                              $expression: #NameExpr['gem_name']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $base: #NameExpr['gem_name']
+                           $recv: #NameExpr['kind_of?']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['Dependency']
+                              ]
+                           ]
+                        ]
+                        $then: #List[
+                           $statement: #Unless[
+                              $cond: #ApplyExpr[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Deprecate']
+                                 ]
+                                 $recv: #NameExpr['skip']
+                              ]
+                              $then: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['warn']
+                                 $param: #List[
+                                    $expression: #ConnectString[
+                                       $String: #StringExpr[
+                                          $inner: #ApplyExpr[
+                                             $base: #ApplyExpr[
+                                                $recv: #NameExpr['Gem']
+                                                $recv: #NameExpr['location_of_caller']
+                                             ]
+                                             $recv: #NameExpr['join']
+                                             $param: #List[
+                                                $expression: #StringExpr[':']
+                                             ]
+                                          ]
+                                       ]
+                                       $String: #StringExpr['accepts a Gem::Dependency object, please pass the name ']
+                                       $String: #StringExpr['and requirements directly']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['requirements']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['gem_name']
+                                 $recv: #NameExpr['requirement']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['gem_name']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['gem_name']
+                                 $recv: #NameExpr['name']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['dep']
+                        $right: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['Gem']
+                              $name: #NameExpr['Dependency']
+                           ]
+                           $recv: #NameExpr['new']
+                           $param: #List[
+                              $expression: #NameExpr['gem_name']
+                              $variadic: #Variadic[
+                                 $base: #NameExpr['requirements']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['loaded']
+                        $right: #Indexer[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['Gem']
+                              $recv: #NameExpr['loaded_specs']
+                           ]
+                           $index: #List[
+                              $expression: #NameExpr['gem_name']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #FalseExpr['false']
+                           ]
+                        ]
+                        $cond: #ApplyExpr[
+                           $base: #NameExpr['loaded']
+                           $recv: #NameExpr['&']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['dep']
+                                 $recv: #NameExpr['matches_spec?']
+                                 $param: #List[
+                                    $expression: #NameExpr['loaded']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['spec']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['dep']
+                           $recv: #NameExpr['to_spec']
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['Gem']
+                              $name: #NameExpr['LOADED_SPECS_MUTEX']
+                           ]
+                           $recv: #NameExpr['synchronize']
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['spec']
+                                 $recv: #NameExpr['activate']
+                              ]
+                           ]
+                        ]
+                        $cond: #NameExpr['spec']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['private']
+               $param: #List[
+                  $expression: #NameExpr['gem']
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

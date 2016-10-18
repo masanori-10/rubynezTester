@@ -1,0 +1,545 @@
+#Source[
+   #Module[
+      $name: #NestedName[
+         $path: #Field[
+            $recv: #NameExpr['RDoc']
+            $name: #NameExpr['Parser']
+         ]
+         $name: #NameExpr['RubyTools']
+      ]
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['include']
+               $param: #List[
+                  $expression: #Field[
+                     $recv: #NameExpr['RDoc']
+                     $name: #NameExpr['RubyToken']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['add_token_listener']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['obj']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #LOrAssign[
+                        $left: #NameExpr['@token_listeners']
+                        $right: #Array['[]']
+                     ]
+                     $statement: #LShiftExpr[
+                        $left: #NameExpr['@token_listeners']
+                        $right: #NameExpr['obj']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['get_tk']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['tk']
+                        $right: #Nil['nil']
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['@tokens']
+                           $recv: #NameExpr['empty?']
+                        ]
+                        $then: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['tk']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['@scanner']
+                                 $recv: #NameExpr['token']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $base: #NameExpr['@read']
+                              $recv: #NameExpr['push']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['@scanner']
+                                    $recv: #NameExpr['get_readed']
+                                 ]
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $then: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['puts']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['tk']
+                                          $recv: #NameExpr['inspect']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $cond: #NameExpr['$TOKEN_DEBUG']
+                           ]
+                        ]
+                        $else: #List[
+                           $statement: #ApplyExpr[
+                              $base: #NameExpr['@read']
+                              $recv: #NameExpr['push']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['@unget_read']
+                                    $recv: #NameExpr['shift']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['tk']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['@tokens']
+                                 $recv: #NameExpr['shift']
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $then: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['puts']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['tk']
+                                          $recv: #NameExpr['inspect']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $cond: #NameExpr['$TOKEN_DEBUG']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #AssignExpr[
+                           $left: #NameExpr['tk']
+                           $right: #Nil['nil']
+                        ]
+                        $cond: #StrictEquals[
+                           $left: #NameExpr['TkEND_OF_SCRIPT']
+                           $right: #NameExpr['tk']
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #StrictEquals[
+                           $left: #NameExpr['TkSYMBEG']
+                           $right: #NameExpr['tk']
+                        ]
+                        $then: #List[
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['set_token_position']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['tk']
+                                    $recv: #NameExpr['line_no']
+                                 ]
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['tk']
+                                    $recv: #NameExpr['char_no']
+                                 ]
+                              ]
+                           ]
+                           $statement: #Case[
+                              $cond: #AssignExpr[
+                                 $left: #NameExpr['tk1']
+                                 $right: #NameExpr['get_tk']
+                              ]
+                              $body: #List[
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #NameExpr['TkId']
+                                       $expression: #NameExpr['TkOp']
+                                       $expression: #NameExpr['TkSTRING']
+                                       $expression: #NameExpr['TkDSTRING']
+                                       $expression: #NameExpr['TkSTAR']
+                                       $expression: #NameExpr['TkAMPER']
+                                    ]
+                                    $then: #List[
+                                       $statement: #IfExpr[
+                                          $cond: #ApplyExpr[
+                                             $recv: #NameExpr['tk1']
+                                             $recv: #NameExpr['respond_to?']
+                                             $param: #List[
+                                                $expression: #NameExpr['name']
+                                             ]
+                                          ]
+                                          $then: #AssignExpr[
+                                             $left: #NameExpr['tk']
+                                             $right: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   #Self['self']
+                                                   $recv: #NameExpr['Token']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['TkSYMBOL']
+                                                   ]
+                                                ]
+                                                $recv: #NameExpr['set_text']
+                                                $param: #List[
+                                                   $expression: #AddExpr[
+                                                      $left: #StringExpr[':']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['tk1']
+                                                         $recv: #NameExpr['name']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $else: #AssignExpr[
+                                             $left: #NameExpr['tk']
+                                             $right: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   #Self['self']
+                                                   $recv: #NameExpr['Token']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['TkSYMBOL']
+                                                   ]
+                                                ]
+                                                $recv: #NameExpr['set_text']
+                                                $param: #List[
+                                                   $expression: #AddExpr[
+                                                      $left: #StringExpr[':']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['tk1']
+                                                         $recv: #NameExpr['text']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $then: #ApplyExpr[
+                                             $recv: #NameExpr['@token_listeners']
+                                             $recv: #NameExpr['each']
+                                             $body: #Block[
+                                                $param: #NameExpr['obj']
+                                                $body: #ApplyExpr[
+                                                   $recv: #NameExpr['obj']
+                                                   $recv: #NameExpr['pop_token']
+                                                ]
+                                             ]
+                                          ]
+                                          $cond: #NameExpr['@token_listeners']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $else: #AssignExpr[
+                                 $left: #NameExpr['tk']
+                                 $right: #NameExpr['tk1']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #ApplyExpr[
+                           $recv: #NameExpr['@token_listeners']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['obj']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['obj']
+                                 $recv: #NameExpr['add_token']
+                                 $param: #List[
+                                    $expression: #NameExpr['tk']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $cond: #NameExpr['@token_listeners']
+                     ]
+                     $statement: #NameExpr['tk']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['get_tk_until']
+               $param: #List[
+                  $param: #VariadicParam[
+                     $name: #NameExpr['tokens']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['read']
+                        $right: #Array['[]']
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['loop']
+                        $body: #Block[
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['tk']
+                                 $right: #NameExpr['get_tk']
+                              ]
+                              $statement: #Case[
+                                 $cond: #NameExpr['tk']
+                                 $body: #List[
+                                    $when: #When[
+                                       $cond: #List[
+                                          $variadic: #Variadic[
+                                             $base: #NameExpr['tokens']
+                                          ]
+                                       ]
+                                       $then: #List[
+                                          $statement: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['unget_tk']
+                                             $param: #List[
+                                                $expression: #NameExpr['tk']
+                                             ]
+                                          ]
+                                          $statement: #Break['break']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #LShiftExpr[
+                                 $left: #NameExpr['read']
+                                 $right: #NameExpr['tk']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #NameExpr['read']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['get_tkread']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['read']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['@read']
+                           $recv: #NameExpr['join']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@read']
+                        $right: #Array['[]']
+                     ]
+                     $statement: #NameExpr['read']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['peek_read']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     $recv: #NameExpr['@read']
+                     $recv: #NameExpr['join']
+                     $param: #List[
+                        $expression: #StringExpr['']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['peek_tk']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['unget_tk']
+                        $param: #List[
+                           $expression: #AssignExpr[
+                              $left: #NameExpr['tk']
+                              $right: #NameExpr['get_tk']
+                           ]
+                        ]
+                     ]
+                     $statement: #NameExpr['tk']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['remove_token_listener']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['obj']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     $recv: #NameExpr['@token_listeners']
+                     $recv: #NameExpr['delete']
+                     $param: #List[
+                        $expression: #NameExpr['obj']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['reset']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@read']
+                        $right: #Array['[]']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@tokens']
+                        $right: #Array['[]']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@unget_read']
+                        $right: #Array['[]']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@nest']
+                        $right: #IntExpr['0']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['skip_tkspace']
+               $param: #List[
+                  $param: #OptionalParam[
+                     $name: #NameExpr['skip_nl']
+                     $default: #TrueExpr['true']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['tokens']
+                        $right: #Array['[]']
+                     ]
+                     $statement: #While[
+                        $cond: #OrExpr[
+                           $left: #StrictEquals[
+                              $left: #NameExpr['TkSPACE']
+                              $right: #AssignExpr[
+                                 $left: #NameExpr['tk']
+                                 $right: #NameExpr['get_tk']
+                              ]
+                           ]
+                           $right: #AndExpr[
+                              $left: #NameExpr['skip_nl']
+                              $right: #StrictEquals[
+                                 $left: #NameExpr['TkNL']
+                                 $right: #NameExpr['tk']
+                              ]
+                           ]
+                        ]
+                        $body: #ApplyExpr[
+                           $base: #NameExpr['tokens']
+                           $recv: #NameExpr['push']
+                           $param: #List[
+                              $expression: #NameExpr['tk']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['unget_tk']
+                        $param: #List[
+                           $expression: #NameExpr['tk']
+                        ]
+                     ]
+                     $statement: #NameExpr['tokens']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['token_listener']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['obj']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['add_token_listener']
+                        $param: #List[
+                           $expression: #NameExpr['obj']
+                        ]
+                     ]
+                     $statement: #Yield['yield']
+                  ]
+                  $ensure: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['remove_token_listener']
+                     $param: #List[
+                        $expression: #NameExpr['obj']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['unget_tk']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['tk']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        $base: #NameExpr['@tokens']
+                        $recv: #NameExpr['unshift']
+                        $param: #List[
+                           $expression: #NameExpr['tk']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $base: #NameExpr['@unget_read']
+                        $recv: #NameExpr['unshift']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['@read']
+                              $recv: #NameExpr['pop']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #ApplyExpr[
+                           $recv: #NameExpr['@token_listeners']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['obj']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['obj']
+                                 $recv: #NameExpr['pop_token']
+                              ]
+                           ]
+                        ]
+                        $cond: #NameExpr['@token_listeners']
+                     ]
+                     $statement: #Nil['nil']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

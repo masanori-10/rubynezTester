@@ -1,0 +1,491 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['thread']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #Field[
+               $recv: #NameExpr['Gem']
+               $name: #NameExpr['Request']
+            ]
+            $name: #NameExpr['ConnectionPools']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['@client']
+                  $right: #Field[
+                     $recv: #NameExpr['Net']
+                     $name: #NameExpr['HTTP']
+                  ]
+               ]
+               $statement: #SClass[
+                  $path: #Self['self']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['attr_accessor']
+                        $param: #List[
+                           $expression: #NameExpr['client']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['proxy_uri']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['cert_files']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@proxy_uri']
+                           $right: #NameExpr['proxy_uri']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@cert_files']
+                           $right: #NameExpr['cert_files']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@pools']
+                           $right: #List['{}']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@pool_mutex']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Mutex']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['pool_for']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['uri']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['http_args']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['net_http_args']
+                              $param: #List[
+                                 $expression: #NameExpr['uri']
+                                 $expression: #NameExpr['@proxy_uri']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['key']
+                           $right: #AddExpr[
+                              $left: #NameExpr['http_args']
+                              $right: #Array[
+                                 $index: #List[
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['https?']
+                                       $param: #List[
+                                          $expression: #NameExpr['uri']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@pool_mutex']
+                           $recv: #NameExpr['synchronize']
+                           $body: #Block[
+                              $body: #LOrAssign[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['@pools']
+                                    $index: #List[
+                                       $expression: #NameExpr['key']
+                                    ]
+                                 ]
+                                 $right: #IfExpr[
+                                    $cond: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['https?']
+                                       $param: #List[
+                                          $expression: #NameExpr['uri']
+                                       ]
+                                    ]
+                                    $then: #ApplyExpr[
+                                       $recv: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['Gem']
+                                             $name: #NameExpr['Request']
+                                          ]
+                                          $name: #NameExpr['HTTPSPool']
+                                       ]
+                                       $recv: #NameExpr['new']
+                                       $param: #List[
+                                          $expression: #NameExpr['http_args']
+                                          $expression: #NameExpr['@cert_files']
+                                          $expression: #NameExpr['@proxy_uri']
+                                       ]
+                                    ]
+                                    $else: #ApplyExpr[
+                                       $recv: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['Gem']
+                                             $name: #NameExpr['Request']
+                                          ]
+                                          $name: #NameExpr['HTTPPool']
+                                       ]
+                                       $recv: #NameExpr['new']
+                                       $param: #List[
+                                          $expression: #NameExpr['http_args']
+                                          $expression: #NameExpr['@cert_files']
+                                          $expression: #NameExpr['@proxy_uri']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['close_all']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['@pools']
+                        $recv: #NameExpr['each_value']
+                        $body: #Block[
+                           $param: #NameExpr['pool']
+                           $body: #ApplyExpr[
+                              $recv: #NameExpr['pool']
+                              $recv: #NameExpr['close_all']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['private']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['get_no_proxy_from_env']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['env_no_proxy']
+                           $right: #LOr[
+                              $left: #Indexer[
+                                 $recv: #NameExpr['ENV']
+                                 $index: #List[
+                                    $expression: #StringExpr['no_proxy']
+                                 ]
+                              ]
+                              $right: #Indexer[
+                                 $recv: #NameExpr['ENV']
+                                 $index: #List[
+                                    $expression: #StringExpr['NO_PROXY']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #Array['[]']
+                              ]
+                           ]
+                           $cond: #OrExpr[
+                              $left: #ApplyExpr[
+                                 $recv: #NameExpr['env_no_proxy']
+                                 $recv: #NameExpr['nil?']
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['env_no_proxy']
+                                 $recv: #NameExpr['empty?']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['env_no_proxy']
+                           $recv: #NameExpr['split']
+                           $param: #List[
+                              $expression: #Regex['/\\s*,\\s*/']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['https?']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['uri']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #EqExpr[
+                        $left: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['uri']
+                              $recv: #NameExpr['scheme']
+                           ]
+                           $recv: #NameExpr['downcase']
+                        ]
+                        $right: #StringExpr['https']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['no_proxy?']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['host']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['env_no_proxy']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['host']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['host']
+                              $recv: #NameExpr['downcase']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['env_no_proxy']
+                           $recv: #NameExpr['any?']
+                           $body: #Block[
+                              $param: #NameExpr['pattern']
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['pattern']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['pattern']
+                                       $recv: #NameExpr['downcase']
+                                    ]
+                                 ]
+                                 $statement: #OrExpr[
+                                    $left: #EqExpr[
+                                       $left: #Indexer[
+                                          $recv: #NameExpr['host']
+                                          $index: #List[
+                                             $expression: #MinusExpr[
+                                                $expr: #ApplyExpr[
+                                                   $recv: #NameExpr['pattern']
+                                                   $recv: #NameExpr['length']
+                                                ]
+                                             ]
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['pattern']
+                                                $recv: #NameExpr['length']
+                                             ]
+                                          ]
+                                       ]
+                                       $right: #NameExpr['pattern']
+                                    ]
+                                    $right: #AndExpr[
+                                       $left: #ApplyExpr[
+                                          $base: #NameExpr['pattern']
+                                          $recv: #NameExpr['start_with?']
+                                          $param: #List[
+                                             $expression: #StringExpr['.']
+                                          ]
+                                       ]
+                                       $right: #EqExpr[
+                                          $left: #Indexer[
+                                             $recv: #NameExpr['pattern']
+                                             $index: #List[
+                                                $expression: #ClosedRange[
+                                                   #IntExpr['1']
+                                                   #MinusExpr[
+                                                      $expr: #IntExpr['1']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $right: #NameExpr['host']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['net_http_args']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['uri']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['proxy_uri']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['hostname']
+                           $right: #Conditional[
+                              $cond: #ApplyExpr[
+                                 $recv: #NameExpr['uri']
+                                 $recv: #NameExpr['respond_to?']
+                                 $param: #List[
+                                    $expression: #NameExpr['hostname']
+                                 ]
+                              ]
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['uri']
+                                 $recv: #NameExpr['hostname']
+                              ]
+                              $else: #ApplyExpr[
+                                 $recv: #NameExpr['uri']
+                                 $recv: #NameExpr['host']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['net_http_args']
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #NameExpr['hostname']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['uri']
+                                    $recv: #NameExpr['port']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['no_proxy']
+                           $right: #NameExpr['get_no_proxy_from_env']
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #AndExpr[
+                              $left: #NameExpr['proxy_uri']
+                              $right: #[
+                                 $base: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['no_proxy?']
+                                    $param: #List[
+                                       $expression: #NameExpr['hostname']
+                                       $expression: #NameExpr['no_proxy']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $then: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['proxy_hostname']
+                                 $right: #Conditional[
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['proxy_uri']
+                                       $recv: #NameExpr['respond_to?']
+                                       $param: #List[
+                                          $expression: #NameExpr['hostname']
+                                       ]
+                                    ]
+                                    $then: #ApplyExpr[
+                                       $recv: #NameExpr['proxy_uri']
+                                       $recv: #NameExpr['hostname']
+                                    ]
+                                    $else: #ApplyExpr[
+                                       $recv: #NameExpr['proxy_uri']
+                                       $recv: #NameExpr['host']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AddExpr[
+                                 $left: #NameExpr['net_http_args']
+                                 $right: #Array[
+                                    $index: #List[
+                                       $expression: #NameExpr['proxy_hostname']
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['proxy_uri']
+                                          $recv: #NameExpr['port']
+                                       ]
+                                       $expression: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['Gem']
+                                                $name: #NameExpr['UriFormatter']
+                                             ]
+                                             $recv: #NameExpr['new']
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['proxy_uri']
+                                                   $recv: #NameExpr['user']
+                                                ]
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['unescape']
+                                       ]
+                                       $expression: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['Gem']
+                                                $name: #NameExpr['UriFormatter']
+                                             ]
+                                             $recv: #NameExpr['new']
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['proxy_uri']
+                                                   $recv: #NameExpr['password']
+                                                ]
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['unescape']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #IfExpr[
+                              $cond: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['no_proxy?']
+                                 $param: #List[
+                                    $expression: #NameExpr['hostname']
+                                    $expression: #NameExpr['no_proxy']
+                                 ]
+                              ]
+                              $then: #AddExpr[
+                                 $left: #NameExpr['net_http_args']
+                                 $right: #Array[
+                                    $index: #List[
+                                       $expression: #Nil['nil']
+                                       $expression: #Nil['nil']
+                                    ]
+                                 ]
+                              ]
+                              $else: #NameExpr['net_http_args']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

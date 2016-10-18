@@ -1,0 +1,318 @@
+#Source[
+   #List[
+      $statement: #ExceptionBlock[
+         $main: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['require']
+            $param: #List[
+               $expression: #StringExpr['win32ole']
+            ]
+         ]
+         $rescue: #List[
+            $rescue: #Rescue[
+               $class: #NameExpr['LoadError']
+               $then: #Empty['']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #Defined[
+            $base: #NameExpr['WIN32OLE']
+         ]
+         $then: #Class[
+            $name: #NameExpr['TestInvokeVerb']
+            $super: #Field[
+               $recv: #Field[
+                  $recv: #NameExpr['Test']
+                  $name: #NameExpr['Unit']
+               ]
+               $name: #NameExpr['TestCase']
+            ]
+            $body: #BlockExpr[
+               $main: #List[
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['setup']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['@fso']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['WIN32OLE']
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #StringExpr['Scripting.FileSystemObject']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['dummy_file']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['@fso']
+                                 $recv: #NameExpr['GetTempName']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['@cfolder']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['@fso']
+                                 $recv: #NameExpr['getFolder']
+                                 $param: #List[
+                                    $expression: #StringExpr['.']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['f']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['@cfolder']
+                                 $recv: #NameExpr['CreateTextFile']
+                                 $param: #List[
+                                    $expression: #NameExpr['dummy_file']
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['f']
+                              $recv: #NameExpr['close']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['@dummy_path']
+                              $right: #AddExpr[
+                                 $left: #AddExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['@cfolder']
+                                       $recv: #NameExpr['path']
+                                    ]
+                                    $right: #StringExpr['\\\\']
+                                 ]
+                                 $right: #NameExpr['dummy_file']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['shell']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['WIN32OLE']
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #StringExpr['Shell.Application']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['@nsp']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['shell']
+                                 $recv: #NameExpr['NameSpace']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['@cfolder']
+                                       $recv: #NameExpr['path']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['@fi2']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['@nsp']
+                                 $recv: #NameExpr['parseName']
+                                 $param: #List[
+                                    $expression: #NameExpr['dummy_file']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['find_link']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['path']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['arlink']
+                              $right: #Array['[]']
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['@cfolder']
+                                 $recv: #NameExpr['files']
+                              ]
+                              $recv: #NameExpr['each']
+                              $body: #Block[
+                                 $param: #NameExpr['f']
+                                 $body: #IfExpr[
+                                    $cond: #Match[
+                                       $left: #Regex['/\\.lnk$/']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['f']
+                                          $recv: #NameExpr['path']
+                                       ]
+                                    ]
+                                    $then: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['linkinfo']
+                                          $right: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['@nsp']
+                                                $recv: #NameExpr['parseName']
+                                                $param: #List[
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['f']
+                                                      $recv: #NameExpr['name']
+                                                   ]
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['getLink']
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $then: #ApplyExpr[
+                                             $base: #NameExpr['arlink']
+                                             $recv: #NameExpr['push']
+                                             $param: #List[
+                                                $expression: #NameExpr['f']
+                                             ]
+                                          ]
+                                          $cond: #EqExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['linkinfo']
+                                                $recv: #NameExpr['path']
+                                             ]
+                                             $right: #NameExpr['path']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #NameExpr['arlink']
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['test_invokeverb']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['links']
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['find_link']
+                                 $param: #List[
+                                    $expression: #NameExpr['@dummy_path']
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #IntExpr['0']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['links']
+                                    $recv: #NameExpr['size']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['arg']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['WIN32OLE_VARIANT']
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #StringExpr['Link']
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['@fi2']
+                              $recv: #NameExpr['InvokeVerb']
+                              $param: #List[
+                                 $expression: #NameExpr['arg']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['links']
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['find_link']
+                                 $param: #List[
+                                    $expression: #NameExpr['@dummy_path']
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #IntExpr['1']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['links']
+                                    $recv: #NameExpr['size']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['@lpath']
+                              $right: #ApplyExpr[
+                                 $recv: #Indexer[
+                                    $recv: #NameExpr['links']
+                                    $index: #List[
+                                       $expression: #IntExpr['0']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['path']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['teardown']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #IfExpr[
+                              $cond: #NameExpr['@lpath']
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['@fso']
+                                 $recv: #NameExpr['deleteFile']
+                                 $param: #List[
+                                    $expression: #NameExpr['@lpath']
+                                 ]
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $cond: #NameExpr['@dummy_path']
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['@fso']
+                                 $recv: #NameExpr['deleteFile']
+                                 $param: #List[
+                                    $expression: #NameExpr['@dummy_path']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

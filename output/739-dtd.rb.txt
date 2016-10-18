@@ -1,0 +1,262 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rexml/dtd/elementdecl']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rexml/dtd/entitydecl']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rexml/comment']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rexml/dtd/notationdecl']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rexml/dtd/attlistdecl']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rexml/parent']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['REXML']
+         $body: #BlockExpr[
+            $main: #Module[
+               $name: #NameExpr['DTD']
+               $body: #BlockExpr[
+                  $main: #Class[
+                     $name: #NameExpr['Parser']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #SFuncDecl[
+                              $path: #NameExpr['Parser']
+                              $name: #NameExpr['parse']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['input']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #Case[
+                                    $cond: #NameExpr['input']
+                                    $body: #List[
+                                       $when: #When[
+                                          $cond: #List[
+                                             $expression: #NameExpr['String']
+                                          ]
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['parse_helper']
+                                             $param: #List[
+                                                $expression: #NameExpr['input']
+                                             ]
+                                          ]
+                                       ]
+                                       $when: #When[
+                                          $cond: #List[
+                                             $expression: #NameExpr['File']
+                                          ]
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['parse_helper']
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['input']
+                                                   $recv: #NameExpr['read']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #SFuncDecl[
+                              $path: #NameExpr['Parser']
+                              $name: #NameExpr['parse_helper']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['input']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['contents']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['Parent']
+                                          $recv: #NameExpr['new']
+                                       ]
+                                    ]
+                                    $statement: #While[
+                                       $cond: #GtExpr[
+                                          $left: #ApplyExpr[
+                                             $recv: #NameExpr['input']
+                                             $recv: #NameExpr['size']
+                                          ]
+                                          $right: #IntExpr['0']
+                                       ]
+                                       $body: #Case[
+                                          $cond: #NameExpr['input']
+                                          $body: #List[
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['ElementDecl']
+                                                      $recv: #NameExpr['PATTERN_RE']
+                                                   ]
+                                                ]
+                                                $then: #List[
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['match']
+                                                      $right: #BuiltInVariable['$&']
+                                                   ]
+                                                   $statement: #LShiftExpr[
+                                                      $left: #NameExpr['contents']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['ElementDecl']
+                                                         $recv: #NameExpr['new']
+                                                         $param: #List[
+                                                            $expression: #NameExpr['match']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['AttlistDecl']
+                                                      $recv: #NameExpr['PATTERN_RE']
+                                                   ]
+                                                ]
+                                                $then: #List[
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['matchdata']
+                                                      $right: #BuiltInVariable['$~']
+                                                   ]
+                                                   $statement: #LShiftExpr[
+                                                      $left: #NameExpr['contents']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['AttlistDecl']
+                                                         $recv: #NameExpr['new']
+                                                         $param: #List[
+                                                            $expression: #NameExpr['matchdata']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['EntityDecl']
+                                                      $recv: #NameExpr['PATTERN_RE']
+                                                   ]
+                                                ]
+                                                $then: #List[
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['matchdata']
+                                                      $right: #BuiltInVariable['$~']
+                                                   ]
+                                                   $statement: #LShiftExpr[
+                                                      $left: #NameExpr['contents']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['EntityDecl']
+                                                         $recv: #NameExpr['new']
+                                                         $param: #List[
+                                                            $expression: #NameExpr['matchdata']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['Comment']
+                                                      $recv: #NameExpr['PATTERN_RE']
+                                                   ]
+                                                ]
+                                                $then: #List[
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['matchdata']
+                                                      $right: #BuiltInVariable['$~']
+                                                   ]
+                                                   $statement: #LShiftExpr[
+                                                      $left: #NameExpr['contents']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['Comment']
+                                                         $recv: #NameExpr['new']
+                                                         $param: #List[
+                                                            $expression: #NameExpr['matchdata']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['NotationDecl']
+                                                      $recv: #NameExpr['PATTERN_RE']
+                                                   ]
+                                                ]
+                                                $then: #List[
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['matchdata']
+                                                      $right: #BuiltInVariable['$~']
+                                                   ]
+                                                   $statement: #LShiftExpr[
+                                                      $left: #NameExpr['contents']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['NotationDecl']
+                                                         $recv: #NameExpr['new']
+                                                         $param: #List[
+                                                            $expression: #NameExpr['matchdata']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #NameExpr['contents']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

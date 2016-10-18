@@ -1,0 +1,97 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_finish']
+         $param: #List[
+            $expression: #IntExpr['5']
+            $expression: #ParcentNotation['%q{\n  r, w = IO.pipe\n  t1 = Thread.new { r.sysread(1) }\n  t2 = Thread.new { r.sysread(1) }\n  sleep 0.01 until t1.stop? and t2.stop?\n  w.write "a"\n  w.write "a"\n}']
+            $expression: #StringExpr['[ruby-dev:31866]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_finish']
+         $param: #List[
+            $expression: #IntExpr['10']
+            $expression: #ParcentNotation['%q{\n  begin\n    require "io/nonblock"\n    require "timeout"\n    timeout(3) do\n      r, w = IO.pipe\n      w.nonblock?\n      w.nonblock = true\n      w.write_nonblock("a" * 100000)\n      w.nonblock = false\n      t1 = Thread.new { w.write("b" * 4096) }\n      t2 = Thread.new { w.write("c" * 4096) }\n      sleep 0.5\n      r.sysread(4096).length\n      sleep 0.5\n      r.sysread(4096).length\n      t1.join\n      t2.join\n    end\n  rescue LoadError, Timeout::Error, NotImplementedError\n  end\n}']
+            $expression: #StringExpr['[ruby-dev:32566]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_finish']
+         $param: #List[
+            $expression: #IntExpr['1']
+            $expression: #ParcentNotation['%q{\n  r, w = IO.pipe\n  Thread.new {\n    w << "ab"\n    sleep 0.01\n    w << "ab"\n  }\n  r.gets("abab")\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  require \'tmpdir\'\n  begin\n    tmpname = "#{Dir.tmpdir}/ruby-btest-#{$$}-#{rand(0x100000000).to_s(36)}"\n    rw = File.open(tmpname, File::RDWR|File::CREAT|File::EXCL)\n  rescue Errno::EEXIST\n    retry\n  end\n  save = STDIN.dup\n  STDIN.reopen(rw)\n  STDIN.reopen(save)\n  rw.close\n  File.unlink(tmpname) unless RUBY_PLATFORM[\'nacl\']\n  :ok\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  require \'tmpdir\'\n  begin\n    tmpname = "#{Dir.tmpdir}/ruby-btest-#{$$}-#{rand(0x100000000).to_s(36)}"\n    rw = File.open(tmpname, File::RDWR|File::CREAT|File::EXCL)\n  rescue Errno::EEXIST\n    retry\n  end\n  save = STDIN.dup\n  STDIN.reopen(rw)\n  STDIN.print "a"\n  STDIN.reopen(save)\n  rw.close\n  File.unlink(tmpname) unless RUBY_PLATFORM[\'nacl\']\n  :ok\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  dup = STDIN.dup\n  dupfd = dup.fileno\n  dupfd == STDIN.dup.fileno ? :ng : :ok\n}']
+            $expression: #StringExpr['[ruby-dev:46834]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  ARGF.set_encoding "foo"\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #IntExpr['10']
+         $recv: #NameExpr['times']
+         $body: #Block[
+            $body: #OrExpr[
+               $left: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['assert_normal_exit']
+                  $param: #List[
+                     $expression: #ParcentNotation['%q{\n    at_exit { p :foo }\n\n    megacontent = "abc" * 12345678\n    #File.open("megasrc", "w") {|f| f << megacontent }\n\n    t0 = Thread.main\n    Thread.new { sleep 0.001 until t0.stop?; Process.kill(:INT, $$) }\n\n    r1, w1 = IO.pipe\n    r2, w2 = IO.pipe\n    t1 = Thread.new { w1 << megacontent; w1.close }\n    t2 = Thread.new { r2.read; r2.close }\n    IO.copy_stream(r1, w2) rescue nil\n    w2.close\n    r1.close\n    t1.join\n    t2.join\n  }']
+                     $expression: #StringExpr['megacontent-copy_stream']
+                     $expression: #Array[
+                        $index: #List[
+                           $expression: #StringExpr['INT']
+                        ]
+                     ]
+                     $hash: #Hash[
+                        $key: #NameExpr['timeout']
+                        $value: #IntExpr['10']
+                     ]
+                  ]
+               ]
+               $right: #Break['break']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  r, w = IO.pipe\n  STDOUT.reopen(w)\n  STDOUT.reopen(__FILE__, "r")\n}']
+            $expression: #StringExpr['[ruby-dev:38131]']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

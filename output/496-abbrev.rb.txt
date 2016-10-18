@@ -1,0 +1,214 @@
+#Source[
+   #List[
+      $statement: #Module[
+         $name: #NameExpr['Abbrev']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['abbrev']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['words']
+                     ]
+                     $param: #OptionalParam[
+                        $name: #NameExpr['pattern']
+                        $default: #Nil['nil']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['table']
+                           $right: #List['{}']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['seen']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Hash']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #IntExpr['0']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['pattern']
+                              $recv: #NameExpr['is_a?']
+                              $param: #List[
+                                 $expression: #NameExpr['String']
+                              ]
+                           ]
+                           $then: #AssignExpr[
+                              $left: #NameExpr['pattern']
+                              $right: #Regex['/\\A#{Regexp.quote(pattern)}/']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['words']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['word']
+                              $body: #List[
+                                 $statement: #IfExpr[
+                                    $then: #Next['next']
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['word']
+                                       $recv: #NameExpr['empty?']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['word']
+                                       $recv: #NameExpr['size']
+                                    ]
+                                    $recv: #NameExpr['downto']
+                                    $param: #List[
+                                       $expression: #IntExpr['1']
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['len']
+                                       $body: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['abbrev']
+                                             $right: #Indexer[
+                                                $recv: #NameExpr['word']
+                                                $index: #List[
+                                                   $expression: #OpenRange[
+                                                      #IntExpr['0']
+                                                      #NameExpr['len']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #IfExpr[
+                                             $then: #Next['next']
+                                             $cond: #ApplyExpr[
+                                                $base: #NameExpr['pattern']
+                                                $recv: #NameExpr['&']
+                                                $param: #List[
+                                                   $expression: #NotMatch[
+                                                      $left: #NameExpr['pattern']
+                                                      $right: #NameExpr['abbrev']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #Case[
+                                             $cond: #AddAssign[
+                                                $left: #Indexer[
+                                                   $base: #NameExpr['seen']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['abbrev']
+                                                   ]
+                                                ]
+                                                $right: #IntExpr['1']
+                                             ]
+                                             $body: #List[
+                                                $when: #When[
+                                                   $cond: #List[
+                                                      $expression: #IntExpr['1']
+                                                   ]
+                                                   $then: #AssignExpr[
+                                                      $left: #Indexer[
+                                                         $base: #NameExpr['table']
+                                                         $index: #List[
+                                                            $expression: #NameExpr['abbrev']
+                                                         ]
+                                                      ]
+                                                      $right: #NameExpr['word']
+                                                   ]
+                                                ]
+                                                $when: #When[
+                                                   $cond: #List[
+                                                      $expression: #IntExpr['2']
+                                                   ]
+                                                   $then: #ApplyExpr[
+                                                      $recv: #NameExpr['table']
+                                                      $recv: #NameExpr['delete']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['abbrev']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $else: #Break['break']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['words']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['word']
+                              $body: #List[
+                                 $statement: #IfExpr[
+                                    $then: #Next['next']
+                                    $cond: #ApplyExpr[
+                                       $base: #NameExpr['pattern']
+                                       $recv: #NameExpr['&']
+                                       $param: #List[
+                                          $expression: #NotMatch[
+                                             $left: #NameExpr['pattern']
+                                             $right: #NameExpr['word']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Indexer[
+                                       $base: #NameExpr['table']
+                                       $index: #List[
+                                          $expression: #NameExpr['word']
+                                       ]
+                                    ]
+                                    $right: #NameExpr['word']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['table']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['module_function']
+                  $param: #List[
+                     $expression: #NameExpr['abbrev']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['Array']
+         $body: #BlockExpr[
+            $main: #FuncDecl[
+               $name: #NameExpr['abbrev']
+               $param: #List[
+                  $param: #OptionalParam[
+                     $name: #NameExpr['pattern']
+                     $default: #Nil['nil']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     $recv: #NameExpr['Abbrev']
+                     $recv: #NameExpr['abbrev']
+                     $param: #List[
+                        $expression: #Self['self']
+                        $expression: #NameExpr['pattern']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

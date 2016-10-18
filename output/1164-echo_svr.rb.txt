@@ -1,0 +1,528 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['socket']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['openssl']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['optparse']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['options']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['ARGV']
+            $recv: #NameExpr['getopts']
+            $param: #List[
+               $expression: #StringExpr['p:c:k:C:']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['port']
+         $right: #LOr[
+            $left: #Indexer[
+               $recv: #NameExpr['options']
+               $index: #List[
+                  $expression: #StringExpr['p']
+               ]
+            ]
+            $right: #StringExpr['2000']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['cert_file']
+         $right: #Indexer[
+            $recv: #NameExpr['options']
+            $index: #List[
+               $expression: #StringExpr['c']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['key_file']
+         $right: #Indexer[
+            $recv: #NameExpr['options']
+            $index: #List[
+               $expression: #StringExpr['k']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['ca_path']
+         $right: #Indexer[
+            $recv: #NameExpr['options']
+            $index: #List[
+               $expression: #StringExpr['C']
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #ApplyExpr[
+            $base: #NameExpr['cert_file']
+            $recv: #NameExpr['&']
+            $param: #List[
+               $expression: #NameExpr['key_file']
+            ]
+         ]
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['cert']
+               $right: #ApplyExpr[
+                  $recv: #Field[
+                     $recv: #Field[
+                        $recv: #NameExpr['OpenSSL']
+                        $name: #NameExpr['X509']
+                     ]
+                     $name: #NameExpr['Certificate']
+                  ]
+                  $recv: #NameExpr['new']
+                  $param: #List[
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['File']
+                        $recv: #NameExpr['read']
+                        $param: #List[
+                           $expression: #NameExpr['cert_file']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['key']
+               $right: #ApplyExpr[
+                  $recv: #Field[
+                     $recv: #Field[
+                        $recv: #NameExpr['OpenSSL']
+                        $name: #NameExpr['PKey']
+                     ]
+                     $name: #NameExpr['RSA']
+                  ]
+                  $recv: #NameExpr['new']
+                  $param: #List[
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['File']
+                        $recv: #NameExpr['read']
+                        $param: #List[
+                           $expression: #NameExpr['key_file']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+         $else: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['key']
+               $right: #ApplyExpr[
+                  $recv: #Field[
+                     $recv: #Field[
+                        $recv: #NameExpr['OpenSSL']
+                        $name: #NameExpr['PKey']
+                     ]
+                     $name: #NameExpr['RSA']
+                  ]
+                  $recv: #NameExpr['new']
+                  $param: #List[
+                     $expression: #IntExpr['512']
+                  ]
+                  $body: #Block[
+                     $body: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['print']
+                        $param: #List[
+                           $expression: #StringExpr['.']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #NameExpr['puts']
+            $statement: #AssignExpr[
+               $left: #NameExpr['cert']
+               $right: #ApplyExpr[
+                  $recv: #Field[
+                     $recv: #Field[
+                        $recv: #NameExpr['OpenSSL']
+                        $name: #NameExpr['X509']
+                     ]
+                     $name: #NameExpr['Certificate']
+                  ]
+                  $recv: #NameExpr['new']
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #Field[
+                  $base: #NameExpr['cert']
+                  $name: #NameExpr['version']
+               ]
+               $right: #IntExpr['2']
+            ]
+            $statement: #AssignExpr[
+               $left: #Field[
+                  $base: #NameExpr['cert']
+                  $name: #NameExpr['serial']
+               ]
+               $right: #IntExpr['0']
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['name']
+               $right: #ApplyExpr[
+                  $recv: #Field[
+                     $recv: #Field[
+                        $recv: #NameExpr['OpenSSL']
+                        $name: #NameExpr['X509']
+                     ]
+                     $name: #NameExpr['Name']
+                  ]
+                  $recv: #NameExpr['new']
+                  $param: #List[
+                     $expression: #Array[
+                        $index: #List[
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #StringExpr['C']
+                                 $expression: #StringExpr['JP']
+                              ]
+                           ]
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #StringExpr['O']
+                                 $expression: #StringExpr['TEST']
+                              ]
+                           ]
+                           $expression: #Array[
+                              $index: #List[
+                                 $expression: #StringExpr['CN']
+                                 $expression: #StringExpr['localhost']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #Field[
+                  $base: #NameExpr['cert']
+                  $name: #NameExpr['subject']
+               ]
+               $right: #NameExpr['name']
+            ]
+            $statement: #AssignExpr[
+               $left: #Field[
+                  $base: #NameExpr['cert']
+                  $name: #NameExpr['issuer']
+               ]
+               $right: #NameExpr['name']
+            ]
+            $statement: #AssignExpr[
+               $left: #Field[
+                  $base: #NameExpr['cert']
+                  $name: #NameExpr['not_before']
+               ]
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['Time']
+                  $recv: #NameExpr['now']
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #Field[
+                  $base: #NameExpr['cert']
+                  $name: #NameExpr['not_after']
+               ]
+               $right: #AddExpr[
+                  $left: #ApplyExpr[
+                     $recv: #NameExpr['Time']
+                     $recv: #NameExpr['now']
+                  ]
+                  $right: #IntExpr['3600']
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #Field[
+                  $base: #NameExpr['cert']
+                  $name: #NameExpr['public_key']
+               ]
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['key']
+                  $recv: #NameExpr['public_key']
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['ef']
+               $right: #ApplyExpr[
+                  $recv: #Field[
+                     $recv: #Field[
+                        $recv: #NameExpr['OpenSSL']
+                        $name: #NameExpr['X509']
+                     ]
+                     $name: #NameExpr['ExtensionFactory']
+                  ]
+                  $recv: #NameExpr['new']
+                  $param: #List[
+                     $expression: #Nil['nil']
+                     $expression: #NameExpr['cert']
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #Field[
+                  $base: #NameExpr['cert']
+                  $name: #NameExpr['extensions']
+               ]
+               $right: #Array[
+                  $index: #List[
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['ef']
+                        $recv: #NameExpr['create_extension']
+                        $param: #List[
+                           $expression: #StringExpr['basicConstraints']
+                           $expression: #StringExpr['CA:FALSE']
+                        ]
+                     ]
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['ef']
+                        $recv: #NameExpr['create_extension']
+                        $param: #List[
+                           $expression: #StringExpr['subjectKeyIdentifier']
+                           $expression: #StringExpr['hash']
+                        ]
+                     ]
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['ef']
+                        $recv: #NameExpr['create_extension']
+                        $param: #List[
+                           $expression: #StringExpr['extendedKeyUsage']
+                           $expression: #StringExpr['serverAuth']
+                        ]
+                     ]
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['ef']
+                        $recv: #NameExpr['create_extension']
+                        $param: #List[
+                           $expression: #StringExpr['keyUsage']
+                           $expression: #StringExpr['keyEncipherment,dataEncipherment,digitalSignature']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #Field[
+                  $base: #NameExpr['ef']
+                  $name: #NameExpr['issuer_certificate']
+               ]
+               $right: #NameExpr['cert']
+            ]
+            $statement: #ApplyExpr[
+               $base: #NameExpr['cert']
+               $recv: #NameExpr['add_extension']
+               $param: #List[
+                  $expression: #ApplyExpr[
+                     $recv: #NameExpr['ef']
+                     $recv: #NameExpr['create_extension']
+                     $param: #List[
+                        $expression: #StringExpr['authorityKeyIdentifier']
+                        $expression: #StringExpr['keyid:always,issuer:always']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['cert']
+               $recv: #NameExpr['sign']
+               $param: #List[
+                  $expression: #NameExpr['key']
+                  $expression: #ApplyExpr[
+                     $recv: #Field[
+                        $recv: #Field[
+                           $recv: #NameExpr['OpenSSL']
+                           $name: #NameExpr['Digest']
+                        ]
+                        $name: #NameExpr['SHA1']
+                     ]
+                     $recv: #NameExpr['new']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['ctx']
+         $right: #ApplyExpr[
+            $recv: #Field[
+               $recv: #Field[
+                  $recv: #NameExpr['OpenSSL']
+                  $name: #NameExpr['SSL']
+               ]
+               $name: #NameExpr['SSLContext']
+            ]
+            $recv: #NameExpr['new']
+            $param: #Empty['']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #Field[
+            $base: #NameExpr['ctx']
+            $name: #NameExpr['key']
+         ]
+         $right: #NameExpr['key']
+      ]
+      $statement: #AssignExpr[
+         $left: #Field[
+            $base: #NameExpr['ctx']
+            $name: #NameExpr['cert']
+         ]
+         $right: #NameExpr['cert']
+      ]
+      $statement: #IfExpr[
+         $cond: #NameExpr['ca_path']
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #Field[
+                  $base: #NameExpr['ctx']
+                  $name: #NameExpr['verify_mode']
+               ]
+               $right: #OrExpr[
+                  $left: #Field[
+                     $recv: #Field[
+                        $recv: #NameExpr['OpenSSL']
+                        $name: #NameExpr['SSL']
+                     ]
+                     $name: #NameExpr['VERIFY_PEER']
+                  ]
+                  $right: #Field[
+                     $recv: #Field[
+                        $recv: #NameExpr['OpenSSL']
+                        $name: #NameExpr['SSL']
+                     ]
+                     $name: #NameExpr['VERIFY_FAIL_IF_NO_PEER_CERT']
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #Field[
+                  $base: #NameExpr['ctx']
+                  $name: #NameExpr['ca_path']
+               ]
+               $right: #NameExpr['ca_path']
+            ]
+         ]
+         $else: #ApplyExpr[
+            $base: #NameExpr['$stderr']
+            $recv: #NameExpr['puts']
+            $param: #List[
+               $expression: #StringExpr['!!! WARNING: PEER CERTIFICATE WON\'T BE VERIFIED !!!']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['tcps']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['TCPServer']
+            $recv: #NameExpr['new']
+            $param: #List[
+               $expression: #NameExpr['port']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['ssls']
+         $right: #ApplyExpr[
+            $recv: #Field[
+               $recv: #Field[
+                  $recv: #NameExpr['OpenSSL']
+                  $name: #NameExpr['SSL']
+               ]
+               $name: #NameExpr['SSLServer']
+            ]
+            $recv: #NameExpr['new']
+            $param: #List[
+               $expression: #NameExpr['tcps']
+               $expression: #NameExpr['ctx']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['loop']
+         $body: #Block[
+            $body: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['ns']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['ssls']
+                     $recv: #NameExpr['accept']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #StringExpr[
+                        $inner: #ApplyExpr[
+                           $recv: #NameExpr['ns']
+                           $recv: #NameExpr['peeraddr']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #While[
+                  $cond: #AssignExpr[
+                     $left: #NameExpr['line']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['ns']
+                        $recv: #NameExpr['gets']
+                     ]
+                  ]
+                  $body: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['puts']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['line']
+                              $recv: #NameExpr['inspect']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $base: #NameExpr['ns']
+                        $recv: #NameExpr['write']
+                        $param: #List[
+                           $expression: #NameExpr['line']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #StringExpr['connection closed']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['ns']
+                  $recv: #NameExpr['close']
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

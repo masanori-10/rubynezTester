@@ -1,0 +1,240 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['webrick/httpauth/basicauth']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['webrick/httpauth/digestauth']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['webrick/httpauth/htpasswd']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['webrick/httpauth/htdigest']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['webrick/httpauth/htgroup']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['WEBrick']
+         $body: #BlockExpr[
+            $main: #Module[
+               $name: #NameExpr['HTTPAuth']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #NameExpr['module_function']
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['_basic_auth']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['req']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['res']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['realm']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['req_field']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['res_field']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['err_type']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['block']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['user']
+                                 $right: #AssignExpr[
+                                    $left: #NameExpr['pass']
+                                    $right: #Nil['nil']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #Match[
+                                    $left: #Regex['/^Basic\\s+(.*)/o']
+                                    $right: #Indexer[
+                                       $recv: #NameExpr['req']
+                                       $index: #List[
+                                          $expression: #NameExpr['req_field']
+                                       ]
+                                    ]
+                                 ]
+                                 $then: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['userpass']
+                                       $right: #MatchedRegex['$1']
+                                    ]
+                                    $statement: #MultipleAssign[
+                                       $left: #MultipleLeftHandSideExpression[
+                                          $item: #NameExpr['user']
+                                          $item: #NameExpr['pass']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #Indexer[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['userpass']
+                                                $recv: #NameExpr['unpack']
+                                                $param: #List[
+                                                   $expression: #StringExpr['m*']
+                                                ]
+                                             ]
+                                             $index: #List[
+                                                $expression: #IntExpr['0']
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['split']
+                                          $param: #List[
+                                             $expression: #StringExpr[':']
+                                             $expression: #IntExpr['2']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['block']
+                                    $recv: #NameExpr['call']
+                                    $param: #List[
+                                       $expression: #NameExpr['user']
+                                       $expression: #NameExpr['pass']
+                                    ]
+                                 ]
+                                 $then: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #Field[
+                                          $base: #NameExpr['req']
+                                          $name: #NameExpr['user']
+                                       ]
+                                       $right: #NameExpr['user']
+                                    ]
+                                    $statement: #RReturnStmt['return']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['res']
+                                    $index: #List[
+                                       $expression: #NameExpr['res_field']
+                                    ]
+                                 ]
+                                 $right: #StringExpr[
+                                    $inner: #NameExpr['realm']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['err_type']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['basic_auth']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['req']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['res']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['realm']
+                           ]
+                           $param: #ProcedureParam[
+                              $name: #NameExpr['block']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['_basic_auth']
+                              $param: #List[
+                                 $expression: #NameExpr['req']
+                                 $expression: #NameExpr['res']
+                                 $expression: #NameExpr['realm']
+                                 $expression: #StringExpr['Authorization']
+                                 $expression: #StringExpr['WWW-Authenticate']
+                                 $expression: #Field[
+                                    $recv: #NameExpr['HTTPStatus']
+                                    $name: #NameExpr['Unauthorized']
+                                 ]
+                                 $expression: #NameExpr['block']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['proxy_basic_auth']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['req']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['res']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['realm']
+                           ]
+                           $param: #ProcedureParam[
+                              $name: #NameExpr['block']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['_basic_auth']
+                              $param: #List[
+                                 $expression: #NameExpr['req']
+                                 $expression: #NameExpr['res']
+                                 $expression: #NameExpr['realm']
+                                 $expression: #StringExpr['Proxy-Authorization']
+                                 $expression: #StringExpr['Proxy-Authenticate']
+                                 $expression: #Field[
+                                    $recv: #NameExpr['HTTPStatus']
+                                    $name: #NameExpr['ProxyAuthenticationRequired']
+                                 ]
+                                 $expression: #NameExpr['block']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

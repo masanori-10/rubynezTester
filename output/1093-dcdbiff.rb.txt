@@ -1,0 +1,183 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['drb/drb']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['drb/eq']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['Notify']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['include']
+                  $param: #List[
+                     $expression: #NameExpr['DRbUndumped']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['biff']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['command']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@biff']
+                           $right: #NameExpr['biff']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@command']
+                           $right: #NameExpr['command']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@biff']
+                           $recv: #NameExpr['add_observer']
+                           $param: #List[
+                              $expression: #Self['self']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['update']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['filename']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['time']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['p']
+                              $param: #List[
+                                 $expression: #Array[
+                                    $index: #List[
+                                       $expression: #NameExpr['filename']
+                                       $expression: #NameExpr['time']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $cond: #NameExpr['$DEBUG']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['system']
+                           $param: #List[
+                              $expression: #NameExpr['@command']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['done']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ExceptionBlock[
+                        $main: #ApplyExpr[
+                           $recv: #NameExpr['@biff']
+                           $recv: #NameExpr['delete_observer']
+                           $param: #List[
+                              $expression: #Self['self']
+                           ]
+                        ]
+                        $rescue: #List[
+                           $rescue: #Rescue[
+                              $then: #Empty['']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['main']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['command']
+                  $right: #StringExpr['eject']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['uri']
+                  $right: #StringExpr['druby://localhost:19903']
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['DRb']
+                  $recv: #NameExpr['start_service']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['biff']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['DRbObject']
+                     $recv: #NameExpr['new']
+                     $param: #List[
+                        $expression: #Nil['nil']
+                        $expression: #NameExpr['uri']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['notify']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['Notify']
+                     $recv: #NameExpr['new']
+                     $param: #List[
+                        $expression: #NameExpr['biff']
+                        $expression: #NameExpr['command']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['trap']
+                  $param: #List[
+                     $expression: #StringExpr['INT']
+                  ]
+                  $body: #Block[
+                     $body: #ApplyExpr[
+                        $recv: #NameExpr['notify']
+                        $recv: #NameExpr['done']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #ApplyExpr[
+                     $recv: #NameExpr['DRb']
+                     $recv: #NameExpr['thread']
+                  ]
+                  $recv: #NameExpr['join']
+               ]
+            ]
+         ]
+      ]
+      $statement: #NameExpr['main']
+   ]
+   #Comsumed['comsumed']
+]

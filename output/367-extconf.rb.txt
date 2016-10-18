@@ -1,0 +1,184 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['mkmf']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['ok']
+         $right: #TrueExpr['true']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['hdr']
+         $right: #Nil['nil']
+      ]
+      $statement: #Case[
+         $body: #List[
+            $when: #When[
+               $cond: #List[
+                  $expression: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['macro_defined?']
+                     $param: #List[
+                        $expression: #StringExpr['_WIN32']
+                        $expression: #StringExpr['']
+                     ]
+                  ]
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['vk_header']
+                     $right: #Conditional[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['exist?']
+                           $param: #List[
+                              $expression: #StringExpr[
+                                 $inner: #NameExpr['srcdir']
+                              ]
+                           ]
+                        ]
+                        $then: #StringExpr['chksum']
+                        $else: #StringExpr['inc']
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['vk_header']
+                     $right: #StringExpr[
+                        $inner: #IfExpr[
+                           $then: #StringExpr['{$(srcdir)}']
+                           $cond: #EqExpr[
+                              $left: #NameExpr['$nmake']
+                              $right: #StringExpr['m']
+                           ]
+                        ]
+                        $inner: #NameExpr['vk_header']
+                     ]
+                  ]
+               ]
+            ]
+            $when: #When[
+               $cond: #List[
+                  $expression: #AssignExpr[
+                     $left: #NameExpr['hdr']
+                     $right: #ApplyExpr[
+                        $recv: #ParcentNotation['%w"termios.h termio.h"']
+                        $recv: #NameExpr['find']
+                        $body: #Block[
+                           $param: #NameExpr['h']
+                           $body: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['have_header']
+                              $param: #List[
+                                 $expression: #NameExpr['h']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $then: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['have_func']
+                  $param: #List[
+                     $expression: #StringExpr['cfmakeraw']
+                     $expression: #NameExpr['hdr']
+                  ]
+               ]
+            ]
+            $when: #When[
+               $cond: #List[
+                  $expression: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['have_header']
+                     $param: #List[
+                        $expression: #AssignExpr[
+                           $left: #NameExpr['hdr']
+                           $right: #StringExpr['sgtty.h']
+                        ]
+                     ]
+                  ]
+               ]
+               $then: #ApplyExpr[
+                  $recv: #ParcentNotation['%w"stty gtty"']
+                  $recv: #NameExpr['each']
+                  $body: #Block[
+                     $param: #NameExpr['f']
+                     $body: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['have_func']
+                        $param: #List[
+                           $expression: #NameExpr['f']
+                           $expression: #NameExpr['hdr']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+         $else: #AssignExpr[
+            $left: #NameExpr['ok']
+            $right: #FalseExpr['false']
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #NameExpr['ok']
+         $then: #List[
+            $statement: #IfExpr[
+               $then: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['have_header']
+                  $param: #List[
+                     $expression: #StringExpr['sys/ioctl.h']
+                  ]
+               ]
+               $cond: #NameExpr['hdr']
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['have_func']
+               $param: #List[
+                  $expression: #StringExpr['rb_funcallv']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['have_func']
+               $param: #List[
+                  $expression: #StringExpr['rb_sym2str']
+               ]
+            ]
+            $statement: #LShiftExpr[
+               $left: #NameExpr['$defs']
+               $right: #ConnectString[
+                  $String: #StringExpr['-D']
+                  $String: #StringExpr['ENABLE_IO_GETPASS=1']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['create_makefile']
+               $param: #List[
+                  $expression: #StringExpr['io/console']
+               ]
+               $body: #Block[
+                  $param: #NameExpr['conf']
+                  $body: #LShiftExpr[
+                     $left: #NameExpr['conf']
+                     $right: #ConnectString[
+                        $String: #StringExpr['\\n']
+                        $String: #StringExpr[
+                           $inner: #NameExpr['vk_header']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

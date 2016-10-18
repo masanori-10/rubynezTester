@@ -1,0 +1,1178 @@
+#Source[
+   #Module[
+      $name: #NestedName[
+         $path: #NameExpr['OpenSSL']
+         $name: #NameExpr['Buffering']
+      ]
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['include']
+               $param: #List[
+                  $expression: #NameExpr['Enumerable']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['attr_accessor']
+               $param: #List[
+                  $expression: #NameExpr['sync']
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['BLOCK_SIZE']
+               $right: #MulExpr[
+                  $left: #IntExpr['1024']
+                  $right: #IntExpr['16']
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['initialize']
+               $param: #List[
+                  $param: #VariadicParam['*']
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #Super['super']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@eof']
+                        $right: #FalseExpr['false']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@rbuffer']
+                        $right: #StringExpr['']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@sync']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['@io']
+                           $recv: #NameExpr['sync']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #NameExpr['private']
+            $statement: #FuncDecl[
+               $name: #NameExpr['fill_rbuff']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #ExceptionBlock[
+                     $main: #LShiftExpr[
+                        $left: #NameExpr['@rbuffer']
+                        $right: #ApplyExpr[
+                           $recv: #Self['self']
+                           $recv: #NameExpr['sysread']
+                           $param: #List[
+                              $expression: #NameExpr['BLOCK_SIZE']
+                           ]
+                        ]
+                     ]
+                     $rescue: #List[
+                        $rescue: #Rescue[
+                           $class: #Field[
+                              $recv: #NameExpr['Errno']
+                              $name: #NameExpr['EAGAIN']
+                           ]
+                           $then: #Retry['retry']
+                        ]
+                        $rescue: #Rescue[
+                           $class: #NameExpr['EOFError']
+                           $then: #AssignExpr[
+                              $left: #NameExpr['@eof']
+                              $right: #TrueExpr['true']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['consume_rbuff']
+               $param: #List[
+                  $param: #OptionalParam[
+                     $name: #NameExpr['size']
+                     $default: #Nil['nil']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #IfExpr[
+                     $cond: #ApplyExpr[
+                        $recv: #NameExpr['@rbuffer']
+                        $recv: #NameExpr['empty?']
+                     ]
+                     $then: #Nil['nil']
+                     $else: #List[
+                        $statement: #Unless[
+                           $then: #AssignExpr[
+                              $left: #NameExpr['size']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['@rbuffer']
+                                 $recv: #NameExpr['size']
+                              ]
+                           ]
+                           $cond: #NameExpr['size']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['ret']
+                           $right: #Indexer[
+                              $recv: #NameExpr['@rbuffer']
+                              $index: #List[
+                                 $expression: #IntExpr['0']
+                                 $expression: #NameExpr['size']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['@rbuffer']
+                              $index: #List[
+                                 $expression: #IntExpr['0']
+                                 $expression: #NameExpr['size']
+                              ]
+                           ]
+                           $right: #StringExpr['']
+                        ]
+                        $statement: #NameExpr['ret']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #NameExpr['public']
+            $statement: #FuncDecl[
+               $name: #NameExpr['read']
+               $param: #List[
+                  $param: #OptionalParam[
+                     $name: #NameExpr['size']
+                     $default: #Nil['nil']
+                  ]
+                  $param: #OptionalParam[
+                     $name: #NameExpr['buf']
+                     $default: #Nil['nil']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #IfExpr[
+                        $cond: #EqExpr[
+                           $left: #NameExpr['size']
+                           $right: #IntExpr['0']
+                        ]
+                        $then: #IfExpr[
+                           $cond: #NameExpr['buf']
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['buf']
+                                 $recv: #NameExpr['clear']
+                              ]
+                              $statement: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #NameExpr['buf']
+                                 ]
+                              ]
+                           ]
+                           $else: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #StringExpr['']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #Until[
+                        $cond: #NameExpr['@eof']
+                        $body: #List[
+                           $statement: #IfExpr[
+                              $then: #Break['break']
+                              $cond: #ApplyExpr[
+                                 $base: #NameExpr['size']
+                                 $recv: #NameExpr['&']
+                                 $param: #List[
+                                    $expression: #LteExpr[
+                                       $left: #NameExpr['size']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['@rbuffer']
+                                          $recv: #NameExpr['size']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #NameExpr['fill_rbuff']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['ret']
+                        $right: #LOr[
+                           $left: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['consume_rbuff']
+                              $param: #List[
+                                 $expression: #NameExpr['size']
+                              ]
+                           ]
+                           $right: #StringExpr['']
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #NameExpr['buf']
+                        $then: #List[
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['buf']
+                              $recv: #NameExpr['replace']
+                              $param: #List[
+                                 $expression: #NameExpr['ret']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['ret']
+                              $right: #NameExpr['buf']
+                           ]
+                        ]
+                     ]
+                     $statement: #Conditional[
+                        $cond: #ApplyExpr[
+                           $base: #NameExpr['size']
+                           $recv: #NameExpr['&']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['ret']
+                                 $recv: #NameExpr['empty?']
+                              ]
+                           ]
+                        ]
+                        $then: #Nil['nil']
+                        $else: #NameExpr['ret']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['readpartial']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['maxlen']
+                  ]
+                  $param: #OptionalParam[
+                     $name: #NameExpr['buf']
+                     $default: #Nil['nil']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #IfExpr[
+                        $cond: #EqExpr[
+                           $left: #NameExpr['maxlen']
+                           $right: #IntExpr['0']
+                        ]
+                        $then: #IfExpr[
+                           $cond: #NameExpr['buf']
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['buf']
+                                 $recv: #NameExpr['clear']
+                              ]
+                              $statement: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #NameExpr['buf']
+                                 ]
+                              ]
+                           ]
+                           $else: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #StringExpr['']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['@rbuffer']
+                           $recv: #NameExpr['empty?']
+                        ]
+                        $then: #ExceptionBlock[
+                           $main: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['sysread']
+                                    $param: #List[
+                                       $expression: #NameExpr['maxlen']
+                                       $expression: #NameExpr['buf']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $rescue: #List[
+                              $rescue: #Rescue[
+                                 $class: #Field[
+                                    $recv: #NameExpr['Errno']
+                                    $name: #NameExpr['EAGAIN']
+                                 ]
+                                 $then: #Retry['retry']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['ret']
+                        $right: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['consume_rbuff']
+                           $param: #List[
+                              $expression: #NameExpr['maxlen']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #NameExpr['buf']
+                        $then: #List[
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['buf']
+                              $recv: #NameExpr['replace']
+                              $param: #List[
+                                 $expression: #NameExpr['ret']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['ret']
+                              $right: #NameExpr['buf']
+                           ]
+                        ]
+                     ]
+                     $statement: #NameExpr['ret']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['read_nonblock']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['maxlen']
+                  ]
+                  $param: #OptionalParam[
+                     $name: #NameExpr['buf']
+                     $default: #Nil['nil']
+                  ]
+                  $param: #KeywordParam[
+                     $name: #NameExpr['exception']
+                     $default: #TrueExpr['true']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #IfExpr[
+                        $cond: #EqExpr[
+                           $left: #NameExpr['maxlen']
+                           $right: #IntExpr['0']
+                        ]
+                        $then: #IfExpr[
+                           $cond: #NameExpr['buf']
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['buf']
+                                 $recv: #NameExpr['clear']
+                              ]
+                              $statement: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #NameExpr['buf']
+                                 ]
+                              ]
+                           ]
+                           $else: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #StringExpr['']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['@rbuffer']
+                           $recv: #NameExpr['empty?']
+                        ]
+                        $then: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['sysread_nonblock']
+                                 $param: #List[
+                                    $expression: #NameExpr['maxlen']
+                                    $expression: #NameExpr['buf']
+                                    $hash: #Hash[
+                                       $key: #NameExpr['exception']
+                                       $value: #NameExpr['exception']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['ret']
+                        $right: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['consume_rbuff']
+                           $param: #List[
+                              $expression: #NameExpr['maxlen']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #NameExpr['buf']
+                        $then: #List[
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['buf']
+                              $recv: #NameExpr['replace']
+                              $param: #List[
+                                 $expression: #NameExpr['ret']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['ret']
+                              $right: #NameExpr['buf']
+                           ]
+                        ]
+                     ]
+                     $statement: #NameExpr['ret']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['gets']
+               $param: #List[
+                  $param: #OptionalParam[
+                     $name: #NameExpr['eol']
+                     $default: #BuiltInVariable['$/']
+                  ]
+                  $param: #OptionalParam[
+                     $name: #NameExpr['limit']
+                     $default: #Nil['nil']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['idx']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['@rbuffer']
+                           $recv: #NameExpr['index']
+                           $param: #List[
+                              $expression: #NameExpr['eol']
+                           ]
+                        ]
+                     ]
+                     $statement: #Until[
+                        $cond: #NameExpr['@eof']
+                        $body: #List[
+                           $statement: #IfExpr[
+                              $then: #Break['break']
+                              $cond: #NameExpr['idx']
+                           ]
+                           $statement: #NameExpr['fill_rbuff']
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['idx']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['@rbuffer']
+                                 $recv: #NameExpr['index']
+                                 $param: #List[
+                                    $expression: #NameExpr['eol']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['eol']
+                           $recv: #NameExpr['is_a?']
+                           $param: #List[
+                              $expression: #NameExpr['Regexp']
+                           ]
+                        ]
+                        $then: #AssignExpr[
+                           $left: #NameExpr['size']
+                           $right: #Conditional[
+                              $cond: #NameExpr['idx']
+                              $then: #AddExpr[
+                                 $left: #NameExpr['idx']
+                                 $right: #ApplyExpr[
+                                    $recv: #BuiltInVariable['$&']
+                                    $recv: #NameExpr['size']
+                                 ]
+                              ]
+                              $else: #Nil['nil']
+                           ]
+                        ]
+                        $else: #AssignExpr[
+                           $left: #NameExpr['size']
+                           $right: #Conditional[
+                              $cond: #NameExpr['idx']
+                              $then: #AddExpr[
+                                 $left: #NameExpr['idx']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['eol']
+                                    $recv: #NameExpr['size']
+                                 ]
+                              ]
+                              $else: #Nil['nil']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $base: #NameExpr['size']
+                           $recv: #NameExpr['&']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['limit']
+                                 $recv: #NameExpr['&']
+                                 $param: #List[
+                                    $expression: #GteExpt[
+                                       $left: #NameExpr['limit']
+                                       $right: #IntExpr['0']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $then: #AssignExpr[
+                           $left: #NameExpr['size']
+                           $right: #ApplyExpr[
+                              $recv: #Array[
+                                 $index: #List[
+                                    $expression: #NameExpr['size']
+                                    $expression: #NameExpr['limit']
+                                 ]
+                              ]
+                              $recv: #NameExpr['min']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['consume_rbuff']
+                        $param: #List[
+                           $expression: #NameExpr['size']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['each']
+               $param: #List[
+                  $param: #OptionalParam[
+                     $name: #NameExpr['eol']
+                     $default: #BuiltInVariable['$/']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #While[
+                     $cond: #AssignExpr[
+                        $left: #NameExpr['line']
+                        $right: #ApplyExpr[
+                           $recv: #Self['self']
+                           $recv: #NameExpr['gets']
+                           $param: #List[
+                              $expression: #NameExpr['eol']
+                           ]
+                        ]
+                     ]
+                     $body: #Yield[
+                        $param: #List[
+                           $expression: #NameExpr['line']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #Alias[
+               $newname: #NameExpr['each_line']
+               $target: #NameExpr['each']
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['readlines']
+               $param: #List[
+                  $param: #OptionalParam[
+                     $name: #NameExpr['eol']
+                     $default: #BuiltInVariable['$/']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['ary']
+                        $right: #Array['[]']
+                     ]
+                     $statement: #While[
+                        $cond: #AssignExpr[
+                           $left: #NameExpr['line']
+                           $right: #ApplyExpr[
+                              $recv: #Self['self']
+                              $recv: #NameExpr['gets']
+                              $param: #List[
+                                 $expression: #NameExpr['eol']
+                              ]
+                           ]
+                        ]
+                        $body: #LShiftExpr[
+                           $left: #NameExpr['ary']
+                           $right: #NameExpr['line']
+                        ]
+                     ]
+                     $statement: #NameExpr['ary']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['readline']
+               $param: #List[
+                  $param: #OptionalParam[
+                     $name: #NameExpr['eol']
+                     $default: #BuiltInVariable['$/']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #IfExpr[
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #NameExpr['EOFError']
+                           ]
+                        ]
+                        $cond: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['eof?']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['gets']
+                        $param: #List[
+                           $expression: #NameExpr['eol']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['getc']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['read']
+                     $param: #List[
+                        $expression: #IntExpr['1']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['each_byte']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #While[
+                     $cond: #AssignExpr[
+                        $left: #NameExpr['c']
+                        $right: #NameExpr['getc']
+                     ]
+                     $body: #Yield[
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['c']
+                              $recv: #NameExpr['ord']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['readchar']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #IfExpr[
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #NameExpr['EOFError']
+                           ]
+                        ]
+                        $cond: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['eof?']
+                        ]
+                     ]
+                     $statement: #NameExpr['getc']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['ungetc']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['c']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #AssignExpr[
+                     $left: #Indexer[
+                        $base: #NameExpr['@rbuffer']
+                        $index: #List[
+                           $expression: #IntExpr['0']
+                           $expression: #IntExpr['0']
+                        ]
+                     ]
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['c']
+                        $recv: #NameExpr['chr']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['eof?']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #IfExpr[
+                        $then: #NameExpr['fill_rbuff']
+                        $cond: #[
+                           $base: #ApplyExpr[
+                              $base: #NameExpr['@eof']
+                              $recv: #NameExpr['&']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['@rbuffer']
+                                    $recv: #NameExpr['empty?']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $base: #NameExpr['@eof']
+                        $recv: #NameExpr['&']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['@rbuffer']
+                              $recv: #NameExpr['empty?']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #Alias[
+               $newname: #NameExpr['eof']
+               $target: #NameExpr['eof?']
+            ]
+            $statement: #NameExpr['private']
+            $statement: #FuncDecl[
+               $name: #NameExpr['do_write']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['s']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #Unless[
+                        $then: #AssignExpr[
+                           $left: #NameExpr['@wbuffer']
+                           $right: #StringExpr['']
+                        ]
+                        $cond: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['defined?']
+                           $param: #List[
+                              $expression: #NameExpr['@wbuffer']
+                           ]
+                        ]
+                     ]
+                     $statement: #LShiftExpr[
+                        $left: #NameExpr['@wbuffer']
+                        $right: #NameExpr['s']
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['@wbuffer']
+                        $recv: #NameExpr['force_encoding']
+                        $param: #List[
+                           $expression: #Field[
+                              $recv: #NameExpr['Encoding']
+                              $name: #NameExpr['BINARY']
+                           ]
+                        ]
+                     ]
+                     $statement: #LOrAssign[
+                        $left: #NameExpr['@sync']
+                        $right: #FalseExpr['false']
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #OrExpr[
+                           $left: #OrExpr[
+                              $left: #NameExpr['@sync']
+                              $right: #GtExpr[
+                                 $left: #ApplyExpr[
+                                    $recv: #NameExpr['@wbuffer']
+                                    $recv: #NameExpr['size']
+                                 ]
+                                 $right: #NameExpr['BLOCK_SIZE']
+                              ]
+                           ]
+                           $right: #AssignExpr[
+                              $left: #NameExpr['idx']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['@wbuffer']
+                                 $recv: #NameExpr['rindex']
+                                 $param: #List[
+                                    $expression: #BuiltInVariable['$/']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $then: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['remain']
+                              $right: #Conditional[
+                                 $cond: #NameExpr['idx']
+                                 $then: #AddExpr[
+                                    $left: #NameExpr['idx']
+                                    $right: #ApplyExpr[
+                                       $recv: #BuiltInVariable['$/']
+                                       $recv: #NameExpr['size']
+                                    ]
+                                 ]
+                                 $else: #ApplyExpr[
+                                    $recv: #NameExpr['@wbuffer']
+                                    $recv: #NameExpr['length']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['nwritten']
+                              $right: #IntExpr['0']
+                           ]
+                           $statement: #While[
+                              $cond: #GtExpr[
+                                 $left: #NameExpr['remain']
+                                 $right: #IntExpr['0']
+                              ]
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['str']
+                                    $right: #Indexer[
+                                       $recv: #NameExpr['@wbuffer']
+                                       $index: #List[
+                                          $expression: #NameExpr['nwritten']
+                                          $expression: #NameExpr['remain']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ExceptionBlock[
+                                    $main: #AssignExpr[
+                                       $left: #NameExpr['nwrote']
+                                       $right: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['syswrite']
+                                          $param: #List[
+                                             $expression: #NameExpr['str']
+                                          ]
+                                       ]
+                                    ]
+                                    $rescue: #List[
+                                       $rescue: #Rescue[
+                                          $class: #Field[
+                                             $recv: #NameExpr['Errno']
+                                             $name: #NameExpr['EAGAIN']
+                                          ]
+                                          $then: #Retry['retry']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #SubAssign[
+                                    $left: #NameExpr['remain']
+                                    $right: #NameExpr['nwrote']
+                                 ]
+                                 $statement: #AddAssign[
+                                    $left: #NameExpr['nwritten']
+                                    $right: #NameExpr['nwrote']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #Indexer[
+                                 $base: #NameExpr['@wbuffer']
+                                 $index: #List[
+                                    $expression: #IntExpr['0']
+                                    $expression: #NameExpr['nwritten']
+                                 ]
+                              ]
+                              $right: #StringExpr['']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #NameExpr['public']
+            $statement: #FuncDecl[
+               $name: #NameExpr['write']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['s']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['do_write']
+                        $param: #List[
+                           $expression: #NameExpr['s']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['s']
+                        $recv: #NameExpr['bytesize']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['write_nonblock']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['s']
+                  ]
+                  $param: #KeywordParam[
+                     $name: #NameExpr['exception']
+                     $default: #TrueExpr['true']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #NameExpr['flush']
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['syswrite_nonblock']
+                        $param: #List[
+                           $expression: #NameExpr['s']
+                           $hash: #Hash[
+                              $key: #NameExpr['exception']
+                              $value: #NameExpr['exception']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['<<']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['s']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['do_write']
+                        $param: #List[
+                           $expression: #NameExpr['s']
+                        ]
+                     ]
+                     $statement: #Self['self']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['puts']
+               $param: #List[
+                  $param: #VariadicParam[
+                     $name: #NameExpr['args']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['s']
+                        $right: #StringExpr['']
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['args']
+                           $recv: #NameExpr['empty?']
+                        ]
+                        $then: #LShiftExpr[
+                           $left: #NameExpr['s']
+                           $right: #StringExpr['\\n']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['args']
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['arg']
+                           $body: #List[
+                              $statement: #LShiftExpr[
+                                 $left: #NameExpr['s']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['arg']
+                                    $recv: #NameExpr['to_s']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #ApplyExpr[
+                                    $base: #BuiltInVariable['$/']
+                                    $recv: #NameExpr['&']
+                                    $param: #List[
+                                       $expression: #NotMatch[
+                                          $left: #Regex['/\\n\\z/']
+                                          $right: #NameExpr['s']
+                                       ]
+                                    ]
+                                 ]
+                                 $then: #LShiftExpr[
+                                    $left: #NameExpr['s']
+                                    $right: #StringExpr['\\n']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['do_write']
+                        $param: #List[
+                           $expression: #NameExpr['s']
+                        ]
+                     ]
+                     $statement: #Nil['nil']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['print']
+               $param: #List[
+                  $param: #VariadicParam[
+                     $name: #NameExpr['args']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['s']
+                        $right: #StringExpr['']
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['args']
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['arg']
+                           $body: #LShiftExpr[
+                              $left: #NameExpr['s']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['arg']
+                                 $recv: #NameExpr['to_s']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['do_write']
+                        $param: #List[
+                           $expression: #NameExpr['s']
+                        ]
+                     ]
+                     $statement: #Nil['nil']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['printf']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['s']
+                  ]
+                  $param: #VariadicParam[
+                     $name: #NameExpr['args']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['do_write']
+                        $param: #List[
+                           $expression: #ModExpr[
+                              $left: #NameExpr['s']
+                              $right: #NameExpr['args']
+                           ]
+                        ]
+                     ]
+                     $statement: #Nil['nil']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['flush']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['osync']
+                        $right: #NameExpr['@sync']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@sync']
+                        $right: #TrueExpr['true']
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['do_write']
+                        $param: #List[
+                           $expression: #StringExpr['']
+                        ]
+                     ]
+                     $statement: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #Self['self']
+                        ]
+                     ]
+                  ]
+                  $ensure: #AssignExpr[
+                     $left: #NameExpr['@sync']
+                     $right: #NameExpr['osync']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['close']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #Rescue[
+                        $body: #NameExpr['flush']
+                        $rescue: #Nil['nil']
+                     ]
+                     $statement: #NameExpr['sysclose']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

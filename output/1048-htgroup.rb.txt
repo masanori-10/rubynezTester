@@ -1,0 +1,324 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['tempfile']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['WEBrick']
+         $body: #BlockExpr[
+            $main: #Module[
+               $name: #NameExpr['HTTPAuth']
+               $body: #BlockExpr[
+                  $main: #Class[
+                     $name: #NameExpr['Htgroup']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['initialize']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['path']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@path']
+                                       $right: #NameExpr['path']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@mtime']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['Time']
+                                          $recv: #NameExpr['at']
+                                          $param: #List[
+                                             $expression: #IntExpr['0']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@group']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['Hash']
+                                          $recv: #NameExpr['new']
+                                       ]
+                                    ]
+                                    $statement: #Unless[
+                                       $then: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['open']
+                                             $param: #List[
+                                                $expression: #NameExpr['@path']
+                                                $expression: #StringExpr['a']
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['close']
+                                       ]
+                                       $cond: #ApplyExpr[
+                                          $recv: #NameExpr['File']
+                                          $recv: #NameExpr['exist?']
+                                          $param: #List[
+                                             $expression: #NameExpr['@path']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #NameExpr['reload']
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['reload']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #IfExpr[
+                                    $cond: #GtExpr[
+                                       $left: #AssignExpr[
+                                          $left: #NameExpr['mtime']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['File']
+                                             $recv: #NameExpr['mtime']
+                                             $param: #List[
+                                                $expression: #NameExpr['@path']
+                                             ]
+                                          ]
+                                       ]
+                                       $right: #NameExpr['@mtime']
+                                    ]
+                                    $then: #List[
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['@group']
+                                          $recv: #NameExpr['clear']
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['open']
+                                          $param: #List[
+                                             $expression: #NameExpr['@path']
+                                          ]
+                                          $body: #Block[
+                                             $param: #NameExpr['io']
+                                             $body: #While[
+                                                $cond: #AssignExpr[
+                                                   $left: #NameExpr['line']
+                                                   $right: #ApplyExpr[
+                                                      $recv: #NameExpr['io']
+                                                      $recv: #NameExpr['gets']
+                                                   ]
+                                                ]
+                                                $body: #List[
+                                                   $statement: #ApplyExpr[
+                                                      $recv: #NameExpr['line']
+                                                      $recv: #NameExpr['chomp!']
+                                                   ]
+                                                   $statement: #MultipleAssign[
+                                                      $left: #MultipleLeftHandSideExpression[
+                                                         $item: #NameExpr['group']
+                                                         $item: #NameExpr['members']
+                                                      ]
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['line']
+                                                         $recv: #NameExpr['split']
+                                                         $param: #List[
+                                                            $expression: #Regex['/:\\s*/']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #Indexer[
+                                                         $base: #NameExpr['@group']
+                                                         $index: #List[
+                                                            $expression: #NameExpr['group']
+                                                         ]
+                                                      ]
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['members']
+                                                         $recv: #NameExpr['split']
+                                                         $param: #List[
+                                                            $expression: #Regex['/\\s+/']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@mtime']
+                                          $right: #NameExpr['mtime']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['flush']
+                              $param: #List[
+                                 $param: #OptionalParam[
+                                    $name: #NameExpr['output']
+                                    $default: #Nil['nil']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #LOrAssign[
+                                       $left: #NameExpr['output']
+                                       $right: #NameExpr['@path']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['tmp']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['Tempfile']
+                                          $recv: #NameExpr['new']
+                                          $param: #List[
+                                             $expression: #StringExpr['htgroup']
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['File']
+                                                $recv: #NameExpr['dirname']
+                                                $param: #List[
+                                                   $expression: #NameExpr['output']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ExceptionBlock[
+                                       $main: #List[
+                                          $statement: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #NameExpr['@group']
+                                                   $recv: #NameExpr['keys']
+                                                ]
+                                                $recv: #NameExpr['sort']
+                                             ]
+                                             $recv: #NameExpr['each']
+                                             $body: #Block[
+                                                $param: #NameExpr['group']
+                                                $body: #ApplyExpr[
+                                                   $recv: #NameExpr['tmp']
+                                                   $recv: #NameExpr['puts']
+                                                   $param: #List[
+                                                      $expression: #ApplyExpr[
+                                                         #Self['self']
+                                                         $recv: #NameExpr['format']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['%s: %s']
+                                                            $expression: #NameExpr['group']
+                                                            $expression: #ApplyExpr[
+                                                               $recv: #ApplyExpr[
+                                                                  $recv: #Self['self']
+                                                                  $recv: #NameExpr['members']
+                                                                  $param: #List[
+                                                                     $expression: #NameExpr['group']
+                                                                  ]
+                                                               ]
+                                                               $recv: #NameExpr['join']
+                                                               $param: #List[
+                                                                  $expression: #StringExpr[' ']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['tmp']
+                                             $recv: #NameExpr['close']
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['File']
+                                             $recv: #NameExpr['rename']
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['tmp']
+                                                   $recv: #NameExpr['path']
+                                                ]
+                                                $expression: #NameExpr['output']
+                                             ]
+                                          ]
+                                       ]
+                                       $rescue: #List[
+                                          $rescue: #Rescue[
+                                             $then: #ApplyExpr[
+                                                $recv: #NameExpr['tmp']
+                                                $recv: #NameExpr['close']
+                                                $param: #List[
+                                                   $expression: #TrueExpr['true']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['members']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['group']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #NameExpr['reload']
+                                    $statement: #LOr[
+                                       $left: #Indexer[
+                                          $recv: #NameExpr['@group']
+                                          $index: #List[
+                                             $expression: #NameExpr['group']
+                                          ]
+                                       ]
+                                       $right: #Array['[]']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['add']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['group']
+                                 ]
+                                 $param: #Param[
+                                    $param: #NameExpr['members']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #AssignExpr[
+                                    $left: #Indexer[
+                                       $base: #NameExpr['@group']
+                                       $index: #List[
+                                          $expression: #NameExpr['group']
+                                       ]
+                                    ]
+                                    $right: #OrExpr[
+                                       $left: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['members']
+                                          $param: #List[
+                                             $expression: #NameExpr['group']
+                                          ]
+                                       ]
+                                       $right: #NameExpr['members']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

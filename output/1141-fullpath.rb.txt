@@ -1,0 +1,106 @@
+#Source[
+   #List[
+      $statement: #IfExpr[
+         $cond: #AssignExpr[
+            $left: #Indexer[
+               $base: #NameExpr['ARGV']
+               $index: #List[
+                  $expression: #IntExpr['0']
+               ]
+            ]
+            $right: #ComplExpr[
+               $expr: #Regex['/-p/']
+            ]
+         ]
+         $then: #List[
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['ARGV']
+               $recv: #NameExpr['shift']
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['path']
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['ARGV']
+                  $recv: #NameExpr['shift']
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #EqExpr[
+            $left: #NameExpr['path']
+            $right: #Nil['nil']
+         ]
+         $then: #AssignExpr[
+            $left: #NameExpr['path']
+            $right: #StringExpr['']
+         ]
+         $else: #IfExpr[
+            $cond: #NotMatch[
+               $left: #NameExpr['path']
+               $right: #Regex['%r|/$|']
+            ]
+            $then: #AddAssign[
+               $left: #NameExpr['path']
+               $right: #StringExpr['/']
+            ]
+         ]
+      ]
+      $statement: #While[
+         $cond: #AssignExpr[
+            $left: #NameExpr['line']
+            $right: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['gets']
+               $param: #Empty['']
+            ]
+         ]
+         $body: #Case[
+            $cond: #NameExpr['line']
+            $body: #List[
+               $when: #When[
+                  $cond: #List[
+                     $expression: #Regex['/:$/']
+                  ]
+                  $then: #AssignExpr[
+                     $left: #NameExpr['path']
+                     $right: #AddExpr[
+                        $left: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['line']
+                              $recv: #NameExpr['chop']
+                           ]
+                           $recv: #NameExpr['chop']
+                        ]
+                        $right: #StringExpr['/']
+                     ]
+                  ]
+               ]
+               $when: #When[
+                  $cond: #List[
+                     $expression: #Regex['/^total/']
+                     $expression: #Regex['/^d/']
+                  ]
+                  $then: #Empty['']
+               ]
+               $when: #When[
+                  $cond: #List[
+                     $expression: #Regex['/^(.*\\d )(.+)$/']
+                  ]
+                  $then: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['print']
+                     $param: #List[
+                        $expression: #MatchedRegex['$1']
+                        $expression: #NameExpr['path']
+                        $expression: #MatchedRegex['$2']
+                        $expression: #StringExpr['\\n']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

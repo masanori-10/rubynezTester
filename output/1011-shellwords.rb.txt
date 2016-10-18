@@ -1,0 +1,302 @@
+#Source[
+   #List[
+      $statement: #Module[
+         $name: #NameExpr['Shellwords']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['shellsplit']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['line']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['words']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['field']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['String']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['line']
+                           $recv: #NameExpr['scan']
+                           $param: #List[
+                              $expression: #Regex['/\\G\\s*(?>([^\\s\\\\\\\'\\"]+)|\'([^\\\']*)\'|"((?:[^\\"\\\\]|\\\\.)*)"|(\\\\.?)|(\\S))(\\s|\\z)?/m']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['word']
+                                 $item: #NameExpr['sq']
+                                 $item: #NameExpr['dq']
+                                 $item: #NameExpr['esc']
+                                 $item: #NameExpr['garbage']
+                                 $item: #NameExpr['sep']
+                              ]
+                              $body: #List[
+                                 $statement: #IfExpr[
+                                    $then: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['ArgumentError']
+                                          $expression: #StringExpr[
+                                             $inner: #ApplyExpr[
+                                                $recv: #NameExpr['line']
+                                                $recv: #NameExpr['inspect']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['garbage']
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['field']
+                                    $right: #LOr[
+                                       $left: #LOr[
+                                          $left: #NameExpr['word']
+                                          $right: #NameExpr['sq']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #LOr[
+                                             $left: #NameExpr['dq']
+                                             $right: #NameExpr['esc']
+                                          ]
+                                          $recv: #NameExpr['gsub']
+                                          $param: #List[
+                                             $expression: #Regex['/\\\\(.)/']
+                                             $expression: #StringExpr['\\\\1']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #NameExpr['sep']
+                                    $then: #List[
+                                       $statement: #LShiftExpr[
+                                          $left: #NameExpr['words']
+                                          $right: #NameExpr['field']
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['field']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['String']
+                                             $recv: #NameExpr['new']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['words']
+                     ]
+                  ]
+               ]
+               $statement: #Alias[
+                  $newname: #NameExpr['shellwords']
+                  $target: #NameExpr['shellsplit']
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['module_function']
+                  $param: #List[
+                     $expression: #NameExpr['shellsplit']
+                     $expression: #NameExpr['shellwords']
+                  ]
+               ]
+               $statement: #SClass[
+                  $path: #Self['self']
+                  $body: #BlockExpr[
+                     $main: #Alias[
+                        $newname: #NameExpr['split']
+                        $target: #NameExpr['shellsplit']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['shellescape']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['str']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['str']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['str']
+                              $recv: #NameExpr['to_s']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #StringExpr['\'\'']
+                                    $recv: #NameExpr['dup']
+                                 ]
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['str']
+                              $recv: #NameExpr['empty?']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['str']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['str']
+                              $recv: #NameExpr['dup']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['str']
+                           $recv: #NameExpr['gsub!']
+                           $param: #List[
+                              $expression: #Regex['/([^A-Za-z0-9_\\-.,:\\/@\\n])/']
+                              $expression: #StringExpr['\\\\\\\\\\\\1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['str']
+                           $recv: #NameExpr['gsub!']
+                           $param: #List[
+                              $expression: #Regex['/\\n/']
+                              $expression: #StringExpr['\'\\n\'']
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #NameExpr['str']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['module_function']
+                  $param: #List[
+                     $expression: #NameExpr['shellescape']
+                  ]
+               ]
+               $statement: #SClass[
+                  $path: #Self['self']
+                  $body: #BlockExpr[
+                     $main: #Alias[
+                        $newname: #NameExpr['escape']
+                        $target: #NameExpr['shellescape']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['shelljoin']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['array']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #NameExpr['array']
+                           $recv: #NameExpr['map']
+                           $body: #Block[
+                              $param: #NameExpr['arg']
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['shellescape']
+                                 $param: #List[
+                                    $expression: #NameExpr['arg']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $recv: #NameExpr['join']
+                        $param: #List[
+                           $expression: #StringExpr[' ']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['module_function']
+                  $param: #List[
+                     $expression: #NameExpr['shelljoin']
+                  ]
+               ]
+               $statement: #SClass[
+                  $path: #Self['self']
+                  $body: #BlockExpr[
+                     $main: #Alias[
+                        $newname: #NameExpr['join']
+                        $target: #NameExpr['shelljoin']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['String']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['shellsplit']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['Shellwords']
+                        $recv: #NameExpr['split']
+                        $param: #List[
+                           $expression: #Self['self']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['shellescape']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['Shellwords']
+                        $recv: #NameExpr['escape']
+                        $param: #List[
+                           $expression: #Self['self']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['Array']
+         $body: #BlockExpr[
+            $main: #FuncDecl[
+               $name: #NameExpr['shelljoin']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     $recv: #NameExpr['Shellwords']
+                     $recv: #NameExpr['join']
+                     $param: #List[
+                        $expression: #Self['self']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

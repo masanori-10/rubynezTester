@@ -1,0 +1,355 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require_relative']
+         $param: #List[
+            $expression: #StringExpr['base']
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #Class[
+            $name: #NameExpr['TestMkmf']
+            $body: #BlockExpr[
+               $main: #Class[
+                  $name: #NameExpr['TestHaveFramework']
+                  $super: #NameExpr['TestMkmf']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['create_framework']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['fw']
+                              ]
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['hdrname']
+                                 $default: #StringExpr[
+                                    $inner: #NameExpr['fw']
+                                 ]
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 $recv: #NameExpr['Dir']
+                                 $recv: #NameExpr['mktmpdir']
+                                 $param: #List[
+                                    $expression: #StringExpr['frameworks']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['dir']
+                                    $body: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['fwdir']
+                                          $right: #StringExpr[
+                                             $inner: #NameExpr['dir']
+                                             $inner: #NameExpr['fw']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['hdrdir']
+                                          $right: #StringExpr[
+                                             $inner: #NameExpr['fwdir']
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['FileUtils']
+                                          $recv: #NameExpr['mkdir_p']
+                                          $param: #List[
+                                             $expression: #NameExpr['hdrdir']
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['File']
+                                          $recv: #NameExpr['write']
+                                          $param: #List[
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['hdrdir']
+                                                $inner: #NameExpr['hdrname']
+                                             ]
+                                             $expression: #StringExpr['']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['src']
+                                          $right: #StringExpr[
+                                             $inner: #NameExpr['fwdir']
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['File']
+                                          $recv: #NameExpr['write']
+                                          $param: #List[
+                                             $expression: #NameExpr['src']
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['fw']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['cmd']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['LINK_SO']
+                                             $recv: #NameExpr['dup']
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['RbConfig']
+                                          $recv: #NameExpr['expand']
+                                          $param: #List[
+                                             $expression: #NameExpr['cmd']
+                                             $expression: #ApplyExpr[
+                                                $recv: #Field[
+                                                   $recv: #NameExpr['RbConfig']
+                                                   $name: #NameExpr['CONFIG']
+                                                ]
+                                                $recv: #NameExpr['merge']
+                                                $param: #List[
+                                                   $hash: #Hash[
+                                                      $key: #StringExpr['OBJS']
+                                                      $value: #NameExpr['src']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['cmd']
+                                          $recv: #NameExpr['gsub!']
+                                          $param: #List[
+                                             $expression: #StringExpr['$@']
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['fwdir']
+                                                $inner: #NameExpr['fw']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['cmd']
+                                          $recv: #NameExpr['gsub!']
+                                          $param: #List[
+                                             $expression: #Regex['/ -bundle /']
+                                             $expression: #StringExpr[' -dynamiclib ']
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['assert']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['xsystem']
+                                                $param: #List[
+                                                   $expression: #NameExpr['cmd']
+                                                ]
+                                             ]
+                                             $expression: #NameExpr['MKMFLOG']
+                                          ]
+                                       ]
+                                       $statement: #LShiftExpr[
+                                          $left: #LShiftExpr[
+                                             $left: #NameExpr['$INCFLAGS']
+                                             $right: #StringExpr[' ']
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #StringExpr[
+                                                $inner: #NameExpr['dir']
+                                             ]
+                                             $recv: #NameExpr['quote']
+                                          ]
+                                       ]
+                                       $statement: #Yield[
+                                          $param: #List[
+                                             $expression: #NameExpr['fw']
+                                             $expression: #NameExpr['hdrname']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['test_single_framework']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['have_framework']
+                                       $param: #List[
+                                          $expression: #StringExpr['Ruby']
+                                       ]
+                                    ]
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['mkmflog']
+                                       $param: #List[
+                                          $expression: #StringExpr['try as Objective-C']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['test_multi_frameworks']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['have_framework']
+                                          $param: #List[
+                                             $expression: #StringExpr['Ruby']
+                                          ]
+                                       ]
+                                       $expression: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['mkmflog']
+                                          $param: #List[
+                                             $expression: #StringExpr['try as Objective-C']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['create_framework']
+                                    $param: #List[
+                                       $expression: #StringExpr['MkmfTest']
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['fw']
+                                       $body: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['assert']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['have_framework']
+                                                $param: #List[
+                                                   $expression: #NameExpr['fw']
+                                                ]
+                                             ]
+                                             $expression: #NameExpr['MKMFLOG']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['test_empty_framework']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['create_framework']
+                                 $param: #List[
+                                    $expression: #StringExpr['MkmfTest']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['fw']
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['have_framework']
+                                             $param: #List[
+                                                $expression: #NameExpr['fw']
+                                             ]
+                                          ]
+                                          $expression: #NameExpr['MKMFLOG']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['test_different_name_header']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['_bug8593']
+                                    $right: #StringExpr['[ruby-core:55745] [Bug #8593]']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['create_framework']
+                                    $param: #List[
+                                       $expression: #StringExpr['MkmfTest']
+                                       $expression: #StringExpr['test_mkmf.h']
+                                    ]
+                                    $body: #Block[
+                                       $param: #MultipleLeftHandSideExpression[
+                                          $item: #NameExpr['fw']
+                                          $item: #NameExpr['hdrname']
+                                       ]
+                                       $body: #List[
+                                          $statement: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert']
+                                             $param: #List[
+                                                $expression: #NotExpr[
+                                                   $expr: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['have_framework']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['fw']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $expression: #NameExpr['MKMFLOG']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['assert']
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   #Self['self']
+                                                   $recv: #NameExpr['have_framework']
+                                                   $param: #List[
+                                                      $expression: #Array[
+                                                         $index: #List[
+                                                            $expression: #NameExpr['fw']
+                                                            $expression: #NameExpr['hdrname']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $expression: #NameExpr['MKMFLOG']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+         $cond: #Match[
+            $left: #Regex['/darwin/']
+            $right: #NameExpr['RUBY_PLATFORM']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

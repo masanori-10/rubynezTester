@@ -1,0 +1,102 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require_relative']
+         $param: #List[
+            $expression: #StringExpr['helper']
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #Module[
+            $name: #NameExpr['DTrace']
+            $body: #BlockExpr[
+               $main: #Class[
+                  $name: #NameExpr['TestGC']
+                  $super: #NameExpr['TestCase']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #ParcentNotation['%w{\n      gc-mark-begin\n      gc-mark-end\n      gc-sweep-begin\n      gc-sweep-end\n    }']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['probe_name']
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['define_method']
+                                 $param: #List[
+                                    $expression: #NameExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['probe_name']
+                                          $recv: #NameExpr['gsub']
+                                          $param: #List[
+                                             $expression: #Regex['/-/']
+                                             $expression: #StringExpr['_']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $body: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['probe']
+                                          $right: #StringExpr[
+                                             $inner: #NameExpr['probe_name']
+                                             $inner: #NameExpr['probe_name']
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['trap_probe']
+                                          $param: #List[
+                                             $expression: #NameExpr['probe']
+                                             $expression: #NameExpr['ruby_program']
+                                          ]
+                                          $body: #Block[
+                                             $param: #MultipleLeftHandSideExpression[
+                                                $item: #NameExpr['_']
+                                                $item: #NameExpr['_']
+                                                $item: #NameExpr['saw']
+                                             ]
+                                             $body: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['assert_operator']
+                                                $param: #List[
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['saw']
+                                                      $recv: #NameExpr['length']
+                                                   ]
+                                                   $expression: #NameExpr['>']
+                                                   $expression: #IntExpr['0']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['private']
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['ruby_program']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #StringExpr['100000.times { Object.new }']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+         $cond: #Defined[
+            $base: #Field[
+               $recv: #NameExpr['DTrace']
+               $name: #NameExpr['TestCase']
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

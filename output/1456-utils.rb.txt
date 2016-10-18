@@ -1,0 +1,742 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['webrick']
+         ]
+      ]
+      $statement: #ExceptionBlock[
+         $main: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['require']
+            $param: #List[
+               $expression: #StringExpr['webrick/https']
+            ]
+         ]
+         $rescue: #List[
+            $rescue: #Rescue[
+               $class: #NameExpr['LoadError']
+               $then: #Empty['']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['webrick/httpservlet/abstract']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['TestNetHTTPUtils']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['start']
+                  $param: #List[
+                     $param: #ProcedureParam[
+                        $name: #NameExpr['block']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['new']
+                           $param: #Empty['']
+                        ]
+                        $recv: #NameExpr['start']
+                        $param: #List[
+                           $procedure: #Procedure[
+                              $base: #NameExpr['block']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['new']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['klass']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Net']
+                                 $name: #NameExpr['HTTP']
+                              ]
+                              $recv: #NameExpr['Proxy']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['config']
+                                    $param: #List[
+                                       $expression: #StringExpr['proxy_host']
+                                    ]
+                                 ]
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['config']
+                                    $param: #List[
+                                       $expression: #StringExpr['proxy_port']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['http']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['klass']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['config']
+                                    $param: #List[
+                                       $expression: #StringExpr['host']
+                                    ]
+                                 ]
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['config']
+                                    $param: #List[
+                                       $expression: #StringExpr['port']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['http']
+                           $recv: #NameExpr['set_debug_output']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['logfile']
+                                 $param: #Empty['']
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['http']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['config']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['key']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #LOrAssign[
+                           $left: #NameExpr['@config']
+                           $right: #Field[
+                              $recv: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['class']
+                              ]
+                              $name: #NameExpr['CONFIG']
+                           ]
+                        ]
+                        $statement: #Indexer[
+                           $recv: #NameExpr['@config']
+                           $index: #List[
+                              $expression: #NameExpr['key']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['logfile']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #Conditional[
+                        $cond: #NameExpr['$DEBUG']
+                        $then: #NameExpr['$stderr']
+                        $else: #ApplyExpr[
+                           $recv: #NameExpr['NullWriter']
+                           $recv: #NameExpr['new']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #NameExpr['spawn_server']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['teardown']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $cond: #NameExpr['@server']
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['@server']
+                                 $recv: #NameExpr['shutdown']
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['@server_thread']
+                                 $recv: #NameExpr['join']
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['WEBrick']
+                                       $name: #NameExpr['Utils']
+                                    ]
+                                    $name: #NameExpr['TimeoutHandler']
+                                 ]
+                                 $recv: #NameExpr['terminate']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['@log_tester']
+                              $recv: #NameExpr['call']
+                              $param: #List[
+                                 $expression: #NameExpr['@log']
+                              ]
+                           ]
+                           $cond: #NameExpr['@log_tester']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['Net']
+                              $name: #NameExpr['HTTP']
+                           ]
+                           $recv: #NameExpr['version_1_2']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['spawn_server']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@log']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@log_tester']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['lambda']
+                              $body: #Block[
+                                 $param: #NameExpr['log']
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #Array['[]']
+                                       $expression: #NameExpr['log']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@config']
+                           $right: #Field[
+                              $recv: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['class']
+                              ]
+                              $name: #NameExpr['CONFIG']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['server_config']
+                           $right: #List[
+                              $hash: #Hash[
+                                 $key: #NameExpr['BindAddress']
+                                 $value: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['config']
+                                    $param: #List[
+                                       $expression: #StringExpr['host']
+                                    ]
+                                 ]
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['Port']
+                                 $value: #IntExpr['0']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['Logger']
+                                 $value: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['WEBrick']
+                                       $name: #NameExpr['Log']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $expression: #NameExpr['@log']
+                                       $expression: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['WEBrick']
+                                             $name: #NameExpr['BasicLog']
+                                          ]
+                                          $name: #NameExpr['WARN']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['AccessLog']
+                                 $value: #Array['[]']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['ServerType']
+                                 $value: #NameExpr['Thread']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #AssignExpr[
+                              $left: #Indexer[
+                                 $base: #NameExpr['server_config']
+                                 $index: #List[
+                                    $expression: #NameExpr['OutputBufferSize']
+                                 ]
+                              ]
+                              $right: #IntExpr['4']
+                           ]
+                           $cond: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['config']
+                              $param: #List[
+                                 $expression: #StringExpr['chunked']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #AssignExpr[
+                              $left: #Indexer[
+                                 $base: #NameExpr['server_config']
+                                 $index: #List[
+                                    $expression: #NameExpr['RequestTimeout']
+                                 ]
+                              ]
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['config']
+                                 $param: #List[
+                                    $expression: #StringExpr['RequestTimeout']
+                                 ]
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['config']
+                              $param: #List[
+                                 $expression: #StringExpr['RequestTimeout']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #AndExpr[
+                              $left: #Defined[
+                                 $base: #NameExpr['OpenSSL']
+                              ]
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['config']
+                                 $param: #List[
+                                    $expression: #StringExpr['ssl_enable']
+                                 ]
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['server_config']
+                              $recv: #NameExpr['update']
+                              $param: #List[
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #NameExpr['SSLEnable']
+                                       $value: #TrueExpr['true']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['SSLCertificate']
+                                       $value: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['config']
+                                          $param: #List[
+                                             $expression: #StringExpr['ssl_certificate']
+                                          ]
+                                       ]
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['SSLPrivateKey']
+                                       $value: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['config']
+                                          $param: #List[
+                                             $expression: #StringExpr['ssl_private_key']
+                                          ]
+                                       ]
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['SSLTmpDhCallback']
+                                       $value: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['proc']
+                                          $body: #Block[
+                                             $body: #Field[
+                                                $recv: #Field[
+                                                   $recv: #NameExpr['OpenSSL']
+                                                   $name: #NameExpr['TestUtils']
+                                                ]
+                                                $name: #NameExpr['TEST_KEY_DH1024']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@server']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['WEBrick']
+                                 $name: #NameExpr['HTTPServer']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #NameExpr['server_config']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@server']
+                           $recv: #NameExpr['mount']
+                           $param: #List[
+                              $expression: #StringExpr['/']
+                              $expression: #NameExpr['Servlet']
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['config']
+                                 $param: #List[
+                                    $expression: #StringExpr['chunked']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@server_thread']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['@server']
+                              $recv: #NameExpr['start']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['@config']
+                              $index: #List[
+                                 $expression: #StringExpr['port']
+                              ]
+                           ]
+                           $right: #Indexer[
+                              $recv: #NameExpr['@server']
+                              $index: #List[
+                                 $expression: #NameExpr['Port']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['$test_net_http']
+                  $right: #Nil['nil']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['$test_net_http_data']
+                  $right: #MulExpr[
+                     $left: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #OpenRange[
+                                 #IntExpr['0']
+                                 #IntExpr['256']
+                              ]
+                              $recv: #NameExpr['to_a']
+                           ]
+                           $recv: #NameExpr['map']
+                           $body: #Block[
+                              $param: #NameExpr['i']
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['i']
+                                 $recv: #NameExpr['chr']
+                              ]
+                           ]
+                        ]
+                        $recv: #NameExpr['join']
+                        $param: #List[
+                           $expression: #StringExpr['']
+                        ]
+                     ]
+                     $right: #IntExpr['64']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['$test_net_http_data']
+                  $recv: #NameExpr['force_encoding']
+                  $param: #List[
+                     $expression: #StringExpr['ASCII-8BIT']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['$test_net_http_data_type']
+                  $right: #StringExpr['application/octet-stream']
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['Servlet']
+                  $super: #Field[
+                     $recv: #Field[
+                        $recv: #NameExpr['WEBrick']
+                        $name: #NameExpr['HTTPServlet']
+                     ]
+                     $name: #NameExpr['AbstractServlet']
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['this']
+                              ]
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['chunked']
+                                 $default: #FalseExpr['false']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #AssignExpr[
+                                 $left: #NameExpr['@chunked']
+                                 $right: #NameExpr['chunked']
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['do_GET']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['req']
+                              ]
+                              $param: #Param[
+                                 $param: #NameExpr['res']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #Indexer[
+                                       $base: #NameExpr['res']
+                                       $index: #List[
+                                          $expression: #StringExpr['Content-Type']
+                                       ]
+                                    ]
+                                    $right: #NameExpr['$test_net_http_data_type']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['res']
+                                       $name: #NameExpr['body']
+                                    ]
+                                    $right: #NameExpr['$test_net_http_data']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['res']
+                                       $name: #NameExpr['chunked']
+                                    ]
+                                    $right: #NameExpr['@chunked']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['do_POST']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['req']
+                              ]
+                              $param: #Param[
+                                 $param: #NameExpr['res']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #Indexer[
+                                       $base: #NameExpr['res']
+                                       $index: #List[
+                                          $expression: #StringExpr['Content-Type']
+                                       ]
+                                    ]
+                                    $right: #Indexer[
+                                       $recv: #NameExpr['req']
+                                       $index: #List[
+                                          $expression: #StringExpr['Content-Type']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Indexer[
+                                       $base: #NameExpr['res']
+                                       $index: #List[
+                                          $expression: #StringExpr['X-request-uri']
+                                       ]
+                                    ]
+                                    $right: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['req']
+                                          $recv: #NameExpr['request_uri']
+                                       ]
+                                       $recv: #NameExpr['to_s']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['res']
+                                       $name: #NameExpr['body']
+                                    ]
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['req']
+                                       $recv: #NameExpr['body']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['res']
+                                       $name: #NameExpr['chunked']
+                                    ]
+                                    $right: #NameExpr['@chunked']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['do_PATCH']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['req']
+                              ]
+                              $param: #Param[
+                                 $param: #NameExpr['res']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #Indexer[
+                                       $base: #NameExpr['res']
+                                       $index: #List[
+                                          $expression: #StringExpr['Content-Type']
+                                       ]
+                                    ]
+                                    $right: #Indexer[
+                                       $recv: #NameExpr['req']
+                                       $index: #List[
+                                          $expression: #StringExpr['Content-Type']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['res']
+                                       $name: #NameExpr['body']
+                                    ]
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['req']
+                                       $recv: #NameExpr['body']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['res']
+                                       $name: #NameExpr['chunked']
+                                    ]
+                                    $right: #NameExpr['@chunked']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['NullWriter']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['<<']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['s']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #Empty['']
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['puts']
+                           $param: #List[
+                              $param: #VariadicParam[
+                                 $name: #NameExpr['args']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #Empty['']
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['print']
+                           $param: #List[
+                              $param: #VariadicParam[
+                                 $name: #NameExpr['args']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #Empty['']
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['printf']
+                           $param: #List[
+                              $param: #VariadicParam[
+                                 $name: #NameExpr['args']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #Empty['']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

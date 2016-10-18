@@ -1,0 +1,626 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['shell/filter']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['Shell']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #Class[
+                  $name: #NameExpr['BuiltInCommand']
+                  $super: #NameExpr['Filter']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['wait?']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #FalseExpr['false']
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['active?']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #TrueExpr['true']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['Void']
+                  $super: #NameExpr['BuiltInCommand']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['sh']
+                              ]
+                              $param: #VariadicParam[
+                                 $name: #NameExpr['opts']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #Super[
+                                 $param: #List[
+                                    $expression: #NameExpr['sh']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['each']
+                           $param: #List[
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['rs']
+                                 $default: #Nil['nil']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #Empty['']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['Echo']
+                  $super: #NameExpr['BuiltInCommand']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['sh']
+                              ]
+                              $param: #VariadicParam[
+                                 $name: #NameExpr['strings']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #Super[
+                                    $param: #List[
+                                       $expression: #NameExpr['sh']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@strings']
+                                    $right: #NameExpr['strings']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['each']
+                           $param: #List[
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['rs']
+                                 $default: #Nil['nil']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #Unless[
+                                    $then: #AssignExpr[
+                                       $left: #NameExpr['rs']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['@shell']
+                                          $recv: #NameExpr['record_separator']
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['rs']
+                                 ]
+                                 $statement: #For[
+                                    $iter: #NameExpr['str']
+                                    $range: #NameExpr['@strings']
+                                    $body: #Yield[
+                                       $param: #List[
+                                          $expression: #AddExpr[
+                                             $left: #NameExpr['str']
+                                             $right: #NameExpr['rs']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['Cat']
+                  $super: #NameExpr['BuiltInCommand']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['sh']
+                              ]
+                              $param: #VariadicParam[
+                                 $name: #NameExpr['filenames']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #Super[
+                                    $param: #List[
+                                       $expression: #NameExpr['sh']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@cat_files']
+                                    $right: #NameExpr['filenames']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['each']
+                           $param: #List[
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['rs']
+                                 $default: #Nil['nil']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #IfExpr[
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['@cat_files']
+                                    $recv: #NameExpr['empty?']
+                                 ]
+                                 $then: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #Super['super']
+                                 ]
+                                 $else: #For[
+                                    $iter: #NameExpr['src']
+                                    $range: #NameExpr['@cat_files']
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['@shell']
+                                       $recv: #NameExpr['foreach']
+                                       $param: #List[
+                                          $expression: #NameExpr['src']
+                                          $expression: #NameExpr['rs']
+                                       ]
+                                       $body: #Block[
+                                          $param: #NameExpr['l']
+                                          $body: #Yield[
+                                             $param: #List[
+                                                $expression: #NameExpr['l']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['Glob']
+                  $super: #NameExpr['BuiltInCommand']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['sh']
+                              ]
+                              $param: #Param[
+                                 $param: #NameExpr['pattern']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #Super[
+                                    $param: #List[
+                                       $expression: #NameExpr['sh']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@pattern']
+                                    $right: #NameExpr['pattern']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['each']
+                           $param: #List[
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['rs']
+                                 $default: #Nil['nil']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #IfExpr[
+                                    $cond: #EqExpr[
+                                       $left: #Indexer[
+                                          $recv: #NameExpr['@pattern']
+                                          $index: #List[
+                                             $expression: #IntExpr['0']
+                                          ]
+                                       ]
+                                       $right: #StringExpr['/']
+                                    ]
+                                    $then: #AssignExpr[
+                                       $left: #NameExpr['@files']
+                                       $right: #Indexer[
+                                          $recv: #NameExpr['Dir']
+                                          $index: #List[
+                                             $expression: #NameExpr['@pattern']
+                                          ]
+                                       ]
+                                    ]
+                                    $else: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['prefix']
+                                          $right: #AddExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['@shell']
+                                                $recv: #NameExpr['pwd']
+                                             ]
+                                             $right: #StringExpr['/']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@files']
+                                          $right: #ApplyExpr[
+                                             $recv: #Indexer[
+                                                $recv: #NameExpr['Dir']
+                                                $index: #List[
+                                                   $expression: #AddExpr[
+                                                      $left: #NameExpr['prefix']
+                                                      $right: #NameExpr['@pattern']
+                                                   ]
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['collect']
+                                             $body: #Block[
+                                                $param: #NameExpr['p']
+                                                $body: #ApplyExpr[
+                                                   $recv: #NameExpr['p']
+                                                   $recv: #NameExpr['sub']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['prefix']
+                                                      $expression: #StringExpr['']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #Unless[
+                                    $then: #AssignExpr[
+                                       $left: #NameExpr['rs']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['@shell']
+                                          $recv: #NameExpr['record_separator']
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['rs']
+                                 ]
+                                 $statement: #For[
+                                    $iter: #NameExpr['f']
+                                    $range: #NameExpr['@files']
+                                    $body: #Yield[
+                                       $param: #List[
+                                          $expression: #AddExpr[
+                                             $left: #NameExpr['f']
+                                             $right: #NameExpr['rs']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['AppendIO']
+                  $super: #NameExpr['BuiltInCommand']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['sh']
+                              ]
+                              $param: #Param[
+                                 $param: #NameExpr['io']
+                              ]
+                              $param: #Param[
+                                 $param: #NameExpr['filter']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #Super[
+                                    $param: #List[
+                                       $expression: #NameExpr['sh']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@input']
+                                    $right: #NameExpr['filter']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@io']
+                                    $right: #NameExpr['io']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['input=']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['filter']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['@input']
+                                       $name: #NameExpr['input']
+                                    ]
+                                    $right: #NameExpr['filter']
+                                 ]
+                                 $statement: #For[
+                                    $iter: #NameExpr['l']
+                                    $range: #NameExpr['@input']
+                                    $body: #LShiftExpr[
+                                       $left: #NameExpr['@io']
+                                       $right: #NameExpr['l']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['AppendFile']
+                  $super: #NameExpr['AppendIO']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['sh']
+                              ]
+                              $param: #Param[
+                                 $param: #NameExpr['to_filename']
+                              ]
+                              $param: #Param[
+                                 $param: #NameExpr['filter']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@file_name']
+                                    $right: #NameExpr['to_filename']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['io']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['sh']
+                                       $recv: #NameExpr['open']
+                                       $param: #List[
+                                          $expression: #NameExpr['to_filename']
+                                          $expression: #StringExpr['a']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #Super['super']
+                                    $param: #List[
+                                       $expression: #NameExpr['sh']
+                                       $expression: #NameExpr['io']
+                                       $expression: #NameExpr['filter']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['input=']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['filter']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #ExceptionBlock[
+                                 $main: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #Super['super']
+                                 ]
+                                 $ensure: #ApplyExpr[
+                                    $recv: #NameExpr['@io']
+                                    $recv: #NameExpr['close']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['Tee']
+                  $super: #NameExpr['BuiltInCommand']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['sh']
+                              ]
+                              $param: #Param[
+                                 $param: #NameExpr['filename']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #Super[
+                                    $param: #List[
+                                       $expression: #NameExpr['sh']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@to_filename']
+                                    $right: #NameExpr['filename']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['each']
+                           $param: #List[
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['rs']
+                                 $default: #Nil['nil']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['to']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['@shell']
+                                       $recv: #NameExpr['open']
+                                       $param: #List[
+                                          $expression: #NameExpr['@to_filename']
+                                          $expression: #StringExpr['w']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ExceptionBlock[
+                                    $main: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #Super['super']
+                                       $body: #Block[
+                                          $param: #NameExpr['l']
+                                          $body: #List[
+                                             $statement: #LShiftExpr[
+                                                $left: #NameExpr['to']
+                                                $right: #NameExpr['l']
+                                             ]
+                                             $statement: #Yield[
+                                                $param: #List[
+                                                   $expression: #NameExpr['l']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $ensure: #ApplyExpr[
+                                       $recv: #NameExpr['to']
+                                       $recv: #NameExpr['close']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Class[
+                  $name: #NameExpr['Concat']
+                  $super: #NameExpr['BuiltInCommand']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #Param[
+                                 $param: #NameExpr['sh']
+                              ]
+                              $param: #VariadicParam[
+                                 $name: #NameExpr['jobs']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #Super['super']
+                                    $param: #List[
+                                       $expression: #NameExpr['sh']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@jobs']
+                                    $right: #NameExpr['jobs']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['each']
+                           $param: #List[
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['rs']
+                                 $default: #Nil['nil']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #While[
+                                 $cond: #AssignExpr[
+                                    $left: #NameExpr['job']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['@jobs']
+                                       $recv: #NameExpr['shift']
+                                    ]
+                                 ]
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['job']
+                                    $recv: #NameExpr['each']
+                                    $body: #Block[
+                                       $param: #NameExpr['l']
+                                       $body: #Yield[
+                                          $param: #List[
+                                             $expression: #NameExpr['l']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

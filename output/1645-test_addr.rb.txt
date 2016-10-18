@@ -1,0 +1,192 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['resolv']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['socket']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['tempfile']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestResolvAddr']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_invalid_ipv4_address']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_match']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Resolv']
+                                    $name: #NameExpr['IPv4']
+                                 ]
+                                 $name: #NameExpr['Regex']
+                              ]
+                              $expression: #StringExpr['1.2.3.256']
+                              $expression: #StringExpr['[ruby-core:29501]']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #IntExpr['1000']
+                           $recv: #NameExpr['times']
+                           $body: #Block[
+                              $param: #NameExpr['i']
+                              $body: #IfExpr[
+                                 $cond: #LtExpr[
+                                    $left: #NameExpr['i']
+                                    $right: #IntExpr['256']
+                                 ]
+                                 $then: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_match']
+                                    $param: #List[
+                                       $expression: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['Resolv']
+                                             $name: #NameExpr['IPv4']
+                                          ]
+                                          $name: #NameExpr['Regex']
+                                       ]
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['i']
+                                          $inner: #NameExpr['i']
+                                          $inner: #NameExpr['i']
+                                          $inner: #NameExpr['i']
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_not_match']
+                                    $param: #List[
+                                       $expression: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['Resolv']
+                                             $name: #NameExpr['IPv4']
+                                          ]
+                                          $name: #NameExpr['Regex']
+                                       ]
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['i']
+                                          $inner: #NameExpr['i']
+                                          $inner: #NameExpr['i']
+                                          $inner: #NameExpr['i']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_invalid_byte_comment']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['bug9273']
+                           $right: #StringExpr['[ruby-core:59239] [Bug #9273]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['Tempfile']
+                           $recv: #NameExpr['create']
+                           $param: #List[
+                              $expression: #StringExpr['resolv_test_addr_']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['tmpfile']
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['tmpfile']
+                                    $recv: #NameExpr['print']
+                                    $param: #List[
+                                       $expression: #StringExpr['\\xff\\x00\\x40']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['tmpfile']
+                                    $recv: #NameExpr['close']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['hosts']
+                                    $right: #ApplyExpr[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['Resolv']
+                                          $name: #NameExpr['Hosts']
+                                       ]
+                                       $recv: #NameExpr['new']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['tmpfile']
+                                             $recv: #NameExpr['path']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_nothing_raised']
+                                    $param: #List[
+                                       $expression: #NameExpr['ArgumentError']
+                                       $expression: #NameExpr['bug9273']
+                                    ]
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['hosts']
+                                          $recv: #NameExpr['each_address']
+                                          $param: #List[
+                                             $expression: #StringExpr['']
+                                          ]
+                                          $body: #Block[
+                                             $body: #Break['break']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

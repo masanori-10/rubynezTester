@@ -1,0 +1,318 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['optparse']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['openssl']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['include']
+         $param: #List[
+            $expression: #NameExpr['OpenSSL']
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['usage']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['myname']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['basename']
+                     $param: #List[
+                        $expression: #BuiltInVariable['$0']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $base: #NameExpr['$stderr']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #HereDocument['Usage: #{myname} [--key keypair_file] name\n  name ... ex. /C=JP/O=RRR/OU=CA/CN=NaHi/emailAddress=nahi@example.org\n']
+                  ]
+               ]
+               $statement: #NameExpr['exit']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['options']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['ARGV']
+            $recv: #NameExpr['getopts']
+            $param: #List[
+               $expression: #Nil['nil']
+               $expression: #StringExpr['key:']
+               $expression: #StringExpr['csrout:']
+               $expression: #StringExpr['keyout:']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['keypair_file']
+         $right: #Indexer[
+            $recv: #NameExpr['options']
+            $index: #List[
+               $expression: #StringExpr['key']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['csrout']
+         $right: #LOr[
+            $left: #Indexer[
+               $recv: #NameExpr['options']
+               $index: #List[
+                  $expression: #StringExpr['csrout']
+               ]
+            ]
+            $right: #StringExpr['csr.pem']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['keyout']
+         $right: #LOr[
+            $left: #Indexer[
+               $recv: #NameExpr['options']
+               $index: #List[
+                  $expression: #StringExpr['keyout']
+               ]
+            ]
+            $right: #StringExpr['keypair.pem']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #Field[
+            $base: #NameExpr['$stdout']
+            $name: #NameExpr['sync']
+         ]
+         $right: #TrueExpr['true']
+      ]
+      $statement: #OrExpr[
+         $left: #AssignExpr[
+            $left: #NameExpr['name_str']
+            $right: #ApplyExpr[
+               $recv: #NameExpr['ARGV']
+               $recv: #NameExpr['shift']
+            ]
+         ]
+         $right: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['usage']
+            $param: #Empty['']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['name']
+         $right: #ApplyExpr[
+            $recv: #Field[
+               $recv: #NameExpr['X509']
+               $name: #NameExpr['Name']
+            ]
+            $recv: #NameExpr['parse']
+            $param: #List[
+               $expression: #NameExpr['name_str']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['keypair']
+         $right: #Nil['nil']
+      ]
+      $statement: #IfExpr[
+         $cond: #NameExpr['keypair_file']
+         $then: #AssignExpr[
+            $left: #NameExpr['keypair']
+            $right: #ApplyExpr[
+               $recv: #Field[
+                  $recv: #NameExpr['PKey']
+                  $name: #NameExpr['RSA']
+               ]
+               $recv: #NameExpr['new']
+               $param: #List[
+                  $expression: #ApplyExpr[
+                     $recv: #ApplyExpr[
+                        $recv: #NameExpr['File']
+                        $recv: #NameExpr['open']
+                        $param: #List[
+                           $expression: #NameExpr['keypair_file']
+                        ]
+                     ]
+                     $recv: #NameExpr['read']
+                  ]
+               ]
+            ]
+         ]
+         $else: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['keypair']
+               $right: #ApplyExpr[
+                  $recv: #Field[
+                     $recv: #NameExpr['PKey']
+                     $name: #NameExpr['RSA']
+                  ]
+                  $recv: #NameExpr['new']
+                  $param: #List[
+                     $expression: #IntExpr['1024']
+                  ]
+                  $body: #Block[
+                     $body: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['putc']
+                        $param: #List[
+                           $expression: #StringExpr['.']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #NameExpr['puts']
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['puts']
+               $param: #List[
+                  $expression: #StringExpr[
+                     $inner: #NameExpr['keyout']
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['File']
+               $recv: #NameExpr['open']
+               $param: #List[
+                  $expression: #NameExpr['keyout']
+                  $expression: #StringExpr['w']
+                  $expression: #OctalInteger['0400']
+               ]
+               $body: #Block[
+                  $param: #NameExpr['f']
+                  $body: #LShiftExpr[
+                     $left: #NameExpr['f']
+                     $right: #ApplyExpr[
+                        $recv: #NameExpr['keypair']
+                        $recv: #NameExpr['to_pem']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #StringExpr[
+               $inner: #NameExpr['name_str']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['req']
+         $right: #ApplyExpr[
+            $recv: #Field[
+               $recv: #NameExpr['X509']
+               $name: #NameExpr['Request']
+            ]
+            $recv: #NameExpr['new']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #Field[
+            $base: #NameExpr['req']
+            $name: #NameExpr['version']
+         ]
+         $right: #IntExpr['0']
+      ]
+      $statement: #AssignExpr[
+         $left: #Field[
+            $base: #NameExpr['req']
+            $name: #NameExpr['subject']
+         ]
+         $right: #NameExpr['name']
+      ]
+      $statement: #AssignExpr[
+         $left: #Field[
+            $base: #NameExpr['req']
+            $name: #NameExpr['public_key']
+         ]
+         $right: #ApplyExpr[
+            $recv: #NameExpr['keypair']
+            $recv: #NameExpr['public_key']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['req']
+         $recv: #NameExpr['sign']
+         $param: #List[
+            $expression: #NameExpr['keypair']
+            $expression: #ApplyExpr[
+               $recv: #Field[
+                  $recv: #NameExpr['Digest']
+                  $name: #NameExpr['MD5']
+               ]
+               $recv: #NameExpr['new']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #StringExpr[
+               $inner: #NameExpr['csrout']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['File']
+         $recv: #NameExpr['open']
+         $param: #List[
+            $expression: #NameExpr['csrout']
+            $expression: #StringExpr['w']
+         ]
+         $body: #Block[
+            $param: #NameExpr['f']
+            $body: #LShiftExpr[
+               $left: #NameExpr['f']
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['req']
+                  $recv: #NameExpr['to_pem']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #ApplyExpr[
+               $recv: #NameExpr['req']
+               $recv: #NameExpr['to_text']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #ApplyExpr[
+               $recv: #NameExpr['req']
+               $recv: #NameExpr['to_pem']
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

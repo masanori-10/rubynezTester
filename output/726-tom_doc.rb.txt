@@ -1,0 +1,792 @@
+#Source[
+   #Class[
+      $name: #NestedName[
+         $path: #NameExpr['RDoc']
+         $name: #NameExpr['TomDoc']
+      ]
+      $super: #Field[
+         $recv: #Field[
+            $recv: #NameExpr['RDoc']
+            $name: #NameExpr['Markup']
+         ]
+         $name: #NameExpr['Parser']
+      ]
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['attr_reader']
+               $param: #List[
+                  $expression: #NameExpr['tokens']
+               ]
+            ]
+            $statement: #SFuncDecl[
+               $path: #Self['self']
+               $name: #NameExpr['add_post_processor']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     $recv: #Field[
+                        $recv: #Field[
+                           $recv: #NameExpr['RDoc']
+                           $name: #NameExpr['Markup']
+                        ]
+                        $name: #NameExpr['PreProcess']
+                     ]
+                     $recv: #NameExpr['post_process']
+                     $body: #Block[
+                        $param: #MultipleLeftHandSideExpression[
+                           $item: #NameExpr['comment']
+                           $item: #NameExpr['code_object']
+                        ]
+                        $body: #List[
+                           $statement: #Unless[
+                              $then: #Next['next']
+                              $cond: #AndExpr[
+                                 $left: #AndExpr[
+                                    $left: #NameExpr['code_object']
+                                    $right: #StrictEquals[
+                                       $left: #Field[
+                                          $recv: #NameExpr['RDoc']
+                                          $name: #NameExpr['Comment']
+                                       ]
+                                       $right: #NameExpr['comment']
+                                    ]
+                                 ]
+                                 $right: #EqExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['comment']
+                                       $recv: #NameExpr['format']
+                                    ]
+                                    $right: #StringExpr['tomdoc']
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['comment']
+                                 $recv: #NameExpr['text']
+                              ]
+                              $recv: #NameExpr['gsub!']
+                              $param: #List[
+                                 $expression: #Regex['/(\\A\\s*# )(Public|Internal|Deprecated):\\s+/']
+                              ]
+                              $body: #Block[
+                                 $body: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['section']
+                                       $right: #ApplyExpr[
+                                          $base: #NameExpr['code_object']
+                                          $recv: #NameExpr['add_section']
+                                          $param: #List[
+                                             $expression: #MatchedRegex['$2']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Field[
+                                          $base: #NameExpr['code_object']
+                                          $name: #NameExpr['temporary_section']
+                                       ]
+                                       $right: #NameExpr['section']
+                                    ]
+                                    $statement: #MatchedRegex['$1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #NameExpr['add_post_processor']
+            $statement: #SFuncDecl[
+               $path: #Self['self']
+               $name: #NameExpr['parse']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['text']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['parser']
+                        $right: #NameExpr['new']
+                     ]
+                     $statement: #ApplyExpr[
+                        $base: #NameExpr['parser']
+                        $recv: #NameExpr['tokenize']
+                        $param: #List[
+                           $expression: #NameExpr['text']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['doc']
+                        $right: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #Field[
+                                 $recv: #NameExpr['RDoc']
+                                 $name: #NameExpr['Markup']
+                              ]
+                              $name: #NameExpr['Document']
+                           ]
+                           $recv: #NameExpr['new']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $base: #NameExpr['parser']
+                        $recv: #NameExpr['parse']
+                        $param: #List[
+                           $expression: #NameExpr['doc']
+                        ]
+                     ]
+                     $statement: #NameExpr['doc']
+                  ]
+               ]
+            ]
+            $statement: #SFuncDecl[
+               $path: #Self['self']
+               $name: #NameExpr['signature']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['comment']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #Unless[
+                        $then: #RReturnStmt['return']
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['comment']
+                           $recv: #NameExpr['tomdoc?']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['document']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['comment']
+                           $recv: #NameExpr['parse']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['signature']
+                        $right: #Nil['nil']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['found_heading']
+                        $right: #FalseExpr['false']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['found_signature']
+                        $right: #FalseExpr['false']
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #NameExpr['document']
+                           $recv: #NameExpr['parts']
+                        ]
+                        $recv: #NameExpr['delete_if']
+                        $body: #Block[
+                           $param: #NameExpr['part']
+                           $body: #List[
+                              $statement: #IfExpr[
+                                 $then: #Next[
+                                    $expr: #List[
+                                       $expression: #FalseExpr['false']
+                                    ]
+                                 ]
+                                 $cond: #NameExpr['found_signature']
+                              ]
+                              $statement: #LOrAssign[
+                                 $left: #NameExpr['found_heading']
+                                 $right: #LAnd[
+                                    $left: #StrictEquals[
+                                       $left: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['RDoc']
+                                             $name: #NameExpr['Markup']
+                                          ]
+                                          $name: #NameExpr['Heading']
+                                       ]
+                                       $right: #NameExpr['part']
+                                    ]
+                                    $right: #EqExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['part']
+                                          $recv: #NameExpr['text']
+                                       ]
+                                       $right: #StringExpr['Signature']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $then: #Next[
+                                    $expr: #List[
+                                       $expression: #FalseExpr['false']
+                                    ]
+                                 ]
+                                 $cond: #NameExpr['found_heading']
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #Next[
+                                    $expr: #List[
+                                       $expression: #TrueExpr['true']
+                                    ]
+                                 ]
+                                 $cond: #StrictEquals[
+                                    $left: #Field[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['RDoc']
+                                          $name: #NameExpr['Markup']
+                                       ]
+                                       $name: #NameExpr['BlankLine']
+                                    ]
+                                    $right: #NameExpr['part']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #StrictEquals[
+                                    $left: #Field[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['RDoc']
+                                          $name: #NameExpr['Markup']
+                                       ]
+                                       $name: #NameExpr['Verbatim']
+                                    ]
+                                    $right: #NameExpr['part']
+                                 ]
+                                 $then: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['signature']
+                                       $right: #NameExpr['part']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['found_signature']
+                                       $right: #TrueExpr['true']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AndExpr[
+                        $left: #NameExpr['signature']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['signature']
+                           $recv: #NameExpr['text']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['initialize']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #Super['super']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@section']
+                        $right: #Nil['nil']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@seen_returns']
+                        $right: #FalseExpr['false']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['build_heading']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['level']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['heading']
+                        $right: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@section']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['heading']
+                           $recv: #NameExpr['text']
+                        ]
+                     ]
+                     $statement: #NameExpr['heading']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['build_verbatim']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['margin']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['verbatim']
+                        $right: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #AssignExpr[
+                           $left: #Field[
+                              $base: #NameExpr['verbatim']
+                              $name: #NameExpr['format']
+                           ]
+                           $right: #NameExpr['ruby']
+                        ]
+                        $cond: #EqExpr[
+                           $left: #NameExpr['@section']
+                           $right: #StringExpr['Examples']
+                        ]
+                     ]
+                     $statement: #NameExpr['verbatim']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['build_paragraph']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['margin']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #IfExpr[
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['p']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #NameExpr['paragraph_start']
+                                 $value: #NameExpr['margin']
+                              ]
+                           ]
+                        ]
+                        $cond: #NameExpr['@debug']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['paragraph']
+                        $right: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #Field[
+                                 $recv: #NameExpr['RDoc']
+                                 $name: #NameExpr['Markup']
+                              ]
+                              $name: #NameExpr['Paragraph']
+                           ]
+                           $recv: #NameExpr['new']
+                        ]
+                     ]
+                     $statement: #Until[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['@tokens']
+                           $recv: #NameExpr['empty?']
+                        ]
+                        $body: #List[
+                           $statement: #MultipleAssign[
+                              $left: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['type']
+                                 $item: #NameExpr['data']
+                              ]
+                              $right: #NameExpr['get']
+                           ]
+                           $statement: #Case[
+                              $cond: #NameExpr['type']
+                              $body: #List[
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #NameExpr['TEXT']
+                                    ]
+                                    $then: #List[
+                                       $statement: #IfExpr[
+                                          $then: #AssignExpr[
+                                             $left: #NameExpr['@section']
+                                             $right: #StringExpr['Returns']
+                                          ]
+                                          $cond: #AssignExpr[
+                                             $left: #NameExpr['data']
+                                             $right: #ComplExpr[
+                                                $expr: #Regex['/\\AReturns/']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #LShiftExpr[
+                                          $left: #NameExpr['paragraph']
+                                          $right: #NameExpr['data']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #NameExpr['NEWLINE']
+                                    ]
+                                    $then: #IfExpr[
+                                       $cond: #EqExpr[
+                                          $left: #NameExpr['TEXT']
+                                          $right: #Indexer[
+                                             $recv: #NameExpr['peek_token']
+                                             $index: #List[
+                                                $expression: #IntExpr['0']
+                                             ]
+                                          ]
+                                       ]
+                                       $then: #LShiftExpr[
+                                          $left: #NameExpr['paragraph']
+                                          $right: #StringExpr[' ']
+                                       ]
+                                       $else: #Break['break']
+                                    ]
+                                 ]
+                              ]
+                              $else: #List[
+                                 $statement: #NameExpr['unget']
+                                 $statement: #Break['break']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['p']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #NameExpr['paragraph_end']
+                                 $value: #NameExpr['margin']
+                              ]
+                           ]
+                        ]
+                        $cond: #NameExpr['@debug']
+                     ]
+                     $statement: #NameExpr['paragraph']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['parse_text']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['parent']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['indent']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['paragraph']
+                        $right: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['build_paragraph']
+                           $param: #List[
+                              $expression: #NameExpr['indent']
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #AndExpr[
+                           $left: #EqExpr[
+                              $left: #FalseExpr['false']
+                              $right: #NameExpr['@seen_returns']
+                           ]
+                           $right: #EqExpr[
+                              $left: #StringExpr['Returns']
+                              $right: #NameExpr['@section']
+                           ]
+                        ]
+                        $then: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['@seen_returns']
+                              $right: #TrueExpr['true']
+                           ]
+                           $statement: #LShiftExpr[
+                              $left: #NameExpr['parent']
+                              $right: #ApplyExpr[
+                                 $recv: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['RDoc']
+                                       $name: #NameExpr['Markup']
+                                    ]
+                                    $name: #NameExpr['Heading']
+                                 ]
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #IntExpr['3']
+                                    $expression: #StringExpr['Returns']
+                                 ]
+                              ]
+                           ]
+                           $statement: #LShiftExpr[
+                              $left: #NameExpr['parent']
+                              $right: #ApplyExpr[
+                                 $recv: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['RDoc']
+                                       $name: #NameExpr['Markup']
+                                    ]
+                                    $name: #NameExpr['BlankLine']
+                                 ]
+                                 $recv: #NameExpr['new']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #LShiftExpr[
+                        $left: #NameExpr['parent']
+                        $right: #NameExpr['paragraph']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['tokenize']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['text']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['text']
+                        $recv: #NameExpr['sub!']
+                        $param: #List[
+                           $expression: #Regex['/\\A(Public|Internal|Deprecated):\\s+/']
+                           $expression: #StringExpr['']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['setup_scanner']
+                        $param: #List[
+                           $expression: #NameExpr['text']
+                        ]
+                     ]
+                     $statement: #Until[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['@s']
+                           $recv: #NameExpr['eos?']
+                        ]
+                        $body: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['pos']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['@s']
+                                 $recv: #NameExpr['pos']
+                              ]
+                           ]
+                           $statement: #IfExpr[
+                              $then: #Next['next']
+                              $cond: #ApplyExpr[
+                                 $recv: #NameExpr['@s']
+                                 $recv: #NameExpr['scan']
+                                 $param: #List[
+                                    $expression: #Regex['/ +/']
+                                 ]
+                              ]
+                           ]
+                           $statement: #LShiftExpr[
+                              $left: #NameExpr['@tokens']
+                              $right: #Case[
+                                 $body: #List[
+                                    $when: #When[
+                                       $cond: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@s']
+                                             $recv: #NameExpr['scan']
+                                             $param: #List[
+                                                $expression: #Regex['/\\r?\\n/']
+                                             ]
+                                          ]
+                                       ]
+                                       $then: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['token']
+                                             $right: #Array[
+                                                $index: #List[
+                                                   $expression: #NameExpr['NEWLINE']
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['@s']
+                                                      $recv: #NameExpr['matched']
+                                                   ]
+                                                   $variadic: #Variadic[
+                                                      $base: #ApplyExpr[
+                                                         #Self['self']
+                                                         $recv: #NameExpr['token_pos']
+                                                         $param: #List[
+                                                            $expression: #NameExpr['pos']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['@line_pos']
+                                             $right: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['char_pos']
+                                                $param: #List[
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['@s']
+                                                      $recv: #NameExpr['pos']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #AddAssign[
+                                             $left: #NameExpr['@line']
+                                             $right: #IntExpr['1']
+                                          ]
+                                          $statement: #NameExpr['token']
+                                       ]
+                                    ]
+                                    $when: #When[
+                                       $cond: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@s']
+                                             $recv: #NameExpr['scan']
+                                             $param: #List[
+                                                $expression: #Regex['/(Examples|Signature)$/']
+                                             ]
+                                          ]
+                                       ]
+                                       $then: #List[
+                                          $statement: #LShiftExpr[
+                                             $left: #NameExpr['@tokens']
+                                             $right: #Array[
+                                                $index: #List[
+                                                   $expression: #NameExpr['HEADER']
+                                                   $expression: #IntExpr['3']
+                                                   $variadic: #Variadic[
+                                                      $base: #ApplyExpr[
+                                                         #Self['self']
+                                                         $recv: #NameExpr['token_pos']
+                                                         $param: #List[
+                                                            $expression: #NameExpr['pos']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #Array[
+                                             $index: #List[
+                                                $expression: #NameExpr['TEXT']
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['@s']
+                                                   $index: #List[
+                                                      $expression: #IntExpr['1']
+                                                   ]
+                                                ]
+                                                $variadic: #Variadic[
+                                                   $base: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['token_pos']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['pos']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $when: #When[
+                                       $cond: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['@s']
+                                             $recv: #NameExpr['scan']
+                                             $param: #List[
+                                                $expression: #Regex['/([:\\w][\\w\\[\\]]*)[ ]+- /']
+                                             ]
+                                          ]
+                                       ]
+                                       $then: #Array[
+                                          $index: #List[
+                                             $expression: #NameExpr['NOTE']
+                                             $expression: #Indexer[
+                                                $recv: #NameExpr['@s']
+                                                $index: #List[
+                                                   $expression: #IntExpr['1']
+                                                ]
+                                             ]
+                                             $variadic: #Variadic[
+                                                $base: #ApplyExpr[
+                                                   #Self['self']
+                                                   $recv: #NameExpr['token_pos']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['pos']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@s']
+                                       $recv: #NameExpr['scan']
+                                       $param: #List[
+                                          $expression: #Regex['/.*/']
+                                       ]
+                                    ]
+                                    $statement: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['TEXT']
+                                          $expression: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['@s']
+                                                $recv: #NameExpr['matched']
+                                             ]
+                                             $recv: #NameExpr['sub']
+                                             $param: #List[
+                                                $expression: #Regex['/\\r$/']
+                                                $expression: #StringExpr['']
+                                             ]
+                                          ]
+                                          $variadic: #Variadic[
+                                             $base: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['token_pos']
+                                                $param: #List[
+                                                   $expression: #NameExpr['pos']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #Self['self']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

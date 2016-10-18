@@ -1,0 +1,1342 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['cgi']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['stringio']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require_relative']
+         $param: #List[
+            $expression: #StringExpr['update_env']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['CGIUtilTest']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['include']
+                  $param: #List[
+                     $expression: #Field[
+                        $recv: #NameExpr['CGI']
+                        $name: #NameExpr['Util']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['include']
+                  $param: #List[
+                     $expression: #NameExpr['UpdateEnv']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@environ']
+                           $right: #List['{}']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['REQUEST_METHOD']
+                                 $value: #StringExpr['GET']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['SCRIPT_NAME']
+                                 $value: #Nil['nil']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@str1']
+                           $right: #StringExpr['&<>\\" \\xE3\\x82\\x86\\xE3\\x82\\x93\\xE3\\x82\\x86\\xE3\\x82\\x93']
+                        ]
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['@str1']
+                              $recv: #NameExpr['force_encoding']
+                              $param: #List[
+                                 $expression: #StringExpr['UTF-8']
+                              ]
+                           ]
+                           $cond: #Defined[
+                              $base: #NameExpr['Encoding']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['teardown']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['ENV']
+                        $recv: #NameExpr['update']
+                        $param: #List[
+                           $expression: #NameExpr['@environ']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_escape']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['%26%3C%3E%22+%E3%82%86%E3%82%93%E3%82%86%E3%82%93']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CGI']
+                                 $recv: #NameExpr['escape']
+                                 $param: #List[
+                                    $expression: #NameExpr['@str1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #StringExpr['%26%3C%3E%22+%E3%82%86%E3%82%93%E3%82%86%E3%82%93']
+                                    $recv: #NameExpr['ascii_only?']
+                                 ]
+                                 $expression: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['CGI']
+                                       $recv: #NameExpr['escape']
+                                       $param: #List[
+                                          $expression: #NameExpr['@str1']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['ascii_only?']
+                                 ]
+                              ]
+                           ]
+                           $cond: #Defined[
+                              $base: #NameExpr['Encoding']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_escape_with_invalid_byte_sequence']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_nothing_raised']
+                        $param: #List[
+                           $expression: #NameExpr['ArgumentError']
+                        ]
+                        $body: #Block[
+                           $body: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #StringExpr['%C0%3C%3C']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['CGI']
+                                    $recv: #NameExpr['escape']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #StringExpr['\\xC0\\<\\<']
+                                          $recv: #NameExpr['force_encoding']
+                                          $param: #List[
+                                             $expression: #StringExpr['UTF-8']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_escape_preserve_encoding']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['Encoding']
+                                 $name: #NameExpr['US_ASCII']
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['CGI']
+                                    $recv: #NameExpr['escape']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #StringExpr['\\xC0\\<\\<']
+                                          $recv: #NameExpr['force_encoding']
+                                          $param: #List[
+                                             $expression: #StringExpr['US-ASCII']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['encoding']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['Encoding']
+                                 $name: #NameExpr['ASCII_8BIT']
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['CGI']
+                                    $recv: #NameExpr['escape']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #StringExpr['\\xC0\\<\\<']
+                                          $recv: #NameExpr['force_encoding']
+                                          $param: #List[
+                                             $expression: #StringExpr['ASCII-8BIT']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['encoding']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['Encoding']
+                                 $name: #NameExpr['UTF_8']
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['CGI']
+                                    $recv: #NameExpr['escape']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #StringExpr['\\xC0\\<\\<']
+                                          $recv: #NameExpr['force_encoding']
+                                          $param: #List[
+                                             $expression: #StringExpr['UTF-8']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['encoding']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_unescape']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['@str1']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CGI']
+                                 $recv: #NameExpr['unescape']
+                                 $param: #List[
+                                    $expression: #StringExpr['%26%3C%3E%22+%E3%82%86%E3%82%93%E3%82%86%E3%82%93']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['@str1']
+                                    $recv: #NameExpr['encoding']
+                                 ]
+                                 $expression: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['CGI']
+                                       $recv: #NameExpr['unescape']
+                                       $param: #List[
+                                          $expression: #StringExpr['%26%3C%3E%22+%E3%82%86%E3%82%93%E3%82%86%E3%82%93']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['encoding']
+                                 ]
+                              ]
+                           ]
+                           $cond: #Defined[
+                              $base: #NameExpr['Encoding']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['\\u{30E1 30E2 30EA 691C 7D22}']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CGI']
+                                 $recv: #NameExpr['unescape']
+                                 $param: #List[
+                                    $expression: #StringExpr['\\u{30E1 30E2 30EA}%E6%A4%9C%E7%B4%A2']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_unescape_preserve_encoding']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['Encoding']
+                                 $name: #NameExpr['US_ASCII']
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['CGI']
+                                    $recv: #NameExpr['unescape']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #StringExpr['%C0%3C%3C']
+                                          $recv: #NameExpr['force_encoding']
+                                          $param: #List[
+                                             $expression: #StringExpr['US-ASCII']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['encoding']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['Encoding']
+                                 $name: #NameExpr['ASCII_8BIT']
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['CGI']
+                                    $recv: #NameExpr['unescape']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #StringExpr['%C0%3C%3C']
+                                          $recv: #NameExpr['force_encoding']
+                                          $param: #List[
+                                             $expression: #StringExpr['ASCII-8BIT']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['encoding']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['Encoding']
+                                 $name: #NameExpr['UTF_8']
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['CGI']
+                                    $recv: #NameExpr['unescape']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #StringExpr['%C0%3C%3C']
+                                          $recv: #NameExpr['force_encoding']
+                                          $param: #List[
+                                             $expression: #StringExpr['UTF-8']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['encoding']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_pretty']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['<HTML>\\n  <BODY>\\n  </BODY>\\n</HTML>\\n']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CGI']
+                                 $recv: #NameExpr['pretty']
+                                 $param: #List[
+                                    $expression: #StringExpr['<HTML><BODY></BODY></HTML>']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['<HTML>\\n\\t<BODY>\\n\\t</BODY>\\n</HTML>\\n']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CGI']
+                                 $recv: #NameExpr['pretty']
+                                 $param: #List[
+                                    $expression: #StringExpr['<HTML><BODY></BODY></HTML>']
+                                    $expression: #StringExpr['\\t']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_escapeHTML']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_equal']
+                        $param: #List[
+                           $expression: #StringExpr['&#39;&amp;&quot;&gt;&lt;']
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['escapeHTML']
+                              $param: #List[
+                                 $expression: #StringExpr['\'&\\"><']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_escape_html_duplicated']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['orig']
+                           $right: #ApplyExpr[
+                              $recv: #StringExpr['Ruby']
+                              $recv: #NameExpr['force_encoding']
+                              $param: #List[
+                                 $expression: #StringExpr['US-ASCII']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['str']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['escapeHTML']
+                              $param: #List[
+                                 $expression: #NameExpr['orig']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['orig']
+                              $expression: #NameExpr['str']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_same']
+                           $param: #List[
+                              $expression: #NameExpr['orig']
+                              $expression: #NameExpr['str']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['assert_cgi_escape_html_preserve_encoding']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['str']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['encoding']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_equal']
+                        $param: #List[
+                           $expression: #NameExpr['encoding']
+                           $expression: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['CGI']
+                                 $recv: #NameExpr['escapeHTML']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['str']
+                                          $recv: #NameExpr['dup']
+                                       ]
+                                       $recv: #NameExpr['force_encoding']
+                                       $param: #List[
+                                          $expression: #NameExpr['encoding']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $recv: #NameExpr['encoding']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_escape_html_preserve_encoding']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['Encoding']
+                        $recv: #NameExpr['list']
+                        $body: #Block[
+                           $param: #NameExpr['enc']
+                           $body: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_cgi_escape_html_preserve_encoding']
+                                 $param: #List[
+                                    $expression: #StringExpr['\'&\\"><']
+                                    $expression: #NameExpr['enc']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_cgi_escape_html_preserve_encoding']
+                                 $param: #List[
+                                    $expression: #StringExpr['Ruby']
+                                    $expression: #NameExpr['enc']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_escape_html_preserve_tainted']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_predicate']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CGI']
+                                 $recv: #NameExpr['escapeHTML']
+                                 $param: #List[
+                                    $expression: #StringExpr['\'&\\"><']
+                                 ]
+                              ]
+                              $expression: #NameExpr['tainted?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_predicate']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CGI']
+                                 $recv: #NameExpr['escapeHTML']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #StringExpr['\'&\\"><']
+                                       $recv: #NameExpr['taint']
+                                    ]
+                                 ]
+                              ]
+                              $expression: #NameExpr['tainted?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_predicate']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CGI']
+                                 $recv: #NameExpr['escapeHTML']
+                                 $param: #List[
+                                    $expression: #StringExpr['Ruby']
+                                 ]
+                              ]
+                              $expression: #NameExpr['tainted?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_predicate']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CGI']
+                                 $recv: #NameExpr['escapeHTML']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #StringExpr['Ruby']
+                                       $recv: #NameExpr['taint']
+                                    ]
+                                 ]
+                              ]
+                              $expression: #NameExpr['tainted?']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_escape_html_dont_freeze']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_predicate']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CGI']
+                                 $recv: #NameExpr['escapeHTML']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #StringExpr['\'&\\"><']
+                                       $recv: #NameExpr['dup']
+                                    ]
+                                 ]
+                              ]
+                              $expression: #NameExpr['frozen?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_predicate']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CGI']
+                                 $recv: #NameExpr['escapeHTML']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #StringExpr['\'&\\"><']
+                                       $recv: #NameExpr['freeze']
+                                    ]
+                                 ]
+                              ]
+                              $expression: #NameExpr['frozen?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_predicate']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CGI']
+                                 $recv: #NameExpr['escapeHTML']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #StringExpr['Ruby']
+                                       $recv: #NameExpr['dup']
+                                    ]
+                                 ]
+                              ]
+                              $expression: #NameExpr['frozen?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_predicate']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['CGI']
+                                 $recv: #NameExpr['escapeHTML']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #StringExpr['Ruby']
+                                       $recv: #NameExpr['freeze']
+                                    ]
+                                 ]
+                              ]
+                              $expression: #NameExpr['frozen?']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_unescapeHTML']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_equal']
+                        $param: #List[
+                           $expression: #StringExpr['\'&\\"><']
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['unescapeHTML']
+                              $param: #List[
+                                 $expression: #StringExpr['&#39;&amp;&quot;&gt;&lt;']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_unescapeHTML_invalid']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_equal']
+                        $param: #List[
+                           $expression: #StringExpr['&<&amp>&quot&abcdefghijklmn']
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['unescapeHTML']
+                              $param: #List[
+                                 $expression: #StringExpr['&&lt;&amp&gt;&quot&abcdefghijklmn']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #ApplyExpr[
+                     $recv: #NameExpr['Encoding']
+                     $recv: #NameExpr['list']
+                  ]
+                  $recv: #NameExpr['each']
+                  $body: #Block[
+                     $param: #NameExpr['enc']
+                     $body: #ExceptionBlock[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['escaped']
+                              $right: #ApplyExpr[
+                                 $recv: #StringExpr['&#39;&amp;&quot;&gt;&lt;']
+                                 $recv: #NameExpr['encode']
+                                 $param: #List[
+                                    $expression: #NameExpr['enc']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['unescaped']
+                              $right: #ApplyExpr[
+                                 $recv: #StringExpr['\'&\\"><']
+                                 $recv: #NameExpr['encode']
+                                 $param: #List[
+                                    $expression: #NameExpr['enc']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $rescue: #List[
+                           $rescue: #Rescue[
+                              $class: #Field[
+                                 $recv: #NameExpr['Encoding']
+                                 $name: #NameExpr['ConverterNotFoundError']
+                              ]
+                              $then: #Next['next']
+                           ]
+                        ]
+                        $else: #List[
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['define_method']
+                              $param: #List[
+                                 $expression: #StringExpr[
+                                    $inner: #ApplyExpr[
+                                       $recv: #NameExpr['enc']
+                                       $recv: #NameExpr['name']
+                                    ]
+                                 ]
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #NameExpr['escaped']
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['CGI']
+                                          $recv: #NameExpr['escapeHTML']
+                                          $param: #List[
+                                             $expression: #NameExpr['unescaped']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['define_method']
+                              $param: #List[
+                                 $expression: #StringExpr[
+                                    $inner: #ApplyExpr[
+                                       $recv: #NameExpr['enc']
+                                       $recv: #NameExpr['name']
+                                    ]
+                                 ]
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #NameExpr['unescaped']
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['CGI']
+                                          $recv: #NameExpr['unescapeHTML']
+                                          $param: #List[
+                                             $expression: #NameExpr['escaped']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #ApplyExpr[
+                     $recv: #NameExpr['Encoding']
+                     $recv: #NameExpr['list']
+                  ]
+                  $recv: #NameExpr['each']
+                  $body: #Block[
+                     $param: #NameExpr['enc']
+                     $body: #List[
+                        $statement: #Unless[
+                           $then: #Next['next']
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['enc']
+                              $recv: #NameExpr['ascii_compatible?']
+                           ]
+                        ]
+                        $statement: #ExceptionBlock[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['escaped']
+                                 $right: #StringExpr['%25+%2B']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['unescaped']
+                                 $right: #ApplyExpr[
+                                    $recv: #StringExpr['% +']
+                                    $recv: #NameExpr['encode']
+                                    $param: #List[
+                                       $expression: #NameExpr['enc']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $rescue: #List[
+                              $rescue: #Rescue[
+                                 $class: #Field[
+                                    $recv: #NameExpr['Encoding']
+                                    $name: #NameExpr['ConverterNotFoundError']
+                                 ]
+                                 $then: #Next['next']
+                              ]
+                           ]
+                           $else: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['define_method']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['enc']
+                                          $recv: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #NameExpr['escaped']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['CGI']
+                                             $recv: #NameExpr['escape']
+                                             $param: #List[
+                                                $expression: #NameExpr['unescaped']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['define_method']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['enc']
+                                          $recv: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_equal']
+                                       $param: #List[
+                                          $expression: #NameExpr['unescaped']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['CGI']
+                                             $recv: #NameExpr['unescape']
+                                             $param: #List[
+                                                $expression: #NameExpr['escaped']
+                                                $expression: #NameExpr['enc']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_unescapeHTML_uppercasecharacter']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_equal']
+                        $param: #List[
+                           $expression: #StringExpr['\\xE3\\x81\\x82\\xE3\\x81\\x84\\xE3\\x81\\x86']
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['unescapeHTML']
+                              $param: #List[
+                                 $expression: #StringExpr['&#x3042;&#x3044;&#X3046;']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_include_escape']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_equal']
+                        $param: #List[
+                           $expression: #StringExpr['%26%3C%3E%22+%E3%82%86%E3%82%93%E3%82%86%E3%82%93']
+                           $expression: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['escape']
+                              $param: #List[
+                                 $expression: #NameExpr['@str1']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_include_escapeHTML']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_equal']
+                        $param: #List[
+                           $expression: #StringExpr['&#39;&amp;&quot;&gt;&lt;']
+                           $expression: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['escapeHTML']
+                              $param: #List[
+                                 $expression: #StringExpr['\'&\\"><']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_include_h']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_equal']
+                        $param: #List[
+                           $expression: #StringExpr['&#39;&amp;&quot;&gt;&lt;']
+                           $expression: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['h']
+                              $param: #List[
+                                 $expression: #StringExpr['\'&\\"><']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_include_unescape']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['@str1']
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['unescape']
+                                 $param: #List[
+                                    $expression: #StringExpr['%26%3C%3E%22+%E3%82%86%E3%82%93%E3%82%86%E3%82%93']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['@str1']
+                                    $recv: #NameExpr['encoding']
+                                 ]
+                                 $expression: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['unescape']
+                                       $param: #List[
+                                          $expression: #StringExpr['%26%3C%3E%22+%E3%82%86%E3%82%93%E3%82%86%E3%82%93']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['encoding']
+                                 ]
+                              ]
+                           ]
+                           $cond: #Defined[
+                              $base: #NameExpr['Encoding']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['\\u{30E1 30E2 30EA 691C 7D22}']
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['unescape']
+                                 $param: #List[
+                                    $expression: #StringExpr['\\u{30E1 30E2 30EA}%E6%A4%9C%E7%B4%A2']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_include_unescapeHTML']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert_equal']
+                        $param: #List[
+                           $expression: #StringExpr['\'&\\"><']
+                           $expression: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['unescapeHTML']
+                              $param: #List[
+                                 $expression: #StringExpr['&#39;&amp;&quot;&gt;&lt;']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_escapeElement']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['<BR>&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;']
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['escapeElement']
+                                 $param: #List[
+                                    $expression: #StringExpr['<BR><A HREF="url"></A>']
+                                    $expression: #StringExpr['A']
+                                    $expression: #StringExpr['IMG']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['<BR>&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;']
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['escapeElement']
+                                 $param: #List[
+                                    $expression: #StringExpr['<BR><A HREF="url"></A>']
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #StringExpr['A']
+                                          $expression: #StringExpr['IMG']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['<BR>&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;']
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['escape_element']
+                                 $param: #List[
+                                    $expression: #StringExpr['<BR><A HREF="url"></A>']
+                                    $expression: #StringExpr['A']
+                                    $expression: #StringExpr['IMG']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['<BR>&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;']
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['escape_element']
+                                 $param: #List[
+                                    $expression: #StringExpr['<BR><A HREF="url"></A>']
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #StringExpr['A']
+                                          $expression: #StringExpr['IMG']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_unescapeElement']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['&lt;BR&gt;<A HREF="url"></A>']
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['unescapeElement']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['escapeHTML']
+                                       $param: #List[
+                                          $expression: #StringExpr['<BR><A HREF="url"></A>']
+                                       ]
+                                    ]
+                                    $expression: #StringExpr['A']
+                                    $expression: #StringExpr['IMG']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['&lt;BR&gt;<A HREF="url"></A>']
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['unescapeElement']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['escapeHTML']
+                                       $param: #List[
+                                          $expression: #StringExpr['<BR><A HREF="url"></A>']
+                                       ]
+                                    ]
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #StringExpr['A']
+                                          $expression: #StringExpr['IMG']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['&lt;BR&gt;<A HREF="url"></A>']
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['unescape_element']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['escapeHTML']
+                                       $param: #List[
+                                          $expression: #StringExpr['<BR><A HREF="url"></A>']
+                                       ]
+                                    ]
+                                    $expression: #StringExpr['A']
+                                    $expression: #StringExpr['IMG']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['&lt;BR&gt;<A HREF="url"></A>']
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['unescape_element']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['escapeHTML']
+                                       $param: #List[
+                                          $expression: #StringExpr['<BR><A HREF="url"></A>']
+                                       ]
+                                    ]
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #StringExpr['A']
+                                          $expression: #StringExpr['IMG']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

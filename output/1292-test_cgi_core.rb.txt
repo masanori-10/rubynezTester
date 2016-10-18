@@ -1,0 +1,1796 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['cgi']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['stringio']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require_relative']
+         $param: #List[
+            $expression: #StringExpr['update_env']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['CGICoreTest']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['include']
+                  $param: #List[
+                     $expression: #NameExpr['UpdateEnv']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #AssignExpr[
+                        $left: #NameExpr['@environ']
+                        $right: #List['{}']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['teardown']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['ENV']
+                           $recv: #NameExpr['update']
+                           $param: #List[
+                              $expression: #NameExpr['@environ']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['$stdout']
+                           $right: #NameExpr['STDOUT']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_parse_illegal_query']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['REQUEST_METHOD']
+                                 $value: #StringExpr['GET']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['QUERY_STRING']
+                                 $value: #StringExpr['a=111&&b=222&c&d=']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['HTTP_COOKIE']
+                                 $value: #StringExpr['_session_id=12345; name1=val1&val2;']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['SERVER_SOFTWARE']
+                                 $value: #StringExpr['Apache 2.2.0']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['SERVER_PROTOCOL']
+                                 $value: #StringExpr['HTTP/1.1']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cgi']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['a']
+                                    $expression: #StringExpr['b']
+                                    $expression: #StringExpr['c']
+                                    $expression: #StringExpr['d']
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['cgi']
+                                    $recv: #NameExpr['keys']
+                                 ]
+                                 $recv: #NameExpr['sort']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['cgi']
+                                 $index: #List[
+                                    $expression: #StringExpr['d']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_core_params_GET']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['REQUEST_METHOD']
+                                 $value: #StringExpr['GET']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['QUERY_STRING']
+                                 $value: #StringExpr['id=123&id=456&id=&id&str=%40h+%3D%7E+%2F%5E%24%2F']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['HTTP_COOKIE']
+                                 $value: #StringExpr['_session_id=12345; name1=val1&val2;']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['SERVER_SOFTWARE']
+                                 $value: #StringExpr['Apache 2.2.0']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['SERVER_PROTOCOL']
+                                 $value: #StringExpr['HTTP/1.1']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cgi']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['123']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['cgi']
+                                 $index: #List[
+                                    $expression: #StringExpr['id']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['@h =~ /^$/']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['cgi']
+                                 $index: #List[
+                                    $expression: #StringExpr['str']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['123']
+                                    $expression: #StringExpr['456']
+                                    $expression: #StringExpr['']
+                                 ]
+                              ]
+                              $expression: #Indexer[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['cgi']
+                                    $recv: #NameExpr['params']
+                                 ]
+                                 $index: #List[
+                                    $expression: #StringExpr['id']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['@h =~ /^$/']
+                                 ]
+                              ]
+                              $expression: #Indexer[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['cgi']
+                                    $recv: #NameExpr['params']
+                                 ]
+                                 $index: #List[
+                                    $expression: #StringExpr['str']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['id']
+                                    $expression: #StringExpr['str']
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['cgi']
+                                    $recv: #NameExpr['keys']
+                                 ]
+                                 $recv: #NameExpr['sort']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #TrueExpr['true']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['key?']
+                                 $param: #List[
+                                    $expression: #StringExpr['id']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #TrueExpr['true']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['has_key?']
+                                 $param: #List[
+                                    $expression: #StringExpr['id']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #TrueExpr['true']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['include?']
+                                 $param: #List[
+                                    $expression: #StringExpr['id']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #FalseExpr['false']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['key?']
+                                 $param: #List[
+                                    $expression: #StringExpr['foo']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #FalseExpr['false']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['has_key?']
+                                 $param: #List[
+                                    $expression: #StringExpr['foo']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #FalseExpr['false']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['include?']
+                                 $param: #List[
+                                    $expression: #StringExpr['foo']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['cgi']
+                                 $index: #List[
+                                    $expression: #StringExpr['*notfound*']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array['[]']
+                              $expression: #Indexer[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['cgi']
+                                    $recv: #NameExpr['params']
+                                 ]
+                                 $index: #List[
+                                    $expression: #StringExpr['*notfound*']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_core_params_POST']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['query_str']
+                           $right: #StringExpr['id=123&id=456&id=&str=%40h+%3D%7E+%2F%5E%24%2F']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['REQUEST_METHOD']
+                                 $value: #StringExpr['POST']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['CONTENT_LENGTH']
+                                 $value: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['query_str']
+                                       $recv: #NameExpr['length']
+                                    ]
+                                    $recv: #NameExpr['to_s']
+                                 ]
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['HTTP_COOKIE']
+                                 $value: #StringExpr['_session_id=12345; name1=val1&val2;']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['SERVER_SOFTWARE']
+                                 $value: #StringExpr['Apache 2.2.0']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['SERVER_PROTOCOL']
+                                 $value: #StringExpr['HTTP/1.1']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['$stdin']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['StringIO']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['$stdin']
+                           $right: #NameExpr['query_str']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['$stdin']
+                           $recv: #NameExpr['rewind']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cgi']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['123']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['cgi']
+                                 $index: #List[
+                                    $expression: #StringExpr['id']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['@h =~ /^$/']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['cgi']
+                                 $index: #List[
+                                    $expression: #StringExpr['str']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['123']
+                                    $expression: #StringExpr['456']
+                                    $expression: #StringExpr['']
+                                 ]
+                              ]
+                              $expression: #Indexer[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['cgi']
+                                    $recv: #NameExpr['params']
+                                 ]
+                                 $index: #List[
+                                    $expression: #StringExpr['id']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['@h =~ /^$/']
+                                 ]
+                              ]
+                              $expression: #Indexer[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['cgi']
+                                    $recv: #NameExpr['params']
+                                 ]
+                                 $index: #List[
+                                    $expression: #StringExpr['str']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['cgi']
+                                 $index: #List[
+                                    $expression: #StringExpr['*notfound*']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array['[]']
+                              $expression: #Indexer[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['cgi']
+                                    $recv: #NameExpr['params']
+                                 ]
+                                 $index: #List[
+                                    $expression: #StringExpr['*notfound*']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_core_params_encoding_check']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['query_str']
+                           $right: #StringExpr['str=%BE%BE%B9%BE']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['REQUEST_METHOD']
+                                 $value: #StringExpr['POST']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['CONTENT_LENGTH']
+                                 $value: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['query_str']
+                                       $recv: #NameExpr['length']
+                                    ]
+                                    $recv: #NameExpr['to_s']
+                                 ]
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['SERVER_SOFTWARE']
+                                 $value: #StringExpr['Apache 2.2.0']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['SERVER_PROTOCOL']
+                                 $value: #StringExpr['HTTP/1.1']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['$stdin']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['StringIO']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['$stdin']
+                           $right: #NameExpr['query_str']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['$stdin']
+                           $recv: #NameExpr['rewind']
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #Defined[
+                              $base: #NameExpr['Encoding']
+                           ]
+                           $then: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['hash']
+                                 $right: #List['{}']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['cgi']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['CGI']
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $hash: #Hash[
+                                          $key: #NameExpr['accept_charset']
+                                          $value: #StringExpr['UTF-8']
+                                       ]
+                                    ]
+                                    $body: #Block[
+                                       $param: #MultipleLeftHandSideExpression[
+                                          $item: #NameExpr['key']
+                                          $item: #NameExpr['val']
+                                       ]
+                                       $body: #AssignExpr[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['hash']
+                                             $index: #List[
+                                                $expression: #NameExpr['key']
+                                             ]
+                                          ]
+                                          $right: #NameExpr['val']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #StringExpr['\\xBE\\xBE\\xB9\\xBE']
+                                       $recv: #NameExpr['force_encoding']
+                                       $param: #List[
+                                          $expression: #StringExpr['UTF-8']
+                                       ]
+                                    ]
+                                    $expression: #Indexer[
+                                       $recv: #NameExpr['cgi']
+                                       $index: #List[
+                                          $expression: #StringExpr['str']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #StringExpr['\\xBE\\xBE\\xB9\\xBE']
+                                             $recv: #NameExpr['force_encoding']
+                                             $param: #List[
+                                                $expression: #StringExpr['UTF-8']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $expression: #Indexer[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['cgi']
+                                          $recv: #NameExpr['params']
+                                       ]
+                                       $index: #List[
+                                          $expression: #StringExpr['str']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #List[
+                                       $hash: #Hash[
+                                          $key: #StringExpr['str']
+                                          $value: #ApplyExpr[
+                                             $recv: #StringExpr['\\xBE\\xBE\\xB9\\xBE']
+                                             $recv: #NameExpr['force_encoding']
+                                             $param: #List[
+                                                $expression: #StringExpr['UTF-8']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $expression: #NameExpr['hash']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['$stdin']
+                                 $recv: #NameExpr['rewind']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_raise']
+                                 $param: #List[
+                                    $expression: #Field[
+                                       $recv: #NameExpr['CGI']
+                                       $name: #NameExpr['InvalidEncoding']
+                                    ]
+                                 ]
+                                 $body: #Block[
+                                    $body: #AssignExpr[
+                                       $left: #NameExpr['cgi']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['CGI']
+                                          $recv: #NameExpr['new']
+                                          $param: #List[
+                                             $hash: #Hash[
+                                                $key: #NameExpr['accept_charset']
+                                                $value: #StringExpr['UTF-8']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['$stdin']
+                                 $recv: #NameExpr['rewind']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['cgi']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['CGI']
+                                    $recv: #NameExpr['new']
+                                    $param: #List[
+                                       $hash: #Hash[
+                                          $key: #NameExpr['accept_charset']
+                                          $value: #StringExpr['EUC-JP']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #StringExpr['\\xBE\\xBE\\xB9\\xBE']
+                                       $recv: #NameExpr['force_encoding']
+                                       $param: #List[
+                                          $expression: #StringExpr['EUC-JP']
+                                       ]
+                                    ]
+                                    $expression: #Indexer[
+                                       $recv: #NameExpr['cgi']
+                                       $index: #List[
+                                          $expression: #StringExpr['str']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_equal']
+                                 $param: #List[
+                                    $expression: #Array[
+                                       $index: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #StringExpr['\\xBE\\xBE\\xB9\\xBE']
+                                             $recv: #NameExpr['force_encoding']
+                                             $param: #List[
+                                                $expression: #StringExpr['EUC-JP']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $expression: #Indexer[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['cgi']
+                                          $recv: #NameExpr['params']
+                                       ]
+                                       $index: #List[
+                                          $expression: #StringExpr['str']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert']
+                              $param: #List[
+                                 $expression: #TrueExpr['true']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_core_cookie']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['REQUEST_METHOD']
+                                 $value: #StringExpr['GET']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['QUERY_STRING']
+                                 $value: #StringExpr['id=123&id=456&id=&str=%40h+%3D%7E+%2F%5E%24%2F']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['HTTP_COOKIE']
+                                 $value: #StringExpr['_session_id=12345; name1=val1&val2;']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['SERVER_SOFTWARE']
+                                 $value: #StringExpr['Apache 2.2.0']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['SERVER_PROTOCOL']
+                                 $value: #StringExpr['HTTP/1.1']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cgi']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_not_equal']
+                           $param: #List[
+                              $expression: #Nil['nil']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['cookies']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #Array[
+                              $index: #List[
+                                 $expression: #Array[
+                                    $index: #List[
+                                       $expression: #StringExpr['_session_id']
+                                       $expression: #Array[
+                                          $index: #List[
+                                             $expression: #StringExpr['12345']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $expression: #Array[
+                                    $index: #List[
+                                       $expression: #StringExpr['name1']
+                                       $expression: #Array[
+                                          $index: #List[
+                                             $expression: #StringExpr['val1']
+                                             $expression: #StringExpr['val2']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['key']
+                                 $item: #NameExpr['expected']
+                              ]
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['cookie']
+                                    $right: #Indexer[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['cgi']
+                                          $recv: #NameExpr['cookies']
+                                       ]
+                                       $index: #List[
+                                          $expression: #NameExpr['key']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_kind_of']
+                                    $param: #List[
+                                       $expression: #Field[
+                                          $recv: #NameExpr['CGI']
+                                          $name: #NameExpr['Cookie']
+                                       ]
+                                       $expression: #NameExpr['cookie']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #NameExpr['expected']
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['cookie']
+                                          $recv: #NameExpr['value']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #FalseExpr['false']
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['cookie']
+                                          $recv: #NameExpr['secure']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_nil']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['cookie']
+                                          $recv: #NameExpr['expires']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_nil']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['cookie']
+                                          $recv: #NameExpr['domain']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #StringExpr['']
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['cookie']
+                                          $recv: #NameExpr['path']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #IfExpr[
+                  $then: #FuncDecl[
+                     $name: #NameExpr['test_cgi_core_maxcontentlength']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['update_env']
+                              $param: #List[
+                                 $hash: #Hash[
+                                    $key: #StringExpr['REQUEST_METHOD']
+                                    $value: #StringExpr['POST']
+                                 ]
+                                 $hash: #Hash[
+                                    $key: #StringExpr['CONTENT_LENGTH']
+                                    $value: #ApplyExpr[
+                                       $recv: #MulExpr[
+                                          $left: #MulExpr[
+                                             $left: #IntExpr['64']
+                                             $right: #IntExpr['1024']
+                                          ]
+                                          $right: #IntExpr['1024']
+                                       ]
+                                       $recv: #NameExpr['to_s']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['ex']
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['StandardError']
+                                 ]
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['CGI']
+                                       $recv: #NameExpr['new']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #StringExpr['too large post data.']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['ex']
+                                    $recv: #NameExpr['message']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $cond: #ApplyExpr[
+                     $recv: #NameExpr['CGI']
+                     $recv: #NameExpr['const_defined?']
+                     $param: #List[
+                        $expression: #NameExpr['MAX_CONTENT_LENGTH']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_core_out']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['REQUEST_METHOD']
+                                 $value: #StringExpr['GET']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['QUERY_STRING']
+                                 $value: #StringExpr['id=123&id=456&id=&str=%40h+%3D%7E+%2F%5E%24%2F']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['HTTP_COOKIE']
+                                 $value: #StringExpr['_session_id=12345; name1=val1&val2;']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['SERVER_SOFTWARE']
+                                 $value: #StringExpr['Apache 2.2.0']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['SERVER_PROTOCOL']
+                                 $value: #StringExpr['HTTP/1.1']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cgi']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['euc_str']
+                           $right: #StringExpr['\\270\\253\\244\\355\\241\\242\\277\\315\\244\\254\\245\\264\\245\\337\\244\\316\\244\\350\\244\\246\\244\\300']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['options']
+                           $right: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['charset']
+                                 $value: #StringExpr['utf8']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['$stdout']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['StringIO']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['cgi']
+                           $recv: #NameExpr['out']
+                           $param: #List[
+                              $expression: #NameExpr['options']
+                           ]
+                           $body: #Block[
+                              $body: #NameExpr['euc_str']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_nil']
+                           $param: #List[
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['options']
+                                 $index: #List[
+                                    $expression: #StringExpr['language']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['actual']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['$stdout']
+                              $recv: #NameExpr['string']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expected']
+                           $right: #AddExpr[
+                              $left: #AddExpr[
+                                 $left: #AddExpr[
+                                    $left: #StringExpr['Content-Type: text/html; charset=utf8\\r\\n']
+                                    $right: #StringExpr['Content-Length: 22\\r\\n']
+                                 ]
+                                 $right: #StringExpr['\\r\\n']
+                              ]
+                              $right: #NameExpr['euc_str']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #Defined[
+                              $base: #NameExpr['Encoding']
+                           ]
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['actual']
+                                 $recv: #NameExpr['force_encoding']
+                                 $param: #List[
+                                    $expression: #StringExpr['ASCII-8BIT']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['expected']
+                                 $recv: #NameExpr['force_encoding']
+                                 $param: #List[
+                                    $expression: #StringExpr['ASCII-8BIT']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['expected']
+                              $expression: #NameExpr['actual']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['options']
+                           $right: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['charset']
+                                 $value: #StringExpr['Shift_JIS']
+                              ]
+                              $hash: #Hash[
+                                 $key: #StringExpr['language']
+                                 $value: #StringExpr['en']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['$stdout']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['StringIO']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['cgi']
+                           $recv: #NameExpr['out']
+                           $param: #List[
+                              $expression: #NameExpr['options']
+                           ]
+                           $body: #Block[
+                              $body: #NameExpr['euc_str']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['en']
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['options']
+                                 $index: #List[
+                                    $expression: #StringExpr['language']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['REQUEST_METHOD']
+                                 $value: #StringExpr['HEAD']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['options']
+                           $right: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['charset']
+                                 $value: #StringExpr['utf8']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['$stdout']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['StringIO']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['cgi']
+                           $recv: #NameExpr['out']
+                           $param: #List[
+                              $expression: #NameExpr['options']
+                           ]
+                           $body: #Block[
+                              $body: #NameExpr['euc_str']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['actual']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['$stdout']
+                              $recv: #NameExpr['string']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expected']
+                           $right: #AddExpr[
+                              $left: #AddExpr[
+                                 $left: #StringExpr['Content-Type: text/html; charset=utf8\\r\\n']
+                                 $right: #StringExpr['Content-Length: 22\\r\\n']
+                              ]
+                              $right: #StringExpr['\\r\\n']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['expected']
+                              $expression: #NameExpr['actual']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_core_print']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['REQUEST_METHOD']
+                                 $value: #StringExpr['GET']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cgi']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['$stdout']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['StringIO']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['str']
+                           $right: #StringExpr['foobar']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['cgi']
+                           $recv: #NameExpr['print']
+                           $param: #List[
+                              $expression: #NameExpr['str']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expected']
+                           $right: #NameExpr['str']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['actual']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['$stdout']
+                              $recv: #NameExpr['string']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['expected']
+                              $expression: #NameExpr['actual']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_core_environs']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['REQUEST_METHOD']
+                                 $value: #StringExpr['GET']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cgi']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['list1']
+                           $right: #ParcentNotation['%w[ AUTH_TYPE CONTENT_TYPE GATEWAY_INTERFACE PATH_INFO\n        PATH_TRANSLATED QUERY_STRING REMOTE_ADDR REMOTE_HOST\n        REMOTE_IDENT REMOTE_USER REQUEST_METHOD SCRIPT_NAME\n        SERVER_NAME SERVER_PROTOCOL SERVER_SOFTWARE\n        HTTP_ACCEPT HTTP_ACCEPT_CHARSET HTTP_ACCEPT_ENCODING\n        HTTP_ACCEPT_LANGUAGE HTTP_CACHE_CONTROL HTTP_FROM HTTP_HOST\n        HTTP_NEGOTIATE HTTP_PRAGMA HTTP_REFERER HTTP_USER_AGENT\n    ]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['list1']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['name']
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['update_env']
+                                 $param: #List[
+                                    $hash: #Hash[
+                                       $key: #NameExpr['name']
+                                       $value: #StringExpr[
+                                          $inner: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['list1']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['name']
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['method']
+                                    $right: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['name']
+                                          $recv: #NameExpr['sub']
+                                          $param: #List[
+                                             $expression: #Regex['/\\AHTTP_/']
+                                             $expression: #StringExpr['']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['downcase']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['actual']
+                                    $right: #ApplyExpr[
+                                       $base: #NameExpr['cgi']
+                                       $recv: #NameExpr['__send__']
+                                       $param: #List[
+                                          $expression: #NameExpr['method']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['expected']
+                                    $right: #StringExpr[
+                                       $inner: #NameExpr['name']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #NameExpr['expected']
+                                       $expression: #NameExpr['actual']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['CONTENT_LENGTH']
+                                 $value: #StringExpr['123']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['SERVER_PORT']
+                                 $value: #StringExpr['8080']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #IntExpr['123']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['content_length']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #IntExpr['8080']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['server_port']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['HTTP_COOKIE']
+                                 $value: #StringExpr['name1=val1']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['HTTP_COOKIE2']
+                                 $value: #StringExpr['name2=val2']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['name1=val1']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['raw_cookie']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['name2=val2']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['raw_cookie2']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_cgi_core_htmltype_header']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['update_env']
+                           $param: #List[
+                              $hash: #Hash[
+                                 $key: #StringExpr['REQUEST_METHOD']
+                                 $value: #StringExpr['GET']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cgi']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_raise']
+                           $param: #List[
+                              $expression: #NameExpr['NoMethodError']
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['doctype']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['Content-Type: text/html\\r\\n\\r\\n']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['header']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cgi']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #StringExpr['html3']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expected']
+                           $right: #StringExpr['<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['expected']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['doctype']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['Content-Type: text/html\\r\\n\\r\\n']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['header']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cgi']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #StringExpr['html4']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expected']
+                           $right: #StringExpr['<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['expected']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['doctype']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['Content-Type: text/html\\r\\n\\r\\n']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['header']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cgi']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #StringExpr['html4Tr']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expected']
+                           $right: #StringExpr['<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['expected']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['doctype']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['Content-Type: text/html\\r\\n\\r\\n']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['header']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cgi']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #StringExpr['html4Fr']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expected']
+                           $right: #StringExpr['<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['expected']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['doctype']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['Content-Type: text/html\\r\\n\\r\\n']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['header']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['cgi']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['CGI']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #StringExpr['html5']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expected']
+                           $right: #StringExpr['<!DOCTYPE HTML>']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['expected']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['doctype']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_match']
+                           $param: #List[
+                              $expression: #Regex['/^<HEADER><\\/HEADER>$/i']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['cgi']
+                                 $recv: #NameExpr['header']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #IfExpr[
+                  $then: #ApplyExpr[
+                     $recv: #NameExpr['instance_methods']
+                     $recv: #NameExpr['each']
+                     $body: #Block[
+                        $param: #NameExpr['method']
+                        $body: #IfExpr[
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['private']
+                              $param: #List[
+                                 $expression: #NameExpr['method']
+                              ]
+                           ]
+                           $cond: #AssignExpr[
+                              $left: #NameExpr['method']
+                              $right: #LAnd[
+                                 $left: #ComplExpr[
+                                    $expr: #Regex['/^test_(.*)/']
+                                 ]
+                                 $right: #NeExpr[
+                                    $left: #MatchedRegex['$1']
+                                    $right: #Indexer[
+                                       $recv: #NameExpr['ENV']
+                                       $index: #List[
+                                          $expression: #StringExpr['TEST']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $cond: #Indexer[
+                     $recv: #NameExpr['ENV']
+                     $index: #List[
+                        $expression: #StringExpr['TEST']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

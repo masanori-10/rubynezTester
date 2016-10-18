@@ -1,0 +1,232 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rexml/parsers/streamparser']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rexml/parsers/baseparser']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rexml/light/node']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['REXML']
+         $body: #BlockExpr[
+            $main: #Module[
+               $name: #NameExpr['Parsers']
+               $body: #BlockExpr[
+                  $main: #Class[
+                     $name: #NameExpr['LightParser']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['initialize']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['stream']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@stream']
+                                       $right: #NameExpr['stream']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['@parser']
+                                       $right: #ApplyExpr[
+                                          $recv: #Field[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['REXML']
+                                                $name: #NameExpr['Parsers']
+                                             ]
+                                             $name: #NameExpr['BaseParser']
+                                          ]
+                                          $recv: #NameExpr['new']
+                                          $param: #List[
+                                             $expression: #NameExpr['stream']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['add_listener']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['listener']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #ApplyExpr[
+                                    $recv: #NameExpr['@parser']
+                                    $recv: #NameExpr['add_listener']
+                                    $param: #List[
+                                       $expression: #NameExpr['listener']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['rewind']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['@stream']
+                                       $recv: #NameExpr['rewind']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Field[
+                                          $base: #NameExpr['@parser']
+                                          $name: #NameExpr['stream']
+                                       ]
+                                       $right: #NameExpr['@stream']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['parse']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['root']
+                                       $right: #AssignExpr[
+                                          $left: #NameExpr['context']
+                                          $right: #Array[
+                                             $index: #List[
+                                                $expression: #NameExpr['document']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #While[
+                                       $cond: #TrueExpr['true']
+                                       $body: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['event']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['@parser']
+                                                $recv: #NameExpr['pull']
+                                             ]
+                                          ]
+                                          $statement: #Case[
+                                             $cond: #Indexer[
+                                                $recv: #NameExpr['event']
+                                                $index: #List[
+                                                   $expression: #IntExpr['0']
+                                                ]
+                                             ]
+                                             $body: #List[
+                                                $when: #When[
+                                                   $cond: #List[
+                                                      $expression: #NameExpr['end_document']
+                                                   ]
+                                                   $then: #Break['break']
+                                                ]
+                                                $when: #When[
+                                                   $cond: #List[
+                                                      $expression: #NameExpr['start_element']
+                                                      $expression: #NameExpr['start_doctype']
+                                                   ]
+                                                   $then: #List[
+                                                      $statement: #AssignExpr[
+                                                         $left: #NameExpr['new_node']
+                                                         $right: #NameExpr['event']
+                                                      ]
+                                                      $statement: #LShiftExpr[
+                                                         $left: #NameExpr['context']
+                                                         $right: #NameExpr['new_node']
+                                                      ]
+                                                      $statement: #AssignExpr[
+                                                         $left: #Indexer[
+                                                            $base: #NameExpr['new_node']
+                                                            $index: #List[
+                                                               $expression: #IntExpr['1']
+                                                               $expression: #IntExpr['0']
+                                                            ]
+                                                         ]
+                                                         $right: #Array[
+                                                            $index: #List[
+                                                               $expression: #NameExpr['context']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                      $statement: #AssignExpr[
+                                                         $left: #NameExpr['context']
+                                                         $right: #NameExpr['new_node']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $when: #When[
+                                                   $cond: #List[
+                                                      $expression: #NameExpr['end_element']
+                                                      $expression: #NameExpr['end_doctype']
+                                                   ]
+                                                   $then: #AssignExpr[
+                                                      $left: #NameExpr['context']
+                                                      $right: #Indexer[
+                                                         $recv: #NameExpr['context']
+                                                         $index: #List[
+                                                            $expression: #IntExpr['1']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $else: #List[
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['new_node']
+                                                   $right: #NameExpr['event']
+                                                ]
+                                                $statement: #LShiftExpr[
+                                                   $left: #NameExpr['context']
+                                                   $right: #NameExpr['new_node']
+                                                ]
+                                                $statement: #AssignExpr[
+                                                   $left: #Indexer[
+                                                      $base: #NameExpr['new_node']
+                                                      $index: #List[
+                                                         $expression: #IntExpr['1']
+                                                         $expression: #IntExpr['0']
+                                                      ]
+                                                   ]
+                                                   $right: #Array[
+                                                      $index: #List[
+                                                         $expression: #NameExpr['context']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #NameExpr['root']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

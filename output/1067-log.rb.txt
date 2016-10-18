@@ -1,0 +1,530 @@
+#Source[
+   #Module[
+      $name: #NameExpr['WEBrick']
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #Class[
+               $name: #NameExpr['BasicLog']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['FATAL']
+                        $right: #IntExpr['1']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['ERROR']
+                        $right: #IntExpr['2']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['WARN']
+                        $right: #IntExpr['3']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['INFO']
+                        $right: #IntExpr['4']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['DEBUG']
+                        $right: #IntExpr['5']
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['attr_accessor']
+                        $param: #List[
+                           $expression: #NameExpr['level']
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['initialize']
+                        $param: #List[
+                           $param: #OptionalParam[
+                              $name: #NameExpr['log_file']
+                              $default: #Nil['nil']
+                           ]
+                           $param: #OptionalParam[
+                              $name: #NameExpr['level']
+                              $default: #Nil['nil']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@level']
+                                 $right: #LOr[
+                                    $left: #NameExpr['level']
+                                    $right: #NameExpr['INFO']
+                                 ]
+                              ]
+                              $statement: #Case[
+                                 $cond: #NameExpr['log_file']
+                                 $body: #List[
+                                    $when: #When[
+                                       $cond: #List[
+                                          $expression: #NameExpr['String']
+                                       ]
+                                       $then: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['@log']
+                                             $right: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['open']
+                                                $param: #List[
+                                                   $expression: #NameExpr['log_file']
+                                                   $expression: #StringExpr['a+']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #Field[
+                                                $base: #NameExpr['@log']
+                                                $name: #NameExpr['sync']
+                                             ]
+                                             $right: #TrueExpr['true']
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['@opened']
+                                             $right: #TrueExpr['true']
+                                          ]
+                                       ]
+                                    ]
+                                    $when: #When[
+                                       $cond: #List[
+                                          $expression: #NameExpr['NilClass']
+                                       ]
+                                       $then: #AssignExpr[
+                                          $left: #NameExpr['@log']
+                                          $right: #NameExpr['$stderr']
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #AssignExpr[
+                                    $left: #NameExpr['@log']
+                                    $right: #NameExpr['log_file']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['close']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #IfExpr[
+                                 $then: #ApplyExpr[
+                                    $recv: #NameExpr['@log']
+                                    $recv: #NameExpr['close']
+                                 ]
+                                 $cond: #NameExpr['@opened']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@log']
+                                 $right: #Nil['nil']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['log']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['level']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['data']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #IfExpr[
+                              $cond: #ApplyExpr[
+                                 $base: #NameExpr['@log']
+                                 $recv: #NameExpr['&']
+                                 $param: #List[
+                                    $expression: #LteExpr[
+                                       $left: #NameExpr['level']
+                                       $right: #NameExpr['@level']
+                                    ]
+                                 ]
+                              ]
+                              $then: #List[
+                                 $statement: #IfExpr[
+                                    $then: #AddAssign[
+                                       $left: #NameExpr['data']
+                                       $right: #StringExpr['\\n']
+                                    ]
+                                    $cond: #NotMatch[
+                                       $left: #Regex['/\\n\\Z/']
+                                       $right: #NameExpr['data']
+                                    ]
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['@log']
+                                    $right: #NameExpr['data']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['<<']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['obj']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['log']
+                              $param: #List[
+                                 $expression: #NameExpr['INFO']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['obj']
+                                    $recv: #NameExpr['to_s']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['fatal']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['msg']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['log']
+                              $param: #List[
+                                 $expression: #NameExpr['FATAL']
+                                 $expression: #LShiftExpr[
+                                    $left: #StringExpr['FATAL ']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['format']
+                                       $param: #List[
+                                          $expression: #NameExpr['msg']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['error']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['msg']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['log']
+                              $param: #List[
+                                 $expression: #NameExpr['ERROR']
+                                 $expression: #LShiftExpr[
+                                    $left: #StringExpr['ERROR ']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['format']
+                                       $param: #List[
+                                          $expression: #NameExpr['msg']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['warn']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['msg']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['log']
+                              $param: #List[
+                                 $expression: #NameExpr['WARN']
+                                 $expression: #LShiftExpr[
+                                    $left: #StringExpr['WARN  ']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['format']
+                                       $param: #List[
+                                          $expression: #NameExpr['msg']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['info']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['msg']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['log']
+                              $param: #List[
+                                 $expression: #NameExpr['INFO']
+                                 $expression: #LShiftExpr[
+                                    $left: #StringExpr['INFO  ']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['format']
+                                       $param: #List[
+                                          $expression: #NameExpr['msg']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['debug']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['msg']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['log']
+                              $param: #List[
+                                 $expression: #NameExpr['DEBUG']
+                                 $expression: #LShiftExpr[
+                                    $left: #StringExpr['DEBUG ']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['format']
+                                       $param: #List[
+                                          $expression: #NameExpr['msg']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['fatal?']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #GteExpt[
+                              $left: #NameExpr['@level']
+                              $right: #NameExpr['FATAL']
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['error?']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #GteExpt[
+                              $left: #NameExpr['@level']
+                              $right: #NameExpr['ERROR']
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['warn?']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #GteExpt[
+                              $left: #NameExpr['@level']
+                              $right: #NameExpr['WARN']
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['info?']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #GteExpt[
+                              $left: #NameExpr['@level']
+                              $right: #NameExpr['INFO']
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['debug?']
+                        $param: #List['']
+                        $body: #BlockExpr[
+                           $main: #GteExpt[
+                              $left: #NameExpr['@level']
+                              $right: #NameExpr['DEBUG']
+                           ]
+                        ]
+                     ]
+                     $statement: #NameExpr['private']
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['format']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['arg']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #IfExpr[
+                              $cond: #ApplyExpr[
+                                 $recv: #NameExpr['arg']
+                                 $recv: #NameExpr['is_a?']
+                                 $param: #List[
+                                    $expression: #NameExpr['Exception']
+                                 ]
+                              ]
+                              $then: #LShiftExpr[
+                                 $left: #LShiftExpr[
+                                    $left: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['arg']
+                                          $recv: #NameExpr['class']
+                                       ]
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['arg']
+                                          $recv: #NameExpr['message']
+                                       ]
+                                    ]
+                                    $right: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['arg']
+                                          $recv: #NameExpr['backtrace']
+                                       ]
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #StringExpr['\\n\\t']
+                                       ]
+                                    ]
+                                 ]
+                                 $right: #StringExpr['\\n']
+                              ]
+                              $else: #IfExpr[
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['arg']
+                                    $recv: #NameExpr['respond_to?']
+                                    $param: #List[
+                                       $expression: #NameExpr['to_str']
+                                    ]
+                                 ]
+                                 $then: #ApplyExpr[
+                                    $recv: #NameExpr['arg']
+                                    $recv: #NameExpr['to_str']
+                                 ]
+                                 $else: #ApplyExpr[
+                                    $recv: #NameExpr['arg']
+                                    $recv: #NameExpr['inspect']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #Class[
+               $name: #NameExpr['Log']
+               $super: #NameExpr['BasicLog']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['attr_accessor']
+                        $param: #List[
+                           $expression: #NameExpr['time_format']
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['initialize']
+                        $param: #List[
+                           $param: #OptionalParam[
+                              $name: #NameExpr['log_file']
+                              $default: #Nil['nil']
+                           ]
+                           $param: #OptionalParam[
+                              $name: #NameExpr['level']
+                              $default: #Nil['nil']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #Super['super']
+                                 $param: #List[
+                                    $expression: #NameExpr['log_file']
+                                    $expression: #NameExpr['level']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['@time_format']
+                                 $right: #StringExpr['[%Y-%m-%d %H:%M:%S]']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['log']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['level']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['data']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['tmp']
+                                 $right: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['Time']
+                                       $recv: #NameExpr['now']
+                                    ]
+                                    $recv: #NameExpr['strftime']
+                                    $param: #List[
+                                       $expression: #NameExpr['@time_format']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #LShiftExpr[
+                                 $left: #LShiftExpr[
+                                    $left: #NameExpr['tmp']
+                                    $right: #StringExpr[' ']
+                                 ]
+                                 $right: #NameExpr['data']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #Super['super']
+                                 $param: #List[
+                                    $expression: #NameExpr['level']
+                                    $expression: #NameExpr['tmp']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

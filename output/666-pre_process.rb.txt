@@ -1,0 +1,996 @@
+#Source[
+   #Class[
+      $name: #NestedName[
+         $path: #Field[
+            $recv: #NameExpr['RDoc']
+            $name: #NameExpr['Markup']
+         ]
+         $name: #NameExpr['PreProcess']
+      ]
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['attr_accessor']
+               $param: #List[
+                  $expression: #NameExpr['options']
+               ]
+            ]
+            $statement: #SFuncDecl[
+               $path: #Self['self']
+               $name: #NameExpr['post_process']
+               $param: #List[
+                  $param: #ProcedureParam[
+                     $name: #NameExpr['block']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #LShiftExpr[
+                     $left: #NameExpr['@post_processors']
+                     $right: #NameExpr['block']
+                  ]
+               ]
+            ]
+            $statement: #SFuncDecl[
+               $path: #Self['self']
+               $name: #NameExpr['post_processors']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #NameExpr['@post_processors']
+               ]
+            ]
+            $statement: #SFuncDecl[
+               $path: #Self['self']
+               $name: #NameExpr['register']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['directive']
+                  ]
+                  $param: #ProcedureParam[
+                     $name: #NameExpr['block']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #AssignExpr[
+                     $left: #Indexer[
+                        $base: #NameExpr['@registered']
+                        $index: #List[
+                           $expression: #NameExpr['directive']
+                        ]
+                     ]
+                     $right: #NameExpr['block']
+                  ]
+               ]
+            ]
+            $statement: #SFuncDecl[
+               $path: #Self['self']
+               $name: #NameExpr['registered']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #NameExpr['@registered']
+               ]
+            ]
+            $statement: #SFuncDecl[
+               $path: #Self['self']
+               $name: #NameExpr['reset']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@post_processors']
+                        $right: #Array['[]']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@registered']
+                        $right: #List['{}']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #NameExpr['reset']
+            $statement: #FuncDecl[
+               $name: #NameExpr['initialize']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['input_file_name']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['include_path']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@input_file_name']
+                        $right: #NameExpr['input_file_name']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@include_path']
+                        $right: #NameExpr['include_path']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@options']
+                        $right: #Nil['nil']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['handle']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['text']
+                  ]
+                  $param: #OptionalParam[
+                     $name: #NameExpr['code_object']
+                     $default: #Nil['nil']
+                  ]
+                  $param: #ProcedureParam[
+                     $name: #NameExpr['block']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #IfExpr[
+                        $cond: #StrictEquals[
+                           $left: #Field[
+                              $recv: #NameExpr['RDoc']
+                              $name: #NameExpr['Comment']
+                           ]
+                           $right: #NameExpr['text']
+                        ]
+                        $then: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['comment']
+                              $right: #NameExpr['text']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['text']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['text']
+                                 $recv: #NameExpr['text']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #AssignExpr[
+                           $left: #NameExpr['encoding']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['text']
+                              $recv: #NameExpr['encoding']
+                           ]
+                        ]
+                        $cond: #Defined[
+                           $base: #NameExpr['Encoding']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['text']
+                        $recv: #NameExpr['gsub!']
+                        $param: #List[
+                           $expression: #Regex['/^([ \\t]*(?:#|\\/?\\*)?[ \\t]*)(\\\\?):(\\w+):([ \\t]*)(.+)?(\\r?\\n|$)/']
+                        ]
+                        $body: #Block[
+                           $body: #List[
+                              $statement: #IfExpr[
+                                 $then: #Next[
+                                    $expr: #List[
+                                       $expression: #BuiltInVariable['$&']
+                                    ]
+                                 ]
+                                 $cond: #AndExpr[
+                                    $left: #AndExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #MatchedRegex['$4']
+                                          $recv: #NameExpr['empty?']
+                                       ]
+                                       $right: #MatchedRegex['$5']
+                                    ]
+                                    $right: #EqExpr[
+                                       $left: #Indexer[
+                                          $recv: #MatchedRegex['$5']
+                                          $index: #List[
+                                             $expression: #IntExpr['0']
+                                             $expression: #IntExpr['1']
+                                          ]
+                                       ]
+                                       $right: #StringExpr[':']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $then: #Next[
+                                    $expr: #List[
+                                       $expression: #StringExpr['#$1:#$3:#$4#$5\\n']
+                                    ]
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    $recv: #MatchedRegex['$2']
+                                    $recv: #NameExpr['empty?']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #AndExpr[
+                                    $left: #NameExpr['comment']
+                                    $right: #EqExpr[
+                                       $left: #MatchedRegex['$3']
+                                       $right: #StringExpr['markup']
+                                    ]
+                                 ]
+                                 $then: #List[
+                                    $statement: #Unless[
+                                       $then: #Next[
+                                          $expr: #List[
+                                             $expression: #StringExpr[
+                                                $inner: #ApplyExpr[
+                                                   $recv: #MatchedRegex['$1']
+                                                   $recv: #NameExpr['strip']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $cond: #MatchedRegex['$5']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Field[
+                                          $base: #NameExpr['comment']
+                                          $name: #NameExpr['format']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #MatchedRegex['$5']
+                                          $recv: #NameExpr['downcase']
+                                       ]
+                                    ]
+                                    $statement: #Next[
+                                       $expr: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #ApplyExpr[
+                                                $recv: #MatchedRegex['$1']
+                                                $recv: #NameExpr['strip']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['handle_directive']
+                                 $param: #List[
+                                    $expression: #MatchedRegex['$1']
+                                    $expression: #MatchedRegex['$3']
+                                    $expression: #MatchedRegex['$5']
+                                    $expression: #NameExpr['code_object']
+                                    $expression: #NameExpr['encoding']
+                                    $procedure: #Procedure[
+                                       $base: #NameExpr['block']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #Unless[
+                        $then: #AssignExpr[
+                           $left: #NameExpr['comment']
+                           $right: #NameExpr['text']
+                        ]
+                        $cond: #NameExpr['comment']
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #Self['self']
+                              $recv: #NameExpr['class']
+                           ]
+                           $recv: #NameExpr['post_processors']
+                        ]
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['handler']
+                           $body: #ApplyExpr[
+                              $base: #NameExpr['handler']
+                              $recv: #NameExpr['call']
+                              $param: #List[
+                                 $expression: #NameExpr['comment']
+                                 $expression: #NameExpr['code_object']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #NameExpr['text']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['handle_directive']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['prefix']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['directive']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['param']
+                  ]
+                  $param: #OptionalParam[
+                     $name: #NameExpr['code_object']
+                     $default: #Nil['nil']
+                  ]
+                  $param: #OptionalParam[
+                     $name: #NameExpr['encoding']
+                     $default: #Nil['nil']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['blankline']
+                        $right: #StringExpr[
+                           $inner: #ApplyExpr[
+                              $recv: #NameExpr['prefix']
+                              $recv: #NameExpr['strip']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['directive']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['directive']
+                           $recv: #NameExpr['downcase']
+                        ]
+                     ]
+                     $statement: #Case[
+                        $cond: #NameExpr['directive']
+                        $body: #List[
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #StringExpr['arg']
+                                 $expression: #StringExpr['args']
+                              ]
+                              $then: #List[
+                                 $statement: #Unless[
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #NameExpr['prefix']
+                                             $inner: #NameExpr['directive']
+                                             $inner: #NameExpr['param']
+                                          ]
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['code_object']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['code_object']
+                                       $name: #NameExpr['params']
+                                    ]
+                                    $right: #NameExpr['param']
+                                 ]
+                                 $statement: #NameExpr['blankline']
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #StringExpr['category']
+                              ]
+                              $then: #List[
+                                 $statement: #IfExpr[
+                                    $cond: #StrictEquals[
+                                       $left: #Field[
+                                          $recv: #NameExpr['RDoc']
+                                          $name: #NameExpr['Context']
+                                       ]
+                                       $right: #NameExpr['code_object']
+                                    ]
+                                    $then: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['section']
+                                          $right: #ApplyExpr[
+                                             $base: #NameExpr['code_object']
+                                             $recv: #NameExpr['add_section']
+                                             $param: #List[
+                                                $expression: #NameExpr['param']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #Field[
+                                             $base: #NameExpr['code_object']
+                                             $name: #NameExpr['temporary_section']
+                                          ]
+                                          $right: #NameExpr['section']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #NameExpr['blankline']
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #StringExpr['doc']
+                              ]
+                              $then: #List[
+                                 $statement: #Unless[
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['blankline']
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['code_object']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['code_object']
+                                       $name: #NameExpr['document_self']
+                                    ]
+                                    $right: #TrueExpr['true']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['code_object']
+                                       $name: #NameExpr['force_documentation']
+                                    ]
+                                    $right: #TrueExpr['true']
+                                 ]
+                                 $statement: #NameExpr['blankline']
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #StringExpr['enddoc']
+                              ]
+                              $then: #List[
+                                 $statement: #Unless[
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['blankline']
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['code_object']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['code_object']
+                                       $name: #NameExpr['done_documenting']
+                                    ]
+                                    $right: #TrueExpr['true']
+                                 ]
+                                 $statement: #NameExpr['blankline']
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #StringExpr['include']
+                              ]
+                              $then: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['filename']
+                                    $right: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['param']
+                                          $recv: #NameExpr['split']
+                                       ]
+                                       $recv: #NameExpr['first']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['include_file']
+                                    $param: #List[
+                                       $expression: #NameExpr['filename']
+                                       $expression: #NameExpr['prefix']
+                                       $expression: #NameExpr['encoding']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #StringExpr['main']
+                              ]
+                              $then: #List[
+                                 $statement: #IfExpr[
+                                    $then: #AssignExpr[
+                                       $left: #Field[
+                                          $base: #NameExpr['@options']
+                                          $name: #NameExpr['main_page']
+                                       ]
+                                       $right: #NameExpr['param']
+                                    ]
+                                    $cond: #ApplyExpr[
+                                       $base: #NameExpr['@options']
+                                       $recv: #NameExpr['respond_to?']
+                                       $param: #List[
+                                          $expression: #NameExpr['main_page']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #NameExpr['blankline']
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #StringExpr['nodoc']
+                              ]
+                              $then: #List[
+                                 $statement: #Unless[
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['blankline']
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['code_object']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['code_object']
+                                       $name: #NameExpr['document_self']
+                                    ]
+                                    $right: #Nil['nil']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['code_object']
+                                       $name: #NameExpr['document_children']
+                                    ]
+                                    $right: #NotMatch[
+                                       $left: #NameExpr['param']
+                                       $right: #Regex['/all/i']
+                                    ]
+                                 ]
+                                 $statement: #NameExpr['blankline']
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #StringExpr['notnew']
+                                 $expression: #StringExpr['not_new']
+                                 $expression: #StringExpr['not-new']
+                              ]
+                              $then: #List[
+                                 $statement: #Unless[
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['blankline']
+                                       ]
+                                    ]
+                                    $cond: #StrictEquals[
+                                       $left: #Field[
+                                          $recv: #NameExpr['RDoc']
+                                          $name: #NameExpr['AnyMethod']
+                                       ]
+                                       $right: #NameExpr['code_object']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['code_object']
+                                       $name: #NameExpr['dont_rename_initialize']
+                                    ]
+                                    $right: #TrueExpr['true']
+                                 ]
+                                 $statement: #NameExpr['blankline']
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #StringExpr['startdoc']
+                              ]
+                              $then: #List[
+                                 $statement: #Unless[
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['blankline']
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['code_object']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['code_object']
+                                    $recv: #NameExpr['start_doc']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['code_object']
+                                       $name: #NameExpr['force_documentation']
+                                    ]
+                                    $right: #TrueExpr['true']
+                                 ]
+                                 $statement: #NameExpr['blankline']
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #StringExpr['stopdoc']
+                              ]
+                              $then: #List[
+                                 $statement: #Unless[
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['blankline']
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['code_object']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['code_object']
+                                    $recv: #NameExpr['stop_doc']
+                                 ]
+                                 $statement: #NameExpr['blankline']
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #StringExpr['title']
+                              ]
+                              $then: #List[
+                                 $statement: #IfExpr[
+                                    $then: #AssignExpr[
+                                       $left: #Field[
+                                          $base: #NameExpr['@options']
+                                          $name: #NameExpr['default_title']
+                                       ]
+                                       $right: #NameExpr['param']
+                                    ]
+                                    $cond: #ApplyExpr[
+                                       $base: #NameExpr['@options']
+                                       $recv: #NameExpr['respond_to?']
+                                       $param: #List[
+                                          $expression: #NameExpr['default_title=']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #NameExpr['blankline']
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #StringExpr['yield']
+                                 $expression: #StringExpr['yields']
+                              ]
+                              $then: #List[
+                                 $statement: #Unless[
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['blankline']
+                                       ]
+                                    ]
+                                    $cond: #NameExpr['code_object']
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['code_object']
+                                          $recv: #NameExpr['params']
+                                       ]
+                                       $recv: #NameExpr['sub!']
+                                       $param: #List[
+                                          $expression: #Regex['/,?\\s*&\\w+/']
+                                          $expression: #StringExpr['']
+                                       ]
+                                    ]
+                                    $cond: #ApplyExpr[
+                                       $recv: #NameExpr['code_object']
+                                       $recv: #NameExpr['params']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #Field[
+                                       $base: #NameExpr['code_object']
+                                       $name: #NameExpr['block_params']
+                                    ]
+                                    $right: #NameExpr['param']
+                                 ]
+                                 $statement: #NameExpr['blankline']
+                              ]
+                           ]
+                        ]
+                        $else: #List[
+                           $statement: #IfExpr[
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['result']
+                                 $right: #Yield[
+                                    $param: #List[
+                                       $expression: #NameExpr['directive']
+                                       $expression: #NameExpr['param']
+                                    ]
+                                 ]
+                              ]
+                              $cond: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['block_given?']
+                              ]
+                           ]
+                           $statement: #Case[
+                              $cond: #NameExpr['result']
+                              $body: #List[
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Nil['nil']
+                                    ]
+                                    $then: #List[
+                                       $statement: #IfExpr[
+                                          $then: #AssignExpr[
+                                             $left: #Indexer[
+                                                $base: #ApplyExpr[
+                                                   $recv: #NameExpr['code_object']
+                                                   $recv: #NameExpr['metadata']
+                                                ]
+                                                $index: #List[
+                                                   $expression: #NameExpr['directive']
+                                                ]
+                                             ]
+                                             $right: #NameExpr['param']
+                                          ]
+                                          $cond: #NameExpr['code_object']
+                                       ]
+                                       $statement: #IfExpr[
+                                          $cond: #ApplyExpr[
+                                             $base: #ApplyExpr[
+                                                $recv: #Field[
+                                                   $recv: #Field[
+                                                      $recv: #NameExpr['RDoc']
+                                                      $name: #NameExpr['Markup']
+                                                   ]
+                                                   $name: #NameExpr['PreProcess']
+                                                ]
+                                                $recv: #NameExpr['registered']
+                                             ]
+                                             $recv: #NameExpr['include?']
+                                             $param: #List[
+                                                $expression: #NameExpr['directive']
+                                             ]
+                                          ]
+                                          $then: #List[
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['handler']
+                                                $right: #Indexer[
+                                                   $recv: #ApplyExpr[
+                                                      $recv: #Field[
+                                                         $recv: #Field[
+                                                            $recv: #NameExpr['RDoc']
+                                                            $name: #NameExpr['Markup']
+                                                         ]
+                                                         $name: #NameExpr['PreProcess']
+                                                      ]
+                                                      $recv: #NameExpr['registered']
+                                                   ]
+                                                   $index: #List[
+                                                      $expression: #NameExpr['directive']
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #IfExpr[
+                                                $then: #AssignExpr[
+                                                   $left: #NameExpr['result']
+                                                   $right: #ApplyExpr[
+                                                      $base: #NameExpr['handler']
+                                                      $recv: #NameExpr['call']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['directive']
+                                                         $expression: #NameExpr['param']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $cond: #NameExpr['handler']
+                                             ]
+                                          ]
+                                          $else: #AssignExpr[
+                                             $left: #NameExpr['result']
+                                             $right: #StringExpr[
+                                                $inner: #NameExpr['prefix']
+                                                $inner: #NameExpr['directive']
+                                                $inner: #NameExpr['param']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #FalseExpr['false']
+                                    ]
+                                    $then: #AssignExpr[
+                                       $left: #NameExpr['result']
+                                       $right: #StringExpr[
+                                          $inner: #NameExpr['prefix']
+                                          $inner: #NameExpr['directive']
+                                          $inner: #NameExpr['param']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #NameExpr['result']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['include_file']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['name']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['indent']
+                  ]
+                  $param: #Param[
+                     $param: #NameExpr['encoding']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['full_name']
+                        $right: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['find_include_file']
+                           $param: #List[
+                              $expression: #NameExpr['name']
+                           ]
+                        ]
+                     ]
+                     $statement: #Unless[
+                        $cond: #NameExpr['full_name']
+                        $then: #List[
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['warn']
+                              $param: #List[
+                                 $expression: #StringExpr[
+                                    $inner: #NameExpr['name']
+                                    $inner: #NameExpr['@input_file_name']
+                                 ]
+                              ]
+                           ]
+                           $statement: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #StringExpr['']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['content']
+                        $right: #ApplyExpr[
+                           $base: #Field[
+                              $recv: #NameExpr['RDoc']
+                              $name: #NameExpr['Encoding']
+                           ]
+                           $recv: #NameExpr['read_file']
+                           $param: #List[
+                              $expression: #NameExpr['full_name']
+                              $expression: #NameExpr['encoding']
+                              $expression: #TrueExpr['true']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['content']
+                        $right: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['content']
+                              $recv: #NameExpr['sub']
+                              $param: #List[
+                                 $expression: #Regex['/\\A# .*coding[=:].*$/']
+                                 $expression: #StringExpr['']
+                              ]
+                           ]
+                           $recv: #NameExpr['lstrip']
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #AssignExpr[
+                           $left: #NameExpr['content']
+                           $right: #ComplExpr[
+                              $expr: #Regex['/^[^#]/']
+                           ]
+                        ]
+                        $then: #ApplyExpr[
+                           $recv: #NameExpr['content']
+                           $recv: #NameExpr['gsub']
+                           $param: #List[
+                              $expression: #Regex['/^/']
+                              $expression: #NameExpr['indent']
+                           ]
+                        ]
+                        $else: #ApplyExpr[
+                           $recv: #NameExpr['content']
+                           $recv: #NameExpr['gsub']
+                           $param: #List[
+                              $expression: #Regex['/^#?/']
+                              $expression: #NameExpr['indent']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['find_include_file']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['name']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['to_search']
+                        $right: #ApplyExpr[
+                           $base: #Array[
+                              $index: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['dirname']
+                                    $param: #List[
+                                       $expression: #NameExpr['@input_file_name']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $recv: #NameExpr['concat']
+                           $param: #List[
+                              $expression: #NameExpr['@include_path']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['to_search']
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['dir']
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['full_name']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['join']
+                                    $param: #List[
+                                       $expression: #NameExpr['dir']
+                                       $expression: #NameExpr['name']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #Rescue[
+                                 $body: #AssignExpr[
+                                    $left: #NameExpr['stat']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['stat']
+                                       $param: #List[
+                                          $expression: #NameExpr['full_name']
+                                       ]
+                                    ]
+                                 ]
+                                 $rescue: #Next['next']
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #NameExpr['full_name']
+                                    ]
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['stat']
+                                    $recv: #NameExpr['readable?']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #Nil['nil']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

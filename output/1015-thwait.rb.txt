@@ -1,0 +1,330 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['thread.rb']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['e2mmap.rb']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['ThreadsWait']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['extend']
+                  $param: #List[
+                     $expression: #NameExpr['Exception2MessageMapper']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['def_exception']
+                  $param: #List[
+                     $expression: #StringExpr['ErrNoWaitingThread']
+                     $expression: #StringExpr['No threads for waiting.']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['def_exception']
+                  $param: #List[
+                     $expression: #StringExpr['ErrNoFinishedThread']
+                     $expression: #StringExpr['No finished threads.']
+                  ]
+               ]
+               $statement: #SFuncDecl[
+                  $path: #NameExpr['ThreadsWait']
+                  $name: #NameExpr['all_waits']
+                  $param: #List[
+                     $param: #VariadicParam[
+                        $name: #NameExpr['threads']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['tw']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['ThreadsWait']
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $variadic: #Variadic[
+                                    $base: #NameExpr['threads']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['block_given?']
+                           ]
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['tw']
+                              $recv: #NameExpr['all_waits']
+                              $body: #Block[
+                                 $param: #NameExpr['th']
+                                 $body: #Yield[
+                                    $param: #List[
+                                       $expression: #NameExpr['th']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #ApplyExpr[
+                              $recv: #NameExpr['tw']
+                              $recv: #NameExpr['all_waits']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #VariadicParam[
+                        $name: #NameExpr['threads']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@threads']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@wait_queue']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Thread']
+                                 $name: #NameExpr['Queue']
+                              ]
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #Unless[
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['join_nowait']
+                              $param: #List[
+                                 $variadic: #Variadic[
+                                    $base: #NameExpr['threads']
+                                 ]
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['threads']
+                              $recv: #NameExpr['empty?']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['attr_reader']
+                  $param: #List[
+                     $expression: #NameExpr['threads']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['empty?']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['@threads']
+                        $recv: #NameExpr['empty?']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['finished?']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #NotExpr[
+                        $expr: #ApplyExpr[
+                           $recv: #NameExpr['@wait_queue']
+                           $recv: #NameExpr['empty?']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['join']
+                  $param: #List[
+                     $param: #VariadicParam[
+                        $name: #NameExpr['threads']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['join_nowait']
+                           $param: #List[
+                              $variadic: #Variadic[
+                                 $base: #NameExpr['threads']
+                              ]
+                           ]
+                        ]
+                        $statement: #NameExpr['next_wait']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['join_nowait']
+                  $param: #List[
+                     $param: #VariadicParam[
+                        $name: #NameExpr['threads']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['threads']
+                           $recv: #NameExpr['flatten!']
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['@threads']
+                           $recv: #NameExpr['concat']
+                           $param: #List[
+                              $expression: #NameExpr['threads']
+                           ]
+                        ]
+                        $statement: #For[
+                           $iter: #NameExpr['th']
+                           $range: #NameExpr['threads']
+                           $body: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['start']
+                              $param: #List[
+                                 $expression: #NameExpr['th']
+                              ]
+                              $body: #Block[
+                                 $param: #NameExpr['t']
+                                 $body: #ExceptionBlock[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['t']
+                                       $recv: #NameExpr['join']
+                                    ]
+                                    $ensure: #ApplyExpr[
+                                       $base: #NameExpr['@wait_queue']
+                                       $recv: #NameExpr['push']
+                                       $param: #List[
+                                          $expression: #NameExpr['t']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['next_wait']
+                  $param: #List[
+                     $param: #OptionalParam[
+                        $name: #NameExpr['nonblock']
+                        $default: #Nil['nil']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              $base: #NameExpr['ThreadsWait']
+                              $recv: #NameExpr['fail']
+                              $param: #List[
+                                 $expression: #NameExpr['ErrNoWaitingThread']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['@threads']
+                              $recv: #NameExpr['empty?']
+                           ]
+                        ]
+                        $statement: #ExceptionBlock[
+                           $main: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['@threads']
+                                 $recv: #NameExpr['delete']
+                                 $param: #List[
+                                    $expression: #AssignExpr[
+                                       $left: #NameExpr['th']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['@wait_queue']
+                                          $recv: #NameExpr['pop']
+                                          $param: #List[
+                                             $expression: #NameExpr['nonblock']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #NameExpr['th']
+                           ]
+                           $rescue: #List[
+                              $rescue: #Rescue[
+                                 $class: #NameExpr['ThreadError']
+                                 $then: #ApplyExpr[
+                                    $base: #NameExpr['ThreadsWait']
+                                    $recv: #NameExpr['fail']
+                                    $param: #List[
+                                       $expression: #NameExpr['ErrNoFinishedThread']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['all_waits']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #Until[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['@threads']
+                           $recv: #NameExpr['empty?']
+                        ]
+                        $body: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['th']
+                              $right: #NameExpr['next_wait']
+                           ]
+                           $statement: #IfExpr[
+                              $then: #Yield[
+                                 $param: #List[
+                                    $expression: #NameExpr['th']
+                                 ]
+                              ]
+                              $cond: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['block_given?']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['ThWait']
+         $right: #NameExpr['ThreadsWait']
+      ]
+   ]
+   #Comsumed['comsumed']
+]

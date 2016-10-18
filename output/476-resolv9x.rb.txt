@@ -1,0 +1,1367 @@
+#Source[
+   #Module[
+      $name: #NameExpr['Win32']
+      $body: #BlockExpr[
+         $main: #Module[
+            $name: #NameExpr['Resolv']
+            $body: #BlockExpr[
+               $main: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['TCPIP_9X']
+                     $right: #StringExpr['SYSTEM\\CurrentControlSet\\Services\\VxD\\MSTCP']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['DHCP_9X']
+                     $right: #StringExpr['SYSTEM\\CurrentControlSet\\Services\\VxD\\DHCP']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['WINDOWS']
+                     $right: #StringExpr['Software\\Microsoft\\Windows\\CurrentVersion']
+                  ]
+                  $statement: #SClass[
+                     $path: #Self['self']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['get_hosts_dir']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['Registry']
+                                       $name: #NameExpr['HKEY_LOCAL_MACHINE']
+                                    ]
+                                    $recv: #NameExpr['open']
+                                    $param: #List[
+                                       $expression: #NameExpr['WINDOWS']
+                                    ]
+                                    $body: #Block[
+                                       $param: #NameExpr['reg']
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['reg']
+                                          $recv: #NameExpr['read_s_expand']
+                                          $param: #List[
+                                             $expression: #StringExpr['SystemRoot']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['get_info']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['search']
+                                       $right: #Array['[]']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['nameserver']
+                                       $right: #Array['[]']
+                                    ]
+                                    $statement: #ExceptionBlock[
+                                       $main: #ApplyExpr[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['Registry']
+                                             $name: #NameExpr['HKEY_LOCAL_MACHINE']
+                                          ]
+                                          $recv: #NameExpr['open']
+                                          $param: #List[
+                                             $expression: #NameExpr['TCPIP_9X']
+                                          ]
+                                          $body: #Block[
+                                             $param: #NameExpr['reg']
+                                             $body: #IfExpr[
+                                                $cond: #EqExpr[
+                                                   $left: #ApplyExpr[
+                                                      $recv: #NameExpr['reg']
+                                                      $recv: #NameExpr['read_s']
+                                                      $param: #List[
+                                                         $expression: #StringExpr['EnableDNS']
+                                                      ]
+                                                   ]
+                                                   $right: #StringExpr['1']
+                                                ]
+                                                $then: #List[
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['domain']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['reg']
+                                                         $recv: #NameExpr['read_s']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['Domain']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['ns']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['reg']
+                                                         $recv: #NameExpr['read_s']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['NameServer']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['slist']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['reg']
+                                                         $recv: #NameExpr['read_s']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['SearchList']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #Unless[
+                                                      $then: #LShiftExpr[
+                                                         $left: #NameExpr['search']
+                                                         $right: #NameExpr['domain']
+                                                      ]
+                                                      $cond: #ApplyExpr[
+                                                         $recv: #NameExpr['domain']
+                                                         $recv: #NameExpr['empty?']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      $recv: #NameExpr['search']
+                                                      $recv: #NameExpr['concat']
+                                                      $param: #List[
+                                                         $expression: #ApplyExpr[
+                                                            $recv: #NameExpr['slist']
+                                                            $recv: #NameExpr['split']
+                                                            $param: #List[
+                                                               $expression: #Regex['/,\\s*/']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      $recv: #NameExpr['nameserver']
+                                                      $recv: #NameExpr['concat']
+                                                      $param: #List[
+                                                         $expression: #ApplyExpr[
+                                                            $recv: #NameExpr['ns']
+                                                            $recv: #NameExpr['split']
+                                                            $param: #List[
+                                                               $expression: #Regex['/[,\\s]\\s*/']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $rescue: #List[
+                                          $rescue: #Rescue[
+                                             $class: #Field[
+                                                $recv: #NameExpr['Registry']
+                                                $name: #NameExpr['Error']
+                                             ]
+                                             $then: #Empty['']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['dhcpinfo']
+                                       $right: #NameExpr['get_dhcpinfo']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['search']
+                                       $recv: #NameExpr['concat']
+                                       $param: #List[
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['dhcpinfo']
+                                             $index: #List[
+                                                $expression: #IntExpr['0']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['nameserver']
+                                       $recv: #NameExpr['concat']
+                                       $param: #List[
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['dhcpinfo']
+                                             $index: #List[
+                                                $expression: #IntExpr['1']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['search']
+                                          $expression: #NameExpr['nameserver']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['get_dhcpinfo']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['macaddrs']
+                                       $right: #List['{}']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['ipaddrs']
+                                       $right: #List['{}']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['WsControl']
+                                          $recv: #NameExpr['get_iflist']
+                                       ]
+                                       $recv: #NameExpr['each']
+                                       $body: #Block[
+                                          $param: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['index']
+                                             $item: #NameExpr['macaddr']
+                                             $item: #Variadic[
+                                                $item: #NameExpr['ipaddr']
+                                             ]
+                                          ]
+                                          $body: #List[
+                                             $statement: #AssignExpr[
+                                                $left: #Indexer[
+                                                   $base: #NameExpr['macaddrs']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['macaddr']
+                                                   ]
+                                                ]
+                                                $right: #IntExpr['1']
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                $recv: #NameExpr['ipaddr']
+                                                $recv: #NameExpr['each']
+                                                $body: #Block[
+                                                   $param: #NameExpr['ipaddr']
+                                                   $body: #AssignExpr[
+                                                      $left: #Indexer[
+                                                         $base: #NameExpr['ipaddrs']
+                                                         $index: #List[
+                                                            $expression: #NameExpr['ipaddr']
+                                                         ]
+                                                      ]
+                                                      $right: #IntExpr['1']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['iflist']
+                                       $right: #Array[
+                                          $index: #List[
+                                             $expression: #NameExpr['macaddrs']
+                                             $expression: #NameExpr['ipaddrs']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['search']
+                                       $right: #Array['[]']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['nameserver']
+                                       $right: #Array['[]']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['version']
+                                       $right: #MinusExpr[
+                                          $expr: #IntExpr['1']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['Registry']
+                                          $name: #NameExpr['HKEY_LOCAL_MACHINE']
+                                       ]
+                                       $recv: #NameExpr['open']
+                                       $param: #List[
+                                          $expression: #NameExpr['DHCP_9X']
+                                       ]
+                                       $body: #Block[
+                                          $param: #NameExpr['reg']
+                                          $body: #List[
+                                             $statement: #ExceptionBlock[
+                                                $main: #AssignExpr[
+                                                   $left: #NameExpr['version']
+                                                   $right: #ApplyExpr[
+                                                      $recv: #NameExpr['API']
+                                                      $recv: #NameExpr['unpackdw']
+                                                      $param: #List[
+                                                         $expression: #ApplyExpr[
+                                                            $recv: #NameExpr['reg']
+                                                            $recv: #NameExpr['read_bin']
+                                                            $param: #List[
+                                                               $expression: #StringExpr['Version']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $rescue: #List[
+                                                   $rescue: #Rescue[
+                                                      $class: #Field[
+                                                         $recv: #NameExpr['Registry']
+                                                         $name: #NameExpr['Error']
+                                                      ]
+                                                      $then: #Empty['']
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                $recv: #NameExpr['reg']
+                                                $recv: #NameExpr['each_key']
+                                                $body: #Block[
+                                                   $param: #MultipleLeftHandSideExpression[
+                                                      $item: #NameExpr['key']
+                                                   ]
+                                                   $body: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['catch']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['not_used']
+                                                      ]
+                                                      $body: #Block[
+                                                         $body: #ApplyExpr[
+                                                            $recv: #NameExpr['reg']
+                                                            $recv: #NameExpr['open']
+                                                            $param: #List[
+                                                               $expression: #NameExpr['key']
+                                                            ]
+                                                            $body: #Block[
+                                                               $param: #NameExpr['regdi']
+                                                               $body: #List[
+                                                                  $statement: #MultipleAssign[
+                                                                     $left: #MultipleLeftHandSideExpression[
+                                                                        $item: #NameExpr['dom']
+                                                                        $item: #NameExpr['ns']
+                                                                     ]
+                                                                     $right: #ApplyExpr[
+                                                                        #Self['self']
+                                                                        $recv: #NameExpr['get_dhcpinfo_key']
+                                                                        $param: #List[
+                                                                           $expression: #NameExpr['version']
+                                                                           $expression: #NameExpr['regdi']
+                                                                           $expression: #NameExpr['iflist']
+                                                                        ]
+                                                                     ]
+                                                                  ]
+                                                                  $statement: #IfExpr[
+                                                                     $then: #LShiftExpr[
+                                                                        $left: #NameExpr['search']
+                                                                        $right: #NameExpr['dom']
+                                                                     ]
+                                                                     $cond: #NameExpr['dom']
+                                                                  ]
+                                                                  $statement: #IfExpr[
+                                                                     $then: #ApplyExpr[
+                                                                        $recv: #NameExpr['nameserver']
+                                                                        $recv: #NameExpr['concat']
+                                                                        $param: #List[
+                                                                           $expression: #NameExpr['ns']
+                                                                        ]
+                                                                     ]
+                                                                     $cond: #NameExpr['ns']
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['search']
+                                          $expression: #NameExpr['nameserver']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['get_dhcpinfo_95']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['reg']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['dhcp']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['reg']
+                                          $recv: #NameExpr['read_bin']
+                                          $param: #List[
+                                             $expression: #StringExpr['DhcpInfo']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #Array[
+                                       $index: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['API']
+                                             $recv: #NameExpr['unpackdw']
+                                             $param: #List[
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['dhcp']
+                                                   $index: #List[
+                                                      $expression: #ClosedRange[
+                                                         #IntExpr['4']
+                                                         #IntExpr['7']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['API']
+                                             $recv: #NameExpr['unpackdw']
+                                             $param: #List[
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['dhcp']
+                                                   $index: #List[
+                                                      $expression: #ClosedRange[
+                                                         #IntExpr['8']
+                                                         #IntExpr['11']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $expression: #IntExpr['1']
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['dhcp']
+                                             $index: #List[
+                                                $expression: #ClosedRange[
+                                                   #IntExpr['45']
+                                                   #IntExpr['50']
+                                                ]
+                                             ]
+                                          ]
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['reg']
+                                             $recv: #NameExpr['read_bin']
+                                             $param: #List[
+                                                $expression: #StringExpr['OptionInfo']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['get_dhcpinfo_98']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['reg']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #Array[
+                                    $index: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['API']
+                                          $recv: #NameExpr['unpackdw']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['reg']
+                                                $recv: #NameExpr['read_bin']
+                                                $param: #List[
+                                                   $expression: #StringExpr['DhcpIPAddress']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['API']
+                                          $recv: #NameExpr['unpackdw']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['reg']
+                                                $recv: #NameExpr['read_bin']
+                                                $param: #List[
+                                                   $expression: #StringExpr['DhcpSubnetMask']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['API']
+                                          $recv: #NameExpr['unpackdw']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['reg']
+                                                $recv: #NameExpr['read_bin']
+                                                $param: #List[
+                                                   $expression: #StringExpr['HardwareType']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['reg']
+                                          $recv: #NameExpr['read_bin']
+                                          $param: #List[
+                                             $expression: #StringExpr['HardwareAddress']
+                                          ]
+                                       ]
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['reg']
+                                          $recv: #NameExpr['read_bin']
+                                          $param: #List[
+                                             $expression: #StringExpr['OptionInfo']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #FuncDecl[
+                              $name: #NameExpr['get_dhcpinfo_key']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['version']
+                                 ]
+                                 $param: #Param[
+                                    $param: #NameExpr['reg']
+                                 ]
+                                 $param: #Param[
+                                    $param: #NameExpr['iflist']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['info']
+                                       $right: #Case[
+                                          $cond: #NameExpr['version']
+                                          $body: #List[
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #IntExpr['1']
+                                                ]
+                                                $then: #ApplyExpr[
+                                                   #Self['self']
+                                                   $recv: #NameExpr['get_dhcpinfo_95']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['reg']
+                                                   ]
+                                                ]
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #IntExpr['2']
+                                                ]
+                                                $then: #ApplyExpr[
+                                                   #Self['self']
+                                                   $recv: #NameExpr['get_dhcpinfo_98']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['reg']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $else: #ExceptionBlock[
+                                             $main: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['get_dhcpinfo_98']
+                                                $param: #List[
+                                                   $expression: #NameExpr['reg']
+                                                ]
+                                             ]
+                                             $rescue: #List[
+                                                $rescue: #Rescue[
+                                                   $class: #Field[
+                                                      $recv: #NameExpr['Registry']
+                                                      $name: #NameExpr['Error']
+                                                   ]
+                                                   $then: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['get_dhcpinfo_95']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['reg']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #MultipleAssign[
+                                       $left: #MultipleLeftHandSideExpression[
+                                          $item: #NameExpr['ipaddr']
+                                          $item: #NameExpr['netmask']
+                                          $item: #NameExpr['hwtype']
+                                          $item: #NameExpr['macaddr']
+                                          $item: #NameExpr['opt']
+                                       ]
+                                       $right: #NameExpr['info']
+                                    ]
+                                    $statement: #Unless[
+                                       $then: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['throw']
+                                          $param: #List[
+                                             $expression: #NameExpr['not_used']
+                                          ]
+                                       ]
+                                       $cond: #AndExpr[
+                                          $left: #AndExpr[
+                                             $left: #AndExpr[
+                                                $left: #AndExpr[
+                                                   $left: #AndExpr[
+                                                      $left: #AndExpr[
+                                                         $left: #AndExpr[
+                                                            $left: #AndExpr[
+                                                               $left: #NameExpr['ipaddr']
+                                                               $right: #NeExpr[
+                                                                  $left: #NameExpr['ipaddr']
+                                                                  $right: #IntExpr['0']
+                                                               ]
+                                                            ]
+                                                            $right: #NameExpr['netmask']
+                                                         ]
+                                                         $right: #NeExpr[
+                                                            $left: #NameExpr['netmask']
+                                                            $right: #IntExpr['0']
+                                                         ]
+                                                      ]
+                                                      $right: #NameExpr['macaddr']
+                                                   ]
+                                                   $right: #EqExpr[
+                                                      $left: #ApplyExpr[
+                                                         $recv: #NameExpr['macaddr']
+                                                         $recv: #NameExpr['size']
+                                                      ]
+                                                      $right: #IntExpr['6']
+                                                   ]
+                                                ]
+                                                $right: #EqExpr[
+                                                   $left: #NameExpr['hwtype']
+                                                   $right: #IntExpr['1']
+                                                ]
+                                             ]
+                                             $right: #Indexer[
+                                                $recv: #Indexer[
+                                                   $recv: #NameExpr['iflist']
+                                                   $index: #List[
+                                                      $expression: #IntExpr['0']
+                                                   ]
+                                                ]
+                                                $index: #List[
+                                                   $expression: #NameExpr['macaddr']
+                                                ]
+                                             ]
+                                          ]
+                                          $right: #Indexer[
+                                             $recv: #Indexer[
+                                                $recv: #NameExpr['iflist']
+                                                $index: #List[
+                                                   $expression: #IntExpr['1']
+                                                ]
+                                             ]
+                                             $index: #List[
+                                                $expression: #NameExpr['ipaddr']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['size']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['opt']
+                                          $recv: #NameExpr['size']
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['idx']
+                                       $right: #IntExpr['0']
+                                    ]
+                                    $statement: #While[
+                                       $cond: #LteExpr[
+                                          $left: #NameExpr['idx']
+                                          $right: #NameExpr['size']
+                                       ]
+                                       $body: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['opttype']
+                                             $right: #Indexer[
+                                                $recv: #NameExpr['opt']
+                                                $index: #List[
+                                                   $expression: #NameExpr['idx']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['optsize']
+                                             $right: #Indexer[
+                                                $recv: #NameExpr['opt']
+                                                $index: #List[
+                                                   $expression: #AddExpr[
+                                                      $left: #NameExpr['idx']
+                                                      $right: #IntExpr['1']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['optval']
+                                             $right: #Indexer[
+                                                $recv: #NameExpr['opt']
+                                                $index: #List[
+                                                   $expression: #AddExpr[
+                                                      $left: #NameExpr['idx']
+                                                      $right: #IntExpr['2']
+                                                   ]
+                                                   $expression: #NameExpr['optsize']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #Case[
+                                             $cond: #NameExpr['opttype']
+                                             $body: #List[
+                                                $when: #When[
+                                                   $cond: #List[
+                                                      $expression: #HexInteger['0xFF']
+                                                   ]
+                                                   $then: #Break['break']
+                                                ]
+                                                $when: #When[
+                                                   $cond: #List[
+                                                      $expression: #HexInteger['0x0F']
+                                                   ]
+                                                   $then: #AssignExpr[
+                                                      $left: #NameExpr['domain']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #NameExpr['optval']
+                                                         $recv: #NameExpr['chomp']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['\\0']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $when: #When[
+                                                   $cond: #List[
+                                                      $expression: #HexInteger['0x06']
+                                                   ]
+                                                   $then: #AssignExpr[
+                                                      $left: #NameExpr['nameserver']
+                                                      $right: #ApplyExpr[
+                                                         $recv: #ApplyExpr[
+                                                            $recv: #NameExpr['optval']
+                                                            $recv: #NameExpr['scan']
+                                                            $param: #List[
+                                                               $expression: #Regex['/..../']
+                                                            ]
+                                                         ]
+                                                         $recv: #NameExpr['collect']
+                                                         $body: #Block[
+                                                            $param: #NameExpr['addr']
+                                                            $body: #ModExpr[
+                                                               $left: #StringExpr['%d.%d.%d.%d']
+                                                               $right: #ApplyExpr[
+                                                                  $recv: #NameExpr['addr']
+                                                                  $recv: #NameExpr['unpack']
+                                                                  $param: #List[
+                                                                     $expression: #StringExpr['C4']
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #AddAssign[
+                                             $left: #NameExpr['idx']
+                                             $right: #AddExpr[
+                                                $left: #NameExpr['optsize']
+                                                $right: #IntExpr['2']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['domain']
+                                          $expression: #NameExpr['nameserver']
+                                       ]
+                                    ]
+                                 ]
+                                 $rescue: #List[
+                                    $rescue: #Rescue[
+                                       $class: #Field[
+                                          $recv: #NameExpr['Registry']
+                                          $name: #NameExpr['Error']
+                                       ]
+                                       $then: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['throw']
+                                          $param: #List[
+                                             $expression: #NameExpr['not_used']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #Module[
+                     $name: #NameExpr['WsControl']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #Module[
+                              $name: #NameExpr['WSock32']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['extend']
+                                       $param: #List[
+                                          $expression: #NameExpr['Importer']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['dlload']
+                                       $param: #List[
+                                          $expression: #StringExpr['wsock32.dll']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['WsControl']
+                              $right: #ApplyExpr[
+                                 $base: #NameExpr['WSock32']
+                                 $recv: #NameExpr['extern']
+                                 $param: #List[
+                                    $expression: #StringExpr['int WsControl(int, int, void *, void *, void *, void *']
+                                    $expression: #NameExpr['stdcall']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['WSAGetLastError']
+                              $right: #ApplyExpr[
+                                 $base: #NameExpr['WSock32']
+                                 $recv: #NameExpr['extern']
+                                 $param: #List[
+                                    $expression: #StringExpr['int WSAGetLastError(void)']
+                                    $expression: #NameExpr['stdcall']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['MAX_TDI_ENTITIES']
+                              $right: #IntExpr['512']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['IPPROTO_TCP']
+                              $right: #IntExpr['6']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['WSCTL_TCP_QUERY_INFORMATION']
+                              $right: #IntExpr['0']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['INFO_CLASS_GENERIC']
+                              $right: #HexInteger['0x100']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['INFO_CLASS_PROTOCOL']
+                              $right: #HexInteger['0x200']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['INFO_TYPE_PROVIDER']
+                              $right: #HexInteger['0x100']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['ENTITY_LIST_ID']
+                              $right: #IntExpr['0']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['GENERIC_ENTITY']
+                              $right: #IntExpr['0']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['CL_NL_ENTITY']
+                              $right: #HexInteger['0x301']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['IF_ENTITY']
+                              $right: #HexInteger['0x200']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['ENTITY_TYPE_ID']
+                              $right: #IntExpr['1']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['CL_NL_IP']
+                              $right: #HexInteger['0x303']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['IF_MIB']
+                              $right: #HexInteger['0x202']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['IF_MIB_STATS_ID']
+                              $right: #IntExpr['1']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['IP_MIB_ADDRTABLE_ENTRY_ID']
+                              $right: #HexInteger['0x102']
+                           ]
+                           $statement: #SFuncDecl[
+                              $path: #Self['self']
+                              $name: #NameExpr['wsctl']
+                              $param: #List[
+                                 $param: #Param[
+                                    $param: #NameExpr['tei_entity']
+                                 ]
+                                 $param: #Param[
+                                    $param: #NameExpr['tei_instance']
+                                 ]
+                                 $param: #Param[
+                                    $param: #NameExpr['toi_class']
+                                 ]
+                                 $param: #Param[
+                                    $param: #NameExpr['toi_type']
+                                 ]
+                                 $param: #Param[
+                                    $param: #NameExpr['toi_id']
+                                 ]
+                                 $param: #Param[
+                                    $param: #NameExpr['buffsize']
+                                 ]
+                              ]
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['reqinfo']
+                                       $right: #ApplyExpr[
+                                          $recv: #Array[
+                                             $index: #List[
+                                                $expression: #NameExpr['tei_entity']
+                                                $expression: #NameExpr['tei_instance']
+                                                $expression: #NameExpr['toi_class']
+                                                $expression: #NameExpr['toi_type']
+                                                $expression: #NameExpr['toi_id']
+                                                $expression: #StringExpr['']
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['pack']
+                                          $param: #List[
+                                             $expression: #StringExpr['VVVVVa16']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['reqsize']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['API']
+                                          $recv: #NameExpr['packdw']
+                                          $param: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['reqinfo']
+                                                $recv: #NameExpr['size']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['buff']
+                                       $right: #MulExpr[
+                                          $left: #StringExpr['\\0']
+                                          $right: #NameExpr['buffsize']
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['buffsize']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['API']
+                                          $recv: #NameExpr['packdw']
+                                          $param: #List[
+                                             $expression: #NameExpr['buffsize']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['result']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['WsControl']
+                                          $recv: #NameExpr['call']
+                                          $param: #List[
+                                             $expression: #NameExpr['IPPROTO_TCP']
+                                             $expression: #NameExpr['WSCTL_TCP_QUERY_INFORMATION']
+                                             $expression: #NameExpr['reqinfo']
+                                             $expression: #NameExpr['reqsize']
+                                             $expression: #NameExpr['buff']
+                                             $expression: #NameExpr['buffsize']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #IfExpr[
+                                       $cond: #NeExpr[
+                                          $left: #NameExpr['result']
+                                          $right: #IntExpr['0']
+                                       ]
+                                       $then: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['raise']
+                                          $param: #List[
+                                             $expression: #NameExpr['RuntimeError']
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['result']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['buff']
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['API']
+                                             $recv: #NameExpr['unpackdw']
+                                             $param: #List[
+                                                $expression: #NameExpr['buffsize']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['private_class_method']
+                              $param: #List[
+                                 $expression: #NameExpr['wsctl']
+                              ]
+                           ]
+                           $statement: #SFuncDecl[
+                              $path: #Self['self']
+                              $name: #NameExpr['get_iflist']
+                              $param: #List['']
+                              $body: #BlockExpr[
+                                 $main: #List[
+                                    $statement: #MultipleAssign[
+                                       $left: #MultipleLeftHandSideExpression[
+                                          $item: #NameExpr['entities']
+                                          $item: #NameExpr['size']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['wsctl']
+                                          $param: #List[
+                                             $expression: #NameExpr['GENERIC_ENTITY']
+                                             $expression: #IntExpr['0']
+                                             $expression: #NameExpr['INFO_CLASS_GENERIC']
+                                             $expression: #NameExpr['INFO_TYPE_PROVIDER']
+                                             $expression: #NameExpr['ENTITY_LIST_ID']
+                                             $expression: #MulExpr[
+                                                $left: #NameExpr['MAX_TDI_ENTITIES']
+                                                $right: #IntExpr['8']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['entities']
+                                       $right: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #Indexer[
+                                                $recv: #NameExpr['entities']
+                                                $index: #List[
+                                                   $expression: #IntExpr['0']
+                                                   $expression: #NameExpr['size']
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['scan']
+                                             $param: #List[
+                                                $expression: #Regex['/.{8}/']
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['collect']
+                                          $body: #Block[
+                                             $param: #NameExpr['e']
+                                             $body: #ApplyExpr[
+                                                $recv: #NameExpr['e']
+                                                $recv: #NameExpr['unpack']
+                                                $param: #List[
+                                                   $expression: #StringExpr['VV']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['iflist']
+                                       $right: #Array['[]']
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['ifcount']
+                                       $right: #IntExpr['0']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['entities']
+                                       $recv: #NameExpr['each']
+                                       $body: #Block[
+                                          $param: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['entity']
+                                             $item: #NameExpr['instance']
+                                          ]
+                                          $body: #IfExpr[
+                                             $cond: #GtExpr[
+                                                $left: #AndExpr[
+                                                   $left: #NameExpr['entity']
+                                                   $right: #NameExpr['IF_ENTITY']
+                                                ]
+                                                $right: #IntExpr['0']
+                                             ]
+                                             $then: #List[
+                                                $statement: #AddAssign[
+                                                   $left: #NameExpr['ifcount']
+                                                   $right: #IntExpr['1']
+                                                ]
+                                                $statement: #MultipleAssign[
+                                                   $left: #MultipleLeftHandSideExpression[
+                                                      $item: #NameExpr['etype']
+                                                   ]
+                                                   $right: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['wsctl']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['entity']
+                                                         $expression: #NameExpr['instance']
+                                                         $expression: #NameExpr['INFO_CLASS_GENERIC']
+                                                         $expression: #NameExpr['INFO_TYPE_PROVIDER']
+                                                         $expression: #NameExpr['ENTITY_TYPE_ID']
+                                                         $expression: #IntExpr['4']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #IfExpr[
+                                                   $cond: #EqExpr[
+                                                      $left: #AndExpr[
+                                                         $left: #ApplyExpr[
+                                                            $recv: #NameExpr['API']
+                                                            $recv: #NameExpr['unpackdw']
+                                                            $param: #List[
+                                                               $expression: #NameExpr['etype']
+                                                            ]
+                                                         ]
+                                                         $right: #NameExpr['IF_MIB']
+                                                      ]
+                                                      $right: #NameExpr['IF_MIB']
+                                                   ]
+                                                   $then: #List[
+                                                      $statement: #MultipleAssign[
+                                                         $left: #MultipleLeftHandSideExpression[
+                                                            $item: #NameExpr['ifentry']
+                                                         ]
+                                                         $right: #ApplyExpr[
+                                                            #Self['self']
+                                                            $recv: #NameExpr['wsctl']
+                                                            $param: #List[
+                                                               $expression: #NameExpr['entity']
+                                                               $expression: #NameExpr['instance']
+                                                               $expression: #NameExpr['INFO_CLASS_PROTOCOL']
+                                                               $expression: #NameExpr['INFO_TYPE_PROVIDER']
+                                                               $expression: #NameExpr['IF_MIB_STATS_ID']
+                                                               $expression: #AddExpr[
+                                                                  $left: #AddExpr[
+                                                                     $left: #MulExpr[
+                                                                        $left: #IntExpr['21']
+                                                                        $right: #IntExpr['4']
+                                                                     ]
+                                                                     $right: #IntExpr['8']
+                                                                  ]
+                                                                  $right: #IntExpr['130']
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                      $statement: #LShiftExpr[
+                                                         $left: #NameExpr['iflist']
+                                                         $right: #Array[
+                                                            $index: #List[
+                                                               $expression: #ApplyExpr[
+                                                                  $recv: #NameExpr['API']
+                                                                  $recv: #NameExpr['unpackdw']
+                                                                  $param: #List[
+                                                                     $expression: #Indexer[
+                                                                        $recv: #NameExpr['ifentry']
+                                                                        $index: #List[
+                                                                           $expression: #IntExpr['0']
+                                                                           $expression: #IntExpr['4']
+                                                                        ]
+                                                                     ]
+                                                                  ]
+                                                               ]
+                                                               $expression: #Indexer[
+                                                                  $recv: #NameExpr['ifentry']
+                                                                  $index: #List[
+                                                                     $expression: #IntExpr['20']
+                                                                     $expression: #IntExpr['6']
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['entities']
+                                       $recv: #NameExpr['each']
+                                       $body: #Block[
+                                          $param: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['entity']
+                                             $item: #NameExpr['instance']
+                                          ]
+                                          $body: #IfExpr[
+                                             $cond: #EqExpr[
+                                                $left: #NameExpr['entity']
+                                                $right: #NameExpr['CL_NL_ENTITY']
+                                             ]
+                                             $then: #List[
+                                                $statement: #MultipleAssign[
+                                                   $left: #MultipleLeftHandSideExpression[
+                                                      $item: #NameExpr['etype']
+                                                   ]
+                                                   $right: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['wsctl']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['entity']
+                                                         $expression: #NameExpr['instance']
+                                                         $expression: #NameExpr['INFO_CLASS_GENERIC']
+                                                         $expression: #NameExpr['INFO_TYPE_PROVIDER']
+                                                         $expression: #NameExpr['ENTITY_TYPE_ID']
+                                                         $expression: #IntExpr['4']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #IfExpr[
+                                                   $cond: #EqExpr[
+                                                      $left: #ApplyExpr[
+                                                         $recv: #NameExpr['API']
+                                                         $recv: #NameExpr['unpackdw']
+                                                         $param: #List[
+                                                            $expression: #NameExpr['etype']
+                                                         ]
+                                                      ]
+                                                      $right: #NameExpr['CL_NL_IP']
+                                                   ]
+                                                   $then: #List[
+                                                      $statement: #MultipleAssign[
+                                                         $left: #MultipleLeftHandSideExpression[
+                                                            $item: #NameExpr['ipentries']
+                                                         ]
+                                                         $right: #ApplyExpr[
+                                                            #Self['self']
+                                                            $recv: #NameExpr['wsctl']
+                                                            $param: #List[
+                                                               $expression: #NameExpr['entity']
+                                                               $expression: #NameExpr['instance']
+                                                               $expression: #NameExpr['INFO_CLASS_PROTOCOL']
+                                                               $expression: #NameExpr['INFO_TYPE_PROVIDER']
+                                                               $expression: #NameExpr['IP_MIB_ADDRTABLE_ENTRY_ID']
+                                                               $expression: #MulExpr[
+                                                                  $left: #IntExpr['24']
+                                                                  $right: #AddExpr[
+                                                                     $left: #NameExpr['ifcount']
+                                                                     $right: #IntExpr['1']
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                      $statement: #ApplyExpr[
+                                                         $recv: #NameExpr['ipentries']
+                                                         $recv: #NameExpr['scan']
+                                                         $param: #List[
+                                                            $expression: #Regex['/.{24}/']
+                                                         ]
+                                                         $body: #Block[
+                                                            $param: #NameExpr['ipentry']
+                                                            $body: #List[
+                                                               $statement: #MultipleAssign[
+                                                                  $left: #MultipleLeftHandSideExpression[
+                                                                     $item: #NameExpr['ipaddr']
+                                                                     $item: #NameExpr['index']
+                                                                  ]
+                                                                  $right: #ApplyExpr[
+                                                                     $recv: #NameExpr['ipentry']
+                                                                     $recv: #NameExpr['unpack']
+                                                                     $param: #List[
+                                                                        $expression: #StringExpr['VV']
+                                                                     ]
+                                                                  ]
+                                                               ]
+                                                               $statement: #IfExpr[
+                                                                  $cond: #AssignExpr[
+                                                                     $left: #NameExpr['ifitem']
+                                                                     $right: #ApplyExpr[
+                                                                        $recv: #NameExpr['iflist']
+                                                                        $recv: #NameExpr['assoc']
+                                                                        $param: #List[
+                                                                           $expression: #NameExpr['index']
+                                                                        ]
+                                                                     ]
+                                                                  ]
+                                                                  $then: #LShiftExpr[
+                                                                     $left: #NameExpr['ifitem']
+                                                                     $right: #NameExpr['ipaddr']
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #NameExpr['iflist']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

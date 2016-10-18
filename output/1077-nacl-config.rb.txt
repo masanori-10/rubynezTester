@@ -1,0 +1,447 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rbconfig']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['NaClConfig']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['config']
+                  $right: #Field[
+                     $recv: #NameExpr['RbConfig']
+                     $name: #NameExpr['CONFIG']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['cpu_nick']
+                  $right: #ApplyExpr[
+                     $recv: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #Indexer[
+                              $recv: #NameExpr['config']
+                              $index: #List[
+                                 $expression: #StringExpr['host_alias']
+                              ]
+                           ]
+                           $recv: #NameExpr['sub']
+                           $param: #List[
+                              $expression: #Regex['/-gnu$|-newlib$/']
+                              $expression: #StringExpr['']
+                           ]
+                        ]
+                        $recv: #NameExpr['sub']
+                        $param: #List[
+                           $expression: #Regex['/-nacl$/']
+                           $expression: #StringExpr['']
+                        ]
+                     ]
+                     $recv: #NameExpr['sub']
+                     $param: #List[
+                        $expression: #Regex['/i.86/']
+                        $expression: #StringExpr['x86_32']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['ARCH']
+                  $right: #ApplyExpr[
+                     $recv: #ApplyExpr[
+                        $recv: #NameExpr['cpu_nick']
+                        $recv: #NameExpr['sub']
+                        $param: #List[
+                           $expression: #StringExpr['x86_64']
+                           $expression: #StringExpr['x86-64']
+                        ]
+                     ]
+                     $recv: #NameExpr['sub']
+                     $param: #List[
+                        $expression: #StringExpr['x86_32']
+                        $expression: #StringExpr['x86-32']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['HOST']
+                  $right: #AddExpr[
+                     $left: #ApplyExpr[
+                        $recv: #NameExpr['ARCH']
+                        $recv: #NameExpr['sub']
+                        $param: #List[
+                           $expression: #Regex['/x86-../']
+                           $expression: #StringExpr['x86_64']
+                        ]
+                     ]
+                     $right: #StringExpr['-nacl']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['lib_suffix']
+                  $right: #Conditional[
+                     $cond: #Indexer[
+                        $recv: #Indexer[
+                           $recv: #NameExpr['config']
+                           $index: #List[
+                              $expression: #StringExpr['host_cpu']
+                           ]
+                        ]
+                        $index: #List[
+                           $expression: #Regex['/i.86/']
+                        ]
+                     ]
+                     $then: #StringExpr['32']
+                     $else: #StringExpr['']
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['PYTHON']
+                  $right: #Indexer[
+                     $recv: #NameExpr['config']
+                     $index: #List[
+                        $expression: #StringExpr['PYTHON']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['OBJDUMP']
+                  $right: #Indexer[
+                     $recv: #NameExpr['config']
+                     $index: #List[
+                        $expression: #StringExpr['OBJDUMP']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['SDK_ROOT']
+                  $right: #Indexer[
+                     $recv: #NameExpr['config']
+                     $index: #List[
+                        $expression: #StringExpr['NACL_SDK_ROOT']
+                     ]
+                  ]
+               ]
+               $statement: #OrExpr[
+                  $left: #AssignExpr[
+                     $left: #NameExpr['CREATE_NMF']
+                     $right: #ApplyExpr[
+                        $recv: #Array[
+                           $index: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['SDK_ROOT']
+                                    $expression: #StringExpr['build_tools']
+                                    $expression: #StringExpr['nacl_sdk_scons']
+                                    $expression: #StringExpr['site_tools']
+                                    $expression: #StringExpr['create_nmf.py']
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['SDK_ROOT']
+                                    $expression: #StringExpr['tools']
+                                    $expression: #StringExpr['create_nmf.py']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $recv: #NameExpr['find']
+                        $body: #Block[
+                           $param: #NameExpr['path']
+                           $body: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['exist?']
+                              $param: #List[
+                                 $expression: #NameExpr['path']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $right: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['raise']
+                     $param: #List[
+                        $expression: #StringExpr['No create_nmf found']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['HOST_LIB']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['join']
+                     $param: #List[
+                        $expression: #NameExpr['SDK_ROOT']
+                        $expression: #StringExpr['toolchain']
+                        $expression: #Indexer[
+                           $recv: #NameExpr['config']
+                           $index: #List[
+                              $expression: #StringExpr['NACL_TOOLCHAIN']
+                           ]
+                        ]
+                        $expression: #NameExpr['HOST']
+                        $expression: #StringExpr[
+                           $inner: #NameExpr['lib_suffix']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['NACL_LIB']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['join']
+                     $param: #List[
+                        $expression: #NameExpr['SDK_ROOT']
+                        $expression: #StringExpr['lib']
+                        $expression: #Indexer[
+                           $recv: #NameExpr['config']
+                           $index: #List[
+                              $expression: #StringExpr['NACL_LIB_PATH']
+                           ]
+                        ]
+                        $expression: #StringExpr['Release']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['INSTALL_PROGRAM']
+                  $right: #Indexer[
+                     $recv: #NameExpr['config']
+                     $index: #List[
+                        $expression: #StringExpr['INSTALL_PROGRAM']
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['INSTALL_LIBRARY']
+                  $right: #Indexer[
+                     $recv: #NameExpr['config']
+                     $index: #List[
+                        $expression: #StringExpr['INSTALL_DATA']
+                     ]
+                  ]
+               ]
+               $statement: #IfExpr[
+                  $cond: #OrExpr[
+                     $left: #EqExpr[
+                        $left: #NameExpr['cpu_nick']
+                        $right: #StringExpr['x86_64']
+                     ]
+                     $right: #EqExpr[
+                        $left: #NameExpr['cpu_nick']
+                        $right: #StringExpr['x86_32']
+                     ]
+                  ]
+                  $then: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['SEL_LDR']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['join']
+                           $param: #List[
+                              $expression: #NameExpr['SDK_ROOT']
+                              $expression: #StringExpr['tools']
+                              $expression: #StringExpr[
+                                 $inner: #NameExpr['cpu_nick']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['IRT_CORE']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['join']
+                           $param: #List[
+                              $expression: #NameExpr['SDK_ROOT']
+                              $expression: #StringExpr['tools']
+                              $expression: #StringExpr[
+                                 $inner: #NameExpr['cpu_nick']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #StringExpr['No sel_ldr found']
+                           ]
+                        ]
+                        $cond: #[
+                           $base: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['executable?']
+                              $param: #List[
+                                 $expression: #NameExpr['SEL_LDR']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #StringExpr['No irt_core found']
+                           ]
+                        ]
+                        $cond: #[
+                           $base: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['exists?']
+                              $param: #List[
+                                 $expression: #NameExpr['IRT_CORE']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['RUNNABLE_LD']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['join']
+                     $param: #List[
+                        $expression: #NameExpr['HOST_LIB']
+                        $expression: #StringExpr['runnable-ld.so']
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['module_function']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['newlib?']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #EqExpr[
+                        $left: #Indexer[
+                           $recv: #Field[
+                              $recv: #NameExpr['RbConfig']
+                              $name: #NameExpr['CONFIG']
+                           ]
+                           $index: #List[
+                              $expression: #StringExpr['NACL_SDK_VARIANT']
+                           ]
+                        ]
+                        $right: #StringExpr['newlib']
+                     ]
+                  ]
+               ]
+               $statement: #SFuncDecl[
+                  $path: #Self['self']
+                  $name: #NameExpr['config']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['name']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['NaClConfig']
+                           $recv: #NameExpr['const_defined?']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['name']
+                                 $recv: #NameExpr['upcase']
+                              ]
+                           ]
+                        ]
+                        $then: #ApplyExpr[
+                           $recv: #NameExpr['NaClConfig']
+                           $recv: #NameExpr['const_get']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['name']
+                                 $recv: #NameExpr['upcase']
+                              ]
+                           ]
+                        ]
+                        $else: #IfExpr[
+                           $cond: #AndExpr[
+                              $left: #ApplyExpr[
+                                 $recv: #NameExpr['NaClConfig']
+                                 $recv: #NameExpr['respond_to?']
+                                 $param: #List[
+                                    $expression: #NameExpr['name']
+                                 ]
+                              ]
+                              $right: #EqExpr[
+                                 $left: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['NaClConfig']
+                                       $recv: #NameExpr['method']
+                                       $param: #List[
+                                          $expression: #NameExpr['name']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['arity']
+                                 ]
+                                 $right: #IntExpr['0']
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['NaClConfig']
+                              $recv: #NameExpr['send']
+                              $param: #List[
+                                 $expression: #NameExpr['name']
+                              ]
+                           ]
+                           $else: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['raise']
+                              $param: #List[
+                                 $expression: #NameExpr['ArgumentError']
+                                 $expression: #StringExpr[
+                                    $inner: #NameExpr['name']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #EqExpr[
+            $left: #BuiltInVariable['$0']
+            $right: #File['__FILE__']
+         ]
+         $then: #ApplyExpr[
+            $recv: #NameExpr['ARGV']
+            $recv: #NameExpr['each']
+            $body: #Block[
+               $param: #NameExpr['arg']
+               $body: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['NaClConfig']
+                        $recv: #NameExpr['config']
+                        $param: #List[
+                           $expression: #NameExpr['arg']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

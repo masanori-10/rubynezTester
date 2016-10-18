@@ -1,0 +1,296 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/test_case']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/ext']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestGemExtRakeBuilder']
+         $super: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@ext']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['@tempdir']
+                                 $expression: #StringExpr['ext']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@dest_path']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['@tempdir']
+                                 $expression: #StringExpr['prefix']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #NameExpr['@ext']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $expression: #NameExpr['@dest_path']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_class_build']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['@ext']
+                                    $expression: #StringExpr['mkrf_conf.rb']
+                                 ]
+                              ]
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['mkrf_conf']
+                              $body: #ApplyExpr[
+                                 $base: #NameExpr['mkrf_conf']
+                                 $recv: #NameExpr['puts']
+                                 $param: #List[
+                                    $expression: #HereDocument['        File.open("Rakefile","w") do |f|\n          f.puts "task :default"\n        end\n']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['output']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['realdir']
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['build_rake_in']
+                           $body: #Block[
+                              $param: #NameExpr['rake']
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['Dir']
+                                    $recv: #NameExpr['chdir']
+                                    $param: #List[
+                                       $expression: #NameExpr['@ext']
+                                    ]
+                                    $body: #Block[
+                                       $body: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['realdir']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['Dir']
+                                                $recv: #NameExpr['pwd']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $base: #Field[
+                                                $recv: #Field[
+                                                   $recv: #NameExpr['Gem']
+                                                   $name: #NameExpr['Ext']
+                                                ]
+                                                $name: #NameExpr['RakeBuilder']
+                                             ]
+                                             $recv: #NameExpr['build']
+                                             $param: #List[
+                                                $expression: #StringExpr['mkrf_conf.rb']
+                                                $expression: #Nil['nil']
+                                                $expression: #NameExpr['@dest_path']
+                                                $expression: #NameExpr['output']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['output']
+                                    $right: #ApplyExpr[
+                                       $base: #NameExpr['output']
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #StringExpr['\\n']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['refute_match']
+                                    $param: #List[
+                                       $expression: #Regex['%r%^rake failed:%']
+                                       $expression: #NameExpr['output']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_match']
+                                    $param: #List[
+                                       $expression: #Regex['%r%^#{Regexp.escape @@ruby} mkrf_conf\\.rb%']
+                                       $expression: #NameExpr['output']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_match']
+                                    $param: #List[
+                                       $expression: #Regex['%r%^#{Regexp.escape rake} RUBYARCHDIR=#{Regexp.escape @dest_path} RUBYLIBDIR=#{Regexp.escape @dest_path}%']
+                                       $expression: #NameExpr['output']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_class_build_fail']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['@ext']
+                                    $expression: #StringExpr['mkrf_conf.rb']
+                                 ]
+                              ]
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['mkrf_conf']
+                              $body: #ApplyExpr[
+                                 $base: #NameExpr['mkrf_conf']
+                                 $recv: #NameExpr['puts']
+                                 $param: #List[
+                                    $expression: #HereDocument['        File.open("Rakefile","w") do |f|\n          f.puts "task :default do abort \'fail\' end"\n        end\n']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['output']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['build_rake_in']
+                           $param: #List[
+                              $expression: #FalseExpr['false']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['rake']
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['error']
+                                    $right: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['assert_raises']
+                                       $param: #List[
+                                          $expression: #Field[
+                                             $recv: #NameExpr['Gem']
+                                             $name: #NameExpr['InstallError']
+                                          ]
+                                       ]
+                                       $body: #Block[
+                                          $body: #ApplyExpr[
+                                             $base: #NameExpr['Dir']
+                                             $recv: #NameExpr['chdir']
+                                             $param: #List[
+                                                $expression: #NameExpr['@ext']
+                                             ]
+                                             $body: #Block[
+                                                $body: #ApplyExpr[
+                                                   $base: #Field[
+                                                      $recv: #Field[
+                                                         $recv: #NameExpr['Gem']
+                                                         $name: #NameExpr['Ext']
+                                                      ]
+                                                      $name: #NameExpr['RakeBuilder']
+                                                   ]
+                                                   $recv: #NameExpr['build']
+                                                   $param: #List[
+                                                      $expression: #StringExpr['mkrf_conf.rb']
+                                                      $expression: #Nil['nil']
+                                                      $expression: #NameExpr['@dest_path']
+                                                      $expression: #NameExpr['output']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_match']
+                                    $param: #List[
+                                       $expression: #Regex['%r%^rake failed%']
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['error']
+                                          $recv: #NameExpr['message']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

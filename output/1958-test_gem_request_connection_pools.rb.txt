@@ -1,0 +1,720 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/test_case']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/request']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['timeout']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestGemRequestConnectionPool']
+         $super: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #Class[
+                  $name: #NameExpr['FakeHttp']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #VariadicParam[
+                                 $name: #NameExpr['args']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #Empty['']
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['start']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #Empty['']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@old_client']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Request']
+                                 ]
+                                 $name: #NameExpr['ConnectionPools']
+                              ]
+                              $recv: #NameExpr['client']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Field[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Request']
+                                 ]
+                                 $name: #NameExpr['ConnectionPools']
+                              ]
+                              $name: #NameExpr['client']
+                           ]
+                           $right: #NameExpr['FakeHttp']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@proxy']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['URI']
+                              $param: #List[
+                                 $expression: #StringExpr['http://proxy.example']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['teardown']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #Field[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Request']
+                                 ]
+                                 $name: #NameExpr['ConnectionPools']
+                              ]
+                              $name: #NameExpr['client']
+                           ]
+                           $right: #NameExpr['@old_client']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_checkout_same_connection']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['uri']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['URI']
+                              $recv: #NameExpr['parse']
+                              $param: #List[
+                                 $expression: #StringExpr['http://example/some_endpoint']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['pools']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Request']
+                                 ]
+                                 $name: #NameExpr['ConnectionPools']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #Nil['nil']
+                                 $expression: #Array['[]']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['pool']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['pools']
+                              $recv: #NameExpr['pool_for']
+                              $param: #List[
+                                 $expression: #NameExpr['uri']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['conn']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['pool']
+                              $recv: #NameExpr['checkout']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['pool']
+                           $recv: #NameExpr['checkin']
+                           $param: #List[
+                              $expression: #NameExpr['conn']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['conn']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['pool']
+                                 $recv: #NameExpr['checkout']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_to_proxy_eh']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['pools']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Request']
+                                 ]
+                                 $name: #NameExpr['ConnectionPools']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #Nil['nil']
+                                 $expression: #Array['[]']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['env_no_proxy']
+                           $right: #ParcentNotation['%w[\n      1.no-proxy.example\n      2.no-proxy.example\n    ]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['no_proxy']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['pools']
+                              $recv: #NameExpr['send']
+                              $param: #List[
+                                 $expression: #NameExpr['no_proxy?']
+                                 $expression: #StringExpr['2.no-proxy.example']
+                                 $expression: #NameExpr['env_no_proxy']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert']
+                           $param: #List[
+                              $expression: #NameExpr['no_proxy']
+                              $expression: #StringExpr['match']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['no_proxy']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['pools']
+                              $recv: #NameExpr['send']
+                              $param: #List[
+                                 $expression: #NameExpr['no_proxy?']
+                                 $expression: #StringExpr['proxy.example']
+                                 $expression: #NameExpr['env_no_proxy']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['refute']
+                           $param: #List[
+                              $expression: #NameExpr['no_proxy']
+                              $expression: #StringExpr['mismatch']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_to_proxy_eh_wildcard']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['pools']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Request']
+                                 ]
+                                 $name: #NameExpr['ConnectionPools']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #Nil['nil']
+                                 $expression: #Array['[]']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['env_no_proxy']
+                           $right: #ParcentNotation['%w[\n      .no-proxy.example\n    ]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['no_proxy']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['pools']
+                              $recv: #NameExpr['send']
+                              $param: #List[
+                                 $expression: #NameExpr['no_proxy?']
+                                 $expression: #StringExpr['2.no-proxy.example']
+                                 $expression: #NameExpr['env_no_proxy']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert']
+                           $param: #List[
+                              $expression: #NameExpr['no_proxy']
+                              $expression: #StringExpr['wildcard matching subdomain']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['no_proxy']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['pools']
+                              $recv: #NameExpr['send']
+                              $param: #List[
+                                 $expression: #NameExpr['no_proxy?']
+                                 $expression: #StringExpr['no-proxy.example']
+                                 $expression: #NameExpr['env_no_proxy']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert']
+                           $param: #List[
+                              $expression: #NameExpr['no_proxy']
+                              $expression: #StringExpr['wildcard matching dotless domain']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['no_proxy']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['pools']
+                              $recv: #NameExpr['send']
+                              $param: #List[
+                                 $expression: #NameExpr['no_proxy?']
+                                 $expression: #StringExpr['proxy.example']
+                                 $expression: #NameExpr['env_no_proxy']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['refute']
+                           $param: #List[
+                              $expression: #NameExpr['no_proxy']
+                              $expression: #StringExpr['wildcard mismatch']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_net_http_args']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['pools']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Request']
+                                 ]
+                                 $name: #NameExpr['ConnectionPools']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #Nil['nil']
+                                 $expression: #Array['[]']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['net_http_args']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['pools']
+                              $recv: #NameExpr['send']
+                              $param: #List[
+                                 $expression: #NameExpr['net_http_args']
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['URI']
+                                    $param: #List[
+                                       $expression: #StringExpr['http://example']
+                                    ]
+                                 ]
+                                 $expression: #Nil['nil']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['example']
+                                    $expression: #IntExpr['80']
+                                 ]
+                              ]
+                              $expression: #NameExpr['net_http_args']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_net_http_args_ipv6']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['pools']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Request']
+                                 ]
+                                 $name: #NameExpr['ConnectionPools']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #Nil['nil']
+                                 $expression: #Array['[]']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['net_http_args']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['pools']
+                              $recv: #NameExpr['send']
+                              $param: #List[
+                                 $expression: #NameExpr['net_http_args']
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['URI']
+                                    $param: #List[
+                                       $expression: #StringExpr['http://[::1]']
+                                    ]
+                                 ]
+                                 $expression: #Nil['nil']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['expected_host']
+                           $right: #Conditional[
+                              $cond: #GteExpt[
+                                 $left: #NameExpr['RUBY_VERSION']
+                                 $right: #StringExpr['1.9.3']
+                              ]
+                              $then: #StringExpr['::1']
+                              $else: #StringExpr['[::1]']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #NameExpr['expected_host']
+                                    $expression: #IntExpr['80']
+                                 ]
+                              ]
+                              $expression: #NameExpr['net_http_args']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_net_http_args_proxy']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['pools']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Request']
+                                 ]
+                                 $name: #NameExpr['ConnectionPools']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #Nil['nil']
+                                 $expression: #Array['[]']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['net_http_args']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['pools']
+                              $recv: #NameExpr['send']
+                              $param: #List[
+                                 $expression: #NameExpr['net_http_args']
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['URI']
+                                    $param: #List[
+                                       $expression: #StringExpr['http://example']
+                                    ]
+                                 ]
+                                 $expression: #NameExpr['@proxy']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['example']
+                                    $expression: #IntExpr['80']
+                                    $expression: #StringExpr['proxy.example']
+                                    $expression: #IntExpr['80']
+                                    $expression: #Nil['nil']
+                                    $expression: #Nil['nil']
+                                 ]
+                              ]
+                              $expression: #NameExpr['net_http_args']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_net_http_args_no_proxy']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #MultipleAssign[
+                           $left: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['orig_no_proxy']
+                              $item: #Indexer[
+                                 $base: #NameExpr['ENV']
+                                 $index: #List[
+                                    $expression: #StringExpr['no_proxy']
+                                 ]
+                              ]
+                           ]
+                           $right: #MultipleRightHandSideExpression[
+                              $expression: #Indexer[
+                                 $recv: #NameExpr['ENV']
+                                 $index: #List[
+                                    $expression: #StringExpr['no_proxy']
+                                 ]
+                              ]
+                              $expression: #StringExpr['example']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['pools']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Request']
+                                 ]
+                                 $name: #NameExpr['ConnectionPools']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #Nil['nil']
+                                 $expression: #Array['[]']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['net_http_args']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['pools']
+                              $recv: #NameExpr['send']
+                              $param: #List[
+                                 $expression: #NameExpr['net_http_args']
+                                 $expression: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['URI']
+                                    $param: #List[
+                                       $expression: #StringExpr['http://example']
+                                    ]
+                                 ]
+                                 $expression: #NameExpr['@proxy']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['example']
+                                    $expression: #IntExpr['80']
+                                    $expression: #Nil['nil']
+                                    $expression: #Nil['nil']
+                                 ]
+                              ]
+                              $expression: #NameExpr['net_http_args']
+                           ]
+                        ]
+                     ]
+                     $ensure: #AssignExpr[
+                        $left: #Indexer[
+                           $base: #NameExpr['ENV']
+                           $index: #List[
+                              $expression: #StringExpr['no_proxy']
+                           ]
+                        ]
+                        $right: #NameExpr['orig_no_proxy']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_thread_waits_for_connection']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['uri']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['URI']
+                              $recv: #NameExpr['parse']
+                              $param: #List[
+                                 $expression: #StringExpr['http://example/some_endpoint']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['pools']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Request']
+                                 ]
+                                 $name: #NameExpr['ConnectionPools']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #Nil['nil']
+                                 $expression: #Array['[]']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['pool']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['pools']
+                              $recv: #NameExpr['pool_for']
+                              $param: #List[
+                                 $expression: #NameExpr['uri']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['pool']
+                           $recv: #NameExpr['checkout']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['t1']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['new']
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['Timeout']
+                                    $recv: #NameExpr['timeout']
+                                    $param: #List[
+                                       $expression: #IntExpr['1']
+                                    ]
+                                    $body: #Block[
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['pool']
+                                          $recv: #NameExpr['checkout']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_raises']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['Timeout']
+                                 $name: #NameExpr['Error']
+                              ]
+                           ]
+                           $body: #Block[
+                              $body: #ApplyExpr[
+                                 $recv: #NameExpr['t1']
+                                 $recv: #NameExpr['join']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

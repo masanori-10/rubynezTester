@@ -1,0 +1,932 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['openssl']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['digest/md5']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['CHashDir']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['include']
+                  $param: #List[
+                     $expression: #NameExpr['Enumerable']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['dirpath']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@dirpath']
+                           $right: #NameExpr['dirpath']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@fingerprint_cache']
+                           $right: #AssignExpr[
+                              $left: #NameExpr['@cert_cache']
+                              $right: #AssignExpr[
+                                 $left: #NameExpr['@crl_cache']
+                                 $right: #Nil['nil']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['hash_dir']
+                  $param: #List[
+                     $param: #OptionalParam[
+                        $name: #NameExpr['silent']
+                        $default: #FalseExpr['false']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@silent']
+                           $right: #NameExpr['silent']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@fingerprint_cache']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Hash']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@cert_cache']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Hash']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@crl_cache']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Hash']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #NameExpr['do_hash_dir']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['get_certs']
+                  $param: #List[
+                     $param: #OptionalParam[
+                        $name: #NameExpr['name']
+                        $default: #Nil['nil']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #IfExpr[
+                        $cond: #NameExpr['name']
+                        $then: #Indexer[
+                           $recv: #NameExpr['@cert_cache']
+                           $index: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['hash_name']
+                                 $param: #List[
+                                    $expression: #NameExpr['name']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['@cert_cache']
+                              $recv: #NameExpr['values']
+                           ]
+                           $recv: #NameExpr['flatten']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['get_crls']
+                  $param: #List[
+                     $param: #OptionalParam[
+                        $name: #NameExpr['name']
+                        $default: #Nil['nil']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #IfExpr[
+                        $cond: #NameExpr['name']
+                        $then: #Indexer[
+                           $recv: #NameExpr['@crl_cache']
+                           $index: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['hash_name']
+                                 $param: #List[
+                                    $expression: #NameExpr['name']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['@crl_cache']
+                              $recv: #NameExpr['values']
+                           ]
+                           $recv: #NameExpr['flatten']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['delete_crl']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['crl']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['unlink']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['crl_filename']
+                                 $param: #List[
+                                    $expression: #NameExpr['crl']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['hash_dir']
+                           $param: #List[
+                              $expression: #TrueExpr['true']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['add_crl']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['crl']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['crl_filename']
+                                 $param: #List[
+                                    $expression: #NameExpr['crl']
+                                 ]
+                              ]
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['f']
+                              $body: #LShiftExpr[
+                                 $left: #NameExpr['f']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['crl']
+                                    $recv: #NameExpr['to_pem']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['hash_dir']
+                           $param: #List[
+                              $expression: #TrueExpr['true']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['load_pem_file']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['filepath']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['str']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['read']
+                              $param: #List[
+                                 $expression: #NameExpr['filepath']
+                              ]
+                           ]
+                        ]
+                        $statement: #ExceptionBlock[
+                           $main: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['OpenSSL']
+                                    $name: #NameExpr['X509']
+                                 ]
+                                 $name: #NameExpr['Certificate']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #NameExpr['str']
+                              ]
+                           ]
+                           $rescue: #List[
+                              $rescue: #Rescue[
+                                 $then: #ExceptionBlock[
+                                    $main: #ApplyExpr[
+                                       $recv: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['OpenSSL']
+                                             $name: #NameExpr['X509']
+                                          ]
+                                          $name: #NameExpr['CRL']
+                                       ]
+                                       $recv: #NameExpr['new']
+                                       $param: #List[
+                                          $expression: #NameExpr['str']
+                                       ]
+                                    ]
+                                    $rescue: #List[
+                                       $rescue: #Rescue[
+                                          $then: #ExceptionBlock[
+                                             $main: #ApplyExpr[
+                                                $recv: #Field[
+                                                   $recv: #Field[
+                                                      $recv: #NameExpr['OpenSSL']
+                                                      $name: #NameExpr['X509']
+                                                   ]
+                                                   $name: #NameExpr['Request']
+                                                ]
+                                                $recv: #NameExpr['new']
+                                                $param: #List[
+                                                   $expression: #NameExpr['str']
+                                                ]
+                                             ]
+                                             $rescue: #List[
+                                                $rescue: #Rescue[
+                                                   $then: #Nil['nil']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['private']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['crl_filename']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['crl']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #AddExpr[
+                        $left: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['path']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['hash_name']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['crl']
+                                       $recv: #NameExpr['issuer']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $right: #StringExpr['.pem']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['do_hash_dir']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['Dir']
+                        $recv: #NameExpr['chdir']
+                        $param: #List[
+                           $expression: #NameExpr['@dirpath']
+                        ]
+                        $body: #Block[
+                           $body: #List[
+                              $statement: #NameExpr['delete_symlink']
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['Dir']
+                                 $recv: #NameExpr['glob']
+                                 $param: #List[
+                                    $expression: #StringExpr['*.pem']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['pemfile']
+                                    $body: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['cert']
+                                          $right: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['load_pem_file']
+                                             $param: #List[
+                                                $expression: #NameExpr['pemfile']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #Case[
+                                          $cond: #NameExpr['cert']
+                                          $body: #List[
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #Field[
+                                                      $recv: #Field[
+                                                         $recv: #NameExpr['OpenSSL']
+                                                         $name: #NameExpr['X509']
+                                                      ]
+                                                      $name: #NameExpr['Certificate']
+                                                   ]
+                                                ]
+                                                $then: #ApplyExpr[
+                                                   #Self['self']
+                                                   $recv: #NameExpr['link_hash_cert']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['pemfile']
+                                                      $expression: #NameExpr['cert']
+                                                   ]
+                                                ]
+                                             ]
+                                             $when: #When[
+                                                $cond: #List[
+                                                   $expression: #Field[
+                                                      $recv: #Field[
+                                                         $recv: #NameExpr['OpenSSL']
+                                                         $name: #NameExpr['X509']
+                                                      ]
+                                                      $name: #NameExpr['CRL']
+                                                   ]
+                                                ]
+                                                $then: #ApplyExpr[
+                                                   #Self['self']
+                                                   $recv: #NameExpr['link_hash_crl']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['pemfile']
+                                                      $expression: #NameExpr['cert']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $else: #Unless[
+                                             $then: #ApplyExpr[
+                                                $recv: #NameExpr['STDERR']
+                                                $recv: #NameExpr['puts']
+                                                $param: #List[
+                                                   $expression: #StringExpr[
+                                                      $inner: #NameExpr['pemfile']
+                                                   ]
+                                                ]
+                                             ]
+                                             $cond: #NameExpr['@silent']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['delete_symlink']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #NameExpr['Dir']
+                           $recv: #NameExpr['entries']
+                           $param: #List[
+                              $expression: #StringExpr['.']
+                           ]
+                        ]
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['entry']
+                           $body: #List[
+                              $statement: #Unless[
+                                 $then: #Next['next']
+                                 $cond: #Match[
+                                    $left: #Regex['/^[\\da-f]+\\.r{0,1}\\d+$/']
+                                    $right: #NameExpr['entry']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['unlink']
+                                    $param: #List[
+                                       $expression: #NameExpr['entry']
+                                    ]
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['FileTest']
+                                    $recv: #NameExpr['symlink?']
+                                    $param: #List[
+                                       $expression: #NameExpr['entry']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['link_hash_cert']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['org_filename']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['cert']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['name_hash']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['hash_name']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['cert']
+                                    $recv: #NameExpr['subject']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['fingerprint']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['fingerprint']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['cert']
+                                    $recv: #NameExpr['to_der']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['filepath']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['link_hash']
+                              $param: #List[
+                                 $expression: #NameExpr['org_filename']
+                                 $expression: #NameExpr['name_hash']
+                                 $expression: #NameExpr['fingerprint']
+                              ]
+                              $body: #Block[
+                                 $param: #NameExpr['idx']
+                                 $body: #StringExpr[
+                                    $inner: #NameExpr['name_hash']
+                                    $inner: #NameExpr['idx']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Unless[
+                           $cond: #NameExpr['filepath']
+                           $then: #Unless[
+                              $cond: #NameExpr['@silent']
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['STDERR']
+                                 $recv: #NameExpr['puts']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['org_filename']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #LShiftExpr[
+                              $left: #LOrAssign[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['@cert_cache']
+                                    $index: #List[
+                                       $expression: #NameExpr['name_hash']
+                                    ]
+                                 ]
+                                 $right: #Array['[]']
+                              ]
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['path']
+                                 $param: #List[
+                                    $expression: #NameExpr['filepath']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['link_hash_crl']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['org_filename']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['crl']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['name_hash']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['hash_name']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['crl']
+                                    $recv: #NameExpr['issuer']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['fingerprint']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['fingerprint']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['crl']
+                                    $recv: #NameExpr['to_der']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['filepath']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['link_hash']
+                              $param: #List[
+                                 $expression: #NameExpr['org_filename']
+                                 $expression: #NameExpr['name_hash']
+                                 $expression: #NameExpr['fingerprint']
+                              ]
+                              $body: #Block[
+                                 $param: #NameExpr['idx']
+                                 $body: #StringExpr[
+                                    $inner: #NameExpr['name_hash']
+                                    $inner: #NameExpr['idx']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Unless[
+                           $cond: #NameExpr['filepath']
+                           $then: #Unless[
+                              $cond: #NameExpr['@silent']
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['STDERR']
+                                 $recv: #NameExpr['puts']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['org_filename']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #LShiftExpr[
+                              $left: #LOrAssign[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['@crl_cache']
+                                    $index: #List[
+                                       $expression: #NameExpr['name_hash']
+                                    ]
+                                 ]
+                                 $right: #Array['[]']
+                              ]
+                              $right: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['path']
+                                 $param: #List[
+                                    $expression: #NameExpr['filepath']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['link_hash']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['org_filename']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['name']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['fingerprint']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['idx']
+                           $right: #IntExpr['0']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['filepath']
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #While[
+                           $cond: #TrueExpr['true']
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['filepath']
+                                 $right: #Yield[
+                                    $param: #List[
+                                       $expression: #NameExpr['idx']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $then: #Break['break']
+                                 $cond: #OrExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['FileTest']
+                                       $recv: #NameExpr['symlink?']
+                                       $param: #List[
+                                          $expression: #NameExpr['filepath']
+                                       ]
+                                    ]
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['FileTest']
+                                       $recv: #NameExpr['exist?']
+                                       $param: #List[
+                                          $expression: #NameExpr['filepath']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #EqExpr[
+                                    $left: #Indexer[
+                                       $recv: #NameExpr['@fingerprint_cache']
+                                       $index: #List[
+                                          $expression: #NameExpr['filepath']
+                                       ]
+                                    ]
+                                    $right: #NameExpr['fingerprint']
+                                 ]
+                                 $then: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #FalseExpr['false']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AddAssign[
+                                 $left: #NameExpr['idx']
+                                 $right: #IntExpr['1']
+                              ]
+                           ]
+                        ]
+                        $statement: #Unless[
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['STDOUT']
+                              $recv: #NameExpr['puts']
+                              $param: #List[
+                                 $expression: #StringExpr[
+                                    $inner: #NameExpr['org_filename']
+                                    $inner: #NameExpr['filepath']
+                                 ]
+                              ]
+                           ]
+                           $cond: #NameExpr['@silent']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['symlink']
+                           $param: #List[
+                              $expression: #NameExpr['org_filename']
+                              $expression: #NameExpr['filepath']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['@fingerprint_cache']
+                              $index: #List[
+                                 $expression: #NameExpr['filepath']
+                              ]
+                           ]
+                           $right: #NameExpr['fingerprint']
+                        ]
+                        $statement: #NameExpr['filepath']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['symlink']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['from']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['to']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ExceptionBlock[
+                        $main: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['symlink']
+                           $param: #List[
+                              $expression: #NameExpr['from']
+                              $expression: #NameExpr['to']
+                           ]
+                        ]
+                        $rescue: #List[
+                           $rescue: #Rescue[
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['to']
+                                    $expression: #StringExpr['w']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['f']
+                                    $body: #LShiftExpr[
+                                       $left: #NameExpr['f']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['File']
+                                          $recv: #NameExpr['read']
+                                          $param: #List[
+                                             $expression: #NameExpr['from']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['path']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['filename']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #NameExpr['File']
+                        $recv: #NameExpr['join']
+                        $param: #List[
+                           $expression: #NameExpr['@dirpath']
+                           $expression: #NameExpr['filename']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['hash_name']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['name']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['sprintf']
+                        $param: #List[
+                           $expression: #StringExpr['%x']
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['name']
+                              $recv: #NameExpr['hash']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['fingerprint']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['der']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['Digest']
+                              $name: #NameExpr['MD5']
+                           ]
+                           $recv: #NameExpr['hexdigest']
+                           $param: #List[
+                              $expression: #NameExpr['der']
+                           ]
+                        ]
+                        $recv: #NameExpr['upcase']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #EqExpr[
+            $left: #BuiltInVariable['$0']
+            $right: #File['__FILE__']
+         ]
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['dirlist']
+               $right: #NameExpr['ARGV']
+            ]
+            $statement: #IfExpr[
+               $then: #LShiftExpr[
+                  $left: #NameExpr['dirlist']
+                  $right: #StringExpr['/usr/ssl/certs']
+               ]
+               $cond: #ApplyExpr[
+                  $recv: #NameExpr['dirlist']
+                  $recv: #NameExpr['empty?']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['dirlist']
+               $recv: #NameExpr['each']
+               $body: #Block[
+                  $param: #NameExpr['dir']
+                  $body: #ApplyExpr[
+                     $recv: #ApplyExpr[
+                        $recv: #NameExpr['CHashDir']
+                        $recv: #NameExpr['new']
+                        $param: #List[
+                           $expression: #NameExpr['dir']
+                        ]
+                     ]
+                     $recv: #NameExpr['hash_dir']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

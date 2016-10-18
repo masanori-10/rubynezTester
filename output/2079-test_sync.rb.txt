@@ -1,0 +1,391 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['sync']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['timeout']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['SyncTest']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #Class[
+                  $name: #NameExpr['Tester']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['include']
+                        $param: #List[
+                           $expression: #NameExpr['Sync_m']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_sync_lock_and_wakeup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['tester']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Tester']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['tester']
+                           $recv: #NameExpr['sync_lock']
+                           $param: #List[
+                              $expression: #NameExpr['EX']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['t']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['new']
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['tester']
+                                    $recv: #NameExpr['sync_lock']
+                                    $param: #List[
+                                       $expression: #NameExpr['EX']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Until[
+                           $body: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['sleep']
+                              $param: #List[
+                                 $expression: #FloatExpr['0.1']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['t']
+                              $recv: #NameExpr['stop?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['t']
+                           $recv: #NameExpr['wakeup']
+                        ]
+                        $statement: #Until[
+                           $body: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['sleep']
+                              $param: #List[
+                                 $expression: #FloatExpr['0.1']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['t']
+                              $recv: #NameExpr['stop?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['tester']
+                                    $recv: #NameExpr['sync_waiting']
+                                 ]
+                                 $recv: #NameExpr['uniq']
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['tester']
+                                 $recv: #NameExpr['sync_waiting']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $ensure: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['t']
+                           $recv: #NameExpr['kill']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['t']
+                           $recv: #NameExpr['join']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_sync_upgrade_and_wakeup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['tester']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Tester']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['tester']
+                           $recv: #NameExpr['sync_lock']
+                           $param: #List[
+                              $expression: #NameExpr['SH']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['t']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['new']
+                              $body: #Block[
+                                 $body: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['tester']
+                                       $recv: #NameExpr['sync_lock']
+                                       $param: #List[
+                                          $expression: #NameExpr['SH']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['tester']
+                                       $recv: #NameExpr['sync_lock']
+                                       $param: #List[
+                                          $expression: #NameExpr['EX']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Until[
+                           $body: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['sleep']
+                              $param: #List[
+                                 $expression: #FloatExpr['0.1']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['t']
+                              $recv: #NameExpr['stop?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['t']
+                           $recv: #NameExpr['wakeup']
+                        ]
+                        $statement: #Until[
+                           $body: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['sleep']
+                              $param: #List[
+                                 $expression: #FloatExpr['0.1']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['t']
+                              $recv: #NameExpr['stop?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['tester']
+                              $recv: #NameExpr['sync_upgrade_waiting']
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['ary']
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert']
+                                 $param: #List[
+                                    $expression: #NotExpr[
+                                       $expr: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['tester']
+                                             $recv: #NameExpr['sync_waiting']
+                                          ]
+                                          $recv: #NameExpr['include?']
+                                          $param: #List[
+                                             $expression: #Indexer[
+                                                $recv: #NameExpr['ary']
+                                                $index: #List[
+                                                   $expression: #IntExpr['0']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['tester']
+                                    $recv: #NameExpr['sync_waiting']
+                                 ]
+                                 $recv: #NameExpr['uniq']
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['tester']
+                                 $recv: #NameExpr['sync_waiting']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['tester']
+                                 $recv: #NameExpr['sync_waiting']
+                              ]
+                              $expression: #Array['[]']
+                           ]
+                        ]
+                     ]
+                     $ensure: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['t']
+                           $recv: #NameExpr['kill']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['t']
+                           $recv: #NameExpr['join']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_sync_lock_and_raise']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['tester']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Tester']
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['tester']
+                           $recv: #NameExpr['sync_lock']
+                           $param: #List[
+                              $expression: #NameExpr['EX']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['t']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['new']
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['tester']
+                                    $recv: #NameExpr['sync_lock']
+                                    $param: #List[
+                                       $expression: #NameExpr['EX']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #Until[
+                           $body: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['sleep']
+                              $param: #List[
+                                 $expression: #FloatExpr['0.1']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['t']
+                              $recv: #NameExpr['stop?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['t']
+                           $recv: #NameExpr['raise']
+                        ]
+                        $statement: #While[
+                           $body: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['sleep']
+                              $param: #List[
+                                 $expression: #FloatExpr['0.1']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['t']
+                              $recv: #NameExpr['alive?']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['tester']
+                                    $recv: #NameExpr['sync_waiting']
+                                 ]
+                                 $recv: #NameExpr['uniq']
+                              ]
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['tester']
+                                 $recv: #NameExpr['sync_waiting']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['tester']
+                                 $recv: #NameExpr['sync_waiting']
+                              ]
+                              $expression: #Array['[]']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

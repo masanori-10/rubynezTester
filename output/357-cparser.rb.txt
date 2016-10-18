@@ -1,0 +1,801 @@
+#Source[
+   #Module[
+      $name: #NameExpr['Fiddle']
+      $body: #BlockExpr[
+         $main: #Module[
+            $name: #NameExpr['CParser']
+            $body: #BlockExpr[
+               $main: #List[
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['parse_struct_signature']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['signature']
+                        ]
+                        $param: #OptionalParam[
+                           $name: #NameExpr['tymap']
+                           $default: #Nil['nil']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #IfExpr[
+                              $cond: #ApplyExpr[
+                                 $recv: #NameExpr['signature']
+                                 $recv: #NameExpr['is_a?']
+                                 $param: #List[
+                                    $expression: #NameExpr['String']
+                                 ]
+                              ]
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['signature']
+                                 $right: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['split_arguments']
+                                    $param: #List[
+                                       $expression: #NameExpr['signature']
+                                       $expression: #Regex['/[,;]/']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['mems']
+                              $right: #Array['[]']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['tys']
+                              $right: #Array['[]']
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['signature']
+                              $recv: #NameExpr['each']
+                              $body: #Block[
+                                 $param: #NameExpr['msig']
+                                 $body: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['msig']
+                                       $right: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['compact']
+                                          $param: #List[
+                                             $expression: #NameExpr['msig']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #Case[
+                                       $cond: #NameExpr['msig']
+                                       $body: #List[
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/^[\\w\\*\\s]+[\\*\\s](\\w+)$/']
+                                             ]
+                                             $then: #List[
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['mems']
+                                                   $recv: #NameExpr['push']
+                                                   $param: #List[
+                                                      $expression: #MatchedRegex['$1']
+                                                   ]
+                                                ]
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['tys']
+                                                   $recv: #NameExpr['push']
+                                                   $param: #List[
+                                                      $expression: #ApplyExpr[
+                                                         #Self['self']
+                                                         $recv: #NameExpr['parse_ctype']
+                                                         $param: #List[
+                                                            $expression: #NameExpr['msig']
+                                                            $expression: #NameExpr['tymap']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/^[\\w\\*\\s]+\\(\\*(\\w+)\\)\\(.*?\\)$/']
+                                             ]
+                                             $then: #List[
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['mems']
+                                                   $recv: #NameExpr['push']
+                                                   $param: #List[
+                                                      $expression: #MatchedRegex['$1']
+                                                   ]
+                                                ]
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['tys']
+                                                   $recv: #NameExpr['push']
+                                                   $param: #List[
+                                                      $expression: #ApplyExpr[
+                                                         #Self['self']
+                                                         $recv: #NameExpr['parse_ctype']
+                                                         $param: #List[
+                                                            $expression: #NameExpr['msig']
+                                                            $expression: #NameExpr['tymap']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/^([\\w\\*\\s]+[\\*\\s])(\\w+)\\[(\\d+)\\]$/']
+                                             ]
+                                             $then: #List[
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['mems']
+                                                   $recv: #NameExpr['push']
+                                                   $param: #List[
+                                                      $expression: #MatchedRegex['$2']
+                                                   ]
+                                                ]
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['tys']
+                                                   $recv: #NameExpr['push']
+                                                   $param: #List[
+                                                      $expression: #Array[
+                                                         $index: #List[
+                                                            $expression: #ApplyExpr[
+                                                               #Self['self']
+                                                               $recv: #NameExpr['parse_ctype']
+                                                               $param: #List[
+                                                                  $expression: #ApplyExpr[
+                                                                     $recv: #MatchedRegex['$1']
+                                                                     $recv: #NameExpr['strip']
+                                                                  ]
+                                                                  $expression: #NameExpr['tymap']
+                                                               ]
+                                                            ]
+                                                            $expression: #ApplyExpr[
+                                                               $recv: #MatchedRegex['$3']
+                                                               $recv: #NameExpr['to_i']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $when: #When[
+                                             $cond: #List[
+                                                $expression: #Regex['/^([\\w\\*\\s]+)\\[(\\d+)\\](\\w+)$/']
+                                             ]
+                                             $then: #List[
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['mems']
+                                                   $recv: #NameExpr['push']
+                                                   $param: #List[
+                                                      $expression: #MatchedRegex['$3']
+                                                   ]
+                                                ]
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['tys']
+                                                   $recv: #NameExpr['push']
+                                                   $param: #List[
+                                                      $expression: #Array[
+                                                         $index: #List[
+                                                            $expression: #ApplyExpr[
+                                                               #Self['self']
+                                                               $recv: #NameExpr['parse_ctype']
+                                                               $param: #List[
+                                                                  $expression: #ApplyExpr[
+                                                                     $recv: #MatchedRegex['$1']
+                                                                     $recv: #NameExpr['strip']
+                                                                  ]
+                                                                  $expression: #NameExpr['tymap']
+                                                               ]
+                                                            ]
+                                                            $expression: #ApplyExpr[
+                                                               $recv: #MatchedRegex['$2']
+                                                               $recv: #NameExpr['to_i']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $else: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['raise']
+                                          $param: #List[
+                                             $expression: #NameExpr['RuntimeError']
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['msig']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #RReturnStmt[
+                              $expr: #List[
+                                 $expression: #NameExpr['tys']
+                                 $expression: #NameExpr['mems']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['parse_signature']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['signature']
+                        ]
+                        $param: #OptionalParam[
+                           $name: #NameExpr['tymap']
+                           $default: #Nil['nil']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #LOrAssign[
+                              $left: #NameExpr['tymap']
+                              $right: #List['{}']
+                           ]
+                           $statement: #Case[
+                              $cond: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['compact']
+                                 $param: #List[
+                                    $expression: #NameExpr['signature']
+                                 ]
+                              ]
+                              $body: #List[
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^(?:[\\w\\*\\s]+)\\(\\*(\\w+)\\((.*?)\\)\\)(?:\\[\\w*\\]|\\(.*?\\));?$/']
+                                    ]
+                                    $then: #List[
+                                       $statement: #MultipleAssign[
+                                          $left: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['func']
+                                             $item: #NameExpr['args']
+                                          ]
+                                          $right: #MultipleRightHandSideExpression[
+                                             $expression: #MatchedRegex['$1']
+                                             $expression: #MatchedRegex['$2']
+                                          ]
+                                       ]
+                                       $statement: #RReturnStmt[
+                                          $expr: #List[
+                                             $expression: #Array[
+                                                $index: #List[
+                                                   $expression: #NameExpr['func']
+                                                   $expression: #NameExpr['TYPE_VOIDP']
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #ApplyExpr[
+                                                         #Self['self']
+                                                         $recv: #NameExpr['split_arguments']
+                                                         $param: #List[
+                                                            $expression: #NameExpr['args']
+                                                         ]
+                                                      ]
+                                                      $recv: #NameExpr['collect']
+                                                      $body: #Block[
+                                                         $param: #NameExpr['arg']
+                                                         $body: #ApplyExpr[
+                                                            #Self['self']
+                                                            $recv: #NameExpr['parse_ctype']
+                                                            $param: #List[
+                                                               $expression: #NameExpr['arg']
+                                                               $expression: #NameExpr['tymap']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^([\\w\\*\\s]+[\\*\\s])(\\w+)\\((.*?)\\);?$/']
+                                    ]
+                                    $then: #List[
+                                       $statement: #MultipleAssign[
+                                          $left: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['ret']
+                                             $item: #NameExpr['func']
+                                             $item: #NameExpr['args']
+                                          ]
+                                          $right: #MultipleRightHandSideExpression[
+                                             $expression: #ApplyExpr[
+                                                $recv: #MatchedRegex['$1']
+                                                $recv: #NameExpr['strip']
+                                             ]
+                                             $expression: #MatchedRegex['$2']
+                                             $expression: #MatchedRegex['$3']
+                                          ]
+                                       ]
+                                       $statement: #RReturnStmt[
+                                          $expr: #List[
+                                             $expression: #Array[
+                                                $index: #List[
+                                                   $expression: #NameExpr['func']
+                                                   $expression: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['parse_ctype']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['ret']
+                                                         $expression: #NameExpr['tymap']
+                                                      ]
+                                                   ]
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #ApplyExpr[
+                                                         #Self['self']
+                                                         $recv: #NameExpr['split_arguments']
+                                                         $param: #List[
+                                                            $expression: #NameExpr['args']
+                                                         ]
+                                                      ]
+                                                      $recv: #NameExpr['collect']
+                                                      $body: #Block[
+                                                         $param: #NameExpr['arg']
+                                                         $body: #ApplyExpr[
+                                                            #Self['self']
+                                                            $recv: #NameExpr['parse_ctype']
+                                                            $param: #List[
+                                                               $expression: #NameExpr['arg']
+                                                               $expression: #NameExpr['tymap']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $else: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['RuntimeError']
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['signature']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['parse_ctype']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['ty']
+                        ]
+                        $param: #OptionalParam[
+                           $name: #NameExpr['tymap']
+                           $default: #Nil['nil']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #LOrAssign[
+                              $left: #NameExpr['tymap']
+                              $right: #List['{}']
+                           ]
+                           $statement: #Case[
+                              $cond: #NameExpr['ty']
+                              $body: #List[
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #NameExpr['Array']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #Array[
+                                             $index: #List[
+                                                $expression: #ApplyExpr[
+                                                   #Self['self']
+                                                   $recv: #NameExpr['parse_ctype']
+                                                   $param: #List[
+                                                      $expression: #Indexer[
+                                                         $recv: #NameExpr['ty']
+                                                         $index: #List[
+                                                            $expression: #IntExpr['0']
+                                                         ]
+                                                      ]
+                                                      $expression: #NameExpr['tymap']
+                                                   ]
+                                                ]
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['ty']
+                                                   $index: #List[
+                                                      $expression: #IntExpr['1']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #StringExpr['void']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['TYPE_VOID']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^(?:(?:signed\\s+)?long\\s+long(?:\\s+int\\s+)?|int64_t)(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #IfExpr[
+                                       $cond: #Defined[
+                                          $base: #NameExpr['TYPE_LONG_LONG']
+                                       ]
+                                       $then: #RReturnStmt[
+                                          $expr: #List[
+                                             $expression: #NameExpr['TYPE_LONG_LONG']
+                                          ]
+                                       ]
+                                       $else: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['raise']
+                                          $param: #List[
+                                             $expression: #NameExpr['RuntimeError']
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['ty']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^(?:unsigned\\s+long\\s+long(?:\\s+int\\s+)?|uint64_t)(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #IfExpr[
+                                       $cond: #Defined[
+                                          $base: #NameExpr['TYPE_LONG_LONG']
+                                       ]
+                                       $then: #RReturnStmt[
+                                          $expr: #List[
+                                             $expression: #MinusExpr[
+                                                $expr: #NameExpr['TYPE_LONG_LONG']
+                                             ]
+                                          ]
+                                       ]
+                                       $else: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['raise']
+                                          $param: #List[
+                                             $expression: #NameExpr['RuntimeError']
+                                             $expression: #StringExpr[
+                                                $inner: #NameExpr['ty']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^(?:signed\\s+)?long(?:\\s+int\\s+)?(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['TYPE_LONG']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^unsigned\\s+long(?:\\s+int\\s+)?(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #MinusExpr[
+                                             $expr: #NameExpr['TYPE_LONG']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^(?:signed\\s+)?int(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['TYPE_INT']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^(?:unsigned\\s+int|uint)(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #MinusExpr[
+                                             $expr: #NameExpr['TYPE_INT']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^(?:signed\\s+)?short(?:\\s+int\\s+)?(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['TYPE_SHORT']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^unsigned\\s+short(?:\\s+int\\s+)?(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #MinusExpr[
+                                             $expr: #NameExpr['TYPE_SHORT']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^(?:signed\\s+)?char(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['TYPE_CHAR']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^unsigned\\s+char(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #MinusExpr[
+                                             $expr: #NameExpr['TYPE_CHAR']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^float(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['TYPE_FLOAT']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^double(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['TYPE_DOUBLE']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^size_t(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['TYPE_SIZE_T']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^ssize_t(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['TYPE_SSIZE_T']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^ptrdiff_t(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['TYPE_PTRDIFF_T']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^intptr_t(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['TYPE_INTPTR_T']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/^uintptr_t(?:\\s+\\w+)?$/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['TYPE_UINTPTR_T']
+                                       ]
+                                    ]
+                                 ]
+                                 $when: #When[
+                                    $cond: #List[
+                                       $expression: #Regex['/\\*/']
+                                       $expression: #Regex['/\\[[\\s\\d]*\\]/']
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #NameExpr['TYPE_VOIDP']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $else: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['ty']
+                                    $right: #Indexer[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['ty']
+                                          $recv: #NameExpr['split']
+                                          $param: #List[
+                                             $expression: #StringExpr[' ']
+                                             $expression: #IntExpr['2']
+                                          ]
+                                       ]
+                                       $index: #List[
+                                          $expression: #IntExpr['0']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #Indexer[
+                                       $recv: #NameExpr['tymap']
+                                       $index: #List[
+                                          $expression: #NameExpr['ty']
+                                       ]
+                                    ]
+                                    $then: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['parse_ctype']
+                                             $param: #List[
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['tymap']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['ty']
+                                                   ]
+                                                ]
+                                                $expression: #NameExpr['tymap']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $else: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['DLError']
+                                          $expression: #StringExpr[
+                                             $inner: #NameExpr['ty']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #NameExpr['private']
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['split_arguments']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['arguments']
+                        ]
+                        $param: #OptionalParam[
+                           $name: #NameExpr['sep']
+                           $default: #StringExpr[',']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #IfExpr[
+                              $then: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #Array['[]']
+                                 ]
+                              ]
+                              $cond: #EqExpr[
+                                 $left: #ApplyExpr[
+                                    $recv: #NameExpr['arguments']
+                                    $recv: #NameExpr['strip']
+                                 ]
+                                 $right: #StringExpr['void']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['arguments']
+                                 $recv: #NameExpr['scan']
+                                 $param: #List[
+                                    $expression: #Regex['/([\\w\\*\\s]+\\(\\*\\w*\\)\\(.*?\\)|[\\w\\*\\s\\[\\]]+)(?:#{sep}\\s*|$)/']
+                                 ]
+                              ]
+                              $recv: #NameExpr['collect']
+                              $body: #Block[
+                                 $param: #NameExpr['m']
+                                 $body: #Indexer[
+                                    $recv: #NameExpr['m']
+                                    $index: #List[
+                                       $expression: #IntExpr['0']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['compact']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['signature']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['signature']
+                                 $recv: #NameExpr['gsub']
+                                 $param: #List[
+                                    $expression: #Regex['/\\s+/']
+                                    $expression: #StringExpr[' ']
+                                 ]
+                              ]
+                              $recv: #NameExpr['gsub']
+                              $param: #List[
+                                 $expression: #Regex['/\\s*([\\(\\)\\[\\]\\*,;])\\s*/']
+                                 $expression: #StringExpr['\\1']
+                              ]
+                           ]
+                           $recv: #NameExpr['strip']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

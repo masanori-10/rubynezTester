@@ -1,0 +1,458 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['./rbconfig']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['CONFIG']
+         $right: #Field[
+            $recv: #NameExpr['RbConfig']
+            $name: #NameExpr['MAKEFILE_CONFIG']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['version']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['RUBY_VERSION']
+            $recv: #NameExpr['split']
+            $param: #List[
+               $expression: #Regex['/\\./']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['patch']
+         $right: #Indexer[
+            $recv: #NameExpr['CONFIG']
+            $index: #List[
+               $expression: #StringExpr['PATCHLEVEL']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['nversion']
+         $right: #ApplyExpr[
+            $recv: #AddExpr[
+               $left: #NameExpr['version']
+               $right: #Array[
+                  $index: #List[
+                     $expression: #Conditional[
+                        $cond: #LtExpr[
+                           $left: #ApplyExpr[
+                              $recv: #NameExpr['patch']
+                              $recv: #NameExpr['to_i']
+                           ]
+                           $right: #IntExpr['0']
+                        ]
+                        $then: #StringExpr['0']
+                        $else: #NameExpr['patch']
+                     ]
+                  ]
+               ]
+            ]
+            $recv: #NameExpr['join']
+            $param: #List[
+               $expression: #StringExpr[',']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['sversion']
+         $right: #AddExpr[
+            $left: #ApplyExpr[
+               $recv: #NameExpr['version']
+               $recv: #NameExpr['join']
+               $param: #List[
+                  $expression: #StringExpr['.']
+               ]
+            ]
+            $right: #Conditional[
+               $cond: #LtExpr[
+                  $left: #ApplyExpr[
+                     $recv: #NameExpr['patch']
+                     $recv: #NameExpr['to_i']
+                  ]
+                  $right: #IntExpr['0']
+               ]
+               $then: #StringExpr['dev']
+               $else: #StringExpr[
+                  $inner: #NameExpr['patch']
+               ]
+            ]
+         ]
+      ]
+      $statement: #LOrAssign[
+         $left: #NameExpr['$ruby_name']
+         $right: #Indexer[
+            $recv: #NameExpr['CONFIG']
+            $index: #List[
+               $expression: #StringExpr['RUBY_INSTALL_NAME']
+            ]
+         ]
+      ]
+      $statement: #LOrAssign[
+         $left: #NameExpr['$rubyw_name']
+         $right: #LOr[
+            $left: #Indexer[
+               $recv: #NameExpr['CONFIG']
+               $index: #List[
+                  $expression: #StringExpr['RUBYW_INSTALL_NAME']
+               ]
+            ]
+            $right: #ApplyExpr[
+               $recv: #NameExpr['$ruby_name']
+               $recv: #NameExpr['sub']
+               $param: #List[
+                  $expression: #Regex['/ruby/']
+                  $expression: #StringExpr['\\&w']
+               ]
+            ]
+         ]
+      ]
+      $statement: #LOrAssign[
+         $left: #NameExpr['$so_name']
+         $right: #Indexer[
+            $recv: #NameExpr['CONFIG']
+            $index: #List[
+               $expression: #StringExpr['RUBY_SO_NAME']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['icons']
+         $right: #List['{}']
+      ]
+      $statement: #SFuncDecl[
+         $path: #NameExpr['icons']
+         $name: #NameExpr['find']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['path']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #IfExpr[
+                  $cond: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['directory?']
+                     $param: #List[
+                        $expression: #NameExpr['path']
+                     ]
+                  ]
+                  $then: #ApplyExpr[
+                     $recv: #NameExpr['Dir']
+                     $recv: #NameExpr['open']
+                     $param: #List[
+                        $expression: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['expand_path']
+                           $param: #List[
+                              $expression: #NameExpr['path']
+                           ]
+                        ]
+                     ]
+                     $body: #Block[
+                        $param: #NameExpr['d']
+                        $body: #ApplyExpr[
+                           $recv: #NameExpr['d']
+                           $recv: #NameExpr['grep']
+                           $param: #List[
+                              $expression: #Regex['/\\.ico$/i']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['i']
+                              $body: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #Self['self']
+                                    $index: #List[
+                                       $expression: #BuiltInVariable['$`']
+                                    ]
+                                 ]
+                                 $right: #NameExpr['i']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $else: #AssignExpr[
+                     $left: #Indexer[
+                        $base: #Self['self']
+                        $index: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['basename']
+                              $param: #List[
+                                 $expression: #NameExpr['path']
+                                 $expression: #StringExpr['.ico']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $right: #NameExpr['path']
+                  ]
+               ]
+               $statement: #Self['self']
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #ApplyExpr[
+            $recv: #NameExpr['ARGV']
+            $recv: #NameExpr['empty?']
+         ]
+         $then: #ApplyExpr[
+            $recv: #NameExpr['icons']
+            $recv: #NameExpr['find']
+            $param: #List[
+               $expression: #StringExpr['.']
+            ]
+         ]
+         $else: #ApplyExpr[
+            $recv: #NameExpr['ARGV']
+            $recv: #NameExpr['each']
+            $body: #Block[
+               $param: #NameExpr['i']
+               $body: #ApplyExpr[
+                  $recv: #NameExpr['icons']
+                  $recv: #NameExpr['find']
+                  $param: #List[
+                     $expression: #NameExpr['i']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['ruby_icon']
+         $right: #AssignExpr[
+            $left: #NameExpr['rubyw_icon']
+            $right: #Nil['nil']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #Array[
+            $index: #List[
+               $expression: #NameExpr['$ruby_name']
+               $expression: #StringExpr['ruby']
+            ]
+         ]
+         $recv: #NameExpr['find']
+         $body: #Block[
+            $param: #NameExpr['i']
+            $body: #IfExpr[
+               $cond: #AssignExpr[
+                  $left: #NameExpr['i']
+                  $right: #Indexer[
+                     $recv: #NameExpr['icons']
+                     $index: #List[
+                        $expression: #NameExpr['i']
+                     ]
+                  ]
+               ]
+               $then: #AssignExpr[
+                  $left: #NameExpr['ruby_icon']
+                  $right: #AddExpr[
+                     $left: #AddExpr[
+                        $left: #StringExpr['1 ICON DISCARDABLE ']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['i']
+                           $recv: #NameExpr['dump']
+                        ]
+                     ]
+                     $right: #StringExpr['\\n']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #Array[
+            $index: #List[
+               $expression: #NameExpr['$rubyw_name']
+               $expression: #StringExpr['rubyw']
+            ]
+         ]
+         $recv: #NameExpr['find']
+         $body: #Block[
+            $param: #NameExpr['i']
+            $body: #IfExpr[
+               $cond: #AssignExpr[
+                  $left: #NameExpr['i']
+                  $right: #Indexer[
+                     $recv: #NameExpr['icons']
+                     $index: #List[
+                        $expression: #NameExpr['i']
+                     ]
+                  ]
+               ]
+               $then: #AssignExpr[
+                  $left: #NameExpr['rubyw_icon']
+                  $right: #AddExpr[
+                     $left: #AddExpr[
+                        $left: #StringExpr['1 ICON DISCARDABLE ']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['i']
+                           $recv: #NameExpr['dump']
+                        ]
+                     ]
+                     $right: #StringExpr['\\n']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['dll_icons']
+         $right: #Array['[]']
+      ]
+      $statement: #ApplyExpr[
+         $recv: #ApplyExpr[
+            $recv: #ApplyExpr[
+               $recv: #NameExpr['icons']
+               $recv: #NameExpr['keys']
+            ]
+            $recv: #NameExpr['sort']
+         ]
+         $recv: #NameExpr['each']
+         $body: #Block[
+            $param: #NameExpr['i']
+            $body: #LShiftExpr[
+               $left: #NameExpr['dll_icons']
+               $right: #AddExpr[
+                  $left: #AddExpr[
+                     $left: #StringExpr[
+                        $inner: #AddExpr[
+                           $left: #ApplyExpr[
+                              $recv: #NameExpr['dll_icons']
+                              $recv: #NameExpr['size']
+                           ]
+                           $right: #IntExpr['1']
+                        ]
+                     ]
+                     $right: #ApplyExpr[
+                        $recv: #Indexer[
+                           $recv: #NameExpr['icons']
+                           $index: #List[
+                              $expression: #NameExpr['i']
+                           ]
+                        ]
+                        $recv: #NameExpr['dump']
+                     ]
+                  ]
+                  $right: #StringExpr['\\n']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #Array[
+            $index: #List[
+               $expression: #Array[
+                  $index: #List[
+                     $expression: #NameExpr['$ruby_name']
+                     $expression: #Indexer[
+                        $recv: #NameExpr['CONFIG']
+                        $index: #List[
+                           $expression: #StringExpr['EXEEXT']
+                        ]
+                     ]
+                     $expression: #StringExpr['VFT_APP']
+                     $expression: #StringExpr['CUI']
+                     $expression: #NameExpr['ruby_icon']
+                  ]
+               ]
+               $expression: #Array[
+                  $index: #List[
+                     $expression: #NameExpr['$rubyw_name']
+                     $expression: #Indexer[
+                        $recv: #NameExpr['CONFIG']
+                        $index: #List[
+                           $expression: #StringExpr['EXEEXT']
+                        ]
+                     ]
+                     $expression: #StringExpr['VFT_APP']
+                     $expression: #StringExpr['GUI']
+                     $expression: #LOr[
+                        $left: #NameExpr['rubyw_icon']
+                        $right: #NameExpr['ruby_icon']
+                     ]
+                  ]
+               ]
+               $expression: #Array[
+                  $index: #List[
+                     $expression: #NameExpr['$so_name']
+                     $expression: #StringExpr['.dll']
+                     $expression: #StringExpr['VFT_DLL']
+                     $expression: #StringExpr['DLL']
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['dll_icons']
+                        $recv: #NameExpr['join']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+         $recv: #NameExpr['each']
+         $body: #Block[
+            $param: #MultipleLeftHandSideExpression[
+               $item: #NameExpr['base']
+               $item: #NameExpr['ext']
+               $item: #NameExpr['type']
+               $item: #NameExpr['desc']
+               $item: #NameExpr['icon']
+            ]
+            $body: #List[
+               $statement: #IfExpr[
+                  $then: #Next['next']
+                  $cond: #AndExpr[
+                     $left: #NameExpr['$output']
+                     $right: #NeExpr[
+                        $left: #NameExpr['$output']
+                        $right: #NameExpr['base']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['open']
+                  $param: #List[
+                     $expression: #AddExpr[
+                        $left: #NameExpr['base']
+                        $right: #StringExpr['.rc']
+                     ]
+                     $expression: #StringExpr['w']
+                  ]
+                  $body: #Block[
+                     $param: #NameExpr['f']
+                     $body: #List[
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['f']
+                              $recv: #NameExpr['binmode']
+                           ]
+                           $cond: #Match[
+                              $left: #Regex['/mingw/']
+                              $right: #NameExpr['RUBY_PLATFORM']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['f']
+                           $recv: #NameExpr['print']
+                           $param: #List[
+                              $expression: #HereDocument['#include <windows.h>\n#include <winver.h>\n\n#{icon || \'\'}\nVS_VERSION_INFO VERSIONINFO\n FILEVERSION    #{nversion}\n PRODUCTVERSION #{nversion}\n FILEFLAGSMASK  0x3fL\n FILEFLAGS      0x0L\n FILEOS         VOS__WINDOWS32\n FILETYPE       #{type}\n FILESUBTYPE    VFT2_UNKNOWN\nBEGIN\n BLOCK "StringFileInfo"\n BEGIN\n  BLOCK "000004b0"\n  BEGIN\n   VALUE "Comments",         "#{RUBY_RELEASE_DATE}\\\\0"\n   VALUE "CompanyName",      "http://www.ruby-lang.org/\\\\0"\n   VALUE "FileDescription",  "Ruby interpreter (#{desc}) #{sversion} [#{RUBY_PLATFORM}]\\\\0"\n   VALUE "FileVersion",      "#{sversion}\\\\0"\n   VALUE "InternalName",     "#{base + ext}\\\\0"\n   VALUE "LegalCopyright",   "Copyright (C) 1993-#{RUBY_RELEASE_DATE[/\\d+/]} Yukihiro Matsumoto\\\\0"\n   VALUE "OriginalFilename", "#{base + ext}\\\\0"\n   VALUE "ProductName",      "Ruby interpreter #{sversion} [#{RUBY_PLATFORM}]\\\\0"\n   VALUE "ProductVersion",   "#{sversion}\\\\0"\n  END\n END\n BLOCK "VarFileInfo"\n BEGIN\n  VALUE "Translation", 0x0, 0x4b0\n END\nEND\n']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

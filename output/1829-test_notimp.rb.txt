@@ -1,0 +1,470 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['test/unit']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['timeout']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['tmpdir']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestNotImplement']
+         $super: #Field[
+            $recv: #Field[
+               $recv: #NameExpr['Test']
+               $name: #NameExpr['Unit']
+            ]
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_respond_to_fork']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_include']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['Process']
+                                 $recv: #NameExpr['methods']
+                              ]
+                              $expression: #NameExpr['fork']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #Match[
+                              $left: #Regex['/linux/']
+                              $right: #NameExpr['RUBY_PLATFORM']
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #TrueExpr['true']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['Process']
+                                    $recv: #NameExpr['respond_to?']
+                                    $param: #List[
+                                       $expression: #NameExpr['fork']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_respond_to_lchmod']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_include']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['methods']
+                              ]
+                              $expression: #NameExpr['lchmod']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #Match[
+                              $left: #Regex['/linux/']
+                              $right: #NameExpr['RUBY_PLATFORM']
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #FalseExpr['false']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['respond_to?']
+                                    $param: #List[
+                                       $expression: #NameExpr['lchmod']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #Match[
+                              $left: #Regex['/freebsd/']
+                              $right: #NameExpr['RUBY_PLATFORM']
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_equal']
+                              $param: #List[
+                                 $expression: #TrueExpr['true']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['respond_to?']
+                                    $param: #List[
+                                       $expression: #NameExpr['lchmod']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #IfExpr[
+                  $then: #FuncDecl[
+                     $name: #NameExpr['test_call_fork']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['GC']
+                              $recv: #NameExpr['start']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['pid']
+                              $right: #Nil['nil']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['ps']
+                              $right: #Case[
+                                 $cond: #NameExpr['RUBY_PLATFORM']
+                                 $body: #List[
+                                    $when: #When[
+                                       $cond: #List[
+                                          $expression: #Regex['/linux/']
+                                       ]
+                                       $then: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['proc']
+                                          $body: #Block[
+                                             $body: #Command['ps -eLf #{pid}']
+                                          ]
+                                       ]
+                                    ]
+                                    $when: #When[
+                                       $cond: #List[
+                                          $expression: #Regex['/freebsd/']
+                                       ]
+                                       $then: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['proc']
+                                          $body: #Block[
+                                             $body: #Command['ps -lH #{pid}']
+                                          ]
+                                       ]
+                                    ]
+                                    $when: #When[
+                                       $cond: #List[
+                                          $expression: #Regex['/darwin/']
+                                       ]
+                                       $then: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['proc']
+                                          $body: #Block[
+                                             $body: #Command['ps -lM #{pid}']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['proc']
+                                    $body: #Block[
+                                       $body: #Command['ps -l #{pid}']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_nothing_raised']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Timeout']
+                                    $name: #NameExpr['Error']
+                                 ]
+                                 $expression: #NameExpr['ps']
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['Timeout']
+                                    $recv: #NameExpr['timeout']
+                                    $param: #List[
+                                       $expression: #IntExpr['5']
+                                    ]
+                                    $body: #Block[
+                                       $body: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['pid']
+                                             $right: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['fork']
+                                                $param: #List[
+                                                   $expression: #List['{}']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $base: #NameExpr['Process']
+                                             $recv: #NameExpr['wait']
+                                             $param: #List[
+                                                $expression: #NameExpr['pid']
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['pid']
+                                             $right: #Nil['nil']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $ensure: #IfExpr[
+                           $cond: #NameExpr['pid']
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['Process']
+                                 $recv: #NameExpr['kill']
+                                 $param: #List[
+                                    $expression: #NameExpr['KILL']
+                                    $expression: #NameExpr['pid']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $base: #NameExpr['Process']
+                                 $recv: #NameExpr['wait']
+                                 $param: #List[
+                                    $expression: #NameExpr['pid']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $cond: #ApplyExpr[
+                     $recv: #NameExpr['Process']
+                     $recv: #NameExpr['respond_to?']
+                     $param: #List[
+                        $expression: #NameExpr['fork']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_call_lchmod']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['respond_to?']
+                           $param: #List[
+                              $expression: #NameExpr['lchmod']
+                           ]
+                        ]
+                        $then: #ApplyExpr[
+                           $recv: #NameExpr['Dir']
+                           $recv: #NameExpr['mktmpdir']
+                           $body: #Block[
+                              $param: #NameExpr['d']
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['f']
+                                    $right: #StringExpr[
+                                       $inner: #NameExpr['d']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['g']
+                                    $right: #StringExpr[
+                                       $inner: #NameExpr['d']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['open']
+                                    $param: #List[
+                                       $expression: #NameExpr['f']
+                                       $expression: #StringExpr['w']
+                                    ]
+                                    $body: #Block[
+                                       $body: #Empty['']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['File']
+                                    $recv: #NameExpr['symlink']
+                                    $param: #List[
+                                       $expression: #NameExpr['f']
+                                       $expression: #NameExpr['g']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['newmode']
+                                    $right: #OctalInteger['0444']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['File']
+                                    $recv: #NameExpr['lchmod']
+                                    $param: #List[
+                                       $expression: #NameExpr['newmode']
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['d']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['snew']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['lstat']
+                                       $param: #List[
+                                          $expression: #NameExpr['g']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_equal']
+                                    $param: #List[
+                                       $expression: #NameExpr['newmode']
+                                       $expression: #AndExpr[
+                                          $left: #ApplyExpr[
+                                             $recv: #NameExpr['snew']
+                                             $recv: #NameExpr['mode']
+                                          ]
+                                          $right: #OctalInteger['0777']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_method_inspect_fork']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['m']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Process']
+                              $recv: #NameExpr['method']
+                              $param: #List[
+                                 $expression: #NameExpr['fork']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['Process']
+                              $recv: #NameExpr['respond_to?']
+                              $param: #List[
+                                 $expression: #NameExpr['fork']
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_not_match']
+                              $param: #List[
+                                 $expression: #Regex['/not-implemented/']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['m']
+                                    $recv: #NameExpr['inspect']
+                                 ]
+                              ]
+                           ]
+                           $else: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_match']
+                              $param: #List[
+                                 $expression: #Regex['/not-implemented/']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['m']
+                                    $recv: #NameExpr['inspect']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_method_inspect_lchmod']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['m']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['method']
+                              $param: #List[
+                                 $expression: #NameExpr['lchmod']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['respond_to?']
+                              $param: #List[
+                                 $expression: #NameExpr['lchmod']
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_not_match']
+                              $param: #List[
+                                 $expression: #Regex['/not-implemented/']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['m']
+                                    $recv: #NameExpr['inspect']
+                                 ]
+                              ]
+                           ]
+                           $else: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_match']
+                              $param: #List[
+                                 $expression: #Regex['/not-implemented/']
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['m']
+                                    $recv: #NameExpr['inspect']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

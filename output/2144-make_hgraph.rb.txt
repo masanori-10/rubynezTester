@@ -1,0 +1,544 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['objspace']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['ObjectSpace']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #SFuncDecl[
+                  $path: #Self['self']
+                  $name: #NameExpr['object_id_of']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['obj']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['obj']
+                           $recv: #NameExpr['kind_of?']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['ObjectSpace']
+                                 $name: #NameExpr['InternalObjectWrapper']
+                              ]
+                           ]
+                        ]
+                        $then: #ApplyExpr[
+                           $recv: #NameExpr['obj']
+                           $recv: #NameExpr['internal_object_id']
+                        ]
+                        $else: #ApplyExpr[
+                           $recv: #NameExpr['obj']
+                           $recv: #NameExpr['object_id']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['T_ICLASS_NAME']
+                  $right: #List['{}']
+               ]
+               $statement: #SFuncDecl[
+                  $path: #Self['self']
+                  $name: #NameExpr['class_name_of']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['klass']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #Case[
+                        $cond: #NameExpr['klass']
+                        $body: #List[
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #NameExpr['Class']
+                                 $expression: #NameExpr['Module']
+                              ]
+                              $then: #LOr[
+                                 $left: #ApplyExpr[
+                                    $recv: #NameExpr['klass']
+                                    $recv: #NameExpr['name']
+                                 ]
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['klass']
+                                    $recv: #NameExpr['inspect']
+                                 ]
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #NameExpr['InternalObjectWrapper']
+                              ]
+                              $then: #IfExpr[
+                                 $cond: #EqExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['klass']
+                                       $recv: #NameExpr['type']
+                                    ]
+                                    $right: #NameExpr['T_ICLASS']
+                                 ]
+                                 $then: #StringExpr[
+                                    $inner: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['class_name_of']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['ObjectSpace']
+                                             $recv: #NameExpr['internal_class_of']
+                                             $param: #List[
+                                                $expression: #NameExpr['klass']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #ApplyExpr[
+                                    $recv: #NameExpr['klass']
+                                    $recv: #NameExpr['inspect']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #ApplyExpr[
+                           $recv: #NameExpr['klass']
+                           $recv: #NameExpr['inspect']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #SFuncDecl[
+                  $path: #Self['self']
+                  $name: #NameExpr['module_refenreces']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['klass']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['h']
+                           $right: #List['{}']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['stack']
+                           $right: #Array[
+                              $index: #List[
+                                 $expression: #NameExpr['klass']
+                              ]
+                           ]
+                        ]
+                        $statement: #While[
+                           $cond: #AssignExpr[
+                              $left: #NameExpr['klass']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['stack']
+                                 $recv: #NameExpr['pop']
+                              ]
+                           ]
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['obj_id']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['ObjectSpace']
+                                    $recv: #NameExpr['object_id_of']
+                                    $param: #List[
+                                       $expression: #NameExpr['klass']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #Next['next']
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['h']
+                                    $recv: #NameExpr['has_key?']
+                                    $param: #List[
+                                       $expression: #NameExpr['obj_id']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['cls']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['ObjectSpace']
+                                    $recv: #NameExpr['internal_class_of']
+                                    $param: #List[
+                                       $expression: #NameExpr['klass']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['sup']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['ObjectSpace']
+                                    $recv: #NameExpr['internal_super_of']
+                                    $param: #List[
+                                       $expression: #NameExpr['klass']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #LShiftExpr[
+                                    $left: #NameExpr['stack']
+                                    $right: #NameExpr['cls']
+                                 ]
+                                 $cond: #NameExpr['cls']
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #LShiftExpr[
+                                    $left: #NameExpr['stack']
+                                    $right: #NameExpr['sup']
+                                 ]
+                                 $cond: #NameExpr['sup']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['h']
+                                    $index: #List[
+                                       $expression: #NameExpr['obj_id']
+                                    ]
+                                 ]
+                                 $right: #ApplyExpr[
+                                    $recv: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['klass']
+                                          $expression: #NameExpr['cls']
+                                          $expression: #NameExpr['sup']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['map']
+                                    $body: #Block[
+                                       $param: #NameExpr['e']
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['ObjectSpace']
+                                          $recv: #NameExpr['class_name_of']
+                                          $param: #List[
+                                             $expression: #NameExpr['e']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['h']
+                           $recv: #NameExpr['values']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #SFuncDecl[
+                  $path: #Self['self']
+                  $name: #NameExpr['module_refenreces_dot']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['klass']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['result']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['rank_set']
+                           $right: #List['{}']
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['result']
+                           $right: #StringExpr['digraph mod_h {']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['module_refenreces']
+                              $param: #List[
+                                 $expression: #NameExpr['klass']
+                              ]
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #Grouping[
+                                 $item: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['m']
+                                    $item: #NameExpr['k']
+                                    $item: #NameExpr['s']
+                                 ]
+                              ]
+                              $body: #List[
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['result']
+                                    $right: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['m']
+                                          $recv: #NameExpr['dump']
+                                       ]
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['s']
+                                          $recv: #NameExpr['dump']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['result']
+                                    $right: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['m']
+                                          $recv: #NameExpr['dump']
+                                       ]
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['k']
+                                          $recv: #NameExpr['dump']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #Unless[
+                                    $cond: #AssignExpr[
+                                       $left: #NameExpr['rank']
+                                       $right: #Indexer[
+                                          $recv: #NameExpr['rank_set']
+                                          $index: #List[
+                                             $expression: #NameExpr['m']
+                                          ]
+                                       ]
+                                    ]
+                                    $then: #AssignExpr[
+                                       $left: #NameExpr['rank']
+                                       $right: #AssignExpr[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['rank_set']
+                                             $index: #List[
+                                                $expression: #NameExpr['m']
+                                             ]
+                                          ]
+                                          $right: #IntExpr['0']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #Unless[
+                                    $cond: #Indexer[
+                                       $recv: #NameExpr['rank_set']
+                                       $index: #List[
+                                          $expression: #NameExpr['s']
+                                       ]
+                                    ]
+                                    $then: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['rank_set']
+                                          $index: #List[
+                                             $expression: #NameExpr['s']
+                                          ]
+                                       ]
+                                       $right: #AddExpr[
+                                          $left: #NameExpr['rank']
+                                          $right: #IntExpr['1']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #Unless[
+                                    $cond: #Indexer[
+                                       $recv: #NameExpr['rank_set']
+                                       $index: #List[
+                                          $expression: #NameExpr['k']
+                                       ]
+                                    ]
+                                    $then: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['rank_set']
+                                          $index: #List[
+                                             $expression: #NameExpr['k']
+                                          ]
+                                       ]
+                                       $right: #NameExpr['rank']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['rs']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['rank_set']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['m']
+                                 $item: #NameExpr['r']
+                              ]
+                              $body: #List[
+                                 $statement: #Unless[
+                                    $then: #AssignExpr[
+                                       $left: #Indexer[
+                                          $base: #NameExpr['rs']
+                                          $index: #List[
+                                             $expression: #NameExpr['r']
+                                          ]
+                                       ]
+                                       $right: #Array['[]']
+                                    ]
+                                    $cond: #Indexer[
+                                       $recv: #NameExpr['rs']
+                                       $index: #List[
+                                          $expression: #NameExpr['r']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #Indexer[
+                                       $recv: #NameExpr['rs']
+                                       $index: #List[
+                                          $expression: #NameExpr['r']
+                                       ]
+                                    ]
+                                    $right: #NameExpr['m']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['rs']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['ms']
+                              $body: #LShiftExpr[
+                                 $left: #NameExpr['result']
+                                 $right: #StringExpr[
+                                    $inner: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['ms']
+                                          $recv: #NameExpr['map']
+                                          $body: #Block[
+                                             $param: #NameExpr['m']
+                                             $body: #ApplyExpr[
+                                                $recv: #NameExpr['m']
+                                                $recv: #NameExpr['dump']
+                                             ]
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #StringExpr[', ']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #LShiftExpr[
+                           $left: #NameExpr['result']
+                           $right: #StringExpr['}']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['result']
+                           $recv: #NameExpr['join']
+                           $param: #List[
+                              $expression: #StringExpr['\\n']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #SFuncDecl[
+                  $path: #Self['self']
+                  $name: #NameExpr['module_refenreces_image']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['klass']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['file']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['dot']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['module_refenreces_dot']
+                              $param: #List[
+                                 $expression: #NameExpr['klass']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['img']
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['IO']
+                           $recv: #NameExpr['popen']
+                           $param: #List[
+                              $expression: #StringExpr['dot -Tpng']
+                              $expression: #StringExpr['r+']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['io']
+                              $body: #List[
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['io']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #NameExpr['dot']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['io']
+                                    $recv: #NameExpr['close_write']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['img']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['io']
+                                       $recv: #NameExpr['read']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['expand_path']
+                                 $param: #List[
+                                    $expression: #NameExpr['file']
+                                 ]
+                              ]
+                              $expression: #StringExpr['w+']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['f']
+                              $body: #ApplyExpr[
+                                 $base: #NameExpr['f']
+                                 $recv: #NameExpr['puts']
+                                 $param: #List[
+                                    $expression: #NameExpr['img']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

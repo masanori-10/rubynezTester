@@ -1,0 +1,195 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['drb/drb']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['drb/eq']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['drb/observer']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['Biff']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['include']
+                  $param: #List[
+                     $expression: #Field[
+                        $recv: #NameExpr['DRb']
+                        $name: #NameExpr['DRbObservable']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['filename']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['interval']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                           $param: #Empty['']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@filename']
+                           $right: #NameExpr['filename']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@interval']
+                           $right: #NameExpr['interval']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['run']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['last']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Time']
+                              $recv: #NameExpr['now']
+                           ]
+                        ]
+                        $statement: #While[
+                           $cond: #TrueExpr['true']
+                           $body: #ExceptionBlock[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['sleep']
+                                    $param: #List[
+                                       $expression: #NameExpr['@interval']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['current']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['mtime']
+                                       $param: #List[
+                                          $expression: #NameExpr['@filename']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $cond: #GtExpr[
+                                       $left: #NameExpr['current']
+                                       $right: #NameExpr['last']
+                                    ]
+                                    $then: #List[
+                                       $statement: #NameExpr['changed']
+                                       $statement: #ExceptionBlock[
+                                          $main: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['notify_observers']
+                                             $param: #List[
+                                                $expression: #NameExpr['@filename']
+                                                $expression: #NameExpr['current']
+                                             ]
+                                          ]
+                                          $rescue: #List[
+                                             $rescue: #Rescue[
+                                                $class: #NameExpr['Error']
+                                                $then: #Empty['']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['last']
+                                          $right: #NameExpr['current']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $rescue: #List[
+                                 $rescue: #Rescue[
+                                    $then: #Next['next']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['main']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['filename']
+                  $right: #StringExpr[
+                     $inner: #Indexer[
+                        $recv: #NameExpr['ENV']
+                        $index: #List[
+                           $expression: #StringExpr['USER']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['interval']
+                  $right: #IntExpr['15']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['uri']
+                  $right: #StringExpr['druby://:19903']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['biff']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['Biff']
+                     $recv: #NameExpr['new']
+                     $param: #List[
+                        $expression: #NameExpr['filename']
+                        $expression: #NameExpr['interval']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['DRb']
+                  $recv: #NameExpr['start_service']
+                  $param: #List[
+                     $expression: #NameExpr['uri']
+                     $expression: #NameExpr['biff']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['biff']
+                  $recv: #NameExpr['run']
+               ]
+            ]
+         ]
+      ]
+      $statement: #NameExpr['main']
+   ]
+   #Comsumed['comsumed']
+]

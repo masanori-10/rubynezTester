@@ -1,0 +1,1551 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['openssl/buffering']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['io/nonblock']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['OpenSSL']
+         $body: #BlockExpr[
+            $main: #Module[
+               $name: #NameExpr['SSL']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #Class[
+                        $name: #NameExpr['SSLContext']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['DEFAULT_PARAMS']
+                                 $right: #List[
+                                    $hash: #Hash[
+                                       $key: #NameExpr['ssl_version']
+                                       $value: #StringExpr['SSLv23']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['verify_mode']
+                                       $value: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['OpenSSL']
+                                             $name: #NameExpr['SSL']
+                                          ]
+                                          $name: #NameExpr['VERIFY_PEER']
+                                       ]
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['verify_hostname']
+                                       $value: #TrueExpr['true']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #NameExpr['options']
+                                       $value: #ApplyExpr[
+                                          $recv: #Lambda[
+                                             $body: #Block[
+                                                $body: #List[
+                                                   $statement: #AssignExpr[
+                                                      $left: #NameExpr['opts']
+                                                      $right: #Field[
+                                                         $recv: #Field[
+                                                            $recv: #NameExpr['OpenSSL']
+                                                            $name: #NameExpr['SSL']
+                                                         ]
+                                                         $name: #NameExpr['OP_ALL']
+                                                      ]
+                                                   ]
+                                                   $statement: #AndAssign[
+                                                      $left: #NameExpr['opts']
+                                                      $right: #ComplExpr[
+                                                         $expr: #Field[
+                                                            $recv: #Field[
+                                                               $recv: #NameExpr['OpenSSL']
+                                                               $name: #NameExpr['SSL']
+                                                            ]
+                                                            $name: #NameExpr['OP_DONT_INSERT_EMPTY_FRAGMENTS']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #IfExpr[
+                                                      $then: #OrAssign[
+                                                         $left: #NameExpr['opts']
+                                                         $right: #Field[
+                                                            $recv: #Field[
+                                                               $recv: #NameExpr['OpenSSL']
+                                                               $name: #NameExpr['SSL']
+                                                            ]
+                                                            $name: #NameExpr['OP_NO_COMPRESSION']
+                                                         ]
+                                                      ]
+                                                      $cond: #Defined[
+                                                         $base: #Field[
+                                                            $recv: #Field[
+                                                               $recv: #NameExpr['OpenSSL']
+                                                               $name: #NameExpr['SSL']
+                                                            ]
+                                                            $name: #NameExpr['OP_NO_COMPRESSION']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #OrAssign[
+                                                      $left: #NameExpr['opts']
+                                                      $right: #OrExpr[
+                                                         $left: #Field[
+                                                            $recv: #Field[
+                                                               $recv: #NameExpr['OpenSSL']
+                                                               $name: #NameExpr['SSL']
+                                                            ]
+                                                            $name: #NameExpr['OP_NO_SSLv2']
+                                                         ]
+                                                         $right: #Field[
+                                                            $recv: #Field[
+                                                               $recv: #NameExpr['OpenSSL']
+                                                               $name: #NameExpr['SSL']
+                                                            ]
+                                                            $name: #NameExpr['OP_NO_SSLv3']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $statement: #NameExpr['opts']
+                                                ]
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['call']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #NotExpr[
+                                    $expr: #LAnd[
+                                       $left: #ApplyExpr[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['OpenSSL']
+                                             $name: #NameExpr['OPENSSL_VERSION']
+                                          ]
+                                          $recv: #NameExpr['start_with?']
+                                          $param: #List[
+                                             $expression: #StringExpr['OpenSSL']
+                                          ]
+                                       ]
+                                       $right: #GteExpt[
+                                          $left: #Field[
+                                             $recv: #NameExpr['OpenSSL']
+                                             $name: #NameExpr['OPENSSL_VERSION_NUMBER']
+                                          ]
+                                          $right: #HexInteger['0x10100000']
+                                       ]
+                                    ]
+                                 ]
+                                 $then: #ApplyExpr[
+                                    $recv: #NameExpr['DEFAULT_PARAMS']
+                                    $recv: #NameExpr['merge!']
+                                    $param: #List[
+                                       $hash: #Hash[
+                                          $key: #NameExpr['ciphers']
+                                          $value: #ApplyExpr[
+                                             $recv: #ParcentNotation['%w{\n            ECDHE-ECDSA-AES128-GCM-SHA256\n            ECDHE-RSA-AES128-GCM-SHA256\n            ECDHE-ECDSA-AES256-GCM-SHA384\n            ECDHE-RSA-AES256-GCM-SHA384\n            DHE-RSA-AES128-GCM-SHA256\n            DHE-DSS-AES128-GCM-SHA256\n            DHE-RSA-AES256-GCM-SHA384\n            DHE-DSS-AES256-GCM-SHA384\n            ECDHE-ECDSA-AES128-SHA256\n            ECDHE-RSA-AES128-SHA256\n            ECDHE-ECDSA-AES128-SHA\n            ECDHE-RSA-AES128-SHA\n            ECDHE-ECDSA-AES256-SHA384\n            ECDHE-RSA-AES256-SHA384\n            ECDHE-ECDSA-AES256-SHA\n            ECDHE-RSA-AES256-SHA\n            DHE-RSA-AES128-SHA256\n            DHE-RSA-AES256-SHA256\n            DHE-RSA-AES128-SHA\n            DHE-RSA-AES256-SHA\n            DHE-DSS-AES128-SHA256\n            DHE-DSS-AES256-SHA256\n            DHE-DSS-AES128-SHA\n            DHE-DSS-AES256-SHA\n            AES128-GCM-SHA256\n            AES256-GCM-SHA384\n            AES128-SHA256\n            AES256-SHA256\n            AES128-SHA\n            AES256-SHA\n          }']
+                                             $recv: #NameExpr['join']
+                                             $param: #List[
+                                                $expression: #StringExpr[':']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['DEFAULT_CERT_STORE']
+                                 $right: #ApplyExpr[
+                                    $recv: #Field[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['OpenSSL']
+                                          $name: #NameExpr['X509']
+                                       ]
+                                       $name: #NameExpr['Store']
+                                    ]
+                                    $recv: #NameExpr['new']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['DEFAULT_CERT_STORE']
+                                 $recv: #NameExpr['set_default_paths']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #Field[
+                                    $base: #NameExpr['DEFAULT_CERT_STORE']
+                                    $name: #NameExpr['flags']
+                                 ]
+                                 $right: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['OpenSSL']
+                                       $name: #NameExpr['X509']
+                                    ]
+                                    $name: #NameExpr['V_FLAG_CRL_CHECK_ALL']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['attr_accessor']
+                                 $param: #List[
+                                    $expression: #NameExpr['tmp_dh_callback']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #Field[
+                                    $recv: #NameExpr['ExtConfig']
+                                    $name: #NameExpr['HAVE_TLSEXT_HOST_NAME']
+                                 ]
+                                 $then: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['attr_accessor']
+                                    $param: #List[
+                                       $expression: #NameExpr['servername_cb']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['initialize']
+                                 $param: #List[
+                                    $param: #OptionalParam[
+                                       $name: #NameExpr['version']
+                                       $default: #Nil['nil']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #List[
+                                       $statement: #OrAssign[
+                                          $left: #Field[
+                                             $base: #Self['self']
+                                             $name: #NameExpr['options']
+                                          ]
+                                          $right: #Field[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['OpenSSL']
+                                                $name: #NameExpr['SSL']
+                                             ]
+                                             $name: #NameExpr['OP_ALL']
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $then: #AssignExpr[
+                                             $left: #Field[
+                                                $base: #Self['self']
+                                                $name: #NameExpr['ssl_version']
+                                             ]
+                                             $right: #NameExpr['version']
+                                          ]
+                                          $cond: #NameExpr['version']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['set_params']
+                                 $param: #List[
+                                    $param: #OptionalParam[
+                                       $name: #NameExpr['params']
+                                       $default: #List['{}']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['params']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['DEFAULT_PARAMS']
+                                             $recv: #NameExpr['merge']
+                                             $param: #List[
+                                                $expression: #NameExpr['params']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #NameExpr['params']
+                                          $recv: #NameExpr['each']
+                                          $body: #Block[
+                                             $param: #MultipleLeftHandSideExpression[
+                                                $item: #NameExpr['name']
+                                                $item: #NameExpr['value']
+                                             ]
+                                             $body: #ApplyExpr[
+                                                $recv: #Self['self']
+                                                $recv: #NameExpr['__send__']
+                                                $param: #List[
+                                                   $expression: #StringExpr[
+                                                      $inner: #NameExpr['name']
+                                                   ]
+                                                   $expression: #NameExpr['value']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $cond: #NeExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #Self['self']
+                                                $recv: #NameExpr['verify_mode']
+                                             ]
+                                             $right: #Field[
+                                                $recv: #Field[
+                                                   $recv: #NameExpr['OpenSSL']
+                                                   $name: #NameExpr['SSL']
+                                                ]
+                                                $name: #NameExpr['VERIFY_NONE']
+                                             ]
+                                          ]
+                                          $then: #Unless[
+                                             $cond: #OrExpr[
+                                                $left: #OrExpr[
+                                                   $left: #ApplyExpr[
+                                                      $recv: #Self['self']
+                                                      $recv: #NameExpr['ca_file']
+                                                   ]
+                                                   $right: #ApplyExpr[
+                                                      $recv: #Self['self']
+                                                      $recv: #NameExpr['ca_path']
+                                                   ]
+                                                ]
+                                                $right: #ApplyExpr[
+                                                   $recv: #Self['self']
+                                                   $recv: #NameExpr['cert_store']
+                                                ]
+                                             ]
+                                             $then: #AssignExpr[
+                                                $left: #Field[
+                                                   $base: #Self['self']
+                                                   $name: #NameExpr['cert_store']
+                                                ]
+                                                $right: #NameExpr['DEFAULT_CERT_STORE']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #RReturnStmt[
+                                          $expr: #List[
+                                             $expression: #NameExpr['params']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #Module[
+                        $name: #NameExpr['SocketForwarder']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['addr']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['to_io']
+                                       $recv: #NameExpr['addr']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['peeraddr']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['to_io']
+                                       $recv: #NameExpr['peeraddr']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['setsockopt']
+                                 $param: #List[
+                                    $param: #Param[
+                                       $param: #NameExpr['level']
+                                    ]
+                                    $param: #Param[
+                                       $param: #NameExpr['optname']
+                                    ]
+                                    $param: #Param[
+                                       $param: #NameExpr['optval']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['to_io']
+                                       $recv: #NameExpr['setsockopt']
+                                       $param: #List[
+                                          $expression: #NameExpr['level']
+                                          $expression: #NameExpr['optname']
+                                          $expression: #NameExpr['optval']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['getsockopt']
+                                 $param: #List[
+                                    $param: #Param[
+                                       $param: #NameExpr['level']
+                                    ]
+                                    $param: #Param[
+                                       $param: #NameExpr['optname']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['to_io']
+                                       $recv: #NameExpr['getsockopt']
+                                       $param: #List[
+                                          $expression: #NameExpr['level']
+                                          $expression: #NameExpr['optname']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['fcntl']
+                                 $param: #List[
+                                    $param: #VariadicParam[
+                                       $name: #NameExpr['args']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['to_io']
+                                       $recv: #NameExpr['fcntl']
+                                       $param: #List[
+                                          $variadic: #Variadic[
+                                             $base: #NameExpr['args']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['closed?']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['to_io']
+                                       $recv: #NameExpr['closed?']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['do_not_reverse_lookup=']
+                                 $param: #List[
+                                    $param: #Param[
+                                       $param: #NameExpr['flag']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #AssignExpr[
+                                       $left: #Field[
+                                          $base: #NameExpr['to_io']
+                                          $name: #NameExpr['do_not_reverse_lookup']
+                                       ]
+                                       $right: #NameExpr['flag']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['verify_certificate_identity']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['cert']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['hostname']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['should_verify_common_name']
+                                 $right: #TrueExpr['true']
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['cert']
+                                    $recv: #NameExpr['extensions']
+                                 ]
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['ext']
+                                    $body: #List[
+                                       $statement: #IfExpr[
+                                          $then: #Next['next']
+                                          $cond: #NeExpr[
+                                             $left: #ApplyExpr[
+                                                $recv: #NameExpr['ext']
+                                                $recv: #NameExpr['oid']
+                                             ]
+                                             $right: #StringExpr['subjectAltName']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['ostr']
+                                          $right: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #Field[
+                                                      $recv: #NameExpr['OpenSSL']
+                                                      $name: #NameExpr['ASN1']
+                                                   ]
+                                                   $recv: #NameExpr['decode']
+                                                   $param: #List[
+                                                      $expression: #ApplyExpr[
+                                                         $recv: #NameExpr['ext']
+                                                         $recv: #NameExpr['to_der']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $recv: #NameExpr['value']
+                                             ]
+                                             $recv: #NameExpr['last']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['sequence']
+                                          $right: #ApplyExpr[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['OpenSSL']
+                                                $name: #NameExpr['ASN1']
+                                             ]
+                                             $recv: #NameExpr['decode']
+                                             $param: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['ostr']
+                                                   $recv: #NameExpr['value']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['sequence']
+                                             $recv: #NameExpr['value']
+                                          ]
+                                          $recv: #NameExpr['each']
+                                          $body: #Block[
+                                             $param: #NameExpr['san']
+                                             $body: #Case[
+                                                $cond: #ApplyExpr[
+                                                   $recv: #NameExpr['san']
+                                                   $recv: #NameExpr['tag']
+                                                ]
+                                                $body: #List[
+                                                   $when: #When[
+                                                      $cond: #List[
+                                                         $expression: #IntExpr['2']
+                                                      ]
+                                                      $then: #List[
+                                                         $statement: #AssignExpr[
+                                                            $left: #NameExpr['should_verify_common_name']
+                                                            $right: #FalseExpr['false']
+                                                         ]
+                                                         $statement: #IfExpr[
+                                                            $then: #RReturnStmt[
+                                                               $expr: #List[
+                                                                  $expression: #TrueExpr['true']
+                                                               ]
+                                                            ]
+                                                            $cond: #ApplyExpr[
+                                                               #Self['self']
+                                                               $recv: #NameExpr['verify_hostname']
+                                                               $param: #List[
+                                                                  $expression: #NameExpr['hostname']
+                                                                  $expression: #ApplyExpr[
+                                                                     $recv: #NameExpr['san']
+                                                                     $recv: #NameExpr['value']
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $when: #When[
+                                                      $cond: #List[
+                                                         $expression: #IntExpr['7']
+                                                      ]
+                                                      $then: #List[
+                                                         $statement: #AssignExpr[
+                                                            $left: #NameExpr['should_verify_common_name']
+                                                            $right: #FalseExpr['false']
+                                                         ]
+                                                         $statement: #IfExpr[
+                                                            $cond: #EqExpr[
+                                                               $left: #ApplyExpr[
+                                                                  $recv: #ApplyExpr[
+                                                                     $recv: #NameExpr['san']
+                                                                     $recv: #NameExpr['value']
+                                                                  ]
+                                                                  $recv: #NameExpr['size']
+                                                               ]
+                                                               $right: #IntExpr['4']
+                                                            ]
+                                                            $then: #IfExpr[
+                                                               $then: #RReturnStmt[
+                                                                  $expr: #List[
+                                                                     $expression: #TrueExpr['true']
+                                                                  ]
+                                                               ]
+                                                               $cond: #EqExpr[
+                                                                  $left: #ApplyExpr[
+                                                                     $recv: #ApplyExpr[
+                                                                        $recv: #ApplyExpr[
+                                                                           $recv: #NameExpr['san']
+                                                                           $recv: #NameExpr['value']
+                                                                        ]
+                                                                        $recv: #NameExpr['unpack']
+                                                                        $param: #List[
+                                                                           $expression: #StringExpr['C*']
+                                                                        ]
+                                                                     ]
+                                                                     $recv: #NameExpr['join']
+                                                                     $param: #List[
+                                                                        $expression: #StringExpr['.']
+                                                                     ]
+                                                                  ]
+                                                                  $right: #NameExpr['hostname']
+                                                               ]
+                                                            ]
+                                                            $else: #IfExpr[
+                                                               $cond: #EqExpr[
+                                                                  $left: #ApplyExpr[
+                                                                     $recv: #ApplyExpr[
+                                                                        $recv: #NameExpr['san']
+                                                                        $recv: #NameExpr['value']
+                                                                     ]
+                                                                     $recv: #NameExpr['size']
+                                                                  ]
+                                                                  $right: #IntExpr['16']
+                                                               ]
+                                                               $then: #IfExpr[
+                                                                  $then: #RReturnStmt[
+                                                                     $expr: #List[
+                                                                        $expression: #TrueExpr['true']
+                                                                     ]
+                                                                  ]
+                                                                  $cond: #EqExpr[
+                                                                     $left: #ApplyExpr[
+                                                                        $recv: #ApplyExpr[
+                                                                           $recv: #ApplyExpr[
+                                                                              $recv: #ApplyExpr[
+                                                                                 $recv: #NameExpr['san']
+                                                                                 $recv: #NameExpr['value']
+                                                                              ]
+                                                                              $recv: #NameExpr['unpack']
+                                                                              $param: #List[
+                                                                                 $expression: #StringExpr['n*']
+                                                                              ]
+                                                                           ]
+                                                                           $recv: #NameExpr['map']
+                                                                           $body: #Block[
+                                                                              $param: #NameExpr['e']
+                                                                              $body: #ApplyExpr[
+                                                                                 #Self['self']
+                                                                                 $recv: #NameExpr['sprintf']
+                                                                                 $param: #List[
+                                                                                    $expression: #StringExpr['%X']
+                                                                                    $expression: #NameExpr['e']
+                                                                                 ]
+                                                                              ]
+                                                                           ]
+                                                                        ]
+                                                                        $recv: #NameExpr['join']
+                                                                        $param: #List[
+                                                                           $expression: #StringExpr[':']
+                                                                        ]
+                                                                     ]
+                                                                     $right: #NameExpr['hostname']
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #NameExpr['should_verify_common_name']
+                                 $then: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['cert']
+                                          $recv: #NameExpr['subject']
+                                       ]
+                                       $recv: #NameExpr['to_a']
+                                    ]
+                                    $recv: #NameExpr['each']
+                                    $body: #Block[
+                                       $param: #MultipleLeftHandSideExpression[
+                                          $item: #NameExpr['oid']
+                                          $item: #NameExpr['value']
+                                       ]
+                                       $body: #IfExpr[
+                                          $cond: #EqExpr[
+                                             $left: #NameExpr['oid']
+                                             $right: #StringExpr['CN']
+                                          ]
+                                          $then: #IfExpr[
+                                             $then: #RReturnStmt[
+                                                $expr: #List[
+                                                   $expression: #TrueExpr['true']
+                                                ]
+                                             ]
+                                             $cond: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['verify_hostname']
+                                                $param: #List[
+                                                   $expression: #NameExpr['hostname']
+                                                   $expression: #NameExpr['value']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #FalseExpr['false']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['module_function']
+                        $param: #List[
+                           $expression: #NameExpr['verify_certificate_identity']
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['verify_hostname']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['hostname']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['san']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #Unless[
+                                 $then: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #FalseExpr['false']
+                                    ]
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['san']
+                                    $recv: #NameExpr['ascii_only?']
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $then: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #FalseExpr['false']
+                                    ]
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['hostname']
+                                    $recv: #NameExpr['ascii_only?']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['san_parts']
+                                 $right: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['san']
+                                       $recv: #NameExpr['downcase']
+                                    ]
+                                    $recv: #NameExpr['split']
+                                    $param: #List[
+                                       $expression: #StringExpr['.']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #EqExpr[
+                                          $left: #NameExpr['san']
+                                          $right: #NameExpr['hostname']
+                                       ]
+                                    ]
+                                 ]
+                                 $cond: #LtExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['san_parts']
+                                       $recv: #NameExpr['size']
+                                    ]
+                                    $right: #IntExpr['2']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['host_parts']
+                                 $right: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['hostname']
+                                       $recv: #NameExpr['downcase']
+                                    ]
+                                    $recv: #NameExpr['split']
+                                    $param: #List[
+                                       $expression: #StringExpr['.']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $then: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #FalseExpr['false']
+                                    ]
+                                 ]
+                                 $cond: #EqExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['san_parts']
+                                       $recv: #NameExpr['size']
+                                    ]
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['host_parts']
+                                       $recv: #NameExpr['size']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $then: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #FalseExpr['false']
+                                    ]
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['verify_wildcard']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['host_parts']
+                                          $recv: #NameExpr['shift']
+                                       ]
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['san_parts']
+                                          $recv: #NameExpr['shift']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #EqExpr[
+                                 $left: #ApplyExpr[
+                                    $recv: #NameExpr['san_parts']
+                                    $recv: #NameExpr['join']
+                                    $param: #List[
+                                       $expression: #StringExpr['.']
+                                    ]
+                                 ]
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['host_parts']
+                                    $recv: #NameExpr['join']
+                                    $param: #List[
+                                       $expression: #StringExpr['.']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['module_function']
+                        $param: #List[
+                           $expression: #NameExpr['verify_hostname']
+                        ]
+                     ]
+                     $statement: #FuncDecl[
+                        $name: #NameExpr['verify_wildcard']
+                        $param: #List[
+                           $param: #Param[
+                              $param: #NameExpr['domain_component']
+                           ]
+                           $param: #Param[
+                              $param: #NameExpr['san_component']
+                           ]
+                        ]
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['parts']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['san_component']
+                                    $recv: #NameExpr['split']
+                                    $param: #List[
+                                       $expression: #StringExpr['*']
+                                       $expression: #MinusExpr[
+                                          $expr: #IntExpr['1']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #FalseExpr['false']
+                                    ]
+                                 ]
+                                 $cond: #GtExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['parts']
+                                       $recv: #NameExpr['size']
+                                    ]
+                                    $right: #IntExpr['2']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #EqExpr[
+                                          $left: #NameExpr['san_component']
+                                          $right: #NameExpr['domain_component']
+                                       ]
+                                    ]
+                                 ]
+                                 $cond: #EqExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['parts']
+                                       $recv: #NameExpr['size']
+                                    ]
+                                    $right: #IntExpr['1']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #FalseExpr['false']
+                                    ]
+                                 ]
+                                 $cond: #ApplyExpr[
+                                    $base: #ApplyExpr[
+                                       $recv: #NameExpr['domain_component']
+                                       $recv: #NameExpr['start_with?']
+                                       $param: #List[
+                                          $expression: #StringExpr['xn--']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['&']
+                                    $param: #List[
+                                       $expression: #NeExpr[
+                                          $left: #NameExpr['san_component']
+                                          $right: #StringExpr['*']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #LAnd[
+                                 $left: #LAnd[
+                                    $left: #LtExpr[
+                                       $left: #AddExpr[
+                                          $left: #ApplyExpr[
+                                             $recv: #Indexer[
+                                                $recv: #NameExpr['parts']
+                                                $index: #List[
+                                                   $expression: #IntExpr['0']
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['length']
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #Indexer[
+                                                $recv: #NameExpr['parts']
+                                                $index: #List[
+                                                   $expression: #IntExpr['1']
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['length']
+                                          ]
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['domain_component']
+                                          $recv: #NameExpr['length']
+                                       ]
+                                    ]
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['domain_component']
+                                       $recv: #NameExpr['start_with?']
+                                       $param: #List[
+                                          $expression: #Indexer[
+                                             $recv: #NameExpr['parts']
+                                             $index: #List[
+                                                $expression: #IntExpr['0']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['domain_component']
+                                    $recv: #NameExpr['end_with?']
+                                    $param: #List[
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['parts']
+                                          $index: #List[
+                                             $expression: #IntExpr['1']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['module_function']
+                        $param: #List[
+                           $expression: #NameExpr['verify_wildcard']
+                        ]
+                     ]
+                     $statement: #Class[
+                        $name: #NameExpr['SSLSocket']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['include']
+                                 $param: #List[
+                                    $expression: #NameExpr['Buffering']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['include']
+                                 $param: #List[
+                                    $expression: #NameExpr['SocketForwarder']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #Field[
+                                    $recv: #NameExpr['ExtConfig']
+                                    $name: #NameExpr['HAVE_TLSEXT_HOST_NAME']
+                                 ]
+                                 $then: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['attr_reader']
+                                    $param: #List[
+                                       $expression: #NameExpr['hostname']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['attr_reader']
+                                 $param: #List[
+                                    $expression: #NameExpr['io']
+                                 ]
+                              ]
+                              $statement: #Alias[
+                                 $newname: #NameExpr['to_io']
+                                 $target: #NameExpr['io']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['attr_reader']
+                                 $param: #List[
+                                    $expression: #NameExpr['context']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['attr_accessor']
+                                 $param: #List[
+                                    $expression: #NameExpr['sync_close']
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['sysclose']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #List[
+                                       $statement: #IfExpr[
+                                          $then: #RReturnStmt['return']
+                                          $cond: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['closed?']
+                                          ]
+                                       ]
+                                       $statement: #NameExpr['stop']
+                                       $statement: #IfExpr[
+                                          $then: #ApplyExpr[
+                                             $recv: #NameExpr['io']
+                                             $recv: #NameExpr['close']
+                                          ]
+                                          $cond: #NameExpr['sync_close']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['post_connection_check']
+                                 $param: #List[
+                                    $param: #Param[
+                                       $param: #NameExpr['hostname']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #List[
+                                       $statement: #IfExpr[
+                                          $cond: #ApplyExpr[
+                                             $recv: #NameExpr['peer_cert']
+                                             $recv: #NameExpr['nil?']
+                                          ]
+                                          $then: #List[
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['msg']
+                                                $right: #StringExpr['Peer verification enabled, but no certificate received.']
+                                             ]
+                                             $statement: #IfExpr[
+                                                $cond: #ApplyExpr[
+                                                   #Self['self']
+                                                   $recv: #NameExpr['using_anon_cipher?']
+                                                ]
+                                                $then: #AddAssign[
+                                                   $left: #NameExpr['msg']
+                                                   $right: #ConnectString[
+                                                      $String: #StringExpr[
+                                                         $inner: #Indexer[
+                                                            $recv: #NameExpr['cipher']
+                                                            $index: #List[
+                                                               $expression: #IntExpr['0']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                      $String: #StringExpr['Anonymous suites must be disabled to use peer verification.']
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['raise']
+                                                $param: #List[
+                                                   $expression: #NameExpr['SSLError']
+                                                   $expression: #NameExpr['msg']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #Unless[
+                                          $cond: #ApplyExpr[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['OpenSSL']
+                                                $name: #NameExpr['SSL']
+                                             ]
+                                             $recv: #NameExpr['verify_certificate_identity']
+                                             $param: #List[
+                                                $expression: #NameExpr['peer_cert']
+                                                $expression: #NameExpr['hostname']
+                                             ]
+                                          ]
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['raise']
+                                             $param: #List[
+                                                $expression: #NameExpr['SSLError']
+                                                $expression: #StringExpr[
+                                                   $inner: #NameExpr['hostname']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #RReturnStmt[
+                                          $expr: #List[
+                                             $expression: #TrueExpr['true']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['session']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['SSL']
+                                          $name: #NameExpr['Session']
+                                       ]
+                                       $recv: #NameExpr['new']
+                                       $param: #List[
+                                          $expression: #Self['self']
+                                       ]
+                                    ]
+                                    $rescue: #List[
+                                       $rescue: #Rescue[
+                                          $class: #Field[
+                                             $recv: #Field[
+                                                $recv: #NameExpr['SSL']
+                                                $name: #NameExpr['Session']
+                                             ]
+                                             $name: #NameExpr['SessionError']
+                                          ]
+                                          $then: #Nil['nil']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #NameExpr['private']
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['using_anon_cipher?']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['ctx']
+                                          $right: #ApplyExpr[
+                                             $recv: #Field[
+                                                $recv: #Field[
+                                                   $recv: #NameExpr['OpenSSL']
+                                                   $name: #NameExpr['SSL']
+                                                ]
+                                                $name: #NameExpr['SSLContext']
+                                             ]
+                                             $recv: #NameExpr['new']
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #Field[
+                                             $base: #NameExpr['ctx']
+                                             $name: #NameExpr['ciphers']
+                                          ]
+                                          $right: #StringExpr['aNULL']
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['ctx']
+                                             $recv: #NameExpr['ciphers']
+                                          ]
+                                          $recv: #NameExpr['include?']
+                                          $param: #List[
+                                             $expression: #NameExpr['cipher']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['client_cert_cb']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['@context']
+                                       $recv: #NameExpr['client_cert_cb']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['tmp_dh_callback']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #LOr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['@context']
+                                          $recv: #NameExpr['tmp_dh_callback']
+                                       ]
+                                       $right: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['OpenSSL']
+                                             $name: #NameExpr['PKey']
+                                          ]
+                                          $name: #NameExpr['DEFAULT_TMP_DH_CALLBACK']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['tmp_ecdh_callback']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['@context']
+                                       $recv: #NameExpr['tmp_ecdh_callback']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['session_new_cb']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['@context']
+                                       $recv: #NameExpr['session_new_cb']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['session_get_cb']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['@context']
+                                       $recv: #NameExpr['session_get_cb']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #Class[
+                        $name: #NameExpr['SSLServer']
+                        $body: #BlockExpr[
+                           $main: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['include']
+                                 $param: #List[
+                                    $expression: #NameExpr['SocketForwarder']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['attr_accessor']
+                                 $param: #List[
+                                    $expression: #NameExpr['start_immediately']
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['initialize']
+                                 $param: #List[
+                                    $param: #Param[
+                                       $param: #NameExpr['svr']
+                                    ]
+                                    $param: #Param[
+                                       $param: #NameExpr['ctx']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@svr']
+                                          $right: #NameExpr['svr']
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@ctx']
+                                          $right: #NameExpr['ctx']
+                                       ]
+                                       $statement: #Unless[
+                                          $cond: #ApplyExpr[
+                                             $recv: #NameExpr['ctx']
+                                             $recv: #NameExpr['session_id_context']
+                                          ]
+                                          $then: #List[
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['prng']
+                                                $right: #ApplyExpr[
+                                                   $recv: #NameExpr['Random']
+                                                   $recv: #NameExpr['new']
+                                                   $param: #List[
+                                                      $expression: #ApplyExpr[
+                                                         $recv: #BuiltInVariable['$0']
+                                                         $recv: #NameExpr['hash']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['session_id']
+                                                $right: #Indexer[
+                                                   $recv: #ApplyExpr[
+                                                      $recv: #ApplyExpr[
+                                                         $recv: #NameExpr['prng']
+                                                         $recv: #NameExpr['bytes']
+                                                         $param: #List[
+                                                            $expression: #IntExpr['16']
+                                                         ]
+                                                      ]
+                                                      $recv: #NameExpr['unpack']
+                                                      $param: #List[
+                                                         $expression: #StringExpr['H*']
+                                                      ]
+                                                   ]
+                                                   $index: #List[
+                                                      $expression: #IntExpr['0']
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #Field[
+                                                   $base: #NameExpr['@ctx']
+                                                   $name: #NameExpr['session_id_context']
+                                                ]
+                                                $right: #NameExpr['session_id']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['@start_immediately']
+                                          $right: #TrueExpr['true']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['to_io']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #NameExpr['@svr']
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['listen']
+                                 $param: #List[
+                                    $param: #OptionalParam[
+                                       $name: #NameExpr['backlog']
+                                       $default: #IntExpr['5']
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['@svr']
+                                       $recv: #NameExpr['listen']
+                                       $param: #List[
+                                          $expression: #NameExpr['backlog']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['shutdown']
+                                 $param: #List[
+                                    $param: #OptionalParam[
+                                       $name: #NameExpr['how']
+                                       $default: #Field[
+                                          $recv: #NameExpr['Socket']
+                                          $name: #NameExpr['SHUT_RDWR']
+                                       ]
+                                    ]
+                                 ]
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['@svr']
+                                       $recv: #NameExpr['shutdown']
+                                       $param: #List[
+                                          $expression: #NameExpr['how']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['accept']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #List[
+                                       $statement: #MultipleAssign[
+                                          $left: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['sock']
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['@svr']
+                                             $recv: #NameExpr['accept']
+                                          ]
+                                       ]
+                                       $statement: #ExceptionBlock[
+                                          $main: #List[
+                                             $statement: #AssignExpr[
+                                                $left: #NameExpr['ssl']
+                                                $right: #ApplyExpr[
+                                                   $recv: #Field[
+                                                      $recv: #Field[
+                                                         $recv: #NameExpr['OpenSSL']
+                                                         $name: #NameExpr['SSL']
+                                                      ]
+                                                      $name: #NameExpr['SSLSocket']
+                                                   ]
+                                                   $recv: #NameExpr['new']
+                                                   $param: #List[
+                                                      $expression: #NameExpr['sock']
+                                                      $expression: #NameExpr['@ctx']
+                                                   ]
+                                                ]
+                                             ]
+                                             $statement: #AssignExpr[
+                                                $left: #Field[
+                                                   $base: #NameExpr['ssl']
+                                                   $name: #NameExpr['sync_close']
+                                                ]
+                                                $right: #TrueExpr['true']
+                                             ]
+                                             $statement: #IfExpr[
+                                                $then: #ApplyExpr[
+                                                   $recv: #NameExpr['ssl']
+                                                   $recv: #NameExpr['accept']
+                                                ]
+                                                $cond: #NameExpr['@start_immediately']
+                                             ]
+                                             $statement: #NameExpr['ssl']
+                                          ]
+                                          $rescue: #List[
+                                             $rescue: #Rescue[
+                                                $class: #NameExpr['Exception']
+                                                $target: #NameExpr['ex']
+                                                $then: #List[
+                                                   $statement: #IfExpr[
+                                                      $cond: #NameExpr['ssl']
+                                                      $then: #ApplyExpr[
+                                                         $recv: #NameExpr['ssl']
+                                                         $recv: #NameExpr['close']
+                                                      ]
+                                                      $else: #ApplyExpr[
+                                                         $recv: #NameExpr['sock']
+                                                         $recv: #NameExpr['close']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      #Self['self']
+                                                      $recv: #NameExpr['raise']
+                                                      $param: #List[
+                                                         $expression: #NameExpr['ex']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #FuncDecl[
+                                 $name: #NameExpr['close']
+                                 $param: #List['']
+                                 $body: #BlockExpr[
+                                    $main: #ApplyExpr[
+                                       $recv: #NameExpr['@svr']
+                                       $recv: #NameExpr['close']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

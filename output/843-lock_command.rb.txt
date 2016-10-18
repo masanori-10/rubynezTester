@@ -1,0 +1,364 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/command']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #Field[
+               $recv: #NameExpr['Gem']
+               $name: #NameExpr['Commands']
+            ]
+            $name: #NameExpr['LockCommand']
+         ]
+         $super: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['Command']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Super[
+                           $param: #List[
+                              $expression: #StringExpr['lock']
+                              $expression: #StringExpr['Generate a lockdown list of gems']
+                              $hash: #Hash[
+                                 $key: #NameExpr['strict']
+                                 $value: #FalseExpr['false']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_option']
+                           $param: #List[
+                              $expression: #StringExpr['-s']
+                              $expression: #StringExpr['--[no-]strict']
+                              $expression: #StringExpr['fail if unable to satisfy a dependency']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['strict']
+                                 $item: #NameExpr['options']
+                              ]
+                              $body: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['strict']
+                                    ]
+                                 ]
+                                 $right: #NameExpr['strict']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['arguments']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr['GEMNAME       name of gem to lock\\nVERSION       version of gem to lock']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['defaults_str']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr['--no-strict']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['description']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #HereDocument['The lock command will generate a list of +gem+ statements that will lock down\nthe versions for the gem given in the command line.  It will specify exact\nversions in the requirements list to ensure that the gems loaded will always\nbe consistent.  A full recursive search of all effected gems will be\ngenerated.\n\nExample:\n\n  gem lock rails-1.0.0 > lockdown.rb\n\nwill produce in lockdown.rb:\n\n  require "rubygems"\n  gem \'rails\', \'= 1.0.0\'\n  gem \'rake\', \'= 0.7.0.1\'\n  gem \'activesupport\', \'= 1.2.5\'\n  gem \'activerecord\', \'= 1.13.2\'\n  gem \'actionpack\', \'= 1.11.2\'\n  gem \'actionmailer\', \'= 1.1.5\'\n  gem \'actionwebservice\', \'= 1.0.0\'\n\nJust load lockdown.rb from your application to ensure that the current\nversions are loaded.  Make sure that lockdown.rb is loaded *before* any\nother require statements.\n\nNotice that rails 1.0.0 only requires that rake 0.6.2 or better be used.\nRake-0.7.0.1 is the most recent version installed that satisfies that, so we\nlock it down to the exact version.\n']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['usage']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr[
+                        $inner: #NameExpr['program_name']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['complain']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['message']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #IfExpr[
+                        $cond: #Indexer[
+                           $recv: #NameExpr['options']
+                           $index: #List[
+                              $expression: #NameExpr['strict']
+                           ]
+                        ]
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['Exception']
+                              ]
+                              $expression: #NameExpr['message']
+                           ]
+                        ]
+                        $else: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['say']
+                           $param: #List[
+                              $expression: #StringExpr[
+                                 $inner: #NameExpr['message']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['execute']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['say']
+                           $param: #List[
+                              $expression: #StringExpr['require \'rubygems\'']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['locked']
+                           $right: #List['{}']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['pending']
+                           $right: #Indexer[
+                              $recv: #NameExpr['options']
+                              $index: #List[
+                                 $expression: #NameExpr['args']
+                              ]
+                           ]
+                        ]
+                        $statement: #Until[
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['pending']
+                              $recv: #NameExpr['empty?']
+                           ]
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['full_name']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['pending']
+                                    $recv: #NameExpr['shift']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['spec']
+                                 $right: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['Specification']
+                                    ]
+                                    $recv: #NameExpr['load']
+                                    $param: #List[
+                                       $expression: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['spec_path']
+                                          $param: #List[
+                                             $expression: #NameExpr['full_name']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['spec']
+                                    $recv: #NameExpr['nil?']
+                                 ]
+                                 $then: #List[
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['complain']
+                                       $param: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #NameExpr['full_name']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #Next['next']
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $then: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['say']
+                                    $param: #List[
+                                       $expression: #StringExpr[
+                                          $inner: #ApplyExpr[
+                                             $recv: #NameExpr['spec']
+                                             $recv: #NameExpr['name']
+                                          ]
+                                          $inner: #ApplyExpr[
+                                             $recv: #NameExpr['spec']
+                                             $recv: #NameExpr['version']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $cond: #Indexer[
+                                    $recv: #NameExpr['locked']
+                                    $index: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['spec']
+                                          $recv: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['locked']
+                                    $index: #List[
+                                       $expression: #ApplyExpr[
+                                          $recv: #NameExpr['spec']
+                                          $recv: #NameExpr['name']
+                                       ]
+                                    ]
+                                 ]
+                                 $right: #TrueExpr['true']
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['spec']
+                                    $recv: #NameExpr['runtime_dependencies']
+                                 ]
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['dep']
+                                    $body: #List[
+                                       $statement: #IfExpr[
+                                          $then: #Next['next']
+                                          $cond: #Indexer[
+                                             $recv: #NameExpr['locked']
+                                             $index: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['dep']
+                                                   $recv: #NameExpr['name']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['candidates']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['dep']
+                                             $recv: #NameExpr['matching_specs']
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $cond: #ApplyExpr[
+                                             $recv: #NameExpr['candidates']
+                                             $recv: #NameExpr['empty?']
+                                          ]
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['complain']
+                                             $param: #List[
+                                                $expression: #StringExpr[
+                                                   $inner: #NameExpr['dep']
+                                                ]
+                                             ]
+                                          ]
+                                          $else: #LShiftExpr[
+                                             $left: #NameExpr['pending']
+                                             $right: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #NameExpr['candidates']
+                                                   $recv: #NameExpr['last']
+                                                ]
+                                                $recv: #NameExpr['full_name']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['spec_path']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['gem_full_name']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['gemspecs']
+                           $right: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['path']
+                              ]
+                              $recv: #NameExpr['map']
+                              $body: #Block[
+                                 $param: #NameExpr['path']
+                                 $body: #ApplyExpr[
+                                    $base: #NameExpr['File']
+                                    $recv: #NameExpr['join']
+                                    $param: #List[
+                                       $expression: #NameExpr['path']
+                                       $expression: #StringExpr['specifications']
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['gem_full_name']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['gemspecs']
+                           $recv: #NameExpr['find']
+                           $body: #Block[
+                              $param: #NameExpr['path']
+                              $body: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['exist?']
+                                 $param: #List[
+                                    $expression: #NameExpr['path']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

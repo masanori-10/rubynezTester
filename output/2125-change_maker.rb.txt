@@ -1,0 +1,255 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         $recv: #BuiltInVariable['$:']
+         $recv: #NameExpr['unshift']
+         $param: #List[
+            $expression: #ApplyExpr[
+               $recv: #NameExpr['File']
+               $recv: #NameExpr['expand_path']
+               $param: #List[
+                  $expression: #StringExpr['../../lib']
+                  $expression: #File['__FILE__']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #ApplyExpr[
+               $recv: #NameExpr['File']
+               $recv: #NameExpr['expand_path']
+               $param: #List[
+                  $expression: #StringExpr['../vcs']
+                  $expression: #File['__FILE__']
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['diff2index']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['cmd']
+            ]
+            $param: #VariadicParam[
+               $name: #NameExpr['argv']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['lines']
+                  $right: #Array['[]']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['path']
+                  $right: #Nil['nil']
+               ]
+               $statement: #AssignExpr[
+                  $left: #NameExpr['output']
+                  $right: #Command['#{cmd} #{argv.join(" ")}']
+               ]
+               $statement: #IfExpr[
+                  $cond: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['defined?']
+                     $param: #List[
+                        $expression: #Field[
+                           $recv: #NameExpr['Encoding']
+                           $name: #NameExpr['BINARY']
+                        ]
+                     ]
+                  ]
+                  $then: #ApplyExpr[
+                     $base: #NameExpr['output']
+                     $recv: #NameExpr['force_encoding']
+                     $param: #List[
+                        $expression: #Field[
+                           $recv: #NameExpr['Encoding']
+                           $name: #NameExpr['BINARY']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['output']
+                  $recv: #NameExpr['each_line']
+                  $body: #Block[
+                     $param: #NameExpr['line']
+                     $body: #Case[
+                        $cond: #NameExpr['line']
+                        $body: #List[
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #Regex['/^Index: (\\S*)/']
+                                 $expression: #Regex['/^diff --git [a-z]\\/(\\S*) [a-z]\\/\\1/']
+                              ]
+                              $then: #AssignExpr[
+                                 $left: #NameExpr['path']
+                                 $right: #MatchedRegex['$1']
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #Regex['/^@@\\s*-[,\\d]+ +\\+(\\d+)[,\\d]*\\s*@@(?: +([A-Za-z_][A-Za-z_0-9 ]*[A-Za-z_0-9]))?/']
+                              ]
+                              $then: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['line']
+                                    $right: #ApplyExpr[
+                                       $recv: #MatchedRegex['$1']
+                                       $recv: #NameExpr['to_i']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['ent']
+                                    $right: #StringExpr[
+                                       $inner: #NameExpr['path']
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #LShiftExpr[
+                                       $left: #NameExpr['ent']
+                                       $right: #StringExpr[
+                                          $inner: #MatchedRegex['$2']
+                                       ]
+                                    ]
+                                    $cond: #MatchedRegex['$2']
+                                 ]
+                                 $statement: #LShiftExpr[
+                                    $left: #NameExpr['lines']
+                                    $right: #StringExpr[
+                                       $inner: #NameExpr['ent']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  $recv: #NameExpr['lines']
+                  $recv: #NameExpr['uniq!']
+               ]
+               $statement: #Conditional[
+                  $cond: #ApplyExpr[
+                     $recv: #NameExpr['lines']
+                     $recv: #NameExpr['empty?']
+                  ]
+                  $then: #Nil['nil']
+                  $else: #NameExpr['lines']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['vcs']
+         $right: #ExceptionBlock[
+            $main: #ApplyExpr[
+               $recv: #NameExpr['VCS']
+               $recv: #NameExpr['detect']
+               $param: #List[
+                  $expression: #StringExpr['.']
+               ]
+            ]
+            $rescue: #List[
+               $rescue: #Rescue[
+                  $class: #Field[
+                     $recv: #NameExpr['VCS']
+                     $name: #NameExpr['NotFoundError']
+                  ]
+                  $then: #Nil['nil']
+               ]
+            ]
+         ]
+      ]
+      $statement: #Case[
+         $cond: #NameExpr['vcs']
+         $body: #List[
+            $when: #When[
+               $cond: #List[
+                  $expression: #Field[
+                     $recv: #NameExpr['VCS']
+                     $name: #NameExpr['SVN']
+                  ]
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['cmd']
+                     $right: #StringExpr['svn diff --diff-cmd=diff -x-pU0']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['change']
+                     $right: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['diff2index']
+                        $param: #List[
+                           $expression: #NameExpr['cmd']
+                           $expression: #NameExpr['ARGV']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $when: #When[
+               $cond: #List[
+                  $expression: #Field[
+                     $recv: #NameExpr['VCS']
+                     $name: #NameExpr['GIT']
+                  ]
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['cmd']
+                     $right: #StringExpr['git diff -U0']
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['change']
+                     $right: #LOr[
+                        $left: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['diff2index']
+                           $param: #List[
+                              $expression: #NameExpr['cmd']
+                              $expression: #NameExpr['ARGV']
+                           ]
+                        ]
+                        $right: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['diff2index']
+                           $param: #List[
+                              $expression: #NameExpr['cmd']
+                              $expression: #StringExpr['--cached']
+                              $expression: #NameExpr['ARGV']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+         $else: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['abort']
+            $param: #List[
+               $expression: #StringExpr['does not seem to be under a vcs']
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['puts']
+            $param: #List[
+               $expression: #NameExpr['change']
+            ]
+         ]
+         $cond: #NameExpr['change']
+      ]
+   ]
+   #Comsumed['comsumed']
+]

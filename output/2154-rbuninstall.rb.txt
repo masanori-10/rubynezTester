@@ -1,0 +1,364 @@
+#Source[
+   #List[
+      $statement: #Initializer[
+         $body: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['$dryrun']
+               $right: #FalseExpr['false']
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['$tty']
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['STDOUT']
+                  $recv: #NameExpr['tty?']
+               ]
+            ]
+            $statement: #Until[
+               $cond: #ApplyExpr[
+                  $recv: #NameExpr['ARGV']
+                  $recv: #NameExpr['empty?']
+               ]
+               $body: #List[
+                  $statement: #Case[
+                     $cond: #Indexer[
+                        $recv: #NameExpr['ARGV']
+                        $index: #List[
+                           $expression: #IntExpr['0']
+                        ]
+                     ]
+                     $body: #List[
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #Regex['/\\A--destdir=(.*)/']
+                           ]
+                           $then: #AssignExpr[
+                              $left: #NameExpr['$destdir']
+                              $right: #MatchedRegex['$1']
+                           ]
+                        ]
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #Regex['/\\A-n\\z/']
+                           ]
+                           $then: #AssignExpr[
+                              $left: #NameExpr['$dryrun']
+                              $right: #TrueExpr['true']
+                           ]
+                        ]
+                        $when: #When[
+                           $cond: #List[
+                              $expression: #Regex['/\\A--(?:no-)?tty\\z/']
+                           ]
+                           $then: #AssignExpr[
+                              $left: #NameExpr['$tty']
+                              $right: #NotExpr[
+                                 $expr: #MatchedRegex['$1']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $else: #Break['break']
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #NameExpr['ARGV']
+                     $recv: #NameExpr['shift']
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['$dirs']
+               $right: #Array['[]']
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['$files']
+               $right: #Array['[]']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['list']
+         $right: #Conditional[
+            $cond: #ApplyExpr[
+               $recv: #NameExpr['$_']
+               $recv: #NameExpr['chomp!']
+               $param: #List[
+                  $expression: #StringExpr['/']
+               ]
+            ]
+            $then: #NameExpr['$dirs']
+            $else: #NameExpr['$files']
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #AssignExpr[
+            $left: #NameExpr['$_']
+            $right: #ApplyExpr[
+               $recv: #NameExpr['File']
+               $recv: #NameExpr['join']
+               $param: #List[
+                  $expression: #NameExpr['$destdir']
+                  $expression: #NameExpr['$_']
+               ]
+            ]
+         ]
+         $cond: #NameExpr['$destdir']
+      ]
+      $statement: #LShiftExpr[
+         $left: #NameExpr['list']
+         $right: #NameExpr['$_']
+      ]
+      $statement: #Finalizer[
+         $body: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['status']
+               $right: #TrueExpr['true']
+            ]
+            $statement: #AssignExpr[
+               $left: #BuiltInVariable['$\\']
+               $right: #AssignExpr[
+                  $left: #NameExpr['ors']
+                  $right: #Conditional[
+                     $cond: #AndExpr[
+                        $left: #NotExpr[
+                           $expr: #NameExpr['$dryrun']
+                        ]
+                        $right: #NameExpr['$tty']
+                     ]
+                     $then: #StringExpr['\\e[K\\r']
+                     $else: #StringExpr['\\n']
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['$files']
+               $recv: #NameExpr['each']
+               $body: #Block[
+                  $param: #NameExpr['file']
+                  $body: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['print']
+                        $param: #List[
+                           $expression: #StringExpr[
+                              $inner: #NameExpr['file']
+                           ]
+                        ]
+                     ]
+                     $statement: #Unless[
+                        $cond: #NameExpr['$dryrun']
+                        $then: #ExceptionBlock[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['File']
+                              $recv: #NameExpr['unlink']
+                              $param: #List[
+                                 $expression: #NameExpr['file']
+                              ]
+                           ]
+                           $rescue: #List[
+                              $rescue: #Rescue[
+                                 $class: #Field[
+                                    $recv: #NameExpr['Errno']
+                                    $name: #NameExpr['ENOENT']
+                                 ]
+                                 $then: #Empty['']
+                              ]
+                              $rescue: #Rescue[
+                                 $then: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['status']
+                                       $right: #FalseExpr['false']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['puts']
+                                       $param: #List[
+                                          $expression: #BuiltInVariable['$!']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['unlink']
+               $right: #List['{}']
+            ]
+            $statement: #ApplyExpr[
+               $recv: #NameExpr['$dirs']
+               $recv: #NameExpr['each']
+               $body: #Block[
+                  $param: #NameExpr['dir']
+                  $body: #AssignExpr[
+                     $left: #Indexer[
+                        $base: #NameExpr['unlink']
+                        $index: #List[
+                           $expression: #NameExpr['dir']
+                        ]
+                     ]
+                     $right: #TrueExpr['true']
+                  ]
+               ]
+            ]
+            $statement: #While[
+               $cond: #AssignExpr[
+                  $left: #NameExpr['dir']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['$dirs']
+                     $recv: #NameExpr['pop']
+                  ]
+               ]
+               $body: #List[
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['print']
+                     $param: #List[
+                        $expression: #StringExpr[
+                           $inner: #NameExpr['dir']
+                        ]
+                     ]
+                  ]
+                  $statement: #Unless[
+                     $cond: #NameExpr['$dryrun']
+                     $then: #ExceptionBlock[
+                        $main: #ExceptionBlock[
+                           $main: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['unlink']
+                                 $recv: #NameExpr['delete']
+                                 $param: #List[
+                                    $expression: #NameExpr['dir']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['Dir']
+                                 $recv: #NameExpr['rmdir']
+                                 $param: #List[
+                                    $expression: #NameExpr['dir']
+                                 ]
+                              ]
+                           ]
+                           $rescue: #List[
+                              $rescue: #Rescue[
+                                 $class: #Field[
+                                    $recv: #NameExpr['Errno']
+                                    $name: #NameExpr['ENOTDIR']
+                                 ]
+                                 $then: #List[
+                                    $statement: #Unless[
+                                       $then: #NameExpr['raise']
+                                       $cond: #ApplyExpr[
+                                          $recv: #NameExpr['File']
+                                          $recv: #NameExpr['symlink?']
+                                          $param: #List[
+                                             $expression: #NameExpr['dir']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['File']
+                                       $recv: #NameExpr['unlink']
+                                       $param: #List[
+                                          $expression: #NameExpr['dir']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $rescue: #List[
+                           $rescue: #Rescue[
+                              $class: #MultipleRightHandSideExpression[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Errno']
+                                    $name: #NameExpr['ENOENT']
+                                 ]
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Errno']
+                                    $name: #NameExpr['ENOTEMPTY']
+                                 ]
+                              ]
+                              $then: #Empty['']
+                           ]
+                           $rescue: #Rescue[
+                              $then: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['status']
+                                    $right: #FalseExpr['false']
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #BuiltInVariable['$!']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $else: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['parent']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['File']
+                                 $recv: #NameExpr['dirname']
+                                 $param: #List[
+                                    $expression: #NameExpr['dir']
+                                 ]
+                              ]
+                           ]
+                           $statement: #Unless[
+                              $then: #ApplyExpr[
+                                 $recv: #NameExpr['$dirs']
+                                 $recv: #NameExpr['push']
+                                 $param: #List[
+                                    $expression: #NameExpr['parent']
+                                 ]
+                              ]
+                              $cond: #OrExpr[
+                                 $left: #EqExpr[
+                                    $left: #NameExpr['parent']
+                                    $right: #NameExpr['dir']
+                                 ]
+                                 $right: #Indexer[
+                                    $recv: #NameExpr['unlink']
+                                    $index: #List[
+                                       $expression: #NameExpr['parent']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #BuiltInVariable['$\\']
+               $right: #Nil['nil']
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['print']
+               $param: #List[
+                  $expression: #ApplyExpr[
+                     $recv: #NameExpr['ors']
+                     $recv: #NameExpr['chomp']
+                  ]
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['exit']
+               $param: #List[
+                  $expression: #NameExpr['status']
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

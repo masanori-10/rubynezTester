@@ -1,0 +1,743 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/command']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/dependency_list']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/uninstaller']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #Field[
+               $recv: #NameExpr['Gem']
+               $name: #NameExpr['Commands']
+            ]
+            $name: #NameExpr['CleanupCommand']
+         ]
+         $super: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['Command']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Super[
+                           $param: #List[
+                              $expression: #StringExpr['cleanup']
+                              $expression: #StringExpr['Clean up old versions of installed gems']
+                              $hash: #Hash[
+                                 $key: #NameExpr['force']
+                                 $value: #FalseExpr['false']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['install_dir']
+                                 $value: #ApplyExpr[
+                                    $recv: #NameExpr['Gem']
+                                    $recv: #NameExpr['dir']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['add_option']
+                           $param: #List[
+                              $expression: #StringExpr['-n']
+                              $expression: #StringExpr['-d']
+                              $expression: #StringExpr['--dryrun']
+                              $expression: #StringExpr['Do not uninstall gems']
+                           ]
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['value']
+                                 $item: #NameExpr['options']
+                              ]
+                              $body: #AssignExpr[
+                                 $left: #Indexer[
+                                    $base: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['dryrun']
+                                    ]
+                                 ]
+                                 $right: #TrueExpr['true']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@candidate_gems']
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@default_gems']
+                           $right: #Array['[]']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@full']
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@gems_to_cleanup']
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@original_home']
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@original_path']
+                           $right: #Nil['nil']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@primary_gems']
+                           $right: #Nil['nil']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['arguments']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr['GEMNAME       name of gem to cleanup']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['defaults_str']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr['--no-dryrun']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['description']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #HereDocument['The cleanup command removes old versions of gems from GEM_HOME that are not\nrequired to meet a dependency.  If a gem is installed elsewhere in GEM_PATH\nthe cleanup command won\'t delete it.\n\nIf no gems are named all gems in GEM_HOME are cleaned.\n']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['usage']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr[
+                        $inner: #NameExpr['program_name']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['execute']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['say']
+                           $param: #List[
+                              $expression: #StringExpr['Cleaning up installed gems...']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $recv: #Indexer[
+                                 $recv: #NameExpr['options']
+                                 $index: #List[
+                                    $expression: #NameExpr['args']
+                                 ]
+                              ]
+                              $recv: #NameExpr['empty?']
+                           ]
+                           $then: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['done']
+                                 $right: #FalseExpr['false']
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['last_set']
+                                 $right: #Nil['nil']
+                              ]
+                              $statement: #Until[
+                                 $cond: #NameExpr['done']
+                                 $body: #List[
+                                    $statement: #NameExpr['clean_gems']
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['this_set']
+                                       $right: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['@gems_to_cleanup']
+                                             $recv: #NameExpr['map']
+                                             $body: #Block[
+                                                $param: #NameExpr['spec']
+                                                $body: #ApplyExpr[
+                                                   $recv: #NameExpr['spec']
+                                                   $recv: #NameExpr['full_name']
+                                                ]
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['sort']
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['done']
+                                       $right: #LOr[
+                                          $left: #ApplyExpr[
+                                             $recv: #NameExpr['this_set']
+                                             $recv: #NameExpr['empty?']
+                                          ]
+                                          $right: #EqExpr[
+                                             $left: #NameExpr['last_set']
+                                             $right: #NameExpr['this_set']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['last_set']
+                                       $right: #NameExpr['this_set']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #NameExpr['clean_gems']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['say']
+                           $param: #List[
+                              $expression: #StringExpr['Clean Up Complete']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['verbose']
+                           $body: #Block[
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['skipped']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['@default_gems']
+                                       $recv: #NameExpr['map']
+                                       $body: #Block[
+                                          $param: #NameExpr['spec']
+                                          $body: #ApplyExpr[
+                                             $recv: #NameExpr['spec']
+                                             $recv: #NameExpr['full_name']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #StringExpr[
+                                    $inner: #ApplyExpr[
+                                       $base: #NameExpr['skipped']
+                                       $recv: #NameExpr['join']
+                                       $param: #List[
+                                          $expression: #StringExpr[', ']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['clean_gems']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@original_home']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Gem']
+                              $recv: #NameExpr['dir']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@original_path']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Gem']
+                              $recv: #NameExpr['path']
+                           ]
+                        ]
+                        $statement: #NameExpr['get_primary_gems']
+                        $statement: #NameExpr['get_candidate_gems']
+                        $statement: #NameExpr['get_gems_to_cleanup']
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@full']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['DependencyList']
+                              ]
+                              $recv: #NameExpr['from_specs']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['deplist']
+                           $right: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['DependencyList']
+                              ]
+                              $recv: #NameExpr['new']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@gems_to_cleanup']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['spec']
+                              $body: #ApplyExpr[
+                                 $base: #NameExpr['deplist']
+                                 $recv: #NameExpr['add']
+                                 $param: #List[
+                                    $expression: #NameExpr['spec']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['deps']
+                           $right: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['deplist']
+                                 $recv: #NameExpr['strongly_connected_components']
+                              ]
+                              $recv: #NameExpr['flatten']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['deps']
+                           $recv: #NameExpr['reverse_each']
+                           $body: #Block[
+                              $param: #NameExpr['spec']
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['uninstall_dep']
+                                 $param: #List[
+                                    $expression: #NameExpr['spec']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['Gem']
+                              $name: #NameExpr['Specification']
+                           ]
+                           $recv: #NameExpr['reset']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['get_candidate_gems']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #AssignExpr[
+                        $left: #NameExpr['@candidate_gems']
+                        $right: #Unless[
+                           $cond: #ApplyExpr[
+                              $recv: #Indexer[
+                                 $recv: #NameExpr['options']
+                                 $index: #List[
+                                    $expression: #NameExpr['args']
+                                 ]
+                              ]
+                              $recv: #NameExpr['empty?']
+                           ]
+                           $then: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #Indexer[
+                                    $recv: #NameExpr['options']
+                                    $index: #List[
+                                       $expression: #NameExpr['args']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['map']
+                                 $body: #Block[
+                                    $param: #NameExpr['gem_name']
+                                    $body: #ApplyExpr[
+                                       $base: #Field[
+                                          $recv: #NameExpr['Gem']
+                                          $name: #NameExpr['Specification']
+                                       ]
+                                       $recv: #NameExpr['find_all_by_name']
+                                       $param: #List[
+                                          $expression: #NameExpr['gem_name']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $recv: #NameExpr['flatten']
+                           ]
+                           $else: #ApplyExpr[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['Specification']
+                              ]
+                              $recv: #NameExpr['to_a']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['get_gems_to_cleanup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['gems_to_cleanup']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['@candidate_gems']
+                              $recv: #NameExpr['select']
+                              $body: #Block[
+                                 $param: #NameExpr['spec']
+                                 $body: #NeExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #Indexer[
+                                          $recv: #NameExpr['@primary_gems']
+                                          $index: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['spec']
+                                                $recv: #NameExpr['name']
+                                             ]
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['version']
+                                    ]
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['spec']
+                                       $recv: #NameExpr['version']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #MultipleAssign[
+                           $left: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['default_gems']
+                              $item: #NameExpr['gems_to_cleanup']
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['gems_to_cleanup']
+                              $recv: #NameExpr['partition']
+                              $body: #Block[
+                                 $param: #NameExpr['spec']
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['spec']
+                                    $recv: #NameExpr['default_gem?']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['gems_to_cleanup']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['gems_to_cleanup']
+                              $recv: #NameExpr['select']
+                              $body: #Block[
+                                 $param: #NameExpr['spec']
+                                 $body: #EqExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['spec']
+                                       $recv: #NameExpr['base_dir']
+                                    ]
+                                    $right: #NameExpr['@original_home']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AddAssign[
+                           $left: #NameExpr['@default_gems']
+                           $right: #NameExpr['default_gems']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['@default_gems']
+                           $recv: #NameExpr['uniq!']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@gems_to_cleanup']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['gems_to_cleanup']
+                              $recv: #NameExpr['uniq']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['get_primary_gems']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@primary_gems']
+                           $right: #List['{}']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['Gem']
+                              $name: #NameExpr['Specification']
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['spec']
+                              $body: #IfExpr[
+                                 $cond: #OrExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #Indexer[
+                                          $recv: #NameExpr['@primary_gems']
+                                          $index: #List[
+                                             $expression: #ApplyExpr[
+                                                $recv: #NameExpr['spec']
+                                                $recv: #NameExpr['name']
+                                             ]
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['nil?']
+                                    ]
+                                    $right: #LtExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #Indexer[
+                                             $recv: #NameExpr['@primary_gems']
+                                             $index: #List[
+                                                $expression: #ApplyExpr[
+                                                   $recv: #NameExpr['spec']
+                                                   $recv: #NameExpr['name']
+                                                ]
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['version']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['spec']
+                                          $recv: #NameExpr['version']
+                                       ]
+                                    ]
+                                 ]
+                                 $then: #AssignExpr[
+                                    $left: #Indexer[
+                                       $base: #NameExpr['@primary_gems']
+                                       $index: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['spec']
+                                             $recv: #NameExpr['name']
+                                          ]
+                                       ]
+                                    ]
+                                    $right: #NameExpr['spec']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['uninstall_dep']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['spec']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #Unless[
+                           $then: #RReturnStmt['return']
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['@full']
+                              $recv: #NameExpr['ok_to_remove?']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['spec']
+                                    $recv: #NameExpr['full_name']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #Indexer[
+                              $recv: #NameExpr['options']
+                              $index: #List[
+                                 $expression: #NameExpr['dryrun']
+                              ]
+                           ]
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['say']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['spec']
+                                          $recv: #NameExpr['full_name']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #RReturnStmt['return']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['say']
+                           $param: #List[
+                              $expression: #StringExpr[
+                                 $inner: #ApplyExpr[
+                                    $recv: #NameExpr['spec']
+                                    $recv: #NameExpr['full_name']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['uninstall_options']
+                           $right: #List[
+                              $hash: #Hash[
+                                 $key: #NameExpr['executables']
+                                 $value: #FalseExpr['false']
+                              ]
+                              $hash: #Hash[
+                                 $key: #NameExpr['version']
+                                 $value: #StringExpr[
+                                    $inner: #ApplyExpr[
+                                       $recv: #NameExpr['spec']
+                                       $recv: #NameExpr['version']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #Indexer[
+                              $base: #NameExpr['uninstall_options']
+                              $index: #List[
+                                 $expression: #NameExpr['user_install']
+                              ]
+                           ]
+                           $right: #EqExpr[
+                              $left: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['user_dir']
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['spec']
+                                 $recv: #NameExpr['base_dir']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['uninstaller']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['Uninstaller']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['spec']
+                                    $recv: #NameExpr['name']
+                                 ]
+                                 $expression: #NameExpr['uninstall_options']
+                              ]
+                           ]
+                        ]
+                        $statement: #ExceptionBlock[
+                           $main: #ApplyExpr[
+                              $recv: #NameExpr['uninstaller']
+                              $recv: #NameExpr['uninstall']
+                           ]
+                           $rescue: #List[
+                              $rescue: #Rescue[
+                                 $class: #MultipleRightHandSideExpression[
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['DependencyRemovalException']
+                                    ]
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['InstallError']
+                                    ]
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['GemNotInHomeException']
+                                    ]
+                                    $expression: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['FilePermissionError']
+                                    ]
+                                 ]
+                                 $target: #NameExpr['e']
+                                 $then: #List[
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['say']
+                                       $param: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #ApplyExpr[
+                                                $recv: #NameExpr['spec']
+                                                $recv: #NameExpr['full_name']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['say']
+                                       $param: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #ApplyExpr[
+                                                $recv: #NameExpr['e']
+                                                $recv: #NameExpr['class']
+                                             ]
+                                             $inner: #ApplyExpr[
+                                                $recv: #NameExpr['e']
+                                                $recv: #NameExpr['message']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $ensure: #ApplyExpr[
+                        $base: #NameExpr['Gem']
+                        $recv: #NameExpr['use_paths']
+                        $param: #List[
+                           $expression: #NameExpr['@original_home']
+                           $variadic: #Variadic[
+                              $base: #NameExpr['@original_path']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

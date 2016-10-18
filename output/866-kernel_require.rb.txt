@@ -1,0 +1,439 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['monitor']
+         ]
+      ]
+      $statement: #Module[
+         $name: #NameExpr['Kernel']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['RUBYGEMS_ACTIVATION_MONITOR']
+                  $right: #ApplyExpr[
+                     $recv: #NameExpr['Monitor']
+                     $recv: #NameExpr['new']
+                  ]
+               ]
+               $statement: #IfExpr[
+                  $cond: #Defined[
+                     $base: #NameExpr['gem_original_require']
+                  ]
+                  $then: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['remove_method']
+                     $param: #List[
+                        $expression: #NameExpr['require']
+                     ]
+                  ]
+                  $else: #List[
+                     $statement: #Alias[
+                        $newname: #NameExpr['gem_original_require']
+                        $target: #NameExpr['require']
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['private']
+                        $param: #List[
+                           $expression: #NameExpr['gem_original_require']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['require']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['path']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['RUBYGEMS_ACTIVATION_MONITOR']
+                           $recv: #NameExpr['enter']
+                        ]
+                        $statement: #IfExpr[
+                           $then: #AssignExpr[
+                              $left: #NameExpr['path']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['path']
+                                 $recv: #NameExpr['to_path']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $base: #NameExpr['path']
+                              $recv: #NameExpr['respond_to?']
+                              $param: #List[
+                                 $expression: #NameExpr['to_path']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['spec']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Gem']
+                              $recv: #NameExpr['find_unresolved_default_spec']
+                              $param: #List[
+                                 $expression: #NameExpr['path']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #NameExpr['spec']
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['remove_unresolved_default_spec']
+                                 $param: #List[
+                                    $expression: #NameExpr['spec']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['gem']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['spec']
+                                       $recv: #NameExpr['name']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Specification']
+                                 ]
+                                 $recv: #NameExpr['unresolved_deps']
+                              ]
+                              $recv: #NameExpr['empty?']
+                           ]
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['RUBYGEMS_ACTIVATION_MONITOR']
+                                 $recv: #NameExpr['exit']
+                              ]
+                              $statement: #RReturnStmt[
+                                 $expr: #List[
+                                    $expression: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['gem_original_require']
+                                       $param: #List[
+                                          $expression: #NameExpr['path']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['spec']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['Specification']
+                              ]
+                              $recv: #NameExpr['find_active_stub_by_path']
+                              $param: #List[
+                                 $expression: #NameExpr['path']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #ExceptionBlock[
+                              $main: #List[
+                                 $statement: #ApplyExpr[
+                                    $recv: #NameExpr['RUBYGEMS_ACTIVATION_MONITOR']
+                                    $recv: #NameExpr['exit']
+                                 ]
+                                 $statement: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['gem_original_require']
+                                          $param: #List[
+                                             $expression: #NameExpr['path']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $cond: #NameExpr['spec']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['found_specs']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['Specification']
+                              ]
+                              $recv: #NameExpr['find_in_unresolved']
+                              $param: #List[
+                                 $expression: #NameExpr['path']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #ApplyExpr[
+                              $recv: #NameExpr['found_specs']
+                              $recv: #NameExpr['empty?']
+                           ]
+                           $then: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['found_specs']
+                                 $right: #ApplyExpr[
+                                    $base: #Field[
+                                       $recv: #NameExpr['Gem']
+                                       $name: #NameExpr['Specification']
+                                    ]
+                                    $recv: #NameExpr['find_in_unresolved_tree']
+                                    $param: #List[
+                                       $expression: #NameExpr['path']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['found_specs']
+                                 $recv: #NameExpr['each']
+                                 $body: #Block[
+                                    $param: #NameExpr['found_spec']
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['found_spec']
+                                       $recv: #NameExpr['activate']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $else: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['names']
+                                 $right: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['found_specs']
+                                       $recv: #NameExpr['map']
+                                       $param: #List[
+                                          $procedure: #Procedure[
+                                             $base: #NameExpr['name']
+                                          ]
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['uniq']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #GtExpr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['names']
+                                       $recv: #NameExpr['size']
+                                    ]
+                                    $right: #IntExpr['1']
+                                 ]
+                                 $then: #List[
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['RUBYGEMS_ACTIVATION_MONITOR']
+                                       $recv: #NameExpr['exit']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['raise']
+                                       $param: #List[
+                                          $expression: #Field[
+                                             $recv: #NameExpr['Gem']
+                                             $name: #NameExpr['LoadError']
+                                          ]
+                                          $expression: #StringExpr[
+                                             $inner: #NameExpr['path']
+                                             $inner: #ApplyExpr[
+                                                $base: #NameExpr['names']
+                                                $recv: #NameExpr['join']
+                                                $param: #List[
+                                                   $expression: #StringExpr[', ']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['valid']
+                                 $right: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['found_specs']
+                                       $recv: #NameExpr['reject']
+                                       $body: #Block[
+                                          $param: #NameExpr['s']
+                                          $body: #ApplyExpr[
+                                             $recv: #NameExpr['s']
+                                             $recv: #NameExpr['has_conflicts?']
+                                          ]
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['first']
+                                 ]
+                              ]
+                              $statement: #Unless[
+                                 $cond: #NameExpr['valid']
+                                 $then: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['le']
+                                       $right: #ApplyExpr[
+                                          $base: #Field[
+                                             $recv: #NameExpr['Gem']
+                                             $name: #NameExpr['LoadError']
+                                          ]
+                                          $recv: #NameExpr['new']
+                                          $param: #List[
+                                             $expression: #StringExpr[
+                                                $inner: #ApplyExpr[
+                                                   $recv: #NameExpr['names']
+                                                   $recv: #NameExpr['first']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #AssignExpr[
+                                       $left: #Field[
+                                          $base: #NameExpr['le']
+                                          $name: #NameExpr['name']
+                                       ]
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['names']
+                                          $recv: #NameExpr['first']
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       $recv: #NameExpr['RUBYGEMS_ACTIVATION_MONITOR']
+                                       $recv: #NameExpr['exit']
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['le']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['valid']
+                                 $recv: #NameExpr['activate']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['RUBYGEMS_ACTIVATION_MONITOR']
+                           $recv: #NameExpr['exit']
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['gem_original_require']
+                                 $param: #List[
+                                    $expression: #NameExpr['path']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $rescue: #List[
+                        $rescue: #Rescue[
+                           $class: #NameExpr['LoadError']
+                           $target: #NameExpr['load_error']
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 $recv: #NameExpr['RUBYGEMS_ACTIVATION_MONITOR']
+                                 $recv: #NameExpr['enter']
+                              ]
+                              $statement: #ExceptionBlock[
+                                 $main: #IfExpr[
+                                    $cond: #OrExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #NameExpr['load_error']
+                                             $recv: #NameExpr['message']
+                                          ]
+                                          $recv: #NameExpr['start_with?']
+                                          $param: #List[
+                                             $expression: #StringExpr['Could not find']
+                                          ]
+                                       ]
+                                       $right: #AndExpr[
+                                          $left: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #NameExpr['load_error']
+                                                $recv: #NameExpr['message']
+                                             ]
+                                             $recv: #NameExpr['end_with?']
+                                             $param: #List[
+                                                $expression: #NameExpr['path']
+                                             ]
+                                          ]
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['Gem']
+                                             $recv: #NameExpr['try_activate']
+                                             $param: #List[
+                                                $expression: #NameExpr['path']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $then: #AssignExpr[
+                                       $left: #NameExpr['require_again']
+                                       $right: #TrueExpr['true']
+                                    ]
+                                 ]
+                                 $ensure: #ApplyExpr[
+                                    $recv: #NameExpr['RUBYGEMS_ACTIVATION_MONITOR']
+                                    $recv: #NameExpr['exit']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $then: #RReturnStmt[
+                                    $expr: #List[
+                                       $expression: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['gem_original_require']
+                                          $param: #List[
+                                             $expression: #NameExpr['path']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $cond: #NameExpr['require_again']
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['load_error']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['private']
+                  $param: #List[
+                     $expression: #NameExpr['require']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,280 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{2}']
+            $expression: #ParcentNotation['%q{\n  begin\n    1+1\n  ensure\n    2+2\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{4}']
+            $expression: #ParcentNotation['%q{\n  begin\n    1+1\n    begin\n      2+2\n    ensure\n      3+3\n    end\n  ensure\n    4+4\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{4}']
+            $expression: #ParcentNotation['%q{\n  begin\n    1+1\n    begin\n      2+2\n    ensure\n      3+3\n    end\n  ensure\n    4+4\n    begin\n      5+5\n    ensure\n      6+6\n    end\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{NilClass}']
+            $expression: #ParcentNotation['%q{\n  a = nil\n  1.times{|e|\n    begin\n    rescue => err\n    end\n    a = err.class\n  }\n  a\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{RuntimeError}']
+            $expression: #ParcentNotation['%q{\n  a = nil\n  1.times{|e|\n    begin\n      raise\n    rescue => err\n    end\n    a = err.class\n  }\n  a\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{}']
+            $expression: #ParcentNotation['%q{\n  $!\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{FOO}']
+            $expression: #ParcentNotation['%q{\n  begin\n    raise "FOO"\n  rescue\n    $!\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{FOO}']
+            $expression: #ParcentNotation['%q{\n  def m\n    $!\n  end\n  begin\n    raise "FOO"\n  rescue\n    m()\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[#<RuntimeError: BAR>, #<RuntimeError: FOO>]}']
+            $expression: #ParcentNotation['%q{\n  $ans = []\n  def m\n    $!\n  end\n  begin\n    raise "FOO"\n  rescue\n    begin\n      raise "BAR"\n    rescue\n      $ans << m()\n    end\n    $ans << m()\n  end\n  $ans\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[#<RuntimeError: FOO>, #<RuntimeError: FOO>]}']
+            $expression: #ParcentNotation['%q{\n  $ans = []\n  def m\n    $!\n  end\n\n  begin\n    begin\n      raise "FOO"\n    ensure\n      $ans << m()\n    end\n  rescue\n    $ans << m()\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{[nil]}']
+            $expression: #ParcentNotation['%q{\n  $ans = []\n  def m\n    $!\n  end\n  def m2\n    1.times{\n      begin\n        return\n      ensure\n        $ans << m\n      end\n    }\n  end\n  m2\n  $ans\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  begin\n    raise\n  rescue\n    :ok\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{\n  begin\n    raise\n  rescue\n    :ok\n  ensure\n    :ng\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{RuntimeError}']
+            $expression: #ParcentNotation['%q{\n  begin\n    raise\n  rescue => e\n    e.class\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ng}']
+            $expression: #ParcentNotation['%q{\n  begin\n    raise\n  rescue StandardError\n    :ng\n  rescue Exception\n    :ok\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{c}']
+            $expression: #ParcentNotation['%q{\n  begin\n    begin\n      raise "a"\n    rescue\n      raise "b"\n    ensure\n      raise "c"\n    end\n  rescue => e\n    e.message\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{33}']
+            $expression: #ParcentNotation['%q{\n  def m a, b\n    a + b\n  end\n  m(1, begin\n         raise\n       rescue\n         2\n       end) +\n  m(10, begin\n         raise\n       rescue\n         20\n       ensure\n         30\n       end)\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{3}']
+            $expression: #ParcentNotation['%q{\n  def m a, b\n    a + b\n  end\n  m(begin\n      raise\n    rescue\n      1\n    end,\n    begin\n      raise\n    rescue\n      2\n    end)\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok3}']
+            $expression: #ParcentNotation['%q{\n  class E1 < Exception\n  end\n\n  def m\n    yield\n  end\n\n  begin\n    begin\n      begin\n        m{\n          raise\n        }\n      rescue E1\n        :ok2\n      ensure\n      end\n    rescue\n      :ok3\n    ensure\n    end\n  rescue E1\n    :ok\n  ensure\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{7}']
+            $expression: #ParcentNotation['%q{\n  $i = 0\n  def m\n    iter{\n      begin\n        $i += 1\n        begin\n          $i += 2\n          break\n        ensure\n\n        end\n      ensure\n        $i += 4\n      end\n      $i = 0\n    }\n  end\n\n  def iter\n    yield\n  end\n  m\n  $i\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{10}']
+            $expression: #ParcentNotation['%q{\n  $i = 0\n  def m\n    begin\n      $i += 1\n      begin\n        $i += 2\n        return\n      ensure\n        $i += 3\n      end\n    ensure\n      $i += 4\n    end\n    p :end\n  end\n  m\n  $i\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{1}']
+            $expression: #ParcentNotation['%q{\n  begin\n    1\n  rescue\n    2\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{4}']
+            $expression: #ParcentNotation['%q{\n  begin\n    1\n    begin\n      2\n    rescue\n      3\n    end\n    4\n  rescue\n    5\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{3}']
+            $expression: #ParcentNotation['%q{\n  begin\n    1\n  rescue\n    2\n  else\n    3\n  end\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{2}']
+            $expression: #ParcentNotation['%q{\n  begin\n    1+1\n  rescue\n    2+2\n  ensure\n    3+3\n  end\n   }']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{2}']
+            $expression: #ParcentNotation['%q{\n  begin\n    1+1\n  rescue\n    2+2\n  ensure\n    3+3\n  end\n   }']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{6}']
+            $expression: #ParcentNotation['%q{\n  begin\n    1+1\n  rescue\n    2+2\n  else\n    3+3\n  ensure\n    4+4\n  end\n   }']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{12}']
+            $expression: #ParcentNotation['%q{\n begin\n   1+1\n   begin\n     2+2\n   rescue\n     3+3\n   else\n     4+4\n   end\n rescue\n   5+5\n else\n   6+6\n ensure\n   7+7\n end\n   }']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{ok}']
+            $expression: #ParcentNotation['%q{ #\n  proc{\n    begin\n      raise\n      break\n    rescue\n      :ok\n    end\n  }.call\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #ParcentNotation['%q{}']
+            $expression: #ParcentNotation['%q{\n  proc do\n    begin\n      raise StandardError\n      redo\n    rescue StandardError\n    end\n  end.call\n}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_match']
+         $param: #List[
+            $expression: #Regex['/undefined method `foo\\\'/']
+            $expression: #ParcentNotation['%q{#`\n  STDERR.reopen(STDOUT)\n  class C\n    def inspect\n      bar {}\n    end\n\n    def bar\n      raise\n    ensure\n    end\n  end\n  C.new.foo\n}']
+            $expression: #StringExpr['[ruby-dev:31407]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['nil']
+            $expression: #ParcentNotation['%q{\n  doit = false\n  exc = nil\n  t = Thread.new {\n    begin\n      doit = true\n      sleep 10\n    ensure\n      exc = $!\n    end\n  }\n  Thread.pass until doit\n  t.kill\n  t.join\n  exc.inspect\n}']
+            $expression: #StringExpr['[ruby-dev:32608]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['exception class/object expected']
+            $expression: #ParcentNotation['%q{\n  class ZeroDivisionError\n    def self.new(message)\n      42\n    end\n  end\n  begin\n    1/0\n  rescue Exception => e\n    e.message\n  end\n}']
+            $expression: #StringExpr['[ruby-core:24767]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_equal']
+         $param: #List[
+            $expression: #StringExpr['ok']
+            $expression: #ParcentNotation['%q{\n  class C\n    def ===(o)\n      true\n    end\n  end\n  begin\n    begin\n      raise\n    rescue C.new\n    end\n  rescue TypeError\n    :ok\n  end\n}']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

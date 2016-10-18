@@ -1,0 +1,162 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['socket']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['gs']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['TCPServer']
+            $recv: #NameExpr['open']
+            $param: #List[
+               $expression: #IntExpr['0']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['addr']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['gs']
+            $recv: #NameExpr['addr']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['addr']
+         $recv: #NameExpr['shift']
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['printf']
+         $param: #List[
+            $expression: #StringExpr['server is on %s\\n']
+            $expression: #ApplyExpr[
+               $recv: #NameExpr['addr']
+               $recv: #NameExpr['join']
+               $param: #List[
+                  $expression: #StringExpr[':']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['socks']
+         $right: #Array[
+            $index: #List[
+               $expression: #NameExpr['gs']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['loop']
+         $body: #Block[
+            $body: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['nsock']
+                  $right: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['select']
+                     $param: #List[
+                        $expression: #NameExpr['socks']
+                     ]
+                  ]
+               ]
+               $statement: #IfExpr[
+                  $then: #Next['next']
+                  $cond: #EqExpr[
+                     $left: #NameExpr['nsock']
+                     $right: #Nil['nil']
+                  ]
+               ]
+               $statement: #For[
+                  $iter: #NameExpr['s']
+                  $range: #Indexer[
+                     $recv: #NameExpr['nsock']
+                     $index: #List[
+                        $expression: #IntExpr['0']
+                     ]
+                  ]
+                  $body: #IfExpr[
+                     $cond: #EqExpr[
+                        $left: #NameExpr['s']
+                        $right: #NameExpr['gs']
+                     ]
+                     $then: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['ns']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['s']
+                              $recv: #NameExpr['accept']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['socks']
+                           $recv: #NameExpr['push']
+                           $param: #List[
+                              $expression: #NameExpr['ns']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['print']
+                           $param: #List[
+                              $expression: #NameExpr['s']
+                              $expression: #StringExpr[' is accepted\\n']
+                           ]
+                        ]
+                     ]
+                     $else: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['s']
+                           $recv: #NameExpr['eof?']
+                        ]
+                        $then: #List[
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['print']
+                              $param: #List[
+                                 $expression: #NameExpr['s']
+                                 $expression: #StringExpr[' is gone\\n']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['s']
+                              $recv: #NameExpr['close']
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['socks']
+                              $recv: #NameExpr['delete']
+                              $param: #List[
+                                 $expression: #NameExpr['s']
+                              ]
+                           ]
+                        ]
+                        $else: #IfExpr[
+                           $cond: #AssignExpr[
+                              $left: #NameExpr['str']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['s']
+                                 $recv: #NameExpr['gets']
+                              ]
+                           ]
+                           $then: #ApplyExpr[
+                              $recv: #NameExpr['s']
+                              $recv: #NameExpr['write']
+                              $param: #List[
+                                 $expression: #NameExpr['str']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

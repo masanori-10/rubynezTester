@@ -1,0 +1,203 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/command']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NestedName[
+            $path: #Field[
+               $recv: #NameExpr['Gem']
+               $name: #NameExpr['Commands']
+            ]
+            $name: #NameExpr['StaleCommand']
+         ]
+         $super: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['Command']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #Super['super']
+                        $param: #List[
+                           $expression: #StringExpr['stale']
+                           $expression: #StringExpr['List gems along with access times']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['description']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #HereDocument['The stale command lists the latest access time for all the files in your\ninstalled gems.\n\nYou can use this command to discover gems and gem versions you are no\nlonger using.\n']
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['usage']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #StringExpr[
+                        $inner: #NameExpr['program_name']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['execute']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['gem_to_atime']
+                           $right: #List['{}']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['Gem']
+                              $name: #NameExpr['Specification']
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['spec']
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['name']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['spec']
+                                       $recv: #NameExpr['full_name']
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $recv: #Indexer[
+                                       $recv: #NameExpr['Dir']
+                                       $index: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #ApplyExpr[
+                                                $recv: #NameExpr['spec']
+                                                $recv: #NameExpr['full_gem_path']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['each']
+                                    $body: #Block[
+                                       $param: #NameExpr['file']
+                                       $body: #List[
+                                          $statement: #IfExpr[
+                                             $then: #Next['next']
+                                             $cond: #ApplyExpr[
+                                                $recv: #NameExpr['File']
+                                                $recv: #NameExpr['directory?']
+                                                $param: #List[
+                                                   $expression: #NameExpr['file']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['stat']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['File']
+                                                $recv: #NameExpr['stat']
+                                                $param: #List[
+                                                   $expression: #NameExpr['file']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #LOrAssign[
+                                             $left: #Indexer[
+                                                $base: #NameExpr['gem_to_atime']
+                                                $index: #List[
+                                                   $expression: #NameExpr['name']
+                                                ]
+                                             ]
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['stat']
+                                                $recv: #NameExpr['atime']
+                                             ]
+                                          ]
+                                          $statement: #IfExpr[
+                                             $then: #AssignExpr[
+                                                $left: #Indexer[
+                                                   $base: #NameExpr['gem_to_atime']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['name']
+                                                   ]
+                                                ]
+                                                $right: #ApplyExpr[
+                                                   $recv: #NameExpr['stat']
+                                                   $recv: #NameExpr['atime']
+                                                ]
+                                             ]
+                                             $cond: #LtExpr[
+                                                $left: #Indexer[
+                                                   $recv: #NameExpr['gem_to_atime']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['name']
+                                                   ]
+                                                ]
+                                                $right: #ApplyExpr[
+                                                   $recv: #NameExpr['stat']
+                                                   $recv: #NameExpr['atime']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['gem_to_atime']
+                              $recv: #NameExpr['sort_by']
+                              $body: #Block[
+                                 $param: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['_']
+                                    $item: #NameExpr['atime']
+                                 ]
+                                 $body: #NameExpr['atime']
+                              ]
+                           ]
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['name']
+                                 $item: #NameExpr['atime']
+                              ]
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['say']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['name']
+                                       $inner: #ApplyExpr[
+                                          $base: #NameExpr['atime']
+                                          $recv: #NameExpr['strftime']
+                                          $param: #List[
+                                             $expression: #StringExpr['%c']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,2195 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/test_case']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems']
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TestGemRequire']
+         $super: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['TestCase']
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #Class[
+                  $name: #NameExpr['Latch']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['initialize']
+                           $param: #List[
+                              $param: #OptionalParam[
+                                 $name: #NameExpr['count']
+                                 $default: #IntExpr['1']
+                              ]
+                           ]
+                           $body: #BlockExpr[
+                              $main: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@count']
+                                    $right: #NameExpr['count']
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@lock']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['Monitor']
+                                       $recv: #NameExpr['new']
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@cv']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['@lock']
+                                       $recv: #NameExpr['new_cond']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['release']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 $recv: #NameExpr['@lock']
+                                 $recv: #NameExpr['synchronize']
+                                 $body: #Block[
+                                    $body: #List[
+                                       $statement: #IfExpr[
+                                          $then: #SubAssign[
+                                             $left: #NameExpr['@count']
+                                             $right: #IntExpr['1']
+                                          ]
+                                          $cond: #GtExpr[
+                                             $left: #NameExpr['@count']
+                                             $right: #IntExpr['0']
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $then: #ApplyExpr[
+                                             $recv: #NameExpr['@cv']
+                                             $recv: #NameExpr['broadcast']
+                                          ]
+                                          $cond: #ApplyExpr[
+                                             $recv: #NameExpr['@count']
+                                             $recv: #NameExpr['zero?']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #FuncDecl[
+                           $name: #NameExpr['await']
+                           $param: #List['']
+                           $body: #BlockExpr[
+                              $main: #ApplyExpr[
+                                 $recv: #NameExpr['@lock']
+                                 $recv: #NameExpr['synchronize']
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['@cv']
+                                       $recv: #NameExpr['wait_while']
+                                       $body: #Block[
+                                          $body: #GtExpr[
+                                             $left: #NameExpr['@count']
+                                             $right: #IntExpr['0']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['setup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #Super['super']
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@old_loaded_features']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['$LOADED_FEATURES']
+                              $recv: #NameExpr['dup']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_raises']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['LoadError']
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['require']
+                                       $param: #List[
+                                          $expression: #StringExpr['test_gem_require_a']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['$LOADED_FEATURES']
+                           $recv: #NameExpr['replace']
+                           $param: #List[
+                              $expression: #NameExpr['@old_loaded_features']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['assert_require']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['path']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['assert']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['require']
+                              $param: #List[
+                                 $expression: #NameExpr['path']
+                              ]
+                           ]
+                           $expression: #StringExpr[
+                              $inner: #NameExpr['path']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['append_latch']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['spec']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['dir']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['spec']
+                              $recv: #NameExpr['gem_dir']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['Dir']
+                           $recv: #NameExpr['chdir']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['dir']
+                                 $body: #Block[
+                                    $body: #ApplyExpr[
+                                       $recv: #ApplyExpr[
+                                          $recv: #NameExpr['spec']
+                                          $recv: #NameExpr['files']
+                                       ]
+                                       $recv: #NameExpr['each']
+                                       $body: #Block[
+                                          $param: #NameExpr['file']
+                                          $body: #ApplyExpr[
+                                             $base: #NameExpr['File']
+                                             $recv: #NameExpr['open']
+                                             $param: #List[
+                                                $expression: #NameExpr['file']
+                                                $expression: #StringExpr['a']
+                                             ]
+                                             $body: #Block[
+                                                $param: #NameExpr['fp']
+                                                $body: #List[
+                                                   $statement: #ApplyExpr[
+                                                      $base: #NameExpr['fp']
+                                                      $recv: #NameExpr['puts']
+                                                      $param: #List[
+                                                         $expression: #StringExpr['FILE_ENTERED_LATCH.release']
+                                                      ]
+                                                   ]
+                                                   $statement: #ApplyExpr[
+                                                      $base: #NameExpr['fp']
+                                                      $recv: #NameExpr['puts']
+                                                      $param: #List[
+                                                         $expression: #StringExpr['FILE_EXIT_LATCH.await']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_dash_i_beats_gems']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['a']
+                                 $expression: #StringExpr['1']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['b']
+                                       $value: #StringExpr['= 1']
+                                    ]
+                                 ]
+                                 $expression: #StringExpr['lib/test_gem_require_a.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['1']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['c']
+                                       $value: #StringExpr['> 0']
+                                    ]
+                                 ]
+                                 $expression: #StringExpr['lib/b/c.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['c1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['c']
+                                 $expression: #StringExpr['1']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/c/c.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['c2']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['c']
+                                 $expression: #StringExpr['2']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/c/c.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_specs']
+                           $param: #List[
+                              $expression: #NameExpr['c1']
+                              $expression: #NameExpr['c2']
+                              $expression: #NameExpr['b1']
+                              $expression: #NameExpr['a1']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['dir']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Dir']
+                              $recv: #NameExpr['mktmpdir']
+                              $param: #List[
+                                 $expression: #StringExpr['test_require']
+                                 $expression: #NameExpr['@tempdir']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['dash_i_arg']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['dir']
+                                 $expression: #StringExpr['lib']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['c_rb']
+                           $right: #ApplyExpr[
+                              $base: #NameExpr['File']
+                              $recv: #NameExpr['join']
+                              $param: #List[
+                                 $expression: #NameExpr['dash_i_arg']
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['c.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['FileUtils']
+                           $recv: #NameExpr['mkdir_p']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['dirname']
+                                 $param: #List[
+                                    $expression: #NameExpr['c_rb']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['open']
+                           $param: #List[
+                              $expression: #NameExpr['c_rb']
+                              $expression: #StringExpr['w']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['f']
+                              $body: #ApplyExpr[
+                                 $base: #NameExpr['f']
+                                 $recv: #NameExpr['write']
+                                 $param: #List[
+                                    $expression: #StringExpr['class Object; HELLO = \'world\' end']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['lp']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['$LOAD_PATH']
+                              $recv: #NameExpr['dup']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['$LOAD_PATH']
+                           $recv: #NameExpr['unshift']
+                           $param: #List[
+                              $expression: #NameExpr['dash_i_arg']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_require']
+                           $param: #List[
+                              $expression: #StringExpr['test_gem_require_a']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_require']
+                           $param: #List[
+                              $expression: #StringExpr['b/c']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['world']
+                              $expression: #Field[
+                                 $recv: #NameExpr['Object']
+                                 $name: #NameExpr['HELLO']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $ensure: #List[
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['$LOAD_PATH']
+                           $recv: #NameExpr['replace']
+                           $param: #List[
+                              $expression: #NameExpr['lp']
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              $base: #NameExpr['Object']
+                              $recv: #NameExpr['send']
+                              $param: #List[
+                                 $expression: #NameExpr['remove_const']
+                                 $expression: #NameExpr['HELLO']
+                              ]
+                           ]
+                           $cond: #ApplyExpr[
+                              $base: #NameExpr['Object']
+                              $recv: #NameExpr['const_defined?']
+                              $param: #List[
+                                 $expression: #NameExpr['HELLO']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_concurrent_require']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['skip']
+                              $param: #List[
+                                 $expression: #StringExpr['deadlock']
+                              ]
+                           ]
+                           $cond: #Match[
+                              $left: #Regex['/^1\\.8\\./']
+                              $right: #NameExpr['RUBY_VERSION']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['Object']
+                           $recv: #NameExpr['const_set']
+                           $param: #List[
+                              $expression: #NameExpr['FILE_ENTERED_LATCH']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['Latch']
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #IntExpr['2']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['Object']
+                           $recv: #NameExpr['const_set']
+                           $param: #List[
+                              $expression: #NameExpr['FILE_EXIT_LATCH']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['Latch']
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #IntExpr['1']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['a']
+                                 $expression: #StringExpr['1']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/a.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['1']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/b.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_specs']
+                           $param: #List[
+                              $expression: #NameExpr['a1']
+                              $expression: #NameExpr['b1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['append_latch']
+                           $param: #List[
+                              $expression: #NameExpr['a1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['append_latch']
+                           $param: #List[
+                              $expression: #NameExpr['b1']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['t1']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['new']
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_require']
+                                    $param: #List[
+                                       $expression: #StringExpr['a']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['t2']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['Thread']
+                              $recv: #NameExpr['new']
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['assert_require']
+                                    $param: #List[
+                                       $expression: #StringExpr['b']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['FILE_ENTERED_LATCH']
+                           $recv: #NameExpr['await']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['FILE_EXIT_LATCH']
+                           $recv: #NameExpr['release']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['t1']
+                                 $recv: #NameExpr['join']
+                              ]
+                              $expression: #StringExpr['thread 1 should exit']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['t2']
+                                 $recv: #NameExpr['join']
+                              ]
+                              $expression: #StringExpr['thread 2 should exit']
+                           ]
+                        ]
+                     ]
+                     $ensure: #List[
+                        $statement: #IfExpr[
+                           $then: #RReturnStmt['return']
+                           $cond: #BuiltInVariable['$!']
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['Object']
+                           $recv: #NameExpr['send']
+                           $param: #List[
+                              $expression: #NameExpr['remove_const']
+                              $expression: #NameExpr['FILE_ENTERED_LATCH']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['Object']
+                           $recv: #NameExpr['send']
+                           $param: #List[
+                              $expression: #NameExpr['remove_const']
+                              $expression: #NameExpr['FILE_EXIT_LATCH']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_require_is_not_lazy_with_exact_req']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['a']
+                                 $expression: #StringExpr['1']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['b']
+                                       $value: #StringExpr['= 1']
+                                    ]
+                                 ]
+                                 $expression: #StringExpr['lib/test_gem_require_a.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['1']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/b/c.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b2']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['2']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/b/c.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_specs']
+                           $param: #List[
+                              $expression: #NameExpr['b1']
+                              $expression: #NameExpr['b2']
+                              $expression: #NameExpr['a1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_require']
+                           $param: #List[
+                              $expression: #StringExpr['test_gem_require_a']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(a-1 b-1)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['unresolved_names']
+                              $expression: #Array['[]']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_require']
+                           $param: #List[
+                              $expression: #StringExpr['b/c']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(a-1 b-1)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_require_is_lazy_with_inexact_req']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['a']
+                                 $expression: #StringExpr['1']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['b']
+                                       $value: #StringExpr['>= 1']
+                                    ]
+                                 ]
+                                 $expression: #StringExpr['lib/test_gem_require_a.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['1']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/b/c.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b2']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['2']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/b/c.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_specs']
+                           $param: #List[
+                              $expression: #NameExpr['b1']
+                              $expression: #NameExpr['b2']
+                              $expression: #NameExpr['a1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_require']
+                           $param: #List[
+                              $expression: #StringExpr['test_gem_require_a']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(a-1)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['unresolved_names']
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['b (>= 1)']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_require']
+                           $param: #List[
+                              $expression: #StringExpr['b/c']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(a-1 b-2)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_require_is_not_lazy_with_one_possible']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['a']
+                                 $expression: #StringExpr['1']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['b']
+                                       $value: #StringExpr['>= 1']
+                                    ]
+                                 ]
+                                 $expression: #StringExpr['lib/test_gem_require_a.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['1']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/b/c.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_specs']
+                           $param: #List[
+                              $expression: #NameExpr['b1']
+                              $expression: #NameExpr['a1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_require']
+                           $param: #List[
+                              $expression: #StringExpr['test_gem_require_a']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(a-1 b-1)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['unresolved_names']
+                              $expression: #Array['[]']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_require']
+                           $param: #List[
+                              $expression: #StringExpr['b/c']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(a-1 b-1)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_require_can_use_a_pathname_object']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['a']
+                                 $expression: #StringExpr['1']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/test_gem_require_a.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_specs']
+                           $param: #List[
+                              $expression: #NameExpr['a1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_require']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['Pathname']
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #StringExpr['test_gem_require_a']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(a-1)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['unresolved_names']
+                              $expression: #Array['[]']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_activate_via_require_respects_loaded_files']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['a']
+                                 $expression: #StringExpr['1']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['b']
+                                       $value: #StringExpr['>= 1']
+                                    ]
+                                 ]
+                                 $expression: #StringExpr['lib/test_gem_require_a.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['1']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/benchmark.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b2']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['2']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/benchmark.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_specs']
+                           $param: #List[
+                              $expression: #NameExpr['b1']
+                              $expression: #NameExpr['b2']
+                              $expression: #NameExpr['a1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['require']
+                           $param: #List[
+                              $expression: #StringExpr['test_gem_require_a']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #NameExpr['unresolved_names']
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['b (>= 1)']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['refute']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['require']
+                                 $param: #List[
+                                    $expression: #StringExpr['benchmark']
+                                 ]
+                              ]
+                              $expression: #StringExpr['benchmark should have already been loaded']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(a-1 b-2)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_already_activated_direct_conflict']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['a']
+                                 $expression: #StringExpr['1']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['b']
+                                       $value: #StringExpr['> 0']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['1']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['c']
+                                       $value: #StringExpr['>= 1']
+                                    ]
+                                 ]
+                                 $expression: #StringExpr['lib/ib.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b2']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['2']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['c']
+                                       $value: #StringExpr['>= 2']
+                                    ]
+                                 ]
+                                 $expression: #StringExpr['lib/ib.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['c1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['c']
+                                 $expression: #StringExpr['1']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/d.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['c2']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['c']
+                                 $expression: #StringExpr['2']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/d.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_specs']
+                           $param: #List[
+                              $expression: #NameExpr['c1']
+                              $expression: #NameExpr['c2']
+                              $expression: #NameExpr['b1']
+                              $expression: #NameExpr['b2']
+                              $expression: #NameExpr['a1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['a1']
+                           $recv: #NameExpr['activate']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['c1']
+                           $recv: #NameExpr['activate']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(a-1 c-1)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['b (> 0)']
+                                 ]
+                              ]
+                              $expression: #NameExpr['unresolved_names']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['require']
+                                 $param: #List[
+                                    $expression: #StringExpr['ib']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(a-1 b-1 c-1)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array['[]']
+                              $expression: #NameExpr['unresolved_names']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_multiple_gems_with_the_same_path']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['a']
+                                 $expression: #StringExpr['1']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['b']
+                                       $value: #StringExpr['> 0']
+                                    ]
+                                    $hash: #Hash[
+                                       $key: #StringExpr['x']
+                                       $value: #StringExpr['> 0']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['1']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['c']
+                                       $value: #StringExpr['>= 1']
+                                    ]
+                                 ]
+                                 $expression: #StringExpr['lib/ib.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b2']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['2']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['c']
+                                       $value: #StringExpr['>= 2']
+                                    ]
+                                 ]
+                                 $expression: #StringExpr['lib/ib.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['x1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['x']
+                                 $expression: #StringExpr['1']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/ib.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['x2']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['x']
+                                 $expression: #StringExpr['2']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/ib.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['c1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['c']
+                                 $expression: #StringExpr['1']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/d.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['c2']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['c']
+                                 $expression: #StringExpr['2']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/d.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_specs']
+                           $param: #List[
+                              $expression: #NameExpr['c1']
+                              $expression: #NameExpr['c2']
+                              $expression: #NameExpr['x1']
+                              $expression: #NameExpr['x2']
+                              $expression: #NameExpr['b1']
+                              $expression: #NameExpr['b2']
+                              $expression: #NameExpr['a1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['a1']
+                           $recv: #NameExpr['activate']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['c1']
+                           $recv: #NameExpr['activate']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(a-1 c-1)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['b (> 0)']
+                                    $expression: #StringExpr['x (> 0)']
+                                 ]
+                              ]
+                              $expression: #NameExpr['unresolved_names']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['e']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_raises']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['LoadError']
+                                 ]
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['require']
+                                    $param: #List[
+                                       $expression: #StringExpr['ib']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['ib found in multiple gems: b, x']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['e']
+                                 $recv: #NameExpr['message']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_unable_to_find_good_unresolved_version']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['a']
+                                 $expression: #StringExpr['1']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['b']
+                                       $value: #StringExpr['> 0']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['1']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['c']
+                                       $value: #StringExpr['>= 2']
+                                    ]
+                                 ]
+                                 $expression: #StringExpr['lib/ib.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b2']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['2']
+                                 $expression: #List[
+                                    $hash: #Hash[
+                                       $key: #StringExpr['c']
+                                       $value: #StringExpr['>= 3']
+                                    ]
+                                 ]
+                                 $expression: #StringExpr['lib/ib.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['c1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['c']
+                                 $expression: #StringExpr['1']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/d.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['c2']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['c']
+                                 $expression: #StringExpr['2']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/d.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['c3']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['c']
+                                 $expression: #StringExpr['3']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/d.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_specs']
+                           $param: #List[
+                              $expression: #NameExpr['c1']
+                              $expression: #NameExpr['c2']
+                              $expression: #NameExpr['c3']
+                              $expression: #NameExpr['b1']
+                              $expression: #NameExpr['b2']
+                              $expression: #NameExpr['a1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['a1']
+                           $recv: #NameExpr['activate']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['c1']
+                           $recv: #NameExpr['activate']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(a-1 c-1)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['b (> 0)']
+                                 ]
+                              ]
+                              $expression: #NameExpr['unresolved_names']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['e']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['assert_raises']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['LoadError']
+                                 ]
+                              ]
+                              $body: #Block[
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['require']
+                                    $param: #List[
+                                       $expression: #StringExpr['ib']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #StringExpr['unable to find a version of \'b\' to activate']
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['e']
+                                 $recv: #NameExpr['message']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_require_works_after_cleanup']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_default_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['a']
+                                 $expression: #StringExpr['1.0']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['a/b.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_default_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['1.0']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['b/c.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['b2']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_default_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['b']
+                                 $expression: #StringExpr['2.0']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['b/d.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_default_gems']
+                           $param: #List[
+                              $expression: #NameExpr['a1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_default_gems']
+                           $param: #List[
+                              $expression: #NameExpr['b1']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_default_gems']
+                           $param: #List[
+                              $expression: #NameExpr['b2']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['Gem']
+                              $name: #NameExpr['Specification']
+                           ]
+                           $recv: #NameExpr['reset']
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['require']
+                           $param: #List[
+                              $expression: #StringExpr['rubygems']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['Gem']
+                              $name: #NameExpr['Specification']
+                           ]
+                           $recv: #NameExpr['stubs']
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['FileUtils']
+                           $recv: #NameExpr['rm_rf']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['@default_dir']
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['b1']
+                                          $recv: #NameExpr['full_name']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['FileUtils']
+                           $recv: #NameExpr['rm_rf']
+                           $param: #List[
+                              $command: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['join']
+                                 $param: #List[
+                                    $expression: #NameExpr['@default_spec_dir']
+                                    $expression: #StringExpr[
+                                       $inner: #ApplyExpr[
+                                          $recv: #NameExpr['b1']
+                                          $recv: #NameExpr['full_name']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_require']
+                           $param: #List[
+                              $expression: #StringExpr['a/b']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(a-1.0)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_require']
+                           $param: #List[
+                              $expression: #StringExpr['b/d']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(a-1.0 b-2.0)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_require_doesnt_traverse_development_dependencies']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['a']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['a']
+                                 $expression: #StringExpr['1']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/a.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['z']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['z']
+                                 $expression: #StringExpr['1']
+                                 $hash: #Hash[
+                                    $key: #StringExpr['w']
+                                    $value: #StringExpr['> 0']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['w1']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['w']
+                                 $expression: #StringExpr['1']
+                              ]
+                              $body: #Block[
+                                 $param: #NameExpr['s']
+                                 $body: #ApplyExpr[
+                                    $base: #NameExpr['s']
+                                    $recv: #NameExpr['add_development_dependency']
+                                    $param: #List[
+                                       $expression: #StringExpr['non-existent']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['w2']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['w']
+                                 $expression: #StringExpr['2']
+                              ]
+                              $body: #Block[
+                                 $param: #NameExpr['s']
+                                 $body: #ApplyExpr[
+                                    $base: #NameExpr['s']
+                                    $recv: #NameExpr['add_development_dependency']
+                                    $param: #List[
+                                       $expression: #StringExpr['non-existent']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_specs']
+                           $param: #List[
+                              $expression: #NameExpr['a']
+                              $expression: #NameExpr['w1']
+                              $expression: #NameExpr['w2']
+                              $expression: #NameExpr['z']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['gem']
+                                 $param: #List[
+                                    $expression: #StringExpr['z']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(z-1)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #StringExpr['w (> 0)']
+                                 ]
+                              ]
+                              $expression: #NameExpr['unresolved_names']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['require']
+                                 $param: #List[
+                                    $expression: #StringExpr['a']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_default_gem_only']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['default_gem_spec']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_default_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['default']
+                                 $expression: #StringExpr['2.0.0.0']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['default/gem.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_default_specs']
+                           $param: #List[
+                              $expression: #NameExpr['default_gem_spec']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_require']
+                           $param: #List[
+                              $expression: #StringExpr['default/gem']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(default-2.0.0.0)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_default_gem_and_normal_gem']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['default_gem_spec']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_default_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['default']
+                                 $expression: #StringExpr['2.0.0.0']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['default/gem.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_default_specs']
+                           $param: #List[
+                              $expression: #NameExpr['default_gem_spec']
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['normal_gem_spec']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['new_spec']
+                              $param: #List[
+                                 $expression: #StringExpr['default']
+                                 $expression: #StringExpr['3.0']
+                                 $expression: #Nil['nil']
+                                 $expression: #StringExpr['lib/default/gem.rb']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['install_specs']
+                           $param: #List[
+                              $expression: #NameExpr['normal_gem_spec']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_require']
+                           $param: #List[
+                              $expression: #StringExpr['default/gem']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_equal']
+                           $param: #List[
+                              $expression: #ParcentNotation['%w(default-3.0)']
+                              $expression: #NameExpr['loaded_spec_names']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['loaded_spec_names']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #NameExpr['Gem']
+                                 $recv: #NameExpr['loaded_specs']
+                              ]
+                              $recv: #NameExpr['values']
+                           ]
+                           $recv: #NameExpr['map']
+                           $param: #List[
+                              $procedure: #Procedure[
+                                 $base: #NameExpr['full_name']
+                              ]
+                           ]
+                        ]
+                        $recv: #NameExpr['sort']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['unresolved_names']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Gem']
+                                    $name: #NameExpr['Specification']
+                                 ]
+                                 $recv: #NameExpr['unresolved_deps']
+                              ]
+                              $recv: #NameExpr['values']
+                           ]
+                           $recv: #NameExpr['map']
+                           $param: #List[
+                              $procedure: #Procedure[
+                                 $base: #NameExpr['to_s']
+                              ]
+                           ]
+                        ]
+                        $recv: #NameExpr['sort']
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['test_try_activate_error_unlocks_require_monitor']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['silence_warnings']
+                           $body: #Block[
+                              $body: #SClass[
+                                 $path: #NameExpr['Gem']
+                                 $body: #BlockExpr[
+                                    $main: #List[
+                                       $statement: #Alias[
+                                          $newname: #NameExpr['old_try_activate']
+                                          $target: #NameExpr['try_activate']
+                                       ]
+                                       $statement: #FuncDecl[
+                                          $name: #NameExpr['try_activate']
+                                          $param: #List[
+                                             $param: #VariadicParam['*']
+                                          ]
+                                          $body: #BlockExpr[
+                                             $main: #ApplyExpr[
+                                                #Self['self']
+                                                $recv: #NameExpr['raise']
+                                                $param: #List[
+                                                   $expression: #StringExpr['raised from try_activate']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['require']
+                           $param: #List[
+                              $expression: #StringExpr['does_not_exist_for_try_activate_test']
+                           ]
+                        ]
+                     ]
+                     $rescue: #List[
+                        $rescue: #Rescue[
+                           $class: #NameExpr['RuntimeError']
+                           $target: #NameExpr['e']
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert_match']
+                                 $param: #List[
+                                    $expression: #Regex['/raised from try_activate/']
+                                    $expression: #ApplyExpr[
+                                       $recv: #NameExpr['e']
+                                       $recv: #NameExpr['message']
+                                    ]
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['assert']
+                                 $param: #List[
+                                    $expression: #ApplyExpr[
+                                       $recv: #Field[
+                                          $recv: #NameExpr['Kernel']
+                                          $name: #NameExpr['RUBYGEMS_ACTIVATION_MONITOR']
+                                       ]
+                                       $recv: #NameExpr['try_enter']
+                                    ]
+                                    $expression: #StringExpr['require monitor was not unlocked when try_activate raised']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $ensure: #List[
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['silence_warnings']
+                           $body: #Block[
+                              $body: #SClass[
+                                 $path: #NameExpr['Gem']
+                                 $body: #BlockExpr[
+                                    $main: #Alias[
+                                       $newname: #NameExpr['try_activate']
+                                       $target: #NameExpr['old_try_activate']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #Field[
+                              $recv: #NameExpr['Kernel']
+                              $name: #NameExpr['RUBYGEMS_ACTIVATION_MONITOR']
+                           ]
+                           $recv: #NameExpr['exit']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['silence_warnings']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #MultipleAssign[
+                           $left: #MultipleLeftHandSideExpression[
+                              $item: #NameExpr['old_verbose']
+                              $item: #NameExpr['$VERBOSE']
+                           ]
+                           $right: #MultipleRightHandSideExpression[
+                              $expression: #NameExpr['$VERBOSE']
+                              $expression: #FalseExpr['false']
+                           ]
+                        ]
+                        $statement: #Yield['yield']
+                     ]
+                     $ensure: #AssignExpr[
+                        $left: #NameExpr['$VERBOSE']
+                        $right: #NameExpr['old_verbose']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

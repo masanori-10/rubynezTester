@@ -1,0 +1,291 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #ApplyExpr[
+               $recv: #NameExpr['File']
+               $recv: #NameExpr['join']
+               $param: #List[
+                  $expression: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['dirname']
+                     $param: #List[
+                        $expression: #File['__FILE__']
+                     ]
+                  ]
+                  $expression: #StringExpr['nacl-config']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['include']
+         $param: #List[
+            $expression: #NameExpr['NaClConfig']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$verbosity']
+         $right: #IntExpr['0']
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['usage_and_exit']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #ApplyExpr[
+                  $base: #NameExpr['$stderr']
+                  $recv: #NameExpr['puts']
+                  $param: #List[
+                     $expression: #StringExpr[
+                        $inner: #NameExpr['$PROGRAM_NAME']
+                     ]
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['exit']
+                  $param: #List[
+                     $expression: #FalseExpr['false']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['create_dynamically_linked']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['nmf']
+            ]
+            $param: #Param[
+               $param: #NameExpr['exe']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['cmd']
+                  $right: #Array[
+                     $index: #List[
+                        $expression: #NameExpr['PYTHON']
+                        $expression: #NameExpr['CREATE_NMF']
+                        $expression: #StringExpr['-o']
+                        $expression: #NameExpr['nmf']
+                        $expression: #StringExpr['-D']
+                        $expression: #NameExpr['OBJDUMP']
+                        $expression: #StringExpr['-L']
+                        $expression: #NameExpr['HOST_LIB']
+                        $expression: #NameExpr['exe']
+                     ]
+                  ]
+               ]
+               $statement: #IfExpr[
+                  $then: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['puts']
+                     $param: #List[
+                        $expression: #ApplyExpr[
+                           $recv: #NameExpr['cmd']
+                           $recv: #NameExpr['join']
+                           $param: #List[
+                              $expression: #StringExpr[' ']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $cond: #GtExpr[
+                     $left: #NameExpr['$verbosity']
+                     $right: #IntExpr['0']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['exec']
+                  $param: #List[
+                     $variadic: #Variadic[
+                        $base: #NameExpr['cmd']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['create_statically_linked']
+         $param: #List[
+            $param: #Param[
+               $param: #NameExpr['nmf']
+            ]
+            $param: #Param[
+               $param: #NameExpr['exe']
+            ]
+         ]
+         $body: #BlockExpr[
+            $main: #ApplyExpr[
+               $recv: #NameExpr['File']
+               $recv: #NameExpr['open']
+               $param: #List[
+                  $expression: #NameExpr['nmf']
+                  $expression: #StringExpr['w']
+               ]
+               $body: #Block[
+                  $param: #NameExpr['f']
+                  $body: #ApplyExpr[
+                     $base: #NameExpr['f']
+                     $recv: #NameExpr['write']
+                     $param: #List[
+                        $expression: #HereDocument['      {\n        "program": {\n          "#{ARCH}": {\n            "url": "#{exe}"\n          }\n        }\n      }\n']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #FuncDecl[
+         $name: #NameExpr['main']
+         $param: #List['']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #While[
+                  $cond: #AssignExpr[
+                     $left: #NameExpr['m']
+                     $right: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #NameExpr['ARGV']
+                           $recv: #NameExpr['first']
+                        ]
+                        $recv: #NameExpr['match']
+                        $param: #List[
+                           $expression: #Regex['/--([a-z-]+)(?:=(\\S+))?/']
+                        ]
+                     ]
+                  ]
+                  $body: #List[
+                     $statement: #Case[
+                        $cond: #Indexer[
+                           $recv: #NameExpr['m']
+                           $index: #List[
+                              $expression: #IntExpr['1']
+                           ]
+                        ]
+                        $body: #List[
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #StringExpr['verbose']
+                              ]
+                              $then: #List[
+                                 $statement: #Unless[
+                                    $then: #NameExpr['usage_and_exit']
+                                    $cond: #Indexer[
+                                       $recv: #Indexer[
+                                          $recv: #NameExpr['m']
+                                          $index: #List[
+                                             $expression: #IntExpr['2']
+                                          ]
+                                       ]
+                                       $index: #List[
+                                          $expression: #Regex['/\\A[0-9]+\\z/']
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['$verbosity']
+                                    $right: #ApplyExpr[
+                                       $recv: #Indexer[
+                                          $recv: #NameExpr['m']
+                                          $index: #List[
+                                             $expression: #IntExpr['2']
+                                          ]
+                                       ]
+                                       $recv: #NameExpr['to_i']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $when: #When[
+                              $cond: #List[
+                                 $expression: #StringExpr['help']
+                              ]
+                              $then: #NameExpr['usage_end_exit']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['ARGV']
+                        $recv: #NameExpr['shift']
+                     ]
+                  ]
+               ]
+               $statement: #IfExpr[
+                  $then: #NameExpr['usage_and_exit']
+                  $cond: #LtExpr[
+                     $left: #ApplyExpr[
+                        $recv: #NameExpr['ARGV']
+                        $recv: #NameExpr['size']
+                     ]
+                     $right: #IntExpr['2']
+                  ]
+               ]
+               $statement: #MultipleAssign[
+                  $left: #MultipleLeftHandSideExpression[
+                     $item: #NameExpr['exe']
+                     $item: #NameExpr['nmf']
+                  ]
+                  $right: #MultipleRightHandSideExpression[
+                     $expression: #Indexer[
+                        $recv: #NameExpr['ARGV']
+                        $index: #List[
+                           $expression: #IntExpr['0']
+                        ]
+                     ]
+                     $expression: #Indexer[
+                        $recv: #NameExpr['ARGV']
+                        $index: #List[
+                           $expression: #IntExpr['1']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #IfExpr[
+                  $cond: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['newlib?']
+                  ]
+                  $then: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['create_statically_linked']
+                     $param: #List[
+                        $expression: #NameExpr['nmf']
+                        $expression: #NameExpr['exe']
+                     ]
+                  ]
+                  $else: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['create_dynamically_linked']
+                     $param: #List[
+                        $expression: #NameExpr['nmf']
+                        $expression: #NameExpr['exe']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #EqExpr[
+            $left: #File['__FILE__']
+            $right: #BuiltInVariable['$0']
+         ]
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['main']
+            $param: #Empty['']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

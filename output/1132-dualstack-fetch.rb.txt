@@ -1,0 +1,200 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['socket']
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #NeExpr[
+            $left: #ApplyExpr[
+               $recv: #NameExpr['ARGV']
+               $recv: #NameExpr['size']
+            ]
+            $right: #IntExpr['1']
+         ]
+         $then: #List[
+            $statement: #ApplyExpr[
+               $base: #NameExpr['STDERR']
+               $recv: #NameExpr['print']
+               $param: #List[
+                  $expression: #StringExpr['requires URL\\n']
+               ]
+            ]
+            $statement: #NameExpr['exit']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['url']
+         $right: #Indexer[
+            $recv: #NameExpr['ARGV']
+            $index: #List[
+               $expression: #IntExpr['0']
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #NotMatch[
+            $left: #NameExpr['url']
+            $right: #Regex['/^http:\\/\\/([^\\/]+)(\\/.*)$/']
+         ]
+         $then: #List[
+            $statement: #ApplyExpr[
+               $base: #NameExpr['STDERR']
+               $recv: #NameExpr['print']
+               $param: #List[
+                  $expression: #StringExpr['only http with full hostname is supported\\n']
+               ]
+            ]
+            $statement: #NameExpr['exit']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['hostport']
+         $right: #MatchedRegex['$1']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['path']
+         $right: #MatchedRegex['$2']
+      ]
+      $statement: #IfExpr[
+         $cond: #AssignExpr[
+            $left: #NameExpr['hostport']
+            $right: #ComplExpr[
+               $expr: #Regex['/^(.*):([0-9]+)$/']
+            ]
+         ]
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['host']
+               $right: #MatchedRegex['$1']
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['port']
+               $right: #MatchedRegex['$2']
+            ]
+         ]
+         $else: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['host']
+               $right: #NameExpr['hostport']
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['port']
+               $right: #IntExpr['80']
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #AssignExpr[
+            $left: #NameExpr['host']
+            $right: #ComplExpr[
+               $expr: #Regex['/^\\[(.*)\\]$/']
+            ]
+         ]
+         $then: #AssignExpr[
+            $left: #NameExpr['host']
+            $right: #MatchedRegex['$1']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $base: #NameExpr['STDERR']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #StringExpr[
+               $inner: #NameExpr['host']
+               $inner: #NameExpr['port']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['c']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['TCPSocket']
+            $recv: #NameExpr['new']
+            $param: #List[
+               $expression: #NameExpr['host']
+               $expression: #NameExpr['port']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['dest']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['Socket']
+            $recv: #NameExpr['getnameinfo']
+            $param: #List[
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['c']
+                  $recv: #NameExpr['getpeername']
+               ]
+               $expression: #OrExpr[
+                  $left: #Field[
+                     $recv: #NameExpr['Socket']
+                     $name: #NameExpr['NI_NUMERICHOST']
+                  ]
+                  $right: #Field[
+                     $recv: #NameExpr['Socket']
+                     $name: #NameExpr['NI_NUMERICSERV']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $base: #NameExpr['STDERR']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #StringExpr[
+               $inner: #Indexer[
+                  $recv: #NameExpr['dest']
+                  $index: #List[
+                     $expression: #IntExpr['0']
+                  ]
+               ]
+               $inner: #Indexer[
+                  $recv: #NameExpr['dest']
+                  $index: #List[
+                     $expression: #IntExpr['1']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $base: #NameExpr['c']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #StringExpr[
+               $inner: #NameExpr['path']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $base: #NameExpr['c']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #StringExpr[
+               $inner: #NameExpr['host']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $base: #NameExpr['c']
+         $recv: #NameExpr['print']
+         $param: #List[
+            $expression: #StringExpr['\\n']
+         ]
+      ]
+      $statement: #While[
+         $cond: #ApplyExpr[
+            $recv: #NameExpr['c']
+            $recv: #NameExpr['gets']
+         ]
+         $body: #NameExpr['print']
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,45 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  eval("", TOPLEVEL_BINDING)\n  minobj = ObjectSpace.to_enum(:each_object).min_by {|a| a.object_id }\n  maxobj = ObjectSpace.to_enum(:each_object).max_by {|a| a.object_id }\n  (((minobj.object_id-100)..(minobj.object_id+100))+\n   ((maxobj.object_id-100)..(maxobj.object_id+100))).each {|id|\n    begin\n      o = ObjectSpace._id2ref(id)\n    rescue RangeError\n      next\n    end\n    o.inspect if defined?(o.inspect)\n  }\n}']
+            $expression: #StringExpr['[ruby-dev:31911]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  ary = (1..10).to_a\n  ary.permutation(2) {|x|\n    if x == [1,2]\n      ObjectSpace.each_object(String) {|s|\n        s.clear if !s.frozen? && (s.length == 40 || s.length == 80)\n      }\n    end\n  }\n}']
+            $expression: #StringExpr['[ruby-dev:31982]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  ary = (1..100).to_a\n  ary.permutation(2) {|x|\n    if x == [1,2]\n      ObjectSpace.each_object(Array) {|o| o.clear if o == ary && o.object_id != ary.object_id }\n    end\n  }\n}']
+            $expression: #StringExpr['[ruby-dev:31985]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  ObjectSpace.define_finalizer("") do\n    Thread::Mutex.new.lock\n  end\n}']
+            $expression: #StringExpr['[ruby-dev:44049]']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['assert_normal_exit']
+         $param: #List[
+            $expression: #ParcentNotation['%q{\n  ObjectSpace.define_finalizer("") do\n    Thread.new {}\n  end\n}']
+            $expression: #StringExpr['[ruby-core:37858]']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

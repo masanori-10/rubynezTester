@@ -1,0 +1,1034 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rexml/document']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #ApplyExpr[
+               $recv: #NameExpr['File']
+               $recv: #NameExpr['expand_path']
+               $param: #List[
+                  $expression: #StringExpr['../transcode-tblgen']
+                  $expression: #File['__FILE__']
+               ]
+            ]
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['EmojiTable']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #AssignExpr[
+                  $left: #NameExpr['VERBOSE_MODE']
+                  $right: #FalseExpr['false']
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['xml_path']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@doc']
+                           $right: #ApplyExpr[
+                              $base: #Field[
+                                 $recv: #NameExpr['REXML']
+                                 $name: #NameExpr['Document']
+                              ]
+                              $recv: #NameExpr['new']
+                              $param: #List[
+                                 $expression: #ApplyExpr[
+                                    $recv: #NameExpr['File']
+                                    $recv: #NameExpr['open']
+                                    $param: #List[
+                                       $expression: #NameExpr['xml_path']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['@kddi_undoc']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['make_kddi_undoc_map']
+                              $param: #Empty['']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['conversion']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['from_carrier']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['to_carrier']
+                     ]
+                     $param: #ProcedureParam[
+                        $name: #NameExpr['block']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        $recv: #Field[
+                           $recv: #NameExpr['REXML']
+                           $name: #NameExpr['XPath']
+                        ]
+                        $recv: #NameExpr['each']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['@doc']
+                              $recv: #NameExpr['root']
+                           ]
+                           $expression: #StringExpr['//e']
+                        ]
+                        $body: #Block[
+                           $param: #NameExpr['e']
+                           $body: #List[
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['from']
+                                 $right: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['e']
+                                       $recv: #NameExpr['attribute']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['from_carrier']
+                                             $recv: #NameExpr['downcase']
+                                          ]
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['to_s']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['to']
+                                 $right: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['e']
+                                       $recv: #NameExpr['attribute']
+                                       $param: #List[
+                                          $expression: #ApplyExpr[
+                                             $recv: #NameExpr['to_carrier']
+                                             $recv: #NameExpr['downcase']
+                                          ]
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['to_s']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['text_fallback']
+                                 $right: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['e']
+                                       $recv: #NameExpr['attribute']
+                                       $param: #List[
+                                          $expression: #StringExpr['text_fallback']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['to_s']
+                                 ]
+                              ]
+                              $statement: #AssignExpr[
+                                 $left: #NameExpr['name']
+                                 $right: #ApplyExpr[
+                                    $recv: #ApplyExpr[
+                                       $recv: #NameExpr['e']
+                                       $recv: #NameExpr['attribute']
+                                       $param: #List[
+                                          $expression: #StringExpr['name']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['to_s']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #AssignExpr[
+                                    $left: #NameExpr['from']
+                                    $right: #ComplExpr[
+                                       $expr: #Regex['/^(?:\\*|\\+)(.+)$/']
+                                    ]
+                                 ]
+                                 $then: #AssignExpr[
+                                    $left: #NameExpr['from']
+                                    $right: #MatchedRegex['$1']
+                                 ]
+                              ]
+                              $statement: #IfExpr[
+                                 $cond: #LOr[
+                                    $left: #ApplyExpr[
+                                       $recv: #NameExpr['from']
+                                       $recv: #NameExpr['empty?']
+                                    ]
+                                    $right: #NotMatch[
+                                       $left: #NameExpr['from']
+                                       $right: #Regex['/^[0-9A-F]+$/']
+                                    ]
+                                 ]
+                                 $then: #Empty['']
+                                 $else: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['from_utf8']
+                                       $right: #ApplyExpr[
+                                          $recv: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #Array[
+                                                   $index: #List[
+                                                      $expression: #ApplyExpr[
+                                                         $recv: #NameExpr['from']
+                                                         $recv: #NameExpr['hex']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $recv: #NameExpr['pack']
+                                                $param: #List[
+                                                   $expression: #StringExpr['U']
+                                                ]
+                                             ]
+                                             $recv: #NameExpr['unpack']
+                                             $param: #List[
+                                                $expression: #StringExpr['H*']
+                                             ]
+                                          ]
+                                          $recv: #NameExpr['first']
+                                       ]
+                                    ]
+                                    $statement: #IfExpr[
+                                       $cond: #AssignExpr[
+                                          $left: #NameExpr['to']
+                                          $right: #ComplExpr[
+                                             $expr: #Regex['/^(?:&gt;|\\*)?([0-9A-F\\+]+)$/']
+                                          ]
+                                       ]
+                                       $then: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['str_to']
+                                             $right: #MatchedRegex['$1']
+                                          ]
+                                          $statement: #IfExpr[
+                                             $cond: #AssignExpr[
+                                                $left: #NameExpr['str_to']
+                                                $right: #ComplExpr[
+                                                   $expr: #Regex['/^\\+/']
+                                                ]
+                                             ]
+                                             $then: #List[
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['proposal']
+                                                   $right: #TrueExpr['true']
+                                                ]
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['str_to']
+                                                   $recv: #NameExpr['sub!']
+                                                   $param: #List[
+                                                      $expression: #Regex['/^\\+/']
+                                                      $expression: #StringExpr['']
+                                                   ]
+                                                ]
+                                             ]
+                                             $else: #AssignExpr[
+                                                $left: #NameExpr['proposal']
+                                                $right: #FalseExpr['false']
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['tos']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['str_to']
+                                                $recv: #NameExpr['split']
+                                                $param: #List[
+                                                   $expression: #StringExpr['+']
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['to_utf8']
+                                             $right: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #ApplyExpr[
+                                                      $recv: #ApplyExpr[
+                                                         $recv: #NameExpr['tos']
+                                                         $recv: #NameExpr['map']
+                                                         $param: #List[
+                                                            $procedure: #Procedure[
+                                                               $base: #NameExpr['hex']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                      $recv: #NameExpr['pack']
+                                                      $param: #List[
+                                                         $expression: #StringExpr['U*']
+                                                      ]
+                                                   ]
+                                                   $recv: #NameExpr['unpack']
+                                                   $param: #List[
+                                                      $expression: #StringExpr['H*']
+                                                   ]
+                                                ]
+                                                $recv: #NameExpr['first']
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['comment']
+                                             $right: #ModExpr[
+                                                $left: #StringExpr['[%s] U+%X -> %s']
+                                                $right: #Array[
+                                                   $index: #List[
+                                                      $expression: #NameExpr['name']
+                                                      $expression: #ApplyExpr[
+                                                         $recv: #NameExpr['from']
+                                                         $recv: #NameExpr['hex']
+                                                      ]
+                                                      $expression: #ApplyExpr[
+                                                         $recv: #ApplyExpr[
+                                                            $recv: #NameExpr['tos']
+                                                            $recv: #NameExpr['map']
+                                                            $body: #Block[
+                                                               $param: #NameExpr['c']
+                                                               $body: #ModExpr[
+                                                                  $left: #StringExpr['U+%X']
+                                                                  $right: #ApplyExpr[
+                                                                     $recv: #NameExpr['c']
+                                                                     $recv: #NameExpr['hex']
+                                                                  ]
+                                                               ]
+                                                            ]
+                                                         ]
+                                                         $recv: #NameExpr['join']
+                                                         $param: #List[
+                                                            $expression: #StringExpr[' ']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #NameExpr['block']
+                                             $recv: #NameExpr['call']
+                                             $param: #List[
+                                                $hash: #Hash[
+                                                   $key: #NameExpr['from']
+                                                   $value: #NameExpr['from_utf8']
+                                                ]
+                                                $hash: #Hash[
+                                                   $key: #NameExpr['to']
+                                                   $value: #NameExpr['to_utf8']
+                                                ]
+                                                $hash: #Hash[
+                                                   $key: #NameExpr['comment']
+                                                   $value: #NameExpr['comment']
+                                                ]
+                                                $hash: #Hash[
+                                                   $key: #NameExpr['fallback']
+                                                   $value: #FalseExpr['false']
+                                                ]
+                                                $hash: #Hash[
+                                                   $key: #NameExpr['proposal']
+                                                   $value: #NameExpr['proposal']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $else: #IfExpr[
+                                          $cond: #ApplyExpr[
+                                             $recv: #NameExpr['to']
+                                             $recv: #NameExpr['empty?']
+                                          ]
+                                          $then: #IfExpr[
+                                             $cond: #ApplyExpr[
+                                                $recv: #NameExpr['text_fallback']
+                                                $recv: #NameExpr['empty?']
+                                             ]
+                                             $then: #List[
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['comment']
+                                                   $right: #ModExpr[
+                                                      $left: #StringExpr['[%s] U+%X -> U+3013 (GETA)']
+                                                      $right: #Array[
+                                                         $index: #List[
+                                                            $expression: #NameExpr['name']
+                                                            $expression: #ApplyExpr[
+                                                               $recv: #NameExpr['from']
+                                                               $recv: #NameExpr['hex']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['block']
+                                                   $recv: #NameExpr['call']
+                                                   $param: #List[
+                                                      $hash: #Hash[
+                                                         $key: #NameExpr['from']
+                                                         $value: #NameExpr['from_utf8']
+                                                      ]
+                                                      $hash: #Hash[
+                                                         $key: #NameExpr['to']
+                                                         $value: #ApplyExpr[
+                                                            $recv: #ApplyExpr[
+                                                               $recv: #StringExpr['\\u{3013}']
+                                                               $recv: #NameExpr['unpack']
+                                                               $param: #List[
+                                                                  $expression: #StringExpr['H*']
+                                                               ]
+                                                            ]
+                                                            $recv: #NameExpr['first']
+                                                         ]
+                                                      ]
+                                                      $hash: #Hash[
+                                                         $key: #NameExpr['comment']
+                                                         $value: #NameExpr['comment']
+                                                      ]
+                                                      $hash: #Hash[
+                                                         $key: #NameExpr['fallback']
+                                                         $value: #TrueExpr['true']
+                                                      ]
+                                                      $hash: #Hash[
+                                                         $key: #NameExpr['proposal']
+                                                         $value: #FalseExpr['false']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                             $else: #List[
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['to_utf8']
+                                                   $right: #ApplyExpr[
+                                                      $recv: #ApplyExpr[
+                                                         $recv: #NameExpr['text_fallback']
+                                                         $recv: #NameExpr['unpack']
+                                                         $param: #List[
+                                                            $expression: #StringExpr['H*']
+                                                         ]
+                                                      ]
+                                                      $recv: #NameExpr['first']
+                                                   ]
+                                                ]
+                                                $statement: #AssignExpr[
+                                                   $left: #NameExpr['comment']
+                                                   $right: #ModExpr[
+                                                      $left: #ParcentNotation['%([%s] U+%X -> "%s")']
+                                                      $right: #Array[
+                                                         $index: #List[
+                                                            $expression: #NameExpr['name']
+                                                            $expression: #ApplyExpr[
+                                                               $recv: #NameExpr['from']
+                                                               $recv: #NameExpr['hex']
+                                                            ]
+                                                            $expression: #NameExpr['text_fallback']
+                                                         ]
+                                                      ]
+                                                   ]
+                                                ]
+                                                $statement: #ApplyExpr[
+                                                   $recv: #NameExpr['block']
+                                                   $recv: #NameExpr['call']
+                                                   $param: #List[
+                                                      $hash: #Hash[
+                                                         $key: #NameExpr['from']
+                                                         $value: #NameExpr['from_utf8']
+                                                      ]
+                                                      $hash: #Hash[
+                                                         $key: #NameExpr['to']
+                                                         $value: #NameExpr['to_utf8']
+                                                      ]
+                                                      $hash: #Hash[
+                                                         $key: #NameExpr['comment']
+                                                         $value: #NameExpr['comment']
+                                                      ]
+                                                      $hash: #Hash[
+                                                         $key: #NameExpr['fallback']
+                                                         $value: #TrueExpr['true']
+                                                      ]
+                                                      $hash: #Hash[
+                                                         $key: #NameExpr['proposal']
+                                                         $value: #FalseExpr['false']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $else: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['raise']
+                                             $param: #List[
+                                                $expression: #ModExpr[
+                                                   $left: #StringExpr['something wrong: %s -> %s']
+                                                   $right: #Array[
+                                                      $index: #List[
+                                                         $expression: #NameExpr['from']
+                                                         $expression: #NameExpr['to']
+                                                      ]
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['generate']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['io']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['from_carrier']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['to_carrier']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['from_encoding']
+                           $right: #Conditional[
+                              $cond: #EqExpr[
+                                 $left: #NameExpr['from_carrier']
+                                 $right: #StringExpr['Unicode']
+                              ]
+                              $then: #StringExpr['UTF-8']
+                              $else: #AddExpr[
+                                 $left: #StringExpr['UTF8-']
+                                 $right: #NameExpr['from_carrier']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['to_encoding']
+                           $right: #Conditional[
+                              $cond: #EqExpr[
+                                 $left: #NameExpr['to_carrier']
+                                 $right: #StringExpr['Unicode']
+                              ]
+                              $then: #StringExpr['UTF-8']
+                              $else: #AddExpr[
+                                 $left: #StringExpr['UTF8-']
+                                 $right: #NameExpr['to_carrier']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['io']
+                           $recv: #NameExpr['puts']
+                           $param: #List[
+                              $expression: #StringExpr[
+                                 $inner: #NameExpr['from_encoding']
+                                 $inner: #NameExpr['to_encoding']
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $then: #ApplyExpr[
+                              $base: #NameExpr['io']
+                              $recv: #NameExpr['puts']
+                              $param: #List[
+                                 $expression: #StringExpr['  # for documented codepoints']
+                              ]
+                           ]
+                           $cond: #EqExpr[
+                              $left: #NameExpr['from_carrier']
+                              $right: #StringExpr['KDDI']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #Self['self']
+                           $recv: #NameExpr['conversion']
+                           $param: #List[
+                              $expression: #NameExpr['from_carrier']
+                              $expression: #NameExpr['to_carrier']
+                           ]
+                           $body: #Block[
+                              $param: #NameExpr['params']
+                              $body: #List[
+                                 $statement: #MultipleAssign[
+                                    $left: #MultipleLeftHandSideExpression[
+                                       $item: #NameExpr['from']
+                                       $item: #NameExpr['to']
+                                    ]
+                                    $right: #MultipleRightHandSideExpression[
+                                       $expression: #Indexer[
+                                          $recv: #NameExpr['params']
+                                          $index: #List[
+                                             $expression: #NameExpr['from']
+                                          ]
+                                       ]
+                                       $expression: #ParcentNotation['%Q{"#{params[:to]}"}']
+                                    ]
+                                 ]
+                                 $statement: #IfExpr[
+                                    $then: #AssignExpr[
+                                       $left: #NameExpr['to']
+                                       $right: #StringExpr[':undef']
+                                    ]
+                                    $cond: #LOr[
+                                       $left: #Indexer[
+                                          $recv: #NameExpr['params']
+                                          $index: #List[
+                                             $expression: #NameExpr['fallback']
+                                          ]
+                                       ]
+                                       $right: #Indexer[
+                                          $recv: #NameExpr['params']
+                                          $index: #List[
+                                             $expression: #NameExpr['proposal']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #ApplyExpr[
+                                    $base: #NameExpr['io']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #ParcentNotation['%{  ["#{from}", #{to}], # #{params[:comment]}}']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #IfExpr[
+                           $cond: #EqExpr[
+                              $left: #NameExpr['from_carrier']
+                              $right: #StringExpr['KDDI']
+                           ]
+                           $then: #List[
+                              $statement: #ApplyExpr[
+                                 $base: #NameExpr['io']
+                                 $recv: #NameExpr['puts']
+                                 $param: #List[
+                                    $expression: #StringExpr['  # for undocumented codepoints']
+                                 ]
+                              ]
+                              $statement: #ApplyExpr[
+                                 $recv: #Self['self']
+                                 $recv: #NameExpr['conversion']
+                                 $param: #List[
+                                    $expression: #NameExpr['from_carrier']
+                                    $expression: #NameExpr['to_carrier']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['params']
+                                    $body: #List[
+                                       $statement: #MultipleAssign[
+                                          $left: #MultipleLeftHandSideExpression[
+                                             $item: #NameExpr['from']
+                                             $item: #NameExpr['to']
+                                          ]
+                                          $right: #MultipleRightHandSideExpression[
+                                             $expression: #Indexer[
+                                                $recv: #NameExpr['params']
+                                                $index: #List[
+                                                   $expression: #NameExpr['from']
+                                                ]
+                                             ]
+                                             $expression: #ParcentNotation['%Q{"#{params[:to]}"}']
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $then: #AssignExpr[
+                                             $left: #NameExpr['to']
+                                             $right: #StringExpr[':undef']
+                                          ]
+                                          $cond: #LOr[
+                                             $left: #Indexer[
+                                                $recv: #NameExpr['params']
+                                                $index: #List[
+                                                   $expression: #NameExpr['fallback']
+                                                ]
+                                             ]
+                                             $right: #Indexer[
+                                                $recv: #NameExpr['params']
+                                                $index: #List[
+                                                   $expression: #NameExpr['proposal']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['unicode']
+                                          $right: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['utf8_to_ucs']
+                                             $param: #List[
+                                                $expression: #NameExpr['from']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['undoc']
+                                          $right: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['ucs_to_utf8']
+                                             $param: #List[
+                                                $expression: #Indexer[
+                                                   $recv: #NameExpr['@kddi_undoc']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['unicode']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #ApplyExpr[
+                                          $base: #NameExpr['io']
+                                          $recv: #NameExpr['puts']
+                                          $param: #List[
+                                             $expression: #ParcentNotation['%{  ["#{undoc}", #{to}], # #{params[:comment]}}']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $base: #NameExpr['io']
+                           $recv: #NameExpr['puts']
+                           $param: #List[
+                              $expression: #StringExpr[']']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           $recv: #NameExpr['io']
+                           $recv: #NameExpr['puts']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #NameExpr['private']
+               $statement: #FuncDecl[
+                  $name: #NameExpr['utf8_to_ucs']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['cp']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['cp']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['pack']
+                                    $param: #List[
+                                       $expression: #StringExpr['H*']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['unpack']
+                                 $param: #List[
+                                    $expression: #StringExpr['U*']
+                                 ]
+                              ]
+                              $recv: #NameExpr['first']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['ucs_to_utf8']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['cp']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #Array[
+                                       $index: #List[
+                                          $expression: #NameExpr['cp']
+                                       ]
+                                    ]
+                                    $recv: #NameExpr['pack']
+                                    $param: #List[
+                                       $expression: #StringExpr['U*']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['unpack']
+                                 $param: #List[
+                                    $expression: #StringExpr['H*']
+                                 ]
+                              ]
+                              $recv: #NameExpr['first']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['make_kddi_undoc_map']
+                  $param: #List['']
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['pub_to_sjis']
+                           $right: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['citrus_decode_mapsrc']
+                                 $param: #List[
+                                    $expression: #StringExpr['mskanji']
+                                    $expression: #IntExpr['2']
+                                    $expression: #StringExpr['UCS/EMOJI_SHIFT_JIS-KDDI']
+                                 ]
+                              ]
+                              $recv: #NameExpr['sort_by']
+                              $body: #Block[
+                                 $param: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['u']
+                                    $item: #NameExpr['s']
+                                 ]
+                                 $body: #NameExpr['s']
+                              ]
+                           ]
+                        ]
+                        $statement: #AssignExpr[
+                           $left: #NameExpr['sjis_to_undoc']
+                           $right: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['citrus_decode_mapsrc']
+                                 $param: #List[
+                                    $expression: #StringExpr['mskanji']
+                                    $expression: #IntExpr['2']
+                                    $expression: #StringExpr['EMOJI_SHIFT_JIS-KDDI-UNDOC/UCS']
+                                 ]
+                              ]
+                              $recv: #NameExpr['sort_by']
+                              $body: #Block[
+                                 $param: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['s']
+                                    $item: #NameExpr['u']
+                                 ]
+                                 $body: #NameExpr['s']
+                              ]
+                           ]
+                        ]
+                        $statement: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['pub_to_sjis']
+                                    $recv: #NameExpr['zip']
+                                    $param: #List[
+                                       $expression: #NameExpr['sjis_to_undoc']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['inject']
+                                 $param: #List[
+                                    $expression: #List['{}']
+                                 ]
+                                 $body: #Block[
+                                    $param: #MultipleLeftHandSideExpression[
+                                       $item: #NameExpr['h']
+                                       $item: #NameExpr['rec']
+                                    ]
+                                    $body: #List[
+                                       $statement: #IfExpr[
+                                          $then: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['raise']
+                                             $param: #List[
+                                                $expression: #StringExpr['no match sjis codepoint']
+                                             ]
+                                          ]
+                                          $cond: #NeExpr[
+                                             $left: #Indexer[
+                                                $recv: #Indexer[
+                                                   $recv: #NameExpr['rec']
+                                                   $index: #List[
+                                                      $expression: #IntExpr['0']
+                                                   ]
+                                                ]
+                                                $index: #List[
+                                                   $expression: #IntExpr['1']
+                                                ]
+                                             ]
+                                             $right: #Indexer[
+                                                $recv: #Indexer[
+                                                   $recv: #NameExpr['rec']
+                                                   $index: #List[
+                                                      $expression: #IntExpr['1']
+                                                   ]
+                                                ]
+                                                $index: #List[
+                                                   $expression: #IntExpr['0']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #AssignExpr[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['h']
+                                             $index: #List[
+                                                $expression: #Indexer[
+                                                   $recv: #Indexer[
+                                                      $recv: #NameExpr['rec']
+                                                      $index: #List[
+                                                         $expression: #IntExpr['0']
+                                                      ]
+                                                   ]
+                                                   $index: #List[
+                                                      $expression: #IntExpr['0']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                          $right: #Indexer[
+                                             $recv: #Indexer[
+                                                $recv: #NameExpr['rec']
+                                                $index: #List[
+                                                   $expression: #IntExpr['1']
+                                                ]
+                                             ]
+                                             $index: #List[
+                                                $expression: #IntExpr['1']
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #Next[
+                                          $expr: #List[
+                                             $expression: #NameExpr['h']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #ApplyExpr[
+            $recv: #NameExpr['ARGV']
+            $recv: #NameExpr['empty?']
+         ]
+         $then: #List[
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['puts']
+               $param: #List[
+                  $expression: #StringExpr['usage: #$0 [emoji4unicode.xml]']
+               ]
+            ]
+            $statement: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['exit']
+               $param: #List[
+                  $expression: #IntExpr['1']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['$srcdir']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['File']
+            $recv: #NameExpr['expand_path']
+            $param: #List[
+               $expression: #StringExpr['../../enc/trans']
+               $expression: #File['__FILE__']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['emoji_table']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['EmojiTable']
+            $recv: #NameExpr['new']
+            $param: #List[
+               $expression: #Indexer[
+                  $recv: #NameExpr['ARGV']
+                  $index: #List[
+                     $expression: #IntExpr['0']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['companies']
+         $right: #ParcentNotation['%w(DoCoMo KDDI SoftBank Unicode)']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['io']
+         $right: #NameExpr['STDOUT']
+      ]
+      $statement: #ApplyExpr[
+         $base: #NameExpr['io']
+         $recv: #NameExpr['puts']
+         $param: #List[
+            $expression: #StringExpr['EMOJI_EXCHANGE_TBL = Hash.new{|h,k| h[k] = {}}']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['companies']
+         $recv: #NameExpr['each']
+         $body: #Block[
+            $param: #NameExpr['from_company']
+            $body: #ApplyExpr[
+               $recv: #NameExpr['companies']
+               $recv: #NameExpr['each']
+               $body: #Block[
+                  $param: #NameExpr['to_company']
+                  $body: #List[
+                     $statement: #IfExpr[
+                        $then: #Next['next']
+                        $cond: #EqExpr[
+                           $left: #NameExpr['from_company']
+                           $right: #NameExpr['to_company']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['emoji_table']
+                        $recv: #NameExpr['generate']
+                        $param: #List[
+                           $expression: #NameExpr['io']
+                           $expression: #NameExpr['from_company']
+                           $expression: #NameExpr['to_company']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

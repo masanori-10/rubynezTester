@@ -1,0 +1,414 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['socket']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['resolv']
+         ]
+      ]
+      $statement: #SClass[
+         $path: #NameExpr['IPSocket']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #Alias[
+                  $newname: #NameExpr['original_resolv_getaddress']
+                  $target: #NameExpr['getaddress']
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['getaddress']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['host']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ExceptionBlock[
+                        $main: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['Resolv']
+                                    $recv: #NameExpr['getaddress']
+                                    $param: #List[
+                                       $expression: #NameExpr['host']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['to_s']
+                              ]
+                           ]
+                        ]
+                        $rescue: #List[
+                           $rescue: #Rescue[
+                              $class: #Field[
+                                 $recv: #NameExpr['Resolv']
+                                 $name: #NameExpr['ResolvError']
+                              ]
+                              $then: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['raise']
+                                 $param: #List[
+                                    $expression: #NameExpr['SocketError']
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['host']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['TCPSocket']
+         $super: #NameExpr['IPSocket']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #Alias[
+                  $newname: #NameExpr['original_resolv_initialize']
+                  $target: #NameExpr['initialize']
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['initialize']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['host']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['serv']
+                     ]
+                     $param: #VariadicParam[
+                        $name: #NameExpr['rest']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $then: #AssignExpr[
+                              $left: #Indexer[
+                                 $base: #NameExpr['rest']
+                                 $index: #List[
+                                    $expression: #IntExpr['0']
+                                 ]
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['IPSocket']
+                                 $recv: #NameExpr['getaddress']
+                                 $param: #List[
+                                    $expression: #Indexer[
+                                       $recv: #NameExpr['rest']
+                                       $index: #List[
+                                          $expression: #IntExpr['0']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $cond: #Indexer[
+                              $recv: #NameExpr['rest']
+                              $index: #List[
+                                 $expression: #IntExpr['0']
+                              ]
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['original_resolv_initialize']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['IPSocket']
+                                 $recv: #NameExpr['getaddress']
+                                 $param: #List[
+                                    $expression: #NameExpr['host']
+                                 ]
+                              ]
+                              $expression: #NameExpr['serv']
+                              $variadic: #Variadic[
+                                 $base: #NameExpr['rest']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #Class[
+         $name: #NameExpr['UDPSocket']
+         $super: #NameExpr['IPSocket']
+         $body: #BlockExpr[
+            $main: #List[
+               $statement: #Alias[
+                  $newname: #NameExpr['original_resolv_bind']
+                  $target: #NameExpr['bind']
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['bind']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['host']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['port']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #List[
+                        $statement: #IfExpr[
+                           $then: #AssignExpr[
+                              $left: #NameExpr['host']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['IPSocket']
+                                 $recv: #NameExpr['getaddress']
+                                 $param: #List[
+                                    $expression: #NameExpr['host']
+                                 ]
+                              ]
+                           ]
+                           $cond: #NeExpr[
+                              $left: #NameExpr['host']
+                              $right: #StringExpr['']
+                           ]
+                        ]
+                        $statement: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['original_resolv_bind']
+                           $param: #List[
+                              $expression: #NameExpr['host']
+                              $expression: #NameExpr['port']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Alias[
+                  $newname: #NameExpr['original_resolv_connect']
+                  $target: #NameExpr['connect']
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['connect']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['host']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['port']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['original_resolv_connect']
+                        $param: #List[
+                           $expression: #ApplyExpr[
+                              $recv: #NameExpr['IPSocket']
+                              $recv: #NameExpr['getaddress']
+                              $param: #List[
+                                 $expression: #NameExpr['host']
+                              ]
+                           ]
+                           $expression: #NameExpr['port']
+                        ]
+                     ]
+                  ]
+               ]
+               $statement: #Alias[
+                  $newname: #NameExpr['original_resolv_send']
+                  $target: #NameExpr['send']
+               ]
+               $statement: #FuncDecl[
+                  $name: #NameExpr['send']
+                  $param: #List[
+                     $param: #Param[
+                        $param: #NameExpr['mesg']
+                     ]
+                     $param: #Param[
+                        $param: #NameExpr['flags']
+                     ]
+                     $param: #VariadicParam[
+                        $name: #NameExpr['rest']
+                     ]
+                  ]
+                  $body: #BlockExpr[
+                     $main: #IfExpr[
+                        $cond: #EqExpr[
+                           $left: #ApplyExpr[
+                              $recv: #NameExpr['rest']
+                              $recv: #NameExpr['length']
+                           ]
+                           $right: #IntExpr['2']
+                        ]
+                        $then: #List[
+                           $statement: #MultipleAssign[
+                              $left: #MultipleLeftHandSideExpression[
+                                 $item: #NameExpr['host']
+                                 $item: #NameExpr['port']
+                              ]
+                              $right: #NameExpr['rest']
+                           ]
+                           $statement: #ExceptionBlock[
+                              $main: #AssignExpr[
+                                 $left: #NameExpr['addrs']
+                                 $right: #ApplyExpr[
+                                    $recv: #NameExpr['Resolv']
+                                    $recv: #NameExpr['getaddresses']
+                                    $param: #List[
+                                       $expression: #NameExpr['host']
+                                    ]
+                                 ]
+                              ]
+                              $rescue: #List[
+                                 $rescue: #Rescue[
+                                    $class: #Field[
+                                       $recv: #NameExpr['Resolv']
+                                       $name: #NameExpr['ResolvError']
+                                    ]
+                                    $then: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['raise']
+                                       $param: #List[
+                                          $expression: #NameExpr['SocketError']
+                                          $expression: #StringExpr[
+                                             $inner: #NameExpr['host']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #Indexer[
+                                 $recv: #NameExpr['addrs']
+                                 $index: #List[
+                                    $expression: #OpenRange[
+                                       #IntExpr['0']
+                                       #MinusExpr[
+                                          $expr: #IntExpr['1']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $recv: #NameExpr['each']
+                              $body: #Block[
+                                 $param: #NameExpr['addr']
+                                 $body: #ExceptionBlock[
+                                    $main: #RReturnStmt[
+                                       $expr: #List[
+                                          $expression: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['original_resolv_send']
+                                             $param: #List[
+                                                $expression: #NameExpr['mesg']
+                                                $expression: #NameExpr['flags']
+                                                $expression: #NameExpr['addr']
+                                                $expression: #NameExpr['port']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $rescue: #List[
+                                       $rescue: #Rescue[
+                                          $class: #NameExpr['SystemCallError']
+                                          $then: #Empty['']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['original_resolv_send']
+                              $param: #List[
+                                 $expression: #NameExpr['mesg']
+                                 $expression: #NameExpr['flags']
+                                 $expression: #Indexer[
+                                    $recv: #NameExpr['addrs']
+                                    $index: #List[
+                                       $expression: #MinusExpr[
+                                          $expr: #IntExpr['1']
+                                       ]
+                                    ]
+                                 ]
+                                 $expression: #NameExpr['port']
+                              ]
+                           ]
+                        ]
+                        $else: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['original_resolv_send']
+                           $param: #List[
+                              $expression: #NameExpr['mesg']
+                              $expression: #NameExpr['flags']
+                              $variadic: #Variadic[
+                                 $base: #NameExpr['rest']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #Class[
+            $name: #NameExpr['SOCKSSocket']
+            $super: #NameExpr['TCPSocket']
+            $body: #BlockExpr[
+               $main: #List[
+                  $statement: #Alias[
+                     $newname: #NameExpr['original_resolv_initialize']
+                     $target: #NameExpr['initialize']
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['initialize']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['host']
+                        ]
+                        $param: #Param[
+                           $param: #NameExpr['serv']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['original_resolv_initialize']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['IPSocket']
+                                 $recv: #NameExpr['getaddress']
+                                 $param: #List[
+                                    $expression: #NameExpr['host']
+                                 ]
+                              ]
+                              $expression: #NameExpr['port']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+         $cond: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['defined?']
+            $param: #List[
+               $expression: #NameExpr['SOCKSSocket']
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

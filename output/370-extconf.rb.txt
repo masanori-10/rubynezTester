@@ -1,0 +1,115 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['mkmf']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['target']
+         $right: #StringExpr['io/wait']
+      ]
+      $statement: #Unless[
+         $cond: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['macro_defined?']
+            $param: #List[
+               $expression: #StringExpr['DOSISH']
+               $expression: #StringExpr['#include <ruby.h>']
+            ]
+         ]
+         $then: #List[
+            $statement: #OrExpr[
+               $left: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['have_header']
+                  $param: #List[
+                     $expression: #AssignExpr[
+                        $left: #NameExpr['ioctl_h']
+                        $right: #StringExpr['sys/ioctl.h']
+                     ]
+                  ]
+               ]
+               $right: #AssignExpr[
+                  $left: #NameExpr['ioctl_h']
+                  $right: #Nil['nil']
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['fionread']
+               $right: #ApplyExpr[
+                  $recv: #ParcentNotation['%w[sys/ioctl.h sys/filio.h sys/socket.h]']
+                  $recv: #NameExpr['find']
+                  $body: #Block[
+                     $param: #NameExpr['h']
+                     $body: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['have_macro']
+                        $param: #List[
+                           $expression: #StringExpr['FIONREAD']
+                           $expression: #ApplyExpr[
+                              $recv: #Array[
+                                 $index: #List[
+                                    $expression: #NameExpr['h']
+                                    $expression: #NameExpr['ioctl_h']
+                                 ]
+                              ]
+                              $recv: #NameExpr['compact']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #IfExpr[
+               $cond: #NameExpr['fionread']
+               $then: #List[
+                  $statement: #LShiftExpr[
+                     $left: #NameExpr['$defs']
+                     $right: #StringExpr[
+                        $inner: #NameExpr['fionread']
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['create_makefile']
+                     $param: #List[
+                        $expression: #NameExpr['target']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+         $else: #IfExpr[
+            $cond: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['have_func']
+               $param: #List[
+                  $expression: #StringExpr['rb_w32_ioctlsocket']
+                  $expression: #StringExpr['ruby.h']
+               ]
+            ]
+            $then: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['have_func']
+                  $param: #List[
+                     $expression: #StringExpr['rb_w32_is_socket']
+                     $expression: #StringExpr['ruby.h']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['create_makefile']
+                  $param: #List[
+                     $expression: #NameExpr['target']
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

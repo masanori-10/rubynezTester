@@ -1,0 +1,1205 @@
+#Source[
+   #Class[
+      $name: #NameExpr['LeakChecker']
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #FuncDecl[
+               $name: #NameExpr['initialize']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@fd_info']
+                        $right: #NameExpr['find_fds']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@tempfile_info']
+                        $right: #NameExpr['find_tempfiles']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@thread_info']
+                        $right: #NameExpr['find_threads']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@env_info']
+                        $right: #NameExpr['find_env']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['check']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['test_name']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['leaks']
+                        $right: #Array[
+                           $index: #List[
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['check_fd_leak']
+                                 $param: #List[
+                                    $expression: #NameExpr['test_name']
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['check_thread_leak']
+                                 $param: #List[
+                                    $expression: #NameExpr['test_name']
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['check_tempfile_leak']
+                                 $param: #List[
+                                    $expression: #NameExpr['test_name']
+                                 ]
+                              ]
+                              $expression: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['check_env']
+                                 $param: #List[
+                                    $expression: #NameExpr['test_name']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #ApplyExpr[
+                           $recv: #NameExpr['GC']
+                           $recv: #NameExpr['start']
+                        ]
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['leaks']
+                           $recv: #NameExpr['any?']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['find_fds']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #IfExpr[
+                        $cond: #AndExpr[
+                           $left: #ApplyExpr[
+                              $recv: #NameExpr['IO']
+                              $recv: #NameExpr['respond_to?']
+                              $param: #List[
+                                 $expression: #NameExpr['console']
+                              ]
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #ApplyExpr[
+                                 $recv: #AssignExpr[
+                                    $left: #NameExpr['m']
+                                    $right: #ApplyExpr[
+                                       $recv: #NameExpr['IO']
+                                       $recv: #NameExpr['method']
+                                       $param: #List[
+                                          $expression: #NameExpr['console']
+                                       ]
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['arity']
+                              ]
+                              $recv: #NameExpr['nonzero?']
+                           ]
+                        ]
+                        $then: #Indexer[
+                           $recv: #NameExpr['m']
+                           $index: #List[
+                              $expression: #NameExpr['close']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['fd_dir']
+                        $right: #StringExpr['/proc/self/fd']
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #ApplyExpr[
+                           $recv: #NameExpr['File']
+                           $recv: #NameExpr['directory?']
+                           $param: #List[
+                              $expression: #NameExpr['fd_dir']
+                           ]
+                        ]
+                        $then: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['fds']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['Dir']
+                                 $recv: #NameExpr['open']
+                                 $param: #List[
+                                    $expression: #NameExpr['fd_dir']
+                                 ]
+                                 $body: #Block[
+                                    $param: #NameExpr['d']
+                                    $body: #List[
+                                       $statement: #AssignExpr[
+                                          $left: #NameExpr['a']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['d']
+                                             $recv: #NameExpr['grep']
+                                             $param: #List[
+                                                $expression: #Regex['/\\A\\d+\\z/']
+                                                $procedure: #Procedure[
+                                                   $base: #NameExpr['to_i']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #IfExpr[
+                                          $cond: #ApplyExpr[
+                                             $base: #NameExpr['d']
+                                             $recv: #NameExpr['respond_to?']
+                                             $param: #List[
+                                                $expression: #NameExpr['fileno']
+                                             ]
+                                          ]
+                                          $then: #SubAssign[
+                                             $left: #NameExpr['a']
+                                             $right: #Array[
+                                                $index: #List[
+                                                   $expression: #ApplyExpr[
+                                                      $recv: #NameExpr['d']
+                                                      $recv: #NameExpr['fileno']
+                                                   ]
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                       $statement: #NameExpr['a']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['fds']
+                              $recv: #NameExpr['sort']
+                           ]
+                        ]
+                        $else: #Array['[]']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['check_fd_leak']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['test_name']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['leaked']
+                        $right: #FalseExpr['false']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['live1']
+                        $right: #NameExpr['@fd_info']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['live2']
+                        $right: #NameExpr['find_fds']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['fd_closed']
+                        $right: #SubExpr[
+                           $left: #NameExpr['live1']
+                           $right: #NameExpr['live2']
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #NotExpr[
+                           $expr: #ApplyExpr[
+                              $recv: #NameExpr['fd_closed']
+                              $recv: #NameExpr['empty?']
+                           ]
+                        ]
+                        $then: #ApplyExpr[
+                           $recv: #NameExpr['fd_closed']
+                           $recv: #NameExpr['each']
+                           $body: #Block[
+                              $param: #NameExpr['fd']
+                              $body: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['puts']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['test_name']
+                                       $inner: #NameExpr['fd']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['fd_leaked']
+                        $right: #SubExpr[
+                           $left: #NameExpr['live2']
+                           $right: #NameExpr['live1']
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #NotExpr[
+                           $expr: #ApplyExpr[
+                              $recv: #NameExpr['fd_leaked']
+                              $recv: #NameExpr['empty?']
+                           ]
+                        ]
+                        $then: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['leaked']
+                              $right: #TrueExpr['true']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['h']
+                              $right: #List['{}']
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['ObjectSpace']
+                              $recv: #NameExpr['each_object']
+                              $param: #List[
+                                 $expression: #NameExpr['IO']
+                              ]
+                              $body: #Block[
+                                 $param: #NameExpr['io']
+                                 $body: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['inspect']
+                                       $right: #ApplyExpr[
+                                          $recv: #NameExpr['io']
+                                          $recv: #NameExpr['inspect']
+                                       ]
+                                    ]
+                                    $statement: #ExceptionBlock[
+                                       $main: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['autoclose']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['io']
+                                                $recv: #NameExpr['autoclose?']
+                                             ]
+                                          ]
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['fd']
+                                             $right: #ApplyExpr[
+                                                $recv: #NameExpr['io']
+                                                $recv: #NameExpr['fileno']
+                                             ]
+                                          ]
+                                       ]
+                                       $rescue: #List[
+                                          $rescue: #Rescue[
+                                             $class: #NameExpr['IOError']
+                                             $then: #Next['next']
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #LShiftExpr[
+                                       $left: #LOrAssign[
+                                          $left: #Indexer[
+                                             $base: #NameExpr['h']
+                                             $index: #List[
+                                                $expression: #NameExpr['fd']
+                                             ]
+                                          ]
+                                          $right: #Array['[]']
+                                       ]
+                                       $right: #Array[
+                                          $index: #List[
+                                             $expression: #NameExpr['io']
+                                             $expression: #NameExpr['autoclose']
+                                             $expression: #NameExpr['inspect']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['fd_leaked']
+                              $recv: #NameExpr['each']
+                              $body: #Block[
+                                 $param: #NameExpr['fd']
+                                 $body: #List[
+                                    $statement: #AssignExpr[
+                                       $left: #NameExpr['str']
+                                       $right: #StringExpr['']
+                                    ]
+                                    $statement: #IfExpr[
+                                       $cond: #Indexer[
+                                          $recv: #NameExpr['h']
+                                          $index: #List[
+                                             $expression: #NameExpr['fd']
+                                          ]
+                                       ]
+                                       $then: #List[
+                                          $statement: #LShiftExpr[
+                                             $left: #NameExpr['str']
+                                             $right: #StringExpr[' :']
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             $recv: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #Indexer[
+                                                      $recv: #NameExpr['h']
+                                                      $index: #List[
+                                                         $expression: #NameExpr['fd']
+                                                      ]
+                                                   ]
+                                                   $recv: #NameExpr['map']
+                                                   $body: #Block[
+                                                      $param: #MultipleLeftHandSideExpression[
+                                                         $item: #NameExpr['io']
+                                                         $item: #NameExpr['autoclose']
+                                                         $item: #NameExpr['inspect']
+                                                      ]
+                                                      $body: #List[
+                                                         $statement: #AssignExpr[
+                                                            $left: #NameExpr['s']
+                                                            $right: #AddExpr[
+                                                               $left: #StringExpr[' ']
+                                                               $right: #NameExpr['inspect']
+                                                            ]
+                                                         ]
+                                                         $statement: #IfExpr[
+                                                            $then: #LShiftExpr[
+                                                               $left: #NameExpr['s']
+                                                               $right: #StringExpr['(not-autoclose)']
+                                                            ]
+                                                            $cond: #NotExpr[
+                                                               $expr: #NameExpr['autoclose']
+                                                            ]
+                                                         ]
+                                                         $statement: #NameExpr['s']
+                                                      ]
+                                                   ]
+                                                ]
+                                                $recv: #NameExpr['sort']
+                                             ]
+                                             $recv: #NameExpr['each']
+                                             $body: #Block[
+                                                $param: #NameExpr['s']
+                                                $body: #LShiftExpr[
+                                                   $left: #NameExpr['str']
+                                                   $right: #NameExpr['s']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                    $statement: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['puts']
+                                       $param: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #NameExpr['test_name']
+                                             $inner: #NameExpr['fd']
+                                             $inner: #NameExpr['str']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['h']
+                              $recv: #NameExpr['each']
+                              $body: #Block[
+                                 $param: #MultipleLeftHandSideExpression[
+                                    $item: #NameExpr['fd']
+                                    $item: #NameExpr['list']
+                                 ]
+                                 $body: #List[
+                                    $statement: #IfExpr[
+                                       $then: #Next['next']
+                                       $cond: #LteExpr[
+                                          $left: #ApplyExpr[
+                                             $recv: #NameExpr['list']
+                                             $recv: #NameExpr['length']
+                                          ]
+                                          $right: #IntExpr['1']
+                                       ]
+                                    ]
+                                    $statement: #IfExpr[
+                                       $cond: #LtExpr[
+                                          $left: #IntExpr['1']
+                                          $right: #ApplyExpr[
+                                             $recv: #NameExpr['list']
+                                             $recv: #NameExpr['count']
+                                             $body: #Block[
+                                                $param: #MultipleLeftHandSideExpression[
+                                                   $item: #NameExpr['io']
+                                                   $item: #NameExpr['autoclose']
+                                                   $item: #NameExpr['inspect']
+                                                ]
+                                                $body: #NameExpr['autoclose']
+                                             ]
+                                          ]
+                                       ]
+                                       $then: #List[
+                                          $statement: #AssignExpr[
+                                             $left: #NameExpr['str']
+                                             $right: #ApplyExpr[
+                                                $recv: #ApplyExpr[
+                                                   $recv: #ApplyExpr[
+                                                      $recv: #NameExpr['list']
+                                                      $recv: #NameExpr['map']
+                                                      $body: #Block[
+                                                         $param: #MultipleLeftHandSideExpression[
+                                                            $item: #NameExpr['io']
+                                                            $item: #NameExpr['autoclose']
+                                                            $item: #NameExpr['inspect']
+                                                         ]
+                                                         $body: #AddExpr[
+                                                            $left: #StringExpr[
+                                                               $inner: #NameExpr['inspect']
+                                                            ]
+                                                            $right: #Conditional[
+                                                               $cond: #NameExpr['autoclose']
+                                                               $then: #StringExpr['(autoclose)']
+                                                               $else: #StringExpr['']
+                                                            ]
+                                                         ]
+                                                      ]
+                                                   ]
+                                                   $recv: #NameExpr['sort']
+                                                ]
+                                                $recv: #NameExpr['join']
+                                             ]
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #NameExpr['puts']
+                                             $param: #List[
+                                                $expression: #StringExpr[
+                                                   $inner: #NameExpr['str']
+                                                ]
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@fd_info']
+                        $right: #NameExpr['live2']
+                     ]
+                     $statement: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #NameExpr['leaked']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['extend_tempfile_counter']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #IfExpr[
+                        $then: #RReturnStmt['return']
+                        $cond: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['defined?']
+                           $param: #List[
+                              $expression: #Field[
+                                 $recv: #NameExpr['LeakChecker']
+                                 $name: #NameExpr['TempfileCounter']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['m']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['Module']
+                           $recv: #NameExpr['new']
+                           $body: #Block[
+                              $body: #List[
+                                 $statement: #AssignExpr[
+                                    $left: #NameExpr['@count']
+                                    $right: #IntExpr['0']
+                                 ]
+                                 $statement: #SClass[
+                                    $path: #Self['self']
+                                    $body: #BlockExpr[
+                                       $main: #ApplyExpr[
+                                          #Self['self']
+                                          $recv: #NameExpr['attr_accessor']
+                                          $param: #List[
+                                             $expression: #NameExpr['count']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #FuncDecl[
+                                    $name: #NameExpr['new']
+                                    $param: #List[
+                                       $param: #Param[
+                                          $param: #NameExpr['data']
+                                       ]
+                                    ]
+                                    $body: #BlockExpr[
+                                       $main: #List[
+                                          $statement: #AddAssign[
+                                             $left: #Field[
+                                                $base: #Field[
+                                                   $recv: #NameExpr['LeakChecker']
+                                                   $name: #NameExpr['TempfileCounter']
+                                                ]
+                                                $name: #NameExpr['count']
+                                             ]
+                                             $right: #IntExpr['1']
+                                          ]
+                                          $statement: #ApplyExpr[
+                                             #Self['self']
+                                             $recv: #Super['super']
+                                             $param: #List[
+                                                $expression: #NameExpr['data']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['LeakChecker']
+                        $recv: #NameExpr['const_set']
+                        $param: #List[
+                           $expression: #NameExpr['TempfileCounter']
+                           $expression: #NameExpr['m']
+                        ]
+                     ]
+                     $statement: #SClass[
+                        $path: #Field[
+                           $recv: #NameExpr['Tempfile']
+                           $name: #NameExpr['Remover']
+                        ]
+                        $body: #BlockExpr[
+                           $main: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['prepend']
+                              $param: #List[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['LeakChecker']
+                                    $name: #NameExpr['TempfileCounter']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['find_tempfiles']
+               $param: #List[
+                  $param: #OptionalParam[
+                     $name: #NameExpr['prev_count']
+                     $default: #MinusExpr[
+                        $expr: #IntExpr['1']
+                     ]
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #Unless[
+                        $then: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #Array[
+                                 $index: #List[
+                                    $expression: #NameExpr['prev_count']
+                                    $expression: #Array['[]']
+                                 ]
+                              ]
+                           ]
+                        ]
+                        $cond: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['defined?']
+                           $param: #List[
+                              $expression: #NameExpr['Tempfile']
+                           ]
+                        ]
+                     ]
+                     $statement: #NameExpr['extend_tempfile_counter']
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['count']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['TempfileCounter']
+                           $recv: #NameExpr['count']
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #EqExpr[
+                           $left: #NameExpr['prev_count']
+                           $right: #NameExpr['count']
+                        ]
+                        $then: #Array[
+                           $index: #List[
+                              $expression: #NameExpr['prev_count']
+                              $expression: #Array['[]']
+                           ]
+                        ]
+                        $else: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['tempfiles']
+                              $right: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['ObjectSpace']
+                                    $recv: #NameExpr['each_object']
+                                    $param: #List[
+                                       $expression: #NameExpr['Tempfile']
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['find_all']
+                                 $body: #Block[
+                                    $param: #NameExpr['t']
+                                    $body: #ApplyExpr[
+                                       $recv: #NameExpr['t']
+                                       $recv: #NameExpr['path']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #Array[
+                              $index: #List[
+                                 $expression: #NameExpr['count']
+                                 $expression: #NameExpr['tempfiles']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['check_tempfile_leak']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['test_name']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #Unless[
+                        $then: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #FalseExpr['false']
+                           ]
+                        ]
+                        $cond: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['defined?']
+                           $param: #List[
+                              $expression: #NameExpr['Tempfile']
+                           ]
+                        ]
+                     ]
+                     $statement: #MultipleAssign[
+                        $left: #MultipleLeftHandSideExpression[
+                           $item: #NameExpr['count1']
+                           $item: #NameExpr['initial_tempfiles']
+                        ]
+                        $right: #NameExpr['@tempfile_info']
+                     ]
+                     $statement: #MultipleAssign[
+                        $left: #MultipleLeftHandSideExpression[
+                           $item: #NameExpr['count2']
+                           $item: #NameExpr['current_tempfiles']
+                        ]
+                        $right: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['find_tempfiles']
+                           $param: #List[
+                              $expression: #NameExpr['count1']
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['leaked']
+                        $right: #FalseExpr['false']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['tempfiles_leaked']
+                        $right: #SubExpr[
+                           $left: #NameExpr['current_tempfiles']
+                           $right: #NameExpr['initial_tempfiles']
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #NotExpr[
+                           $expr: #ApplyExpr[
+                              $recv: #NameExpr['tempfiles_leaked']
+                              $recv: #NameExpr['empty?']
+                           ]
+                        ]
+                        $then: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['leaked']
+                              $right: #TrueExpr['true']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['list']
+                              $right: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['tempfiles_leaked']
+                                    $recv: #NameExpr['map']
+                                    $body: #Block[
+                                       $param: #NameExpr['t']
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['t']
+                                          $recv: #NameExpr['inspect']
+                                       ]
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['sort']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['list']
+                              $recv: #NameExpr['each']
+                              $body: #Block[
+                                 $param: #NameExpr['str']
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['test_name']
+                                          $inner: #NameExpr['str']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['tempfiles_leaked']
+                              $recv: #NameExpr['each']
+                              $body: #Block[
+                                 $param: #NameExpr['t']
+                                 $body: #ApplyExpr[
+                                    $recv: #NameExpr['t']
+                                    $recv: #NameExpr['close!']
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@tempfile_info']
+                        $right: #Array[
+                           $index: #List[
+                              $expression: #NameExpr['count2']
+                              $expression: #NameExpr['initial_tempfiles']
+                           ]
+                        ]
+                     ]
+                     $statement: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #NameExpr['leaked']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['find_threads']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     $recv: #ApplyExpr[
+                        $recv: #NameExpr['Thread']
+                        $recv: #NameExpr['list']
+                     ]
+                     $recv: #NameExpr['find_all']
+                     $body: #Block[
+                        $param: #NameExpr['t']
+                        $body: #LAnd[
+                           $left: #NeExpr[
+                              $left: #NameExpr['t']
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['Thread']
+                                 $recv: #NameExpr['current']
+                              ]
+                           ]
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['t']
+                              $recv: #NameExpr['alive?']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['check_thread_leak']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['test_name']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['live1']
+                        $right: #NameExpr['@thread_info']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['live2']
+                        $right: #NameExpr['find_threads']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['thread_finished']
+                        $right: #SubExpr[
+                           $left: #NameExpr['live1']
+                           $right: #NameExpr['live2']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['leaked']
+                        $right: #FalseExpr['false']
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #NotExpr[
+                           $expr: #ApplyExpr[
+                              $recv: #NameExpr['thread_finished']
+                              $recv: #NameExpr['empty?']
+                           ]
+                        ]
+                        $then: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['list']
+                              $right: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['thread_finished']
+                                    $recv: #NameExpr['map']
+                                    $body: #Block[
+                                       $param: #NameExpr['t']
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['t']
+                                          $recv: #NameExpr['inspect']
+                                       ]
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['sort']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['list']
+                              $recv: #NameExpr['each']
+                              $body: #Block[
+                                 $param: #NameExpr['str']
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['test_name']
+                                          $inner: #NameExpr['str']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['thread_leaked']
+                        $right: #SubExpr[
+                           $left: #NameExpr['live2']
+                           $right: #NameExpr['live1']
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $cond: #NotExpr[
+                           $expr: #ApplyExpr[
+                              $recv: #NameExpr['thread_leaked']
+                              $recv: #NameExpr['empty?']
+                           ]
+                        ]
+                        $then: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['leaked']
+                              $right: #TrueExpr['true']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['list']
+                              $right: #ApplyExpr[
+                                 $recv: #ApplyExpr[
+                                    $recv: #NameExpr['thread_leaked']
+                                    $recv: #NameExpr['map']
+                                    $body: #Block[
+                                       $param: #NameExpr['t']
+                                       $body: #ApplyExpr[
+                                          $recv: #NameExpr['t']
+                                          $recv: #NameExpr['inspect']
+                                       ]
+                                    ]
+                                 ]
+                                 $recv: #NameExpr['sort']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['list']
+                              $recv: #NameExpr['each']
+                              $body: #Block[
+                                 $param: #NameExpr['str']
+                                 $body: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['test_name']
+                                          $inner: #NameExpr['str']
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@thread_info']
+                        $right: #NameExpr['live2']
+                     ]
+                     $statement: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #NameExpr['leaked']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['find_env']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     $recv: #NameExpr['ENV']
+                     $recv: #NameExpr['to_h']
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['check_env']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['test_name']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['old_env']
+                        $right: #NameExpr['@env_info']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['new_env']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['ENV']
+                           $recv: #NameExpr['to_h']
+                        ]
+                     ]
+                     $statement: #IfExpr[
+                        $then: #RReturnStmt[
+                           $expr: #List[
+                              $expression: #FalseExpr['false']
+                           ]
+                        ]
+                        $cond: #EqExpr[
+                           $left: #NameExpr['old_env']
+                           $right: #NameExpr['new_env']
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #ApplyExpr[
+                           $recv: #OrExpr[
+                              $left: #ApplyExpr[
+                                 $recv: #NameExpr['old_env']
+                                 $recv: #NameExpr['keys']
+                              ]
+                              $right: #ApplyExpr[
+                                 $recv: #NameExpr['new_env']
+                                 $recv: #NameExpr['keys']
+                              ]
+                           ]
+                           $recv: #NameExpr['sort']
+                        ]
+                        $recv: #NameExpr['each']
+                        $body: #Block[
+                           $param: #NameExpr['k']
+                           $body: #IfExpr[
+                              $cond: #ApplyExpr[
+                                 $recv: #NameExpr['old_env']
+                                 $recv: #NameExpr['has_key?']
+                                 $param: #List[
+                                    $expression: #NameExpr['k']
+                                 ]
+                              ]
+                              $then: #IfExpr[
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['new_env']
+                                    $recv: #NameExpr['has_key?']
+                                    $param: #List[
+                                       $expression: #NameExpr['k']
+                                    ]
+                                 ]
+                                 $then: #IfExpr[
+                                    $cond: #NeExpr[
+                                       $left: #Indexer[
+                                          $recv: #NameExpr['old_env']
+                                          $index: #List[
+                                             $expression: #NameExpr['k']
+                                          ]
+                                       ]
+                                       $right: #Indexer[
+                                          $recv: #NameExpr['new_env']
+                                          $index: #List[
+                                             $expression: #NameExpr['k']
+                                          ]
+                                       ]
+                                    ]
+                                    $then: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['puts']
+                                       $param: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #NameExpr['test_name']
+                                             $inner: #ApplyExpr[
+                                                $recv: #NameExpr['k']
+                                                $recv: #NameExpr['inspect']
+                                             ]
+                                             $inner: #ApplyExpr[
+                                                $recv: #Indexer[
+                                                   $recv: #NameExpr['old_env']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['k']
+                                                   ]
+                                                ]
+                                                $recv: #NameExpr['inspect']
+                                             ]
+                                             $inner: #ApplyExpr[
+                                                $recv: #Indexer[
+                                                   $recv: #NameExpr['new_env']
+                                                   $index: #List[
+                                                      $expression: #NameExpr['k']
+                                                   ]
+                                                ]
+                                                $recv: #NameExpr['inspect']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['test_name']
+                                          $inner: #ApplyExpr[
+                                             $recv: #NameExpr['k']
+                                             $recv: #NameExpr['inspect']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                              ]
+                              $else: #IfExpr[
+                                 $cond: #ApplyExpr[
+                                    $recv: #NameExpr['new_env']
+                                    $recv: #NameExpr['has_key?']
+                                    $param: #List[
+                                       $expression: #NameExpr['k']
+                                    ]
+                                 ]
+                                 $then: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['puts']
+                                    $param: #List[
+                                       $expression: #StringExpr[
+                                          $inner: #NameExpr['test_name']
+                                          $inner: #ApplyExpr[
+                                             $recv: #NameExpr['k']
+                                             $recv: #NameExpr['inspect']
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $else: #ApplyExpr[
+                                    #Self['self']
+                                    $recv: #NameExpr['flunk']
+                                    $param: #List[
+                                       $expression: #StringExpr['unreachable']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@env_info']
+                        $right: #NameExpr['new_env']
+                     ]
+                     $statement: #RReturnStmt[
+                        $expr: #List[
+                           $expression: #TrueExpr['true']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['puts']
+               $param: #List[
+                  $param: #VariadicParam[
+                     $name: #NameExpr['a']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     $recv: #ApplyExpr[
+                        $recv: #Field[
+                           $recv: #NameExpr['MiniTest']
+                           $name: #NameExpr['Unit']
+                        ]
+                        $recv: #NameExpr['output']
+                     ]
+                     $recv: #NameExpr['puts']
+                     $param: #List[
+                        $variadic: #Variadic[
+                           $base: #NameExpr['a']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

@@ -1,0 +1,329 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['fileutils']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['basedir']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['File']
+            $recv: #NameExpr['dirname']
+            $param: #List[
+               $expression: #File['__FILE__']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['conf']
+         $right: #List['{}']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['enable']
+         $right: #List['{}']
+      ]
+      $statement: #Until[
+         $cond: #ApplyExpr[
+            $recv: #NameExpr['ARGV']
+            $recv: #NameExpr['empty?']
+         ]
+         $body: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['arg']
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['ARGV']
+                  $recv: #NameExpr['shift']
+               ]
+            ]
+            $statement: #Case[
+               $cond: #NameExpr['arg']
+               $body: #List[
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #StringExpr['-C']
+                     ]
+                     $then: #Empty['']
+                  ]
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #Regex['/\\A--srcdir=(.*)/']
+                     ]
+                     $then: #AssignExpr[
+                        $left: #Indexer[
+                           $base: #NameExpr['conf']
+                           $index: #List[
+                              $expression: #StringExpr['SRCDIR']
+                           ]
+                        ]
+                        $right: #AssignExpr[
+                           $left: #NameExpr['srcdir']
+                           $right: #MatchedRegex['$1']
+                        ]
+                     ]
+                  ]
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #Regex['/\\A(CC|CFLAGS|CXX|CXXFLAGS|LD|LDFLAGS)=(.*)/']
+                     ]
+                     $then: #AssignExpr[
+                        $left: #Indexer[
+                           $base: #NameExpr['conf']
+                           $index: #List[
+                              $expression: #MatchedRegex['$1']
+                           ]
+                        ]
+                        $right: #MatchedRegex['$2']
+                     ]
+                  ]
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #Regex['/\\A--host=(.*)/']
+                     ]
+                     $then: #AssignExpr[
+                        $left: #NameExpr['host']
+                        $right: #MatchedRegex['$1']
+                     ]
+                  ]
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #Regex['/\\A--enable-([^=]+)(?:=(.*))?/']
+                     ]
+                     $then: #AssignExpr[
+                        $left: #Indexer[
+                           $base: #NameExpr['enable']
+                           $index: #List[
+                              $expression: #MatchedRegex['$1']
+                           ]
+                        ]
+                        $right: #LOr[
+                           $left: #MatchedRegex['$2']
+                           $right: #TrueExpr['true']
+                        ]
+                     ]
+                  ]
+                  $when: #When[
+                     $cond: #List[
+                        $expression: #Regex['/\\A--disable-([^=]+)/']
+                     ]
+                     $then: #AssignExpr[
+                        $left: #Indexer[
+                           $base: #NameExpr['enable']
+                           $index: #List[
+                              $expression: #MatchedRegex['$1']
+                           ]
+                        ]
+                        $right: #FalseExpr['false']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['IO']
+         $recv: #NameExpr['foreach']
+         $param: #List[
+            $expression: #StringExpr[
+               $inner: #NameExpr['srcdir']
+            ]
+         ]
+         $body: #Block[
+            $param: #NameExpr['line']
+            $body: #IfExpr[
+               $cond: #Match[
+                  $left: #Regex['/^AC_INIT\\((.*)\\)/']
+                  $right: #NameExpr['line']
+               ]
+               $then: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['version']
+                     $right: #Indexer[
+                        $recv: #ApplyExpr[
+                           $recv: #MatchedRegex['$1']
+                           $recv: #NameExpr['split']
+                           $param: #List[
+                              $expression: #Regex['/,\\s*/']
+                           ]
+                        ]
+                        $index: #List[
+                           $expression: #IntExpr['1']
+                        ]
+                     ]
+                  ]
+                  $statement: #ApplyExpr[
+                     $recv: #NameExpr['version']
+                     $recv: #NameExpr['gsub!']
+                     $param: #List[
+                        $expression: #Regex['/\\A\\[|\\]\\z/']
+                        $expression: #StringExpr['']
+                     ]
+                  ]
+                  $statement: #AssignExpr[
+                     $left: #Indexer[
+                        $base: #NameExpr['conf']
+                        $index: #List[
+                           $expression: #StringExpr['VERSION']
+                        ]
+                     ]
+                     $right: #NameExpr['version']
+                  ]
+                  $statement: #Break['break']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['builddir']
+         $right: #Conditional[
+            $cond: #EqExpr[
+               $left: #NameExpr['srcdir']
+               $right: #StringExpr['.']
+            ]
+            $then: #Indexer[
+               $recv: #NameExpr['enable']
+               $index: #List[
+                  $expression: #StringExpr['builddir']
+               ]
+            ]
+            $else: #StringExpr['.']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #Indexer[
+            $base: #NameExpr['conf']
+            $index: #List[
+               $expression: #StringExpr['TARGET']
+            ]
+         ]
+         $right: #Conditional[
+            $cond: #Match[
+               $left: #Regex['/^x64/']
+               $right: #NameExpr['host']
+            ]
+            $then: #StringExpr['X86_WIN64']
+            $else: #StringExpr['X86_WIN32']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['FileUtils']
+         $recv: #NameExpr['mkdir_p']
+         $param: #List[
+            $expression: #Array[
+               $index: #List[
+                  $expression: #NameExpr['builddir']
+                  $expression: #StringExpr[
+                     $inner: #NameExpr['builddir']
+                  ]
+                  $expression: #StringExpr[
+                     $inner: #NameExpr['builddir']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['FileUtils']
+         $recv: #NameExpr['cp']
+         $param: #List[
+            $expression: #StringExpr[
+               $inner: #NameExpr['basedir']
+            ]
+            $expression: #StringExpr['.']
+            $hash: #Hash[
+               $key: #NameExpr['preserve']
+               $value: #TrueExpr['true']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['hdr']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['IO']
+            $recv: #NameExpr['binread']
+            $param: #List[
+               $expression: #StringExpr[
+                  $inner: #NameExpr['srcdir']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['hdr']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/@(\\w+)@/']
+         ]
+         $body: #Block[
+            $body: #LOr[
+               $left: #Indexer[
+                  $recv: #NameExpr['conf']
+                  $index: #List[
+                     $expression: #MatchedRegex['$1']
+                  ]
+               ]
+               $right: #BuiltInVariable['$&']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['hdr']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/^(#if\\s+)@\\w+@/']
+            $expression: #StringExpr['\\10']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['IO']
+         $recv: #NameExpr['binwrite']
+         $param: #List[
+            $expression: #StringExpr[
+               $inner: #NameExpr['builddir']
+            ]
+            $expression: #NameExpr['hdr']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['mk']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['IO']
+            $recv: #NameExpr['binread']
+            $param: #List[
+               $expression: #StringExpr[
+                  $inner: #NameExpr['basedir']
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['mk']
+         $recv: #NameExpr['gsub!']
+         $param: #List[
+            $expression: #Regex['/@(\\w+)@/']
+         ]
+         $body: #Block[
+            $body: #LOr[
+               $left: #Indexer[
+                  $recv: #NameExpr['conf']
+                  $index: #List[
+                     $expression: #MatchedRegex['$1']
+                  ]
+               ]
+               $right: #BuiltInVariable['$&']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['IO']
+         $recv: #NameExpr['binwrite']
+         $param: #List[
+            $expression: #StringExpr['Makefile']
+            $expression: #NameExpr['mk']
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

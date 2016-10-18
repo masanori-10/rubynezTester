@@ -1,0 +1,307 @@
+#Source[
+   #Class[
+      $name: #NestedName[
+         $path: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['Resolver']
+         ]
+         $name: #NameExpr['BestSet']
+      ]
+      $super: #Field[
+         $recv: #Field[
+            $recv: #NameExpr['Gem']
+            $name: #NameExpr['Resolver']
+         ]
+         $name: #NameExpr['ComposedSet']
+      ]
+      $body: #BlockExpr[
+         $main: #List[
+            $statement: #FuncDecl[
+               $name: #NameExpr['initialize']
+               $param: #List[
+                  $param: #OptionalParam[
+                     $name: #NameExpr['sources']
+                     $default: #ApplyExpr[
+                        $recv: #NameExpr['Gem']
+                        $recv: #NameExpr['sources']
+                     ]
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #Super['super']
+                        $param: #Empty['']
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['@sources']
+                        $right: #NameExpr['sources']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['pick_sets']
+               $param: #List['']
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     $recv: #NameExpr['@sources']
+                     $recv: #NameExpr['each_source']
+                     $body: #Block[
+                        $param: #NameExpr['source']
+                        $body: #LShiftExpr[
+                           $left: #NameExpr['@sets']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['source']
+                              $recv: #NameExpr['dependency_resolver_set']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['find_all']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['req']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #IfExpr[
+                        $then: #NameExpr['pick_sets']
+                        $cond: #AndExpr[
+                           $left: #NameExpr['@remote']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['@sets']
+                              $recv: #NameExpr['empty?']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #Super['super']
+                     ]
+                  ]
+                  $rescue: #List[
+                     $rescue: #Rescue[
+                        $class: #Field[
+                           $recv: #Field[
+                              $recv: #NameExpr['Gem']
+                              $name: #NameExpr['RemoteFetcher']
+                           ]
+                           $name: #NameExpr['FetchError']
+                        ]
+                        $target: #NameExpr['e']
+                        $then: #List[
+                           $statement: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['replace_failed_api_set']
+                              $param: #List[
+                                 $expression: #NameExpr['e']
+                              ]
+                           ]
+                           $statement: #Retry['retry']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['prefetch']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['reqs']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #IfExpr[
+                        $then: #NameExpr['pick_sets']
+                        $cond: #AndExpr[
+                           $left: #NameExpr['@remote']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['@sets']
+                              $recv: #NameExpr['empty?']
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        #Self['self']
+                        $recv: #Super['super']
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['pretty_print']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['q']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #ApplyExpr[
+                     $base: #NameExpr['q']
+                     $recv: #NameExpr['group']
+                     $param: #List[
+                        $expression: #IntExpr['2']
+                        $expression: #StringExpr['[BestSet']
+                        $expression: #StringExpr[']']
+                     ]
+                     $body: #Block[
+                        $body: #List[
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['q']
+                              $recv: #NameExpr['breakable']
+                           ]
+                           $statement: #ApplyExpr[
+                              $base: #NameExpr['q']
+                              $recv: #NameExpr['text']
+                              $param: #List[
+                                 $expression: #StringExpr['sets:']
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['q']
+                              $recv: #NameExpr['breakable']
+                           ]
+                           $statement: #ApplyExpr[
+                              $base: #NameExpr['q']
+                              $recv: #NameExpr['pp']
+                              $param: #List[
+                                 $expression: #NameExpr['@sets']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+            $statement: #FuncDecl[
+               $name: #NameExpr['replace_failed_api_set']
+               $param: #List[
+                  $param: #Param[
+                     $param: #NameExpr['error']
+                  ]
+               ]
+               $body: #BlockExpr[
+                  $main: #List[
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['uri']
+                        $right: #ApplyExpr[
+                           $recv: #NameExpr['error']
+                           $recv: #NameExpr['uri']
+                        ]
+                     ]
+                     $statement: #Unless[
+                        $then: #AssignExpr[
+                           $left: #NameExpr['uri']
+                           $right: #ApplyExpr[
+                              #Self['self']
+                              $recv: #NameExpr['URI']
+                              $param: #List[
+                                 $expression: #NameExpr['uri']
+                              ]
+                           ]
+                        ]
+                        $cond: #StrictEquals[
+                           $left: #NameExpr['URI']
+                           $right: #NameExpr['uri']
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #Field[
+                           $base: #NameExpr['uri']
+                           $name: #NameExpr['query']
+                        ]
+                        $right: #Nil['nil']
+                     ]
+                     $statement: #Unless[
+                        $then: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['raise']
+                           $param: #List[
+                              $expression: #NameExpr['error']
+                           ]
+                        ]
+                        $cond: #AssignExpr[
+                           $left: #NameExpr['api_set']
+                           $right: #ApplyExpr[
+                              $recv: #NameExpr['@sets']
+                              $recv: #NameExpr['find']
+                              $body: #Block[
+                                 $param: #NameExpr['set']
+                                 $body: #AndExpr[
+                                    $left: #StrictEquals[
+                                       $left: #Field[
+                                          $recv: #Field[
+                                             $recv: #NameExpr['Gem']
+                                             $name: #NameExpr['Resolver']
+                                          ]
+                                          $name: #NameExpr['APISet']
+                                       ]
+                                       $right: #NameExpr['set']
+                                    ]
+                                    $right: #EqExpr[
+                                       $left: #ApplyExpr[
+                                          $recv: #NameExpr['set']
+                                          $recv: #NameExpr['dep_uri']
+                                       ]
+                                       $right: #NameExpr['uri']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #AssignExpr[
+                        $left: #NameExpr['index_set']
+                        $right: #ApplyExpr[
+                           $base: #Field[
+                              $recv: #Field[
+                                 $recv: #NameExpr['Gem']
+                                 $name: #NameExpr['Resolver']
+                              ]
+                              $name: #NameExpr['IndexSet']
+                           ]
+                           $recv: #NameExpr['new']
+                           $param: #List[
+                              $expression: #ApplyExpr[
+                                 $recv: #NameExpr['api_set']
+                                 $recv: #NameExpr['source']
+                              ]
+                           ]
+                        ]
+                     ]
+                     $statement: #ApplyExpr[
+                        $recv: #NameExpr['@sets']
+                        $recv: #NameExpr['map!']
+                        $body: #Block[
+                           $param: #NameExpr['set']
+                           $body: #List[
+                              $statement: #Unless[
+                                 $then: #Next[
+                                    $expr: #List[
+                                       $expression: #NameExpr['set']
+                                    ]
+                                 ]
+                                 $cond: #EqExpr[
+                                    $left: #NameExpr['set']
+                                    $right: #NameExpr['api_set']
+                                 ]
+                              ]
+                              $statement: #NameExpr['index_set']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

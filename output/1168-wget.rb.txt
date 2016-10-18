@@ -1,0 +1,224 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['net/https']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['optparse']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['options']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['ARGV']
+            $recv: #NameExpr['getopts']
+            $param: #List[
+               $expression: #StringExpr['C:']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['cert_store']
+         $right: #Indexer[
+            $recv: #NameExpr['options']
+            $index: #List[
+               $expression: #StringExpr['C']
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['uri']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['URI']
+            $recv: #NameExpr['parse']
+            $param: #List[
+               $expression: #Indexer[
+                  $recv: #NameExpr['ARGV']
+                  $index: #List[
+                     $expression: #IntExpr['0']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #AssignExpr[
+            $left: #NameExpr['proxy']
+            $right: #Indexer[
+               $recv: #NameExpr['ENV']
+               $index: #List[
+                  $expression: #StringExpr['HTTP_PROXY']
+               ]
+            ]
+         ]
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #NameExpr['prx_uri']
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['URI']
+                  $recv: #NameExpr['parse']
+                  $param: #List[
+                     $expression: #NameExpr['proxy']
+                  ]
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['prx_host']
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['prx_uri']
+                  $recv: #NameExpr['host']
+               ]
+            ]
+            $statement: #AssignExpr[
+               $left: #NameExpr['prx_port']
+               $right: #ApplyExpr[
+                  $recv: #NameExpr['prx_uri']
+                  $recv: #NameExpr['port']
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['h']
+         $right: #ApplyExpr[
+            $recv: #Field[
+               $recv: #NameExpr['Net']
+               $name: #NameExpr['HTTP']
+            ]
+            $recv: #NameExpr['new']
+            $param: #List[
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['uri']
+                  $recv: #NameExpr['host']
+               ]
+               $expression: #ApplyExpr[
+                  $recv: #NameExpr['uri']
+                  $recv: #NameExpr['port']
+               ]
+               $expression: #NameExpr['prx_host']
+               $expression: #NameExpr['prx_port']
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $then: #ApplyExpr[
+            $recv: #NameExpr['h']
+            $recv: #NameExpr['set_debug_output']
+            $param: #List[
+               $expression: #NameExpr['$stderr']
+            ]
+         ]
+         $cond: #NameExpr['$DEBUG']
+      ]
+      $statement: #IfExpr[
+         $cond: #EqExpr[
+            $left: #ApplyExpr[
+               $recv: #NameExpr['uri']
+               $recv: #NameExpr['scheme']
+            ]
+            $right: #StringExpr['https']
+         ]
+         $then: #List[
+            $statement: #AssignExpr[
+               $left: #Field[
+                  $base: #NameExpr['h']
+                  $name: #NameExpr['use_ssl']
+               ]
+               $right: #TrueExpr['true']
+            ]
+            $statement: #IfExpr[
+               $cond: #NameExpr['cert_store']
+               $then: #IfExpr[
+                  $cond: #ApplyExpr[
+                     $recv: #NameExpr['File']
+                     $recv: #NameExpr['directory?']
+                     $param: #List[
+                        $expression: #NameExpr['cert_store']
+                     ]
+                  ]
+                  $then: #AssignExpr[
+                     $left: #Field[
+                        $base: #NameExpr['h']
+                        $name: #NameExpr['ca_path']
+                     ]
+                     $right: #NameExpr['cert_store']
+                  ]
+                  $else: #AssignExpr[
+                     $left: #Field[
+                        $base: #NameExpr['h']
+                        $name: #NameExpr['ca_file']
+                     ]
+                     $right: #NameExpr['cert_store']
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['path']
+         $right: #Conditional[
+            $cond: #ApplyExpr[
+               $recv: #ApplyExpr[
+                  $recv: #NameExpr['uri']
+                  $recv: #NameExpr['path']
+               ]
+               $recv: #NameExpr['empty?']
+            ]
+            $then: #StringExpr['/']
+            $else: #ApplyExpr[
+               $recv: #NameExpr['uri']
+               $recv: #NameExpr['path']
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         $recv: #NameExpr['h']
+         $recv: #NameExpr['get2']
+         $param: #List[
+            $expression: #NameExpr['path']
+         ]
+         $body: #Block[
+            $param: #NameExpr['resp']
+            $body: #List[
+               $statement: #IfExpr[
+                  $then: #ApplyExpr[
+                     $base: #NameExpr['STDERR']
+                     $recv: #NameExpr['puts']
+                     $param: #List[
+                        $expression: #ApplyExpr[
+                           $recv: #ApplyExpr[
+                              $recv: #NameExpr['h']
+                              $recv: #NameExpr['peer_cert']
+                           ]
+                           $recv: #NameExpr['inspect']
+                        ]
+                     ]
+                  ]
+                  $cond: #ApplyExpr[
+                     $recv: #NameExpr['h']
+                     $recv: #NameExpr['peer_cert']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['print']
+                  $param: #List[
+                     $expression: #ApplyExpr[
+                        $recv: #NameExpr['resp']
+                        $recv: #NameExpr['body']
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

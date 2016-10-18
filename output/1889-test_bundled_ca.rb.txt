@@ -1,0 +1,297 @@
+#Source[
+   #List[
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/test_case']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['net/https']
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['require']
+         $param: #List[
+            $expression: #StringExpr['rubygems/request']
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #LOr[
+            $left: #Indexer[
+               $recv: #NameExpr['ENV']
+               $index: #List[
+                  $expression: #StringExpr['CI']
+               ]
+            ]
+            $right: #Indexer[
+               $recv: #NameExpr['ENV']
+               $index: #List[
+                  $expression: #StringExpr['TEST_SSL']
+               ]
+            ]
+         ]
+         $then: #Class[
+            $name: #NameExpr['TestBundledCA']
+            $super: #Field[
+               $recv: #NameExpr['Gem']
+               $name: #NameExpr['TestCase']
+            ]
+            $body: #BlockExpr[
+               $main: #List[
+                  $statement: #AssignExpr[
+                     $left: #NameExpr['THIS_FILE']
+                     $right: #ApplyExpr[
+                        $base: #NameExpr['File']
+                        $recv: #NameExpr['expand_path']
+                        $param: #List[
+                           $expression: #File['__FILE__']
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['bundled_certificate_store']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['store']
+                              $right: #ApplyExpr[
+                                 $recv: #Field[
+                                    $recv: #Field[
+                                       $recv: #NameExpr['OpenSSL']
+                                       $name: #NameExpr['X509']
+                                    ]
+                                    $name: #NameExpr['Store']
+                                 ]
+                                 $recv: #NameExpr['new']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['ssl_cert_glob']
+                              $right: #ApplyExpr[
+                                 $base: #NameExpr['File']
+                                 $recv: #NameExpr['expand_path']
+                                 $param: #List[
+                                    $expression: #StringExpr['../../../lib/rubygems/ssl_certs/*/*.pem']
+                                    $expression: #NameExpr['THIS_FILE']
+                                 ]
+                              ]
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #Indexer[
+                                 $recv: #NameExpr['Dir']
+                                 $index: #List[
+                                    $expression: #NameExpr['ssl_cert_glob']
+                                 ]
+                              ]
+                              $recv: #NameExpr['each']
+                              $body: #Block[
+                                 $param: #NameExpr['ssl_cert']
+                                 $body: #ApplyExpr[
+                                    $base: #NameExpr['store']
+                                    $recv: #NameExpr['add_file']
+                                    $param: #List[
+                                       $expression: #NameExpr['ssl_cert']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $statement: #NameExpr['store']
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['assert_https']
+                     $param: #List[
+                        $param: #Param[
+                           $param: #NameExpr['host']
+                        ]
+                     ]
+                     $body: #BlockExpr[
+                        $main: #List[
+                           $statement: #IfExpr[
+                              $cond: #ApplyExpr[
+                                 $base: #Self['self']
+                                 $recv: #NameExpr['respond_to?']
+                                 $param: #List[
+                                    $expression: #NameExpr['_assertions']
+                                 ]
+                              ]
+                              $then: #AddAssign[
+                                 $left: #Field[
+                                    $base: #Self['self']
+                                    $name: #NameExpr['_assertions']
+                                 ]
+                                 $right: #IntExpr['1']
+                              ]
+                              $else: #AddAssign[
+                                 $left: #Field[
+                                    $base: #Self['self']
+                                    $name: #NameExpr['assertions']
+                                 ]
+                                 $right: #IntExpr['1']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #NameExpr['http']
+                              $right: #ApplyExpr[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['Net']
+                                    $name: #NameExpr['HTTP']
+                                 ]
+                                 $recv: #NameExpr['new']
+                                 $param: #List[
+                                    $expression: #NameExpr['host']
+                                    $expression: #IntExpr['443']
+                                 ]
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #Field[
+                                 $base: #NameExpr['http']
+                                 $name: #NameExpr['use_ssl']
+                              ]
+                              $right: #TrueExpr['true']
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #Field[
+                                 $base: #NameExpr['http']
+                                 $name: #NameExpr['verify_mode']
+                              ]
+                              $right: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['OpenSSL']
+                                    $name: #NameExpr['SSL']
+                                 ]
+                                 $name: #NameExpr['VERIFY_PEER']
+                              ]
+                           ]
+                           $statement: #AssignExpr[
+                              $left: #Field[
+                                 $base: #NameExpr['http']
+                                 $name: #NameExpr['cert_store']
+                              ]
+                              $right: #NameExpr['bundled_certificate_store']
+                           ]
+                           $statement: #ApplyExpr[
+                              $recv: #NameExpr['http']
+                              $recv: #NameExpr['get']
+                              $param: #List[
+                                 $expression: #StringExpr['/']
+                              ]
+                           ]
+                        ]
+                        $rescue: #List[
+                           $rescue: #Rescue[
+                              $class: #MultipleRightHandSideExpression[
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Errno']
+                                    $name: #NameExpr['ENOENT']
+                                 ]
+                                 $expression: #Field[
+                                    $recv: #NameExpr['Errno']
+                                    $name: #NameExpr['ETIMEDOUT']
+                                 ]
+                              ]
+                              $then: #ApplyExpr[
+                                 #Self['self']
+                                 $recv: #NameExpr['skip']
+                                 $param: #List[
+                                    $expression: #StringExpr[
+                                       $inner: #NameExpr['host']
+                                    ]
+                                 ]
+                              ]
+                           ]
+                           $rescue: #Rescue[
+                              $class: #Field[
+                                 $recv: #Field[
+                                    $recv: #NameExpr['OpenSSL']
+                                    $name: #NameExpr['SSL']
+                                 ]
+                                 $name: #NameExpr['SSLError']
+                              ]
+                              $target: #NameExpr['e']
+                              $then: #List[
+                                 $statement: #IfExpr[
+                                    $cond: #AssignExpr[
+                                       $left: #Field[
+                                          $base: #NameExpr['e']
+                                          $name: #NameExpr['message']
+                                       ]
+                                       $right: #ComplExpr[
+                                          $expr: #Regex['/certificate verify failed/']
+                                       ]
+                                    ]
+                                    $then: #ApplyExpr[
+                                       #Self['self']
+                                       $recv: #NameExpr['flunk']
+                                       $param: #List[
+                                          $expression: #StringExpr[
+                                             $inner: #NameExpr['host']
+                                             $inner: #ApplyExpr[
+                                                $recv: #NameExpr['e']
+                                                $recv: #NameExpr['message']
+                                             ]
+                                          ]
+                                       ]
+                                    ]
+                                 ]
+                                 $statement: #NameExpr['raise']
+                              ]
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['test_accessing_rubygems']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_https']
+                           $param: #List[
+                              $expression: #StringExpr['rubygems.org']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['test_accessing_fastly']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_https']
+                           $param: #List[
+                              $expression: #StringExpr['rubygems.global.ssl.fastly.net']
+                           ]
+                        ]
+                     ]
+                  ]
+                  $statement: #FuncDecl[
+                     $name: #NameExpr['test_accessing_new_index']
+                     $param: #List['']
+                     $body: #BlockExpr[
+                        $main: #ApplyExpr[
+                           #Self['self']
+                           $recv: #NameExpr['assert_https']
+                           $param: #List[
+                              $expression: #StringExpr['fastly.rubygems.org']
+                           ]
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+   ]
+   #Comsumed['comsumed']
+]

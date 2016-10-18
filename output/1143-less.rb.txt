@@ -1,0 +1,126 @@
+#Source[
+   #List[
+      $statement: #AssignExpr[
+         $left: #NameExpr['ZCAT']
+         $right: #StringExpr['/usr/local/bin/zcat']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['LESS']
+         $right: #StringExpr['/usr/local/bin/less']
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['FILE']
+         $right: #ApplyExpr[
+            $recv: #NameExpr['ARGV']
+            $recv: #NameExpr['pop']
+         ]
+      ]
+      $statement: #AssignExpr[
+         $left: #NameExpr['OPTION']
+         $right: #IfExpr[
+            $cond: #EqExpr[
+               $left: #ApplyExpr[
+                  $recv: #NameExpr['ARGV']
+                  $recv: #NameExpr['length']
+               ]
+               $right: #IntExpr['0']
+            ]
+            $then: #StringExpr['']
+            $else: #ApplyExpr[
+               $recv: #NameExpr['ARGV']
+               $recv: #NameExpr['join']
+               $param: #List[
+                  $expression: #StringExpr[' ']
+               ]
+            ]
+         ]
+      ]
+      $statement: #IfExpr[
+         $cond: #AssignExpr[
+            $left: #NameExpr['FILE']
+            $right: #ComplExpr[
+               $expr: #Regex['/\\.(Z|gz)$/']
+            ]
+         ]
+         $then: #ApplyExpr[
+            #Self['self']
+            $recv: #NameExpr['exec']
+            $param: #List[
+               $expression: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['format']
+                  $param: #List[
+                     $expression: #StringExpr['%s %s | %s %s']
+                     $expression: #NameExpr['ZCAT']
+                     $expression: #NameExpr['FILE']
+                     $expression: #NameExpr['LESS']
+                     $expression: #NameExpr['OPTION']
+                  ]
+               ]
+            ]
+         ]
+         $else: #IfExpr[
+            $cond: #EqExpr[
+               $left: #NameExpr['FILE']
+               $right: #Nil['nil']
+            ]
+            $then: #ApplyExpr[
+               #Self['self']
+               $recv: #NameExpr['exec']
+               $param: #List[
+                  $expression: #ApplyExpr[
+                     #Self['self']
+                     $recv: #NameExpr['format']
+                     $param: #List[
+                        $expression: #StringExpr['%s %s']
+                        $expression: #NameExpr['LESS']
+                        $expression: #NameExpr['OPTION']
+                     ]
+                  ]
+               ]
+            ]
+            $else: #List[
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['print']
+                  $param: #List[
+                     $expression: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['format']
+                        $param: #List[
+                           $expression: #StringExpr['%s %s %s']
+                           $expression: #NameExpr['LESS']
+                           $expression: #NameExpr['OPTION']
+                           $expression: #NameExpr['FILE']
+                        ]
+                     ]
+                     $expression: #StringExpr['\\n']
+                  ]
+               ]
+               $statement: #ApplyExpr[
+                  #Self['self']
+                  $recv: #NameExpr['exec']
+                  $param: #List[
+                     $expression: #ApplyExpr[
+                        #Self['self']
+                        $recv: #NameExpr['format']
+                        $param: #List[
+                           $expression: #StringExpr['%s %s %s']
+                           $expression: #NameExpr['LESS']
+                           $expression: #NameExpr['OPTION']
+                           $expression: #NameExpr['FILE']
+                        ]
+                     ]
+                  ]
+               ]
+            ]
+         ]
+      ]
+      $statement: #ApplyExpr[
+         #Self['self']
+         $recv: #NameExpr['exit']
+         $param: #Empty['']
+      ]
+   ]
+   #Comsumed['comsumed']
+]
